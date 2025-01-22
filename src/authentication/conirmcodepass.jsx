@@ -6,11 +6,12 @@ export default function Conirmcodepass(){
 
     return(
         <div className="CodeConfirm">
-            <h1 id="h1">Code Confirm</h1>
-            <label htmlFor="code">Code : </label>
-            <input type="text" name="code" id="code" value={code} onChange={(e)=>setCode(e.target.value)}/>
+             <img src="/images/Asset 13.png" alt="img" id="loginimg"/>
+             <h3 id="h3">Please enter confirmation code</h3>
+            <label htmlFor="code">Code </label> <br />
+            <input type="text" name="codeconfirmemail" id="code" value={code} onChange={(e)=>setCode(e.target.value)}/>
             <br />
-            <Link to='/pages/newpass'><button>confirm</button></Link>
+            <Link to='/pages/newpass'><button id="btn">confirm</button></Link>
         </div>
     )
 }

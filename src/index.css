@@ -1,3 +1,6 @@
+body{
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 /* Loader Page */
 #laoderimage {
   width: 200px;
@@ -50,50 +53,123 @@
 /* login style */
 
 .login{
-  margin-left: 15%;
+  margin-top: 6%;
+  margin-left: 7%;
   border-radius: 20px;
-  border:2px solid #2e8084;
-  padding: 30px;
-  margin-top: 8%;
+  padding: 10px;
   width: fit-content;
   padding-left: 100px;
   padding-right: 100px;
 }
-#h1{
-  text-align: center;
-  color: #2e8084;
+#loginimg{
+  width: 120px;
+}
+#h3{
+  color: #00AAB7;
 }
 label{
   color: #2e8084;
+  opacity: 0.5;
 }
-#email,#password{
-  border-radius: 20px;
-  border: 1px solid black;
-  width: 220px;
+#email,#password,#fullname,#Role,#confirmpassword,#emailpass,#code,#newpass,#confirmpass{
+  border: none;
+  border-bottom: 1px solid black;
+  width: 300px;
   height: 18px;
   padding: 5px;
-  margin-bottom: 5px;
+  margin-bottom: 2px;
   outline: none;
 }
 #btn{
   cursor: pointer;
-  background-color: #2e8084;
+  background-image: linear-gradient(to right, #2e8084,#00AAB7,#E6F4F1);
   border: none;
   color: white;
-  width: 230px;
+  width: 310px;
   height: 30px;
-  border-radius: 20px;
+  border-radius: 6px;
   margin-bottom: 5px;
+  margin-top: 15px;
+}
+#btn2{
+  cursor: pointer;
+  background-image: linear-gradient(to left, #2e8084,#00AAB7,#E6F4F1);
+  border: none;
+  color: white;
+  width: 310px;
+  height: 30px;
+  border-radius: 6px;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
 #link{
   text-decoration: none;
   color: #00AAB7;
-  margin-left: 15%;
+  margin-left: 25%;
+  opacity: 0.5;
 }
 #link:hover{
   text-decoration: underline;
+  opacity: 1;
 }
 #btn:hover{
   color: #2e8084;
-  background-color: #E6F4F1;
+  background-image: linear-gradient(to right,#E6F4F1,#E6F4F1,#E6F4F1);
+}
+#btn2:hover{
+  color: #2e8084;
+  background-image: linear-gradient(to right,#E6F4F1,#E6F4F1,#E6F4F1);
+}
+/* Register */
+.Register{
+  margin-top: 3%;
+  margin-left: 7%;
+  width: fit-content;
+  padding-left: 100px;
+  padding-right: 100px;
+}
+
+#Role{
+  border: none;
+  border-bottom: 1px solid black;
+  width: 310px;
+  height: 25px;
+  padding: 5px;
+  margin-bottom: 2px;
+  outline: none;
+}
+/* ForgetPass */
+.ForgetPass{
+  margin-top: 10%;
+  margin-left: 7%;
+  width: fit-content;
+  padding-left: 100px;
+  padding-right: 100px;
+}
+/* CodeConfirm */
+.CodeConfirm{
+  margin-top: 10%;
+  margin-left: 7%;
+  width: fit-content;
+  padding-left: 100px;
+  padding-right: 100px;
+}
+/* NewPass */
+
+.NewPass{
+  margin-top: 10%;
+  margin-left: 7%;
+  width: fit-content;
+  padding-left: 100px;
+  padding-right: 100px;
+}
+.countainer{
+  display: flex;
+}
+#divimage{
+  margin-left: 4.5%;
+  width: 48%;
+  height: 578px;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
 }
