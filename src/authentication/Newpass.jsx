@@ -6,7 +6,7 @@ export default function NewPass(){
 
     return(
         <div className="NewPass">
-            <img src="/images/Asset 13.png" alt="img" id="loginimg"/>
+            {/* <img src="/images/Asset 13.png" alt="img" id="loginimg"/> */}
             <h3 id="h3">Please enter the new Password</h3>
             <label htmlFor="newpass">New Password</label><br />
             <input type="password" name="newpass" id="newpass" value={newPass} onChange={(e)=>setNewPass(e.target.value)}></input>

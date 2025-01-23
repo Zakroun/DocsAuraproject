@@ -1,5 +1,5 @@
-body{
-  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 /* Loader Page */
 #laoderimage {
@@ -52,8 +52,8 @@ body{
 
 /* login style */
 
-.login{
-  margin-top: 6%;
+.login {
+  margin-top: 9%;
   margin-left: 7%;
   border-radius: 20px;
   padding: 10px;
@@ -61,28 +61,175 @@ body{
   padding-left: 100px;
   padding-right: 100px;
 }
-#loginimg{
+#loginimg {
   width: 120px;
 }
-#h3{
-  color: #00AAB7;
+#h3 {
+  color: white;
 }
-label{
-  color: #2e8084;
-  opacity: 0.5;
+label {
+  color: white;
+  opacity: 0.7;
 }
-#email,#password,#fullname,#Role,#confirmpassword,#emailpass,#code,#newpass,#confirmpass{
+#email,
+#password,
+#fullname,
+#Role,
+#confirmpassword,
+#emailpass,
+#code,
+#newpass,
+#confirmpass {
   border: none;
-  border-bottom: 1px solid black;
+  background-color: #e6f4f1;
   width: 300px;
   height: 18px;
   padding: 5px;
-  margin-bottom: 2px;
+  margin-bottom: 5px;
   outline: none;
+  color: white;
 }
-#btn{
+/* From Uiverse.io by lenin55 */
+.cl-checkbox {
+  position: relative;
+  display: inline-block;
+}
+
+/* Input */
+.cl-checkbox > input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  z-index: -1;
+  position: absolute;
+  left: -10px;
+  top: -8px;
+  display: block;
+  margin: 0;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  background-color: rgba(0, 0, 0, 0.6);
+  box-shadow: none;
+  outline: none;
+  opacity: 0;
+  transform: scale(1);
+  pointer-events: none;
+  transition: opacity 0.3s, transform 0.2s;
+}
+
+/* Span */
+.cl-checkbox > span {
+  display: inline-block;
+  width: 100%;
   cursor: pointer;
-  background-image: linear-gradient(to right, #2e8084,#00AAB7,#E6F4F1);
+}
+
+/* Box */
+.cl-checkbox > span::before {
+  content: "";
+  display: inline-block;
+  box-sizing: border-box;
+  margin: 3px 11px 3px 1px;
+  border: solid 2px;
+  /* Safari */
+  border-color: rgba(0, 0, 0, 0.6);
+  border-radius: 2px;
+  width: 18px;
+  height: 18px;
+  vertical-align: top;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+/* Checkmark */
+.cl-checkbox > span::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 3px;
+  left: 1px;
+  width: 10px;
+  height: 5px;
+  border: solid 2px transparent;
+  border-right: none;
+  border-top: none;
+  transform: translate(3px, 4px) rotate(-45deg);
+}
+
+/* Checked, Indeterminate */
+.cl-checkbox > input:checked,
+.cl-checkbox > input:indeterminate {
+  background-color: #018786;
+}
+
+.cl-checkbox > input:checked + span::before,
+.cl-checkbox > input:indeterminate + span::before {
+  border-color: #018786;
+  background-color: #018786;
+}
+
+.cl-checkbox > input:checked + span::after,
+.cl-checkbox > input:indeterminate + span::after {
+  border-color: #fff;
+}
+
+.cl-checkbox > input:indeterminate + span::after {
+  border-left: none;
+  transform: translate(4px, 3px);
+}
+
+/* Hover, Focus */
+.cl-checkbox:hover > input {
+  opacity: 0.04;
+}
+
+.cl-checkbox > input:focus {
+  opacity: 0.12;
+}
+
+.cl-checkbox:hover > input:focus {
+  opacity: 0.16;
+}
+
+/* Active */
+.cl-checkbox > input:active {
+  opacity: 1;
+  transform: scale(0);
+  transition: transform 0s, opacity 0s;
+}
+
+.cl-checkbox > input:active + span::before {
+  border-color: #85b8b7;
+}
+
+.cl-checkbox > input:checked:active + span::before {
+  border-color: transparent;
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
+/* Disabled */
+.cl-checkbox > input:disabled {
+  opacity: 0;
+}
+
+.cl-checkbox > input:disabled + span {
+  color: rgba(0, 0, 0, 0.38);
+  cursor: initial;
+}
+
+.cl-checkbox > input:disabled + span::before {
+  border-color: currentColor;
+}
+
+.cl-checkbox > input:checked:disabled + span::before,
+.cl-checkbox > input:indeterminate:disabled + span::before {
+  border-color: transparent;
+  background-color: currentColor;
+}
+#btn {
+  cursor: pointer;
+  /* background-image: linear-gradient(to right, #2e8084,#00AAB7,#E6F4F1); */
+  background-color: #2e8084;
   border: none;
   color: white;
   width: 310px;
@@ -91,9 +238,11 @@ label{
   margin-bottom: 5px;
   margin-top: 15px;
 }
-#btn2{
+
+#btn2 {
   cursor: pointer;
-  background-image: linear-gradient(to left, #2e8084,#00AAB7,#E6F4F1);
+  background-color: #2e8084;
+  /* background-image: linear-gradient(to left, #2e8084,#00AAB7,#E6F4F1); */
   border: none;
   color: white;
   width: 310px;
@@ -102,26 +251,26 @@ label{
   margin-bottom: 5px;
   margin-top: 5px;
 }
-#link{
+#link {
   text-decoration: none;
-  color: #00AAB7;
-  margin-left: 25%;
-  opacity: 0.5;
+  color: white;
+  margin-left: 19%;
+  opacity: 0.7;
 }
-#link:hover{
+#link:hover {
   text-decoration: underline;
   opacity: 1;
 }
-#btn:hover{
+#btn:hover {
   color: #2e8084;
-  background-image: linear-gradient(to right,#E6F4F1,#E6F4F1,#E6F4F1);
+  background-image: linear-gradient(to right, #e6f4f1, #e6f4f1, #e6f4f1);
 }
-#btn2:hover{
+#btn2:hover {
   color: #2e8084;
-  background-image: linear-gradient(to right,#E6F4F1,#E6F4F1,#E6F4F1);
+  background-image: linear-gradient(to right, #e6f4f1, #e6f4f1, #e6f4f1);
 }
 /* Register */
-.Register{
+.Register {
   margin-top: 3%;
   margin-left: 7%;
   width: fit-content;
@@ -129,7 +278,7 @@ label{
   padding-right: 100px;
 }
 
-#Role{
+#Role {
   border: none;
   border-bottom: 1px solid black;
   width: 310px;
@@ -139,7 +288,7 @@ label{
   outline: none;
 }
 /* ForgetPass */
-.ForgetPass{
+.ForgetPass {
   margin-top: 10%;
   margin-left: 7%;
   width: fit-content;
@@ -147,7 +296,7 @@ label{
   padding-right: 100px;
 }
 /* CodeConfirm */
-.CodeConfirm{
+.CodeConfirm {
   margin-top: 10%;
   margin-left: 7%;
   width: fit-content;
@@ -156,20 +305,63 @@ label{
 }
 /* NewPass */
 
-.NewPass{
+.NewPass {
   margin-top: 10%;
   margin-left: 7%;
   width: fit-content;
   padding-left: 100px;
   padding-right: 100px;
 }
-.countainer{
+.countainer {
+  background-color: #123436;
+  height: 105%;
+  top: 0;
+  left: 0;
+  position: fixed;
   display: flex;
 }
-#divimage{
-  margin-left: 4.5%;
+.divimage {
+  margin-top: 8px;
   width: 48%;
   height: 578px;
-  border-top-left-radius: 30px;
-  border-bottom-left-radius: 30px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 5px;
+  margin-right: 10px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0; 
+}
+#imagediv{
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
+  transition: transform 0.5s ease-in-out; 
+}
+
+.slider-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #0187873a;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 50%;
+  z-index: 10;
+  font-size: 18px;
+}
+
+.slider-button:hover {
+  background-color: #018786;
+}
+
+.slider-button.prev {
+  left: 15px;
+}
+
+.slider-button.next {
+  right: 15px;
 }

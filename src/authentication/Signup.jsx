@@ -10,7 +10,7 @@ export default function Register(){
 
     return(
         <div className="Register">
-            <img src="/images/Asset 13.png" alt="img" id="loginimg"/>
+            {/* <img src="/images/Asset 13.png" alt="img" id="loginimg"/> */}
             <h3 id="h3">Register</h3>
             <label htmlFor="fullname">Full Name </label><br />
             <input type="text" name="fullname" id="fullname" value={fullname} onChange={(e)=>setfullname(e.target.value)}/>

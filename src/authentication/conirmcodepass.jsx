@@ -6,7 +6,7 @@ export default function Conirmcodepass(){
 
     return(
         <div className="CodeConfirm">
-             <img src="/images/Asset 13.png" alt="img" id="loginimg"/>
+             {/* <img src="/images/Asset 13.png" alt="img" id="loginimg"/> */}
              <h3 id="h3">Please enter confirmation code</h3>
             <label htmlFor="code">Code </label> <br />
             <input type="text" name="codeconfirmemail" id="code" value={code} onChange={(e)=>setCode(e.target.value)}/>

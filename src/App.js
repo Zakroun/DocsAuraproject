@@ -3,15 +3,15 @@ import Loader from "./static/Loader";
 import { Link, Routes, Route } from "react-router-dom";
 import Routage from "./Routage";
 function App() {
-  const [displayLoder, setdis] = useState(false);
-  const [disppages, setdisppages] = useState(true);
-  // useEffect(() => {
-  //   const time = setTimeout(() => {
-  //     setdis(false);
-  //     setdisppages(true);
-  //   }, 2000);
-  //   return () => clearInterval(time);
-  // });
+  const [displayLoder, setdis] = useState(true);
+  const [disppages, setdisppages] = useState(false);
+  useEffect(() => {
+    const time = setTimeout(() => {
+      setdis(false);
+      setdisppages(true);
+    }, 2000);
+    return () => clearInterval(time);
+  });
   return (
     <div className="App">
       {displayLoder && <Loader></Loader>}
