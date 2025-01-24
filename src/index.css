@@ -273,6 +273,7 @@ label {
 .Register {
   margin-top: 3%;
   margin-left: 7%;
+  margin-right: 6%;
   width: fit-content;
   padding-left: 100px;
   padding-right: 100px;
@@ -290,6 +291,7 @@ label {
 /* ForgetPass */
 .ForgetPass {
   margin-top: 10%;
+  margin-right: 6%;
   margin-left: 7%;
   width: fit-content;
   padding-left: 100px;
@@ -298,6 +300,7 @@ label {
 /* CodeConfirm */
 .CodeConfirm {
   margin-top: 10%;
+  margin-right: 6%;
   margin-left: 7%;
   width: fit-content;
   padding-left: 100px;
@@ -307,6 +310,7 @@ label {
 
 .NewPass {
   margin-top: 10%;
+  margin-right: 6%;
   margin-left: 7%;
   width: fit-content;
   padding-left: 100px;
