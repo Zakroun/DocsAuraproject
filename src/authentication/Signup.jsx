@@ -10,7 +10,6 @@ export default function Register(){
 
     return(
         <div className="Register">
-            {/* <img src="/images/Asset 13.png" alt="img" id="loginimg"/> */}
             <h1 id="h1">Create Account</h1>
             <input type="text" name="fullname" id="fullname" value={fullname} placeholder="Full Name" onChange={(e)=>setfullname(e.target.value)}/>
             <br />

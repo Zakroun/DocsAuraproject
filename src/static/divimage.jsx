@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 export default function Divimage() {
   const images = [
-    "/images/img2.jpg",
-    "/images/img5.jpg",
-    "/images/img12.jpg",
+    "/Images/imgL1.png",
+    "/Images/imgL4.png",
+    "/Images/imgL11.png",
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);

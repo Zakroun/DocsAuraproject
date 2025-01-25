@@ -7,7 +7,6 @@ export default function Login() {
 
   return (
     <div className="login">
-      {/* <img src="/images/Asset 13.png" alt="img" id="loginimg"/> */}
       <h1 id="h1">Welcome back !</h1>
       <h3 id="h3">Please enter your details</h3>
       <input

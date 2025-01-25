@@ -4,7 +4,6 @@ export default function ConfirmEmail() {
     const [email, setemail] = useState("");
     return(
         <div className="ForgetPass">
-            {/* <img src="/images/Asset 13.png" alt="img" id="loginimg"/> */}
             <h2 id="h2email">Please enter your Email to send <br /> confirmation code</h2>            
             <label htmlFor="emailpass">Email </label><br />
             <input type="email" name="emailpass" value={email} id="emailpass" onChange={(e)=>setemail(e.target.value)}/>
