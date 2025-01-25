@@ -1,0 +1,15 @@
+import { Link } from "react-router-dom";
+import { useState } from "react";
+export default function ConfirmEmail() {
+    const [email, setemail] = useState("");
+    return(
+        <div className="ForgetPass">
+            {/* <img src="/images/Asset 13.png" alt="img" id="loginimg"/> */}
+            <h3 id="h3">Please enter your Email to send <br /> confirmation code</h3>            
+            <label htmlFor="emailpass">Email </label><br />
+            <input type="email" name="emailpass" value={email} id="emailpass" onChange={(e)=>setemail(e.target.value)}/>
+            <br />
+            <Link to='/pages/codeconfirmforget'><button id="btn">Send</button></Link>
+        </div>
+    )
+}
