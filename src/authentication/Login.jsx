@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
+
 export default function Login() {
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
@@ -7,9 +8,8 @@ export default function Login() {
   return (
     <div className="login">
       {/* <img src="/images/Asset 13.png" alt="img" id="loginimg"/> */}
-      <h3 id="h3">
-        Welkom back, please login <br /> to your account.
-      </h3>
+      <h1 id="h1">Welcome back !</h1>
+      <h3 id="h3">Please enter your details</h3>
       <input
         type="email"
         name="email"
@@ -31,17 +31,21 @@ export default function Login() {
       <br />
       <label class="cl-checkbox">
         <input type="checkbox" />
-        <span>remember me</span>
+        <span className="spanme">Remember me for 30 days</span>
       </label>
-      <button id="btn">Login</button>
-      <br />
-      <Link to="/pages/register">
-        <button id="btn2">Register</button>
-      </Link>
-      <br />
       <Link to="/pages/forgetpass" id="link">
-        Forget your password
+        Forget password?
       </Link>
+      <button id="btn">Log In</button>
+      <br />
+      <button id="btn2"><img src="\Images\google.png" alt="img" id="google"/> Log In with Google</button>
+      <br />
+      <div className="signn">
+        Don't have an account?{" "}
+        <Link to="/pages/register" id="link2">
+          Sign up
+        </Link>
+      </div>
     </div>
   );
 }

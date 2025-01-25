@@ -53,23 +53,21 @@ body {
 /* login style */
 
 .login {
-  margin-top: 9%;
-  margin-left: 7%;
+  margin-top: 5%;
+  margin-left: 2%;
   border-radius: 20px;
   padding: 10px;
   width: fit-content;
   padding-left: 100px;
-  padding-right: 100px;
 }
 #loginimg {
   width: 120px;
 }
-#h3 {
-  color: white;
+#h1 {
+  margin-left: 80px;
 }
-label {
-  color: white;
-  opacity: 0.7;
+#h3 {
+  margin-left: 90px;
 }
 #email,
 #password,
@@ -81,16 +79,17 @@ label {
 #newpass,
 #confirmpass {
   border: none;
-  background-color: #e6f4f1;
-  width: 300px;
-  height: 18px;
+  border: 1px solid rgb(219, 219, 219);
+  border-radius: 3px;
+  width: 380px;
+  height: 22px;
   padding: 5px;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
   outline: none;
-  color: white;
 }
 /* From Uiverse.io by lenin55 */
 .cl-checkbox {
+  margin-top: 20px;
   position: relative;
   display: inline-block;
 }
@@ -232,92 +231,100 @@ label {
   background-color: #2e8084;
   border: none;
   color: white;
-  width: 310px;
-  height: 30px;
+  width: 390px;
+  height: 35px;
+  font-size: 16px;
   border-radius: 6px;
   margin-bottom: 5px;
-  margin-top: 15px;
+  margin-top: 20px;
 }
-
+#google {
+  width: 19px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+.spanme {
+  color: black;
+  font-size: 15px;
+}
 #btn2 {
   cursor: pointer;
-  background-color: #2e8084;
+  background-color: rgb(241, 241, 241);
   /* background-image: linear-gradient(to left, #2e8084,#00AAB7,#E6F4F1); */
   border: none;
-  color: white;
-  width: 310px;
-  height: 30px;
+  color: black;
+  width: 390px;
+  border: 1px solid rgb(197, 197, 197);
+  height: 35px;
+  font-size: 16px;
   border-radius: 6px;
   margin-bottom: 5px;
   margin-top: 5px;
 }
 #link {
   text-decoration: none;
-  color: white;
-  margin-left: 19%;
+  color: #018786;
+  margin-left: 12%;
+  margin-top: 8px;
   opacity: 0.7;
+}
+#link2 {
+  text-decoration: none;
+  color: #018786;
+  opacity: 0.7;
+}
+.signn {
+  margin-top: 5px;
+  margin-left: 80px;
 }
 #link:hover {
   text-decoration: underline;
   opacity: 1;
 }
-#btn:hover {
-  color: #2e8084;
-  background-image: linear-gradient(to right, #e6f4f1, #e6f4f1, #e6f4f1);
-}
-#btn2:hover {
-  color: #2e8084;
-  background-image: linear-gradient(to right, #e6f4f1, #e6f4f1, #e6f4f1);
-}
 /* Register */
 .Register {
-  margin-top: 3%;
-  margin-left: 7%;
-  margin-right: 6%;
+  margin-top: 5%;
+  margin-left: 2%;
   width: fit-content;
   padding-left: 100px;
-  padding-right: 100px;
+  padding-right: 150px;
 }
 
 #Role {
   border: none;
-  border-bottom: 1px solid black;
-  width: 310px;
-  height: 25px;
-  padding: 5px;
-  margin-bottom: 2px;
+  border: 1px solid rgb(219, 219, 219);
+  border-radius: 3px;
+  width: 392px;
+  height: 32px;
   outline: none;
 }
 /* ForgetPass */
 .ForgetPass {
   margin-top: 10%;
-  margin-right: 6%;
-  margin-left: 7%;
+  margin-left: 3%;
   width: fit-content;
   padding-left: 100px;
-  padding-right: 100px;
+  padding-right: 150px;
 }
 /* CodeConfirm */
 .CodeConfirm {
-  margin-top: 10%;
-  margin-right: 6%;
-  margin-left: 7%;
+  margin-top: 13%;
+  margin-left: 2%;
   width: fit-content;
   padding-left: 100px;
-  padding-right: 100px;
+  padding-right: 150px;
 }
+
 /* NewPass */
 
 .NewPass {
   margin-top: 10%;
-  margin-right: 6%;
-  margin-left: 7%;
+  margin-left: 3%;
   width: fit-content;
   padding-left: 100px;
-  padding-right: 100px;
+  padding-right: 150px;
 }
 .countainer {
-  background-color: #123436;
   height: 105%;
   top: 0;
   left: 0;
@@ -326,22 +333,22 @@ label {
 }
 .divimage {
   margin-top: 8px;
-  width: 48%;
+  width: 60%;
   height: 578px;
   position: relative;
   overflow: hidden;
   border-radius: 5px;
-  margin-right: 10px; 
+  margin-right: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f0f0f0; 
+  background-color: #f0f0f0;
 }
-#imagediv{
+#imagediv {
   width: 100%;
   height: 100%;
-  object-fit: cover; 
-  transition: transform 0.5s ease-in-out; 
+  object-fit: cover;
+  transition: transform 0.5s ease-in-out;
 }
 
 .slider-button {
@@ -368,4 +375,18 @@ label {
 
 .slider-button.next {
   right: 15px;
+}
+
+#btnRegister {
+  cursor: pointer;
+  /* background-image: linear-gradient(to right, #2e8084,#00AAB7,#E6F4F1); */
+  background-color: #2e8084;
+  border: none;
+  color: white;
+  width: 390px;
+  height: 35px;
+  font-size: 16px;
+  border-radius: 6px;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }

@@ -11,14 +11,11 @@ export default function Register(){
     return(
         <div className="Register">
             {/* <img src="/images/Asset 13.png" alt="img" id="loginimg"/> */}
-            <h3 id="h3">Register</h3>
-            <label htmlFor="fullname">Full Name </label><br />
-            <input type="text" name="fullname" id="fullname" value={fullname} onChange={(e)=>setfullname(e.target.value)}/>
-            <br /><br />
-            <label htmlFor="email">Email </label><br />
-            <input type="email" name="email" id="email" value={email} onChange={(e)=>setemail(e.target.value)}/>
-            <br /><br />
-            <label htmlFor="role">Role </label><br />
+            <h1 id="h1">Create Account</h1>
+            <input type="text" name="fullname" id="fullname" value={fullname} placeholder="Full Name" onChange={(e)=>setfullname(e.target.value)}/>
+            <br />
+            <input type="email" name="email" id="email" value={email} placeholder="Email" onChange={(e)=>setemail(e.target.value)}/>
+            <br />
             <select name="Role" value={role} id="Role" onChange={(e)=>setrole(e.target.value)}>
                 <option value="">Choose your Role</option>
                 <option value="Patient">Patient</option>
@@ -31,13 +28,11 @@ export default function Register(){
             <input type="radio" name="pharmacy" id="pharmacy" onChange={()=>setrole('pharmacy')}/><label htmlFor="pharmacy">pharmacy</label>
             <input type="radio" name="laboratory" id="laboratory" onChange={()=>setrole('laboratory')}/><label htmlFor="laboratory">laboratory</label> */}
             <br /><br />
-            <label htmlFor="password">Password </label><br />
-            <input type="password" name="password" id="password" value={password} onChange={(e)=>setpassword(e.target.value)}/>
+            <input type="password" name="password" id="password" placeholder="Password" value={password} onChange={(e)=>setpassword(e.target.value)}/>
+            <br />
+            <input type="password" name="confirmpassword" id="confirmpassword" placeholder="Confirm password" value={confirmpassword} onChange={(e)=>setconfirmpassword(e.target.value)}/>
             <br /><br />
-            <label htmlFor="confirmpassword">Confirm Password </label><br />
-            <input type="password" name="confirmpassword" id="confirmpassword" value={confirmpassword} onChange={(e)=>setconfirmpassword(e.target.value)}/>
-            <br /><br />
-            <Link to="/pages/codeconfirm"><button id="btn">Register</button></Link>
+            <Link to="/pages/codeconfirm"><button id="btnRegister">Register</button></Link>
         </div>
     )
 
