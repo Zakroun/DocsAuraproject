@@ -5,8 +5,9 @@ body {
 #laoderimage {
   width: 200px;
   margin-top: 10%;
-  margin-left: 42%;
+  margin-left: 1%;
 }
+
 .spinner {
   --clr: rgb(0, 113, 128);
   --gap: 10px;
@@ -15,7 +16,7 @@ body {
   height: 200px;
   display: flex;
   margin-top: 3%;
-  margin-left: 44%;
+  margin-left: 5%;
   gap: var(--gap);
 }
 
@@ -86,7 +87,7 @@ body {
   margin-bottom: 8px;
   outline: none;
 }
-#birthyear{
+#birthyear {
   border: none;
   border: 1px solid rgb(219, 219, 219);
   border-radius: 3px;
@@ -96,7 +97,6 @@ body {
   margin-bottom: 8px;
   outline: none;
 }
-/* From Uiverse.io by lenin55 */
 .cl-checkbox {
   margin-top: 20px;
   position: relative;
@@ -299,7 +299,9 @@ body {
   padding-right: 150px;
 }
 
-#Role,#gender,#cities {
+#Role,
+#gender,
+#cities {
   -webkit-user-select: auto;
   user-select: auto;
   border: none;
@@ -403,10 +405,154 @@ body {
   margin-bottom: 5px;
   margin-top: 5px;
 }
-#imgindiv{
+#imgindiv {
   position: absolute;
   z-index: 1;
   width: 90px;
   top: 15px;
   left: 15px;
+}
+
+/* Responsive Design */
+
+@media (max-width: 479px) {
+  /* Styles for Extra Small (XS) */
+  .divimage {
+    display: none;
+  }
+  .loader {
+    margin-top: 18%;
+    margin-left: 25%;
+  }
+  .spinner {
+    margin-left: 7%;
+  }
+  .login {
+    margin-top: 6%;
+    padding-left: 0px;
+  }
+  #email,
+  #password,
+  #fullname,
+  #confirmpassword,
+  #emailpass,
+  #code,
+  #newpass,
+  #confirmpass {
+    width: 350px;
+  }
+  #btn {
+    width: 360px;
+  }
+  #btn2 {
+    width: 360px;
+  }
+  #link {
+    margin-left: 8%;
+  }
+  .Register {
+    margin-top: 6%;
+    padding-left: 0px;
+  }
+  #Role,
+  #gender,
+  #cities {
+    width: 360px;
+  }
+  #birthyear {
+    width: 350px;
+  }
+  #btnRegister {
+    width: 360px;
+  }
+  .ForgetPass {
+    margin-top: 20%;
+    padding-left: 10px;
+  }
+  .CodeConfirm {
+    margin-top: 20%;
+    padding-left: 10px;
+  }
+  .NewPass {
+    margin-top: 20%;
+    padding-left: 10px;
+  }
+}
+
+@media (min-width: 480px) and (max-width: 767px) {
+  /* Styles for Small (SM) */
+  .divimage {
+    display: none;
+  }
+  .loader {
+    margin-top: 14%;
+    margin-left: 28%;
+  }
+  .spinner {
+    margin-left: 7%;
+  }
+  .ForgetPass {
+    margin-top: 20%;
+    padding-left: 80px;
+  }
+  .CodeConfirm {
+    margin-top: 20%;
+    padding-left: 80px;
+  }
+  .NewPass {
+    margin-top: 20%;
+    padding-left: 80px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* Styles for Medium (MD) */
+  .loader {
+    margin-top: 10%;
+    margin-left: 37%;
+  }
+  .divimage {
+    width: 80%;
+  }
+  .login {
+    margin-top: 6%;
+    margin-left: 4%;
+    padding-left: 0px;
+  }
+  .Register{
+    margin-top: 6%;
+    margin-right: -8%;
+    margin-left: 8%;
+    padding-left: 20px;
+  }
+  .ForgetPass {
+    margin-top: 15%;
+    margin-right: -8%;
+    margin-left: 8%;
+    padding-left: 20px;
+  }
+  .CodeConfirm {
+    margin-top: 15%;
+    margin-right: -8%;
+    margin-left: 8%;
+    padding-left: 20px;
+  }
+  .NewPass {
+    margin-top: 15%;
+    margin-right: -8%;
+    margin-left: 8%;
+    padding-left: 20px;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1279px) {
+  /* Styles for Large (LG) */
+  .loader {
+    margin-top: 5%;
+    margin-left: 40%;
+  }
+}
+
+@media (min-width: 1280px) and (max-width: 1535px) {
+  /* Styles for Extra Large (XL) */
 }

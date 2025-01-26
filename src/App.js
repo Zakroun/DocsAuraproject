@@ -9,7 +9,7 @@ function App() {
     const time = setTimeout(() => {
       setdis(false);
       setdisppages(true);
-    }, 2000);
+    }, 500);
     return () => clearInterval(time);
   });
   return (

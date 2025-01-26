@@ -27,7 +27,7 @@ export default function Login() {
         placeholder="Password"
       />
       <br />
-      <label class="cl-checkbox">
+      <label className="cl-checkbox">
         <input type="checkbox" />
         <span className="spanme">Remember me for 30 days</span>
       </label>
