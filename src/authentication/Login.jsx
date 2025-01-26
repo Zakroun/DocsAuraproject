@@ -18,7 +18,6 @@ export default function Login() {
         placeholder="Email"
       />
       <br />
-      <br />
       <input
         type="password"
         name="password"

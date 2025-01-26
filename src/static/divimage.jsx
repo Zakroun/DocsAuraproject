@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 export default function Divimage() {
   const images = [
-    "/Images/imgL1.png",
-    "/Images/imgL4.png",
-    "/Images/imgL11.png",
+    "/Images/img2.jpg",
+    "/Images/img5.jpg",
+    "/Images/img12.jpg",
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -30,6 +30,7 @@ export default function Divimage() {
   }, [images.length]);
   return (
     <div className="divimage">
+      <img src="/Images/Asset 9.png" alt="img" id='imgindiv'/>
       <button onClick={prevSlide} className="slider-button prev">
         &#10094;
       </button> 

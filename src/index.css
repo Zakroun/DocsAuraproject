@@ -53,8 +53,8 @@ body {
 /* login style */
 
 .login {
-  margin-top: 5%;
-  margin-left: 2%;
+  margin-top: 6%;
+  margin-left: 4%;
   border-radius: 20px;
   padding: 10px;
   width: fit-content;
@@ -72,12 +72,21 @@ body {
 #email,
 #password,
 #fullname,
-#Role,
 #confirmpassword,
 #emailpass,
 #code,
 #newpass,
 #confirmpass {
+  border: none;
+  border: 1px solid rgb(219, 219, 219);
+  border-radius: 3px;
+  width: 380px;
+  height: 22px;
+  padding: 5px;
+  margin-bottom: 8px;
+  outline: none;
+}
+#birthyear{
   border: none;
   border: 1px solid rgb(219, 219, 219);
   border-radius: 3px;
@@ -290,12 +299,16 @@ body {
   padding-right: 150px;
 }
 
-#Role {
+#Role,#gender,#cities {
+  -webkit-user-select: auto;
+  user-select: auto;
   border: none;
   border: 1px solid rgb(219, 219, 219);
   border-radius: 3px;
   width: 392px;
-  height: 32px;
+  height: 30px;
+  padding: 5px;
+  margin-bottom: 12px;
   outline: none;
 }
 /* ForgetPass */
@@ -333,12 +346,12 @@ body {
 }
 .divimage {
   margin-top: 8px;
-  width: 60%;
+  width: 63%;
   height: 578px;
   position: relative;
   overflow: hidden;
   border-radius: 5px;
-  margin-right: 10px;
+  margin-left: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -389,4 +402,11 @@ body {
   border-radius: 6px;
   margin-bottom: 5px;
   margin-top: 5px;
+}
+#imgindiv{
+  position: absolute;
+  z-index: 1;
+  width: 90px;
+  top: 15px;
+  left: 15px;
 }

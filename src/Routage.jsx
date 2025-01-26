@@ -11,37 +11,38 @@ export default function Routage() {
   if (d === "Login") {
     return (
       <div className="countainer">
-        <Login /> <DivImage />
+        <DivImage />
+        <Login />
       </div>
     );
   } else if (d === "register") {
     return (
       <div className="countainer">
-        <Register /> <DivImage />
+        <DivImage /> <Register />
       </div>
     );
   } else if (d === "forgetpass") {
     return (
       <div className="countainer">
-        <ConfirmEmail /> <DivImage />
+        <DivImage /> <ConfirmEmail />
       </div>
     );
   } else if (d === "codeconfirm") {
     return (
       <div className="countainer">
-        <CodeConfirm /> <DivImage />
+        <DivImage /> <CodeConfirm />
       </div>
     );
   } else if (d === "codeconfirmforget") {
     return (
       <div className="countainer">
-        <Conirmcodepass /> <DivImage />
+        <DivImage /> <Conirmcodepass />
       </div>
     );
   } else if (d === "newpass") {
     return (
       <div className="countainer">
-        <NewPass /> <DivImage />
+        <DivImage /> <NewPass />
       </div>
     );
   }
