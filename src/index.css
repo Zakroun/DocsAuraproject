@@ -748,40 +748,38 @@ hr {
 @media (min-width: 1280px) and (max-width: 1535px) {
   /* Styles for Extra Large (XL) */
 }
-.social-icon {
+.header .social-icon {
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  width: 35px; 
-  height: 35px; 
-  border: 2px solid #add8e6; 
-  border-radius: 50%;
-  color: #007bff; 
-  font-size: 24px; 
-  margin: 0 10px; 
-  transition: transform 0.3s ease, background-color 0.3s ease;
+  color: white; /* النص باللون الأبيض */
+  font-size: 20px;
+  margin: 0 5px;
+  transition: transform 0.3s ease, color 0.3s ease;
 }
 
-.social-icon:hover {
-  transform: scale(1.1); 
-  background-color: #add8e6; 
+.header .social-icon:hover {
+  transform: scale(1.1);
+  color: #00eeff; /* النص يتحول إلى الأزرق عند التمرير */
 }
 
-.social-icon {
+
+.footer .social-icon {
   display: inline-flex;
   justify-content: center;
   align-items: center;
   width: 40px;
   height: 40px;
-  border: 2px solid #add8e6;
+  border: 2px solid #17a2b8; 
   border-radius: 50%;
-  color: #007bff;
+  color: #17a2b8; 
   font-size: 20px;
   margin: 0 5px;
-  transition: transform 0.3s ease, background-color 0.3s ease;
+  transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
 }
 
-.social-icon:hover {
+.footer .social-icon:hover {
   transform: scale(1.1);
-  background-color: #add8e6;
+  background-color: #17a2b8; 
+  color: white; 
 }
