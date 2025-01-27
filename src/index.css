@@ -748,3 +748,40 @@ hr {
 @media (min-width: 1280px) and (max-width: 1535px) {
   /* Styles for Extra Large (XL) */
 }
+.social-icon {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 35px; 
+  height: 35px; 
+  border: 2px solid #add8e6; 
+  border-radius: 50%;
+  color: #007bff; 
+  font-size: 24px; 
+  margin: 0 10px; 
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.social-icon:hover {
+  transform: scale(1.1); 
+  background-color: #add8e6; 
+}
+
+.social-icon {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border: 2px solid #add8e6;
+  border-radius: 50%;
+  color: #007bff;
+  font-size: 20px;
+  margin: 0 5px;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.social-icon:hover {
+  transform: scale(1.1);
+  background-color: #add8e6;
+}

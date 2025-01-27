@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import { FaFacebook, FaInstagram, FaTiktok, FaTwitter } from "react-icons/fa";
+
 export default function Footer() {
   return (
     <footer className="footer">
@@ -6,36 +8,20 @@ export default function Footer() {
         <div className="part1footer">
           <h1>DocsAura</h1>
           <p className="pfooter">
-            <span id="spanfooter">Phone : </span> +212 1234567890 <br />
-            <span id="spanfooter">Email : </span> DocsAura@gmail.com <br />
+            <span id="spanfooter">PHONE : </span> +212 1234567890 <br />
+            <span id="spanfooter">EMAIL : </span> DocsAura@outlook.com <br />
             <div className="socailmedia2">
-              <a href="/">
-                <img
-                  src="\icons\facebook (4).png"
-                  alt="socailmedia"
-                  id="socailmedia"
-                />
+              <a href="/" className="social-icon" aria-label="Facebook">
+                <FaFacebook />
               </a>
-              <a href="/">
-                <img
-                  src="\icons\instagram (2).png"
-                  alt="socailmedia"
-                  id="socailmedia"
-                />
+              <a href="/" className="social-icon" aria-label="Instagram">
+                <FaInstagram />
               </a>
-              <a href="/">
-                <img
-                  src="\icons\tiktok (2).png"
-                  alt="socailmedia"
-                  id="socailmedia"
-                />
+              <a href="/" className="social-icon" aria-label="TikTok">
+                <FaTiktok />
               </a>
-              <a href="/">
-                <img
-                  src="\icons\twitter (1).png"
-                  alt="socailmedia"
-                  id="socailmedia"
-                />
+              <a href="/" className="social-icon" aria-label="Twitter">
+                <FaTwitter />
               </a>
             </div>
           </p>
@@ -72,7 +58,7 @@ export default function Footer() {
                 Doctors
               </Link>
               <Link to="/Clinical" className="links2">
-                Clinical
+                Clinics
               </Link>
               <Link to="/Laboratories" className="links2">
                 Laboratories
@@ -81,11 +67,17 @@ export default function Footer() {
           </div>
         </div>
         <div className="part3footer">
-            <span id="spanfooter">Newsletter</span>
-            <br />
-            <br />
-            <input type="email" name="email" id="Emailfootre" placeholder="Email"/><button id="btnconfirm">Confirm</button>
-          </div>
+          <span id="spanfooter">News Letter</span>
+          <br />
+          <br />
+          <input
+            type="email"
+            name="email"
+            id="Emailfootre"
+            placeholder="Email"
+          />
+          <button id="btnconfirm">Confirm</button>
+        </div>
       </div>
       <hr />
       <p className="pfooter2">

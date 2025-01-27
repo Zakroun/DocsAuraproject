@@ -1,41 +1,27 @@
 import { Link } from "react-router-dom";
+import { FaFacebook, FaInstagram, FaTiktok, FaTwitter } from "react-icons/fa";
+
 export default function Header() {
   return (
     <div className="header">
       <div className="part1header">
         <div className="email">
           <a href="/" id="emaillink">
-            DocsAura@gmail.com
+            DocsAura@outlook.com
           </a>
         </div>
         <div className="socailmedia">
-          <a href="/">
-            <img
-              src="\icons\facebook (3).png"
-              alt="socailmedia"
-              id="socailmedia"
-            />
+          <a href="/" className="social-icon" aria-label="Facebook">
+            <FaFacebook />
           </a>
-          <a href="/">
-            <img
-              src="\icons\instagram (1).png"
-              alt="socailmedia"
-              id="socailmedia"
-            />
+          <a href="/" className="social-icon" aria-label="Instagram">
+            <FaInstagram />
           </a>
-          <a href="/">
-            <img
-              src="\icons\tiktok (1).png"
-              alt="socailmedia"
-              id="socailmedia"
-            />
+          <a href="/" className="social-icon" aria-label="TikTok">
+            <FaTiktok />
           </a>
-          <a href="/">
-            <img
-              src="\icons\twitter.png"
-              alt="socailmedia"
-              id="socailmedia"
-            />
+          <a href="/" className="social-icon" aria-label="Twitter">
+            <FaTwitter />
           </a>
         </div>
       </div>
@@ -45,27 +31,27 @@ export default function Header() {
         </div>
         <div className="linksdiv">
           <Link to="/" className="links">
-            Home
+            HOME
           </Link>
           <Link to="/About" className="links">
-            About
+            ABOUT
           </Link>
           <Link to="/Contact" className="links">
-            Contact
+            CONTACT
           </Link>
           <Link to="/Doctors" className="links">
-            Doctors
+            DOCTORS
           </Link>
           <Link to="/Clinical" className="links">
-            Clinical
+            CLINICS
           </Link>
           <Link to="/Laboratories" className="links">
-            Laboratories
+            LABORATORIES
           </Link>
         </div>
         <div>
-          <button className="loginbtn">Login</button>
-          <button className="signupbtn">Sign Up</button>
+          <button className="loginbtn">LOGIN</button>
+          <button className="signupbtn">SIGN UP</button>
         </div>
       </div>
     </div>
