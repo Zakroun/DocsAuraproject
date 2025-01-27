@@ -61,7 +61,7 @@ body {
   width: fit-content;
   padding-left: 70px;
 }
-/* From Uiverse.io by PaolaMarai */ 
+/* From Uiverse.io by PaolaMarai */
 .error {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
@@ -460,6 +460,148 @@ body {
   left: 15px;
 }
 
+/* header */
+.header {
+  top: 0;
+  left: 0;
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+}
+.part1header {
+  padding: 6px 30px 6px 30px;
+  /* background-color: #018786; */
+  background-image: linear-gradient(to left, #2e8084, #00aab7);
+  display: flex;
+  justify-content: space-between;
+}
+#emaillink {
+  text-decoration: none;
+  color: white;
+  margin-left: 10px;
+}
+#socailmedia {
+  margin-right: 15px;
+  width: 20px;
+}
+.part2header {
+  padding: 6px 30px 6px 30px;
+  display: flex;
+  justify-content: space-between;
+}
+#hedearlogo {
+  width: 120px;
+  margin-left: 10px;
+}
+.linksdiv {
+  margin-top: 10px;
+}
+.links {
+  text-decoration: none;
+  margin-right: 30px;
+  color: black;
+  font-size: 17px;
+}
+.links:hover {
+  color: #018786;
+}
+.loginbtn {
+  background-color: #018786;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+  margin-top: 8px;
+}
+.signupbtn {
+  background-color: #00aab7;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin-top: 8px;
+  cursor: pointer;
+}
+
+/* footer */
+.footer {
+  padding: 0px 60px 0px 60px;
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+  background-color: #c7e8e852;
+}
+#spanfooter {
+  font-weight: bold;
+}
+.socailmedia2 {
+  margin-top: 30px;
+}
+hr {
+  width: 90%;
+  margin-top: 50px;
+  margin-left: 4px;
+  height: 0.5px;
+  background-color: #018786;
+}
+.divfooter {
+  margin-left: -100px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+.footerlinks {
+  display: flex;
+  margin-top: 30px;
+}
+.p1 {
+  margin-right: 100px;
+}
+.linksdiv2 {
+  display: flex;
+  flex-direction: column;
+}
+.links2 {
+  text-decoration: none;
+  margin-right: 30px;
+  color: black;
+  opacity: 0.5;
+  font-size: 15px;
+}
+.links2:hover{
+  color: #018786;
+  opacity: 1;
+}
+.pfooter2{
+  margin-left: 35%;
+}
+.part3footer{
+  margin-top: 30px;
+}
+#Emailfootre{
+  border: 1px solid rgb(219, 219, 219);
+  border-radius: 3px;
+  width: 200px;
+  height: 22px;
+  padding: 5px;
+  margin-bottom: 8px;
+  outline: none;
+}
+#btnconfirm{
+  cursor: pointer;
+  background-color: #2e8084;
+  border: none;
+  color: white;
+  width: 100px;
+  height: 35px;
+  font-size: 16px;
+  border-radius: 6px;
+  margin-left: 10px;
+}
 /* Responsive Design */
 
 @media (max-width: 479px) {
@@ -569,7 +711,7 @@ body {
     margin-left: 4%;
     padding-left: 0px;
   }
-  .Register{
+  .Register {
     margin-top: 6%;
     margin-right: -8%;
     margin-left: 8%;

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Loader from "./static/Loader";
-import { Link, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
 import Routage from "./Routage";
 function App() {
   const [displayLoder, setdis] = useState(true);
@@ -18,7 +19,7 @@ function App() {
       {disppages && (
         <>
           <Routes>
-            <Route path="/" element={<><Link to={"/pages/Login"}>Login</Link><h1>Hello react</h1></>}></Route>
+            <Route path="/" element={<><Home></Home></>}></Route>
             <Route path="/pages/:d" element={<Routage></Routage>}></Route>
           </Routes>
         </>
