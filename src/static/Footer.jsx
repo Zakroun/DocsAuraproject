@@ -7,7 +7,7 @@ export default function Footer() {
       <div className="divfooter">
         <div className="part1footer">
           <h1>DocsAura</h1>
-          <p className="pfooter">
+          <span className="pfooter">
             <span id="spanfooter">PHONE : </span> +212 1234567890 <br />
             <span id="spanfooter">EMAIL : </span> DocsAura@outlook.com <br />
             <div className="socailmedia2">
@@ -24,7 +24,7 @@ export default function Footer() {
                 <FaTwitter />
               </a>
             </div>
-          </p>
+          </span>
         </div>
         <div className="footerlinks">
           <div className="p1">

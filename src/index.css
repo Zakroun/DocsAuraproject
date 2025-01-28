@@ -464,7 +464,9 @@ body {
 .header {
   top: 0;
   left: 0;
+  background-color: white;
   position: fixed;
+  height: 100px;
   width: 100%;
   z-index: 1;
 }
@@ -472,15 +474,15 @@ body {
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  color: white; 
+  color: white;
   font-size: 20px;
-  margin: 0 5px;
+  margin: 0 10px;
   transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .header .social-icon:hover {
   transform: scale(1.1);
-  color: #00eeff; 
+  color: #00eeff;
 }
 
 .footer .social-icon {
@@ -489,9 +491,9 @@ body {
   align-items: center;
   width: 40px;
   height: 40px;
-  border: 2px solid #17a2b8; 
+  border: 2px solid #17a2b8;
   border-radius: 50%;
-  color: #17a2b8; 
+  color: #17a2b8;
   font-size: 20px;
   margin: 0 5px;
   transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
@@ -499,12 +501,11 @@ body {
 
 .footer .social-icon:hover {
   transform: scale(1.1);
-  background-color: #17a2b8; 
-  color: white; 
+  background-color: #17a2b8;
+  color: white;
 }
 .part1header {
   padding: 6px 30px 6px 30px;
-  /* background-color: #018786; */
   background-image: linear-gradient(to left, #2e8084, #00aab7);
   display: flex;
   justify-content: space-between;
@@ -537,6 +538,31 @@ body {
   color: black;
   font-size: 17px;
 }
+#buttonmenu {
+  margin-top: 9px;
+  margin-right: 10px;
+  height: 30px;
+  background-color: #018786;
+  color: white;
+  border-radius: 8px;
+  border: 1px solid #018786;
+  display: none;
+  cursor: pointer;
+}
+.menu {
+  display: none;
+  padding-top: 50px;
+  margin-top: 35px;
+  width: 70%;
+  color: white;
+  top: 0;
+  left: 0;
+  text-align: center;
+  background-color: #018786;
+  height: 100%;
+  position: fixed;
+  z-index: 1;
+}
 .links:hover {
   color: #018786;
 }
@@ -562,12 +588,11 @@ body {
 
 /* footer */
 .footer {
-  padding: 0px 60px 0px 60px;
+  padding: 0px 60px 10px 60px;
   bottom: 0;
   left: 0;
-  position: fixed;
-  width: 100%;
-  z-index: 1;
+  margin-top: 500px;
+  width: 90.8%;
   background-color: #c7e8e852;
 }
 #spanfooter {
@@ -577,19 +602,20 @@ body {
   margin-top: 30px;
 }
 hr {
-  width: 90%;
+  width: 99%;
   margin-top: 50px;
   margin-left: 4px;
   height: 0.5px;
   background-color: #018786;
 }
 .divfooter {
-  margin-left: -100px;
+  width: 99%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: space-between;
 }
 .footerlinks {
+  flex-wrap: wrap;
   display: flex;
   margin-top: 30px;
 }
@@ -607,17 +633,17 @@ hr {
   opacity: 0.5;
   font-size: 15px;
 }
-.links2:hover{
+.links2:hover {
   color: #018786;
   opacity: 1;
 }
-.pfooter2{
-  margin-left: 35%;
+.pfooter2 {
+  text-align: center;
 }
-.part3footer{
+.part3footer {
   margin-top: 30px;
 }
-#Emailfootre{
+#Emailfootre {
   border: 1px solid rgb(219, 219, 219);
   border-radius: 3px;
   width: 200px;
@@ -626,13 +652,13 @@ hr {
   margin-bottom: 8px;
   outline: none;
 }
-#btnconfirm{
+#btnconfirm {
   cursor: pointer;
   background-color: #2e8084;
   border: none;
   color: white;
   width: 100px;
-  height: 35px;
+  height: 33px;
   font-size: 16px;
   border-radius: 6px;
   margin-left: 10px;
@@ -704,6 +730,43 @@ hr {
   .error {
     width: 345px;
   }
+  .part2header {
+    padding: 6px 10px 6px 10px;
+  }
+  .part1header {
+    padding: 6px 6px 6px 6px;
+  }
+  .footer {
+    padding: 0px 20px 10px 20px;
+  }
+  .linksdiv {
+    display: none;
+  }
+  .btnuser {
+    display: none;
+  }
+  #buttonmenu {
+    display: block;
+  }
+  .linksmenu {
+    display: flex;
+    flex-direction: column;
+  }
+  .linksm {
+    margin-bottom: 20px;
+    color: white;
+    text-decoration: none;
+  }
+  .loginbtn2 {
+    background-color: white;
+    color: #018786;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+    margin-top: 7px;
+  }
 }
 
 @media (min-width: 480px) and (max-width: 767px) {
@@ -729,6 +792,34 @@ hr {
   .NewPass {
     margin-top: 20%;
     padding-left: 80px;
+  }
+  .linksdiv {
+    display: none;
+  }
+  .btnuser {
+    display: none;
+  }
+  #buttonmenu {
+    display: block;
+  }
+  .linksmenu {
+    display: flex;
+    flex-direction: column;
+  }
+  .linksm {
+    margin-bottom: 20px;
+    color: white;
+    text-decoration: none;
+  }
+  .loginbtn2 {
+    background-color: white;
+    color: #018786;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+    margin-top: 7px;
   }
 }
 
@@ -769,6 +860,21 @@ hr {
     margin-right: -8%;
     margin-left: 8%;
     padding-left: 20px;
+  }
+  .part2header {
+    padding: 6px 10px 6px 10px;
+  }
+  .links{
+    font-size: 14px;
+    margin-right: 15px;
+  }
+  .loginbtn {
+    padding: 5px 10px;
+    margin-top: 10px;
+  }
+  .signupbtn {
+    padding: 5px 10px;
+    margin-top: 10px;
   }
 }
 
