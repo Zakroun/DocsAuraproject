@@ -94,8 +94,8 @@ export default function Header() {
           </Link>
         </div>
         <div className="btnuser">
-          <button className="loginbtn">LOGIN</button>
-          <button className="signupbtn">SIGN UP</button>
+          <Link to={'/pages/Login'}><button className="loginbtn">LOGIN</button></Link>
+          <Link to={'/pages/register'}><button className="signupbtn">SIGN UP</button></Link>
         </div>
       </div>
     </div>
