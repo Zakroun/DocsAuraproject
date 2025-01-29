@@ -1081,3 +1081,102 @@ hr {
 @media (min-width: 1280px) and (max-width: 1535px) {
   /* Styles for Extra Large (XL) */
 }
+.call-to-action {
+  background-color: #27b6ba;
+  padding: 50px 0;
+  text-align: center;
+  color: white;
+  margin-top: 50px; /* يضيف مسافة بين القسم وما فوقه */
+}
+
+.cta-btn {
+  display: inline-block;
+  background-color: white;
+  color: #27b6ba;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.cta-btn:hover {
+  background-color: #fff;
+  color: #1a8082;
+}
+
+/* FAQ Section Styles */
+.faq {
+  background-color: #f9f9f9;
+  padding: 60px 0;
+}
+
+.faq .container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.faq .section-title {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.faq .section-title h2 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #333;
+}
+
+.faq .section-title p {
+  font-size: 16px;
+  color: #777;
+}
+
+.faq .faq-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.faq .faq-item {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+  padding: 15px 0;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.faq .faq-item h3 {
+  font-size: 20px;
+  color: #333;
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.faq .faq-item .faq-content {
+  padding: 10px 0;
+}
+
+.faq .faq-item .faq-content p {
+  color: #777;
+  font-size: 16px;
+}
+
+.faq .faq-item .faq-toggle-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #333;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.3s ease;
+}
+
+.faq .faq-item .faq-toggle-btn:hover {
+  color: #007bff;
+}
+
+.faq .faq-item:hover {
+  background-color: #f1f1f1;
+}
