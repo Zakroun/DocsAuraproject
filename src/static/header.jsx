@@ -62,7 +62,7 @@ export default function Header() {
             <Link to="/" className="linksm">
               HOME
             </Link>
-            <Link to="/pages/registerAbout" className="linksm">
+            <Link to="/pages/About" className="linksm">
               ABOUT
             </Link>
             <Link to="/pages/Contact" className="linksm">
