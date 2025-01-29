@@ -48,54 +48,62 @@ export default function Header() {
         </div>
         <div className="menu" id="menu">
           <h1>DocsAura</h1>
-        <div className="linksmenu">
-          <Link to="/" className="linksm">
-            HOME
-          </Link>
-          <Link to="/About" className="linksm">
-            ABOUT
-          </Link>
-          <Link to="/Contact" className="linksm">
-            CONTACT
-          </Link>
-          <Link to="/Doctors" className="linksm">
-            DOCTORS
-          </Link>
-          <Link to="/Clinical" className="linksm">
-            CLINICS
-          </Link>
-          <Link to="/Laboratories" className="linksm">
-            LABORATORIES
-          </Link>
-        </div>
-        <div className="btnmenu">
-          <button className="loginbtn2">LOGIN</button>
-          <button className="signupbtn">SIGN UP</button>
-        </div>
+          <div className="linksmenu">
+            <Link to="/" className="linksm">
+              HOME
+            </Link>
+            <Link to="/pages/registerAbout" className="linksm">
+              ABOUT
+            </Link>
+            <Link to="/pages/Contact" className="linksm">
+              CONTACT
+            </Link>
+            <Link to="/pages/Doctors" className="linksm">
+              DOCTORS
+            </Link>
+            <Link to="/pages/Clinical" className="linksm">
+              CLINICS
+            </Link>
+            <Link to="/pages/Laboratories" className="linksm">
+              LABORATORIES
+            </Link>
+          </div>
+          <div className="btnmenu">
+            <Link to={"/pages/Login"}>
+              <button className="loginbtn2">LOGIN</button>
+            </Link>
+            <Link to={"/pages/register"}>
+              <button className="signupbtn">SIGN UP</button>
+            </Link>
+          </div>
         </div>
         <div className="linksdiv">
           <Link to="/" className="links">
             HOME
           </Link>
-          <Link to="/About" className="links">
+          <Link to="/pages/About" className="links">
             ABOUT
           </Link>
-          <Link to="/Contact" className="links">
+          <Link to="/pages/Contact" className="links">
             CONTACT
           </Link>
-          <Link to="/Doctors" className="links">
+          <Link to="/pages/Doctors" className="links">
             DOCTORS
           </Link>
-          <Link to="/Clinical" className="links">
+          <Link to="/pages/Clinical" className="links">
             CLINICS
           </Link>
-          <Link to="/Laboratories" className="links">
+          <Link to="/pages/Laboratories" className="links">
             LABORATORIES
           </Link>
         </div>
         <div className="btnuser">
-          <Link to={'/pages/Login'}><button className="loginbtn">LOGIN</button></Link>
-          <Link to={'/pages/register'}><button className="signupbtn">SIGN UP</button></Link>
+          <Link to={"/pages/Login"}>
+            <button className="loginbtn">LOGIN</button>
+          </Link>
+          <Link to={"/pages/register"}>
+            <button className="signupbtn">SIGN UP</button>
+          </Link>
         </div>
       </div>
     </div>

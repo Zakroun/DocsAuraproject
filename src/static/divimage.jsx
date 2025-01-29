@@ -13,6 +13,7 @@ export default function Divimage() {
     setCurrentIndex((prevIndex) =>
       prevIndex === images.length - 1 ? 0 : prevIndex + 1
     );
+    console.log(currentIndex);
   };
 
   const prevSlide = () => {
@@ -25,7 +26,7 @@ export default function Divimage() {
       setCurrentIndex((prevIndex) =>
         prevIndex === images.length - 1 ? 0 : prevIndex + 1
       );
-    }, 4000);
+    }, 2000);
     return () => clearInterval(interval);
   }, [images.length]);
   return (

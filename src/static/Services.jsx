@@ -60,7 +60,7 @@ export default function Services() {
             <div className="divicon">
               <FaBookMedical size={40} className="iconbox2" />
             </div>
-            <h3>Medical Record Management</h3>
+            <h3>Record Management</h3>
             <hr className="hrsevice" />
             <p>
               You can access prescriptions, test results, and other medical

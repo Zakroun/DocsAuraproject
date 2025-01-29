@@ -185,6 +185,7 @@ export default function Register() {
         type="date"
         name="birthyear"
         id="birthyear"
+        placeholder="your Birth Year"
         value={birthyear}
         onChange={(e) => setbirthyear(e.target.value)}
       />

@@ -35,16 +35,16 @@ export default function Footer() {
               <Link to="/" className="links2">
                 Home
               </Link>
-              <Link to="/About" className="links2">
+              <Link to="/pages/About" className="links2">
                 About
               </Link>
-              <Link to="/Contact" className="links2">
+              <Link to="/pages/Contact" className="links2">
                 Contact
               </Link>
-              <Link to="/Terms" className="links2">
+              <Link to="/pages/Terms" className="links2">
                 Terms & Conditions
               </Link>
-              <Link to="/Privacy" className="links2">
+              <Link to="/pages/Privacy" className="links2">
                 Privacy Policy
               </Link>
             </div>
@@ -54,13 +54,13 @@ export default function Footer() {
             <br />
             <br />
             <div className="linksdiv2">
-              <Link to="/Doctors" className="links2">
+              <Link to="/pages/Doctors" className="links2">
                 Doctors
               </Link>
-              <Link to="/Clinical" className="links2">
+              <Link to="/pages/Clinical" className="links2">
                 Clinics
               </Link>
-              <Link to="/Laboratories" className="links2">
+              <Link to="/pages/Laboratories" className="links2">
                 Laboratories
               </Link>
             </div>

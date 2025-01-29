@@ -6,7 +6,7 @@ export default function Divimage2() {
     "/Images/img2.jpg",
     "/Images/img5.jpg",
     "/Images/img12.jpg",
-  ];
+  ];  
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -27,7 +27,7 @@ export default function Divimage2() {
       setCurrentIndex((prevIndex) =>
         prevIndex === images.length - 1 ? 0 : prevIndex + 1
       );
-    }, 4000);
+    }, 2000);
     return () => clearInterval(interval);
   }, [images.length]);
   return (
