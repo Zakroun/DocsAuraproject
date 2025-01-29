@@ -53,11 +53,12 @@ export default function ConfirmEmail() {
             </div> */}
           </div>
         )}
-        <label htmlFor="emailpass">Email </label>
+
         <br />
         <input
           type="email"
           name="emailpass"
+          placeholder="Your Email"
           value={email}
           id="emailpass"
           onChange={(e) => setemail(e.target.value)}

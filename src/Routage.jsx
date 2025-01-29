@@ -6,6 +6,8 @@ import NewPass from "./authentication/Newpass";
 import ConfirmEmail from "./authentication/ConifrmEmail";
 import Conirmcodepass from "./authentication/conirmcodepass";
 import DivImage from "./static/divimage";
+import ContactForm from "./authentication/contact";
+import About from "./pages/About";
 export default function Routage() {
   const { d } = useParams();
   if (d === "Login") {
@@ -45,5 +47,15 @@ export default function Routage() {
         <DivImage /> <NewPass />
       </div>
     );
+  }else if (d === "Contact"){
+    return(
+      <div className="countainer">
+        <DivImage /> <ContactForm />
+      </div>
+    )
+  }else if (d === "About"){
+    return(
+      <About></About>
+    )
   }
 }

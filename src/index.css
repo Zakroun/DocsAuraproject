@@ -134,6 +134,18 @@ body {
   margin-bottom: 8px;
   outline: none;
 }
+#message {
+  border: none;
+  border: 1px solid rgb(219, 219, 219);
+  border-radius: 3px;
+  max-width: 380px;
+  min-width: 380px;
+  min-height: 30px;
+  max-height: 50px;
+  padding: 5px;
+  margin-bottom: 8px;
+  outline: none;
+}
 #birthyear {
   border: none;
   border: 1px solid rgb(219, 219, 219);
@@ -381,10 +393,17 @@ body {
 
 .NewPass {
   margin-top: 10%;
-  margin-left: 3%;
+  margin-left: 2%;
   width: fit-content;
   padding-left: 100px;
   padding-right: 150px;
+}
+/* ContactForm */
+.ContactForm{
+  margin-top: 10%;
+  margin-left: 2%;
+  width: fit-content;
+  padding-left: 100px;
 }
 .countainer {
   height: 105%;
@@ -974,6 +993,69 @@ hr {
   border-radius: 5px;
   cursor: pointer;
 }
+.services{
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+.servicea {
+  cursor: pointer;
+  width: 200px;
+  height: 200px;
+  box-shadow: 0px 0px 20px rgb(211, 211, 211);
+  margin-top: 20px;
+  background-color: #ffffff;
+  padding: 30px;
+  position: relative;
+  overflow: hidden;
+}
+.about-container h1{
+  text-align: center;
+  margin-top: 80px;
+}
+.about-icons{
+  padding-right: 7%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.icon-box{
+  text-align: center;
+  color: #016b69;
+}
+.statistics{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.statistics {
+  padding-left: 7%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin-top: 40px;
+}
+
+.stat-box {
+  text-align: center;
+  margin: 20px;
+}
+
+.stat-icon {
+  color: #016b69; 
+  margin-bottom: 10px;
+}
+
+.stat-box h4 {
+  font-size: 18px;
+  color: #333;
+}
+
+.stat-box p {
+  font-size: 24px;
+  color: #016b69;
+  font-weight: bold;
+}
 /* Responsive Design */
 
 @media (max-width: 479px) {
@@ -1090,6 +1172,22 @@ hr {
   }
   .divimage2 .slider-button {
     display: none;
+  }
+  .ContactForm{
+    margin-top: 10%;
+    padding-left: 0px;
+  }
+  #message {
+    border: none;
+    border: 1px solid rgb(219, 219, 219);
+    border-radius: 3px;
+    max-width: 330px;
+    min-width: 330px;
+    min-height: 30px;
+    max-height: 50px;
+    padding: 5px;
+    margin-bottom: 8px;
+    outline: none;
   }
 }
 
