@@ -6,6 +6,7 @@ import { GoMoveToTop } from "react-icons/go";
 import Services from "../static/Services";
 import Faq from "../static/Faq";
 import ListDocCliLAbo from "../static/ListDocCliLAbo";
+import CallToAction from "../static/CallToAction";
 export default function Home() {
     return (
         <>
@@ -15,6 +16,7 @@ export default function Home() {
             <button className="moveToTop" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
                 <GoMoveToTop /> 
             </button>
+            <CallToAction />
             <Services />
             <ListDocCliLAbo />
             <Faq />

@@ -1,4 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { useEffect } from "react";
+
 
 
 const CallToAction = () => {
@@ -8,14 +11,14 @@ const CallToAction = () => {
         <div className="row justify-content-center" data-aos="zoom-in" data-aos-delay="100">
           <div className="col-xl-10">
             <div className="text-center">
-              <h1>Facing an Emergency? Get Immediate Assistance</h1>
+              <h1>Immediate Care, Trusted Experts, Zero Hassle</h1>
               <p>
-              If you require urgent medical attention, do not hesitate to seek assistance. 
-   Our professionals are here to provide you with prompt and reliable care. 
-   Your well-being is our priority.
+              Your health isn’t just important—it’s everything. Whether you need urgent medical attention or a routine checkup, our top-rated professionals are ready to provide fast, reliable, and compassionate care. No delays, no uncertainty—just quality healthcare when you need it most. To get started with us, having an account is required. If you don’t have one yet, sign up now and enjoy trusted care anytime you need it.
               </p>
-              <a className="cta-btn" href="#appointment">Schedule an Appointment</a>
-            </div>
+              <Link to={"/pages/register"}>
+              <button className="signupbtn">Take Care Now</button>
+            </Link>
+              </div>
           </div>
         </div>
       </div>
