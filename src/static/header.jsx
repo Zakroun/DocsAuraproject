@@ -1,19 +1,29 @@
 import { Link } from "react-router-dom";
 import { FaFacebook, FaInstagram, FaTiktok, FaTwitter } from "react-icons/fa";
-
+import { useRef,useEffect } from "react";
 export default function Header() {
-  function toggleMenu() {
-    var x = document.getElementById("menu");
-    if (x.style.display === "block") {
-      x.style.display = "none";
-    } else {
-      x.style.display = "block";
+  const menuRef = useRef(null);
+
+  const toggleMenu = () => {
+    if (menuRef.current) {
+      if (menuRef.current.style.display === "block") {
+        menuRef.current.style.display = "none";
+      } else {
+        menuRef.current.style.display = "block";
+      }
     }
-  }
-  window.addEventListener("scroll", function () {
-    var menu = document.getElementById("menu");
-    menu.style.display = "none";
-  });
+  };
+  useEffect(() => {
+    const handleScroll = () => {
+      if (menuRef.current) {
+        menuRef.current.style.display = "none";
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   return (
     <div className="header">
       <div className="part1header">
@@ -46,7 +56,7 @@ export default function Header() {
             ☰ Menu
           </button>
         </div>
-        <div className="menu" id="menu">
+        <div className="menu" id="menu" ref={menuRef}>
           <h1>DocsAura</h1>
           <div className="linksmenu">
             <Link to="/" className="linksm">

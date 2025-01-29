@@ -94,17 +94,17 @@ export const About = () => {
           <div className="stat-box">
             <FaUsers size={40} className="stat-icon" />
             <h4>Total Users</h4>
-            <p>50,000+</p>
+            <p>+50,000</p>
           </div>
           <div className="stat-box">
             <FaUserMd size={40} className="stat-icon" />
             <h4>Doctors Available</h4>
-            <p>5,000+</p>
+            <p>+5,000</p>
           </div>
           <div className="stat-box">
             <FaCalendarCheck size={40} className="stat-icon" />
             <h4>Appointments Booked</h4>
-            <p>100,000+</p>
+            <p>+100,000</p>
           </div>
         </div>
       </div>
