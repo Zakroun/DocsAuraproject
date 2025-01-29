@@ -1061,9 +1061,8 @@ hr {
 @media (max-width: 479px) {
   /* Styles for Extra Small (XS) */
   .loader {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin-top: 28%;
+    margin-left: 25%;
   }
   .loader {
     margin-top: 18%;
@@ -1199,10 +1198,10 @@ hr {
     display: none;
   }
   .loader {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin-top: 14%;
+    margin-left: 28%;
   }
+
   .spinner {
     margin-left: 7%;
   }
@@ -1261,10 +1260,10 @@ hr {
 @media (min-width: 768px) and (max-width: 1023px) {
   /* Styles for Medium (MD) */
   .loader {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin-top: 10%;
+    margin-left: 37%;
   }
+
   .divimage {
     width: 80%;
   }
@@ -1327,17 +1326,16 @@ hr {
 @media (min-width: 1024px) and (max-width: 1279px) {
   /* Styles for Large (LG) */
   .loader {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin-top: 5%;
+    margin-left: 40%;
   }
 }
 
 @media (min-width: 1280px) and (max-width: 1535px) {
   .loader {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin-top: 5%;
+    margin-left: 43%;
   }
+
   /* Styles for Extra Large (XL) */
 }
