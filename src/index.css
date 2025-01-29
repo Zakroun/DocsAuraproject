@@ -822,6 +822,110 @@ hr {
 .iconbox2{
   color: #018786;
 }
+
+.call-to-action {
+  background-color: #27b6ba;
+  padding: 50px 0;
+  text-align: center;
+  color: white;
+  margin-top: 50px; 
+}
+
+.cta-btn {
+  display: inline-block;
+  background-color: white;
+  color: #27b6ba;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.cta-btn:hover {
+  background-color: #fff;
+  color: #1a8082;
+}
+
+/* FAQ Section Styles */
+.faq {
+  margin-top: 50px;
+  background-color: #f9f9f9;
+  padding: 20px 0;
+}
+
+.faq .container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.faq .section-title {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.faq .section-title h2 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #333;
+}
+
+.faq .section-title p {
+  font-size: 15px;
+  color: #777;
+}
+
+.faq .faq-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.faq .faq-item {
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  padding: 15px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.faq .faq-item h3 {
+  font-size: 18px;
+  color: #333;
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.faq .faq-item .faq-content {
+  padding: 10px 0;
+}
+
+.faq .faq-item .faq-content p {
+  color: #777;
+  font-size: 16px;
+}
+
+.faq .faq-item .faq-toggle-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #333;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.3s ease;
+}
+
+.faq .faq-item:hover .faq-toggle-btn {
+  color: #018786;
+}
+
+.faq .faq-item:hover {
+  background-color: #f1f1f1;
+}
+.faq .faq-item:hover h3 {
+  color: #018786;
+}
 /* Responsive Design */
 
 @media (max-width: 479px) {
@@ -848,13 +952,13 @@ hr {
   #code,
   #newpass,
   #confirmpass {
-    width: 350px;
+    width: 330px;
   }
   #btn {
-    width: 360px;
+    width: 337px;
   }
   #btn2 {
-    width: 360px;
+    width: 337px;
   }
   #link {
     margin-left: 8%;
@@ -866,13 +970,13 @@ hr {
   #Role,
   #gender,
   #cities {
-    width: 360px;
+    width: 340px;
   }
   #birthyear {
-    width: 350px;
+    width: 340px;
   }
   #btnRegister {
-    width: 360px;
+    width: 337px;
   }
   .ForgetPass {
     margin-top: 20%;
@@ -887,7 +991,7 @@ hr {
     padding-left: 10px;
   }
   .error {
-    width: 345px;
+    width: 330px;
   }
   .part2header {
     padding: 6px 10px 6px 10px;
@@ -1080,103 +1184,4 @@ hr {
 
 @media (min-width: 1280px) and (max-width: 1535px) {
   /* Styles for Extra Large (XL) */
-}
-.call-to-action {
-  background-color: #27b6ba;
-  padding: 50px 0;
-  text-align: center;
-  color: white;
-  margin-top: 50px; /* يضيف مسافة بين القسم وما فوقه */
-}
-
-.cta-btn {
-  display: inline-block;
-  background-color: white;
-  color: #27b6ba;
-  padding: 10px 20px;
-  text-decoration: none;
-  border-radius: 5px;
-  font-weight: bold;
-  transition: 0.3s;
-}
-
-.cta-btn:hover {
-  background-color: #fff;
-  color: #1a8082;
-}
-
-/* FAQ Section Styles */
-.faq {
-  background-color: #f9f9f9;
-  padding: 60px 0;
-}
-
-.faq .container {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.faq .section-title {
-  text-align: center;
-  margin-bottom: 40px;
-}
-
-.faq .section-title h2 {
-  font-size: 32px;
-  font-weight: 700;
-  color: #333;
-}
-
-.faq .section-title p {
-  font-size: 16px;
-  color: #777;
-}
-
-.faq .faq-container {
-  display: flex;
-  flex-direction: column;
-}
-
-.faq .faq-item {
-  margin-bottom: 20px;
-  border-bottom: 1px solid #ddd;
-  padding: 15px 0;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.faq .faq-item h3 {
-  font-size: 20px;
-  color: #333;
-  margin: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.faq .faq-item .faq-content {
-  padding: 10px 0;
-}
-
-.faq .faq-item .faq-content p {
-  color: #777;
-  font-size: 16px;
-}
-
-.faq .faq-item .faq-toggle-btn {
-  background: none;
-  border: none;
-  font-size: 20px;
-  color: #333;
-  cursor: pointer;
-  padding: 0;
-  transition: transform 0.3s ease;
-}
-
-.faq .faq-item .faq-toggle-btn:hover {
-  color: #007bff;
-}
-
-.faq .faq-item:hover {
-  background-color: #f1f1f1;
 }

@@ -43,6 +43,7 @@ const Faq = () => {
     <section id="faq" className="faq section light-background">
       <div className="container section-title" data-aos="fade-up">
         <h2>Medical Frequently Asked Questions</h2>
+        <hr className="hrsevice" />
         <p>Answers to your most common medical questions. We are here to assist you in understanding your health better.</p>
       </div>
       <div className="container">
