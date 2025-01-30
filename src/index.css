@@ -1077,15 +1077,11 @@ hr {
 @media (max-width: 479px) {
   /* Styles for Extra Small (XS) */
   .loader {
-    margin-top: 28%;
-    margin-left: 25%;
-  }
-  .loader {
     margin-top: 18%;
     margin-left: 25%;
   }
   .spinner {
-    margin-left: 7%;
+    margin-left: 9%;
   }
   .login {
     margin-top: 6%;
@@ -1188,6 +1184,9 @@ hr {
     position: absolute;
   }
   .divimage2 .slider-button {
+    display: none;
+  }
+  .divimage{
     display: none;
   }
   .ContactForm{
