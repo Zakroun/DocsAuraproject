@@ -8,6 +8,12 @@ import Conirmcodepass from "./authentication/conirmcodepass";
 import DivImage from "./static/divimage";
 import ContactForm from "./authentication/contact";
 import About from "./pages/About";
+import ListClinic from "./clinicpages/ListClinic";
+import ListDoctors from "./Doctorpages/ListDoctors";
+import ListLabo from "./laboratorypages/ListLabo";
+import Header from "./static/header";
+import Footer from "./static/Footer";
+import { GoMoveToTop } from "react-icons/go";
 export default function Routage() {
   const { d } = useParams();
   if (d === "Login") {
@@ -47,15 +53,46 @@ export default function Routage() {
         <DivImage /> <NewPass />
       </div>
     );
-  }else if (d === "Contact"){
-    return(
+  } else if (d === "Contact") {
+    return (
       <div className="countainer">
         <DivImage /> <ContactForm />
       </div>
-    )
-  }else if (d === "About"){
-    return(
-      <About></About>
-    )
+    );
+  } else if (d === "About") {
+    return <About></About>;
+  } else if (d === "Doctors") {
+    return (
+      <>
+        <Header />
+        <ListDoctors></ListDoctors>
+        <button className="moveToTop" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
+                <GoMoveToTop /> 
+            </button>
+        <Footer />
+      </>
+    );
+  } else if (d === "Clinical") {
+    return (
+      <>
+        <Header />
+        <ListClinic></ListClinic>
+        <button className="moveToTop" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
+                <GoMoveToTop /> 
+            </button>
+        <Footer />
+      </>
+    );
+  } else if (d === "Laboratories") {
+    return (
+      <>
+        <Header />
+        <ListLabo></ListLabo>
+        <button className="moveToTop" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
+                <GoMoveToTop /> 
+            </button>
+        <Footer />
+      </>
+    );
   }
 }

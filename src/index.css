@@ -960,14 +960,23 @@ hr {
 .doctor,.clinic,.laboratory{
   border-radius: 5px;
   cursor: pointer;
-  width: 250px;
-  height: 350px;
+  width: 260px;
+  height: 370px;
   box-shadow: 0px 0px 20px rgb(211, 211, 211);
   margin-top: 20px;
   background-color: #ffffff;
   padding-bottom: 10px;
+  margin-bottom: 40px;
   position: relative;
   overflow: hidden;
+}
+#Linktoone{
+  text-decoration: none;
+  color: black;
+}
+.informations{
+  padding-left: 15px;
+  padding-bottom: 5px;
 }
 #imgDocLabcli{
   width: 100%;
@@ -1055,6 +1064,12 @@ hr {
   font-size: 24px;
   color: #016b69;
   font-weight: bold;
+}
+.Parent{
+  margin-top: 120px;
+}
+.Parent h1{
+  text-align: center;
 }
 /* Responsive Design */
 

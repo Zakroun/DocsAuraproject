@@ -65,9 +65,6 @@ export default function Header() {
             <Link to="/pages/About" className="linksm">
               ABOUT
             </Link>
-            <Link to="/pages/Contact" className="linksm">
-              CONTACT
-            </Link>
             <Link to="/pages/Doctors" className="linksm">
               DOCTORS
             </Link>
@@ -76,6 +73,9 @@ export default function Header() {
             </Link>
             <Link to="/pages/Laboratories" className="linksm">
               LABORATORIES
+            </Link>
+            <Link to="/pages/Contact" className="linksm">
+              CONTACT
             </Link>
           </div>
           <div className="btnmenu">
@@ -94,9 +94,6 @@ export default function Header() {
           <Link to="/pages/About" className="links">
             ABOUT
           </Link>
-          <Link to="/pages/Contact" className="links">
-            CONTACT
-          </Link>
           <Link to="/pages/Doctors" className="links">
             DOCTORS
           </Link>
@@ -105,6 +102,9 @@ export default function Header() {
           </Link>
           <Link to="/pages/Laboratories" className="links">
             LABORATORIES
+          </Link>
+          <Link to="/pages/Contact" className="links">
+            CONTACT
           </Link>
         </div>
         <div className="btnuser">
