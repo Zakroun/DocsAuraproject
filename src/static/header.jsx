@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { FaFacebook, FaInstagram, FaTiktok, FaTwitter } from "react-icons/fa";
-import { useRef,useEffect } from "react";
+import { useRef, useEffect } from "react";
 export default function Header() {
   const menuRef = useRef(null);
 
@@ -49,7 +49,9 @@ export default function Header() {
       </div>
       <div className="part2header">
         <div className="logo">
-          <img src="/Images/Asset 13.png" alt="Logo" id="hedearlogo" />
+          <Link to="/">
+            <img src="/Images/Asset 13.png" alt="Logo" id="hedearlogo" />
+          </Link>
         </div>
         <div className="btnmenu">
           <button id="buttonmenu" onClick={toggleMenu}>
@@ -57,7 +59,9 @@ export default function Header() {
           </button>
         </div>
         <div className="menu" id="menu" ref={menuRef}>
-          <h1>DocsAura</h1>
+          <Link to="/">
+            <h1>DocsAura</h1>
+          </Link>
           <div className="linksmenu">
             <Link to="/" className="linksm">
               HOME
