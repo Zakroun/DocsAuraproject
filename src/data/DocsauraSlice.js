@@ -1,4 +1,4 @@
-import { visitors,doctors,clinics,laboratories } from "./data";
+import { visitors,doctors,clinics,laboratories,specializedDoctors,cities } from "./data";
 import { createSlice } from "@reduxjs/toolkit";
 
 export const DocsauraSlice = createSlice({
@@ -7,7 +7,9 @@ export const DocsauraSlice = createSlice({
         visitors : visitors,
         doctors : doctors,
         clinics : clinics,
-        laboratories : laboratories
+        laboratories : laboratories,
+        specializedDoctors:specializedDoctors,
+        cities:cities
     },
     reducers:{
         

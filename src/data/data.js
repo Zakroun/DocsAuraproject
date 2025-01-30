@@ -137,6 +137,7 @@ export const doctors = [
   {
     id: 1,
     fullName: "Dr. Alice Johnson",
+    rating: 2.2,
     email: "alice1@example.com",
     password: "doc123",
     addressLoc: "123 Medical St",
@@ -156,6 +157,7 @@ export const doctors = [
   {
     id: 2,
     fullName: "Dr. Bob Smith",
+    rating: 4.6,
     email: "bob2@example.com",
     password: "doc456",
     addressLoc: "456 Wellness Ave",
@@ -175,6 +177,7 @@ export const doctors = [
   {
     id: 3,
     fullName: "Dr. Carol White",
+    rating: 4.2,
     email: "carol3@example.com",
     password: "doc789",
     addressLoc: "789 Care St",
@@ -194,6 +197,7 @@ export const doctors = [
   {
     id: 4,
     fullName: "Dr. Daniel Brown",
+    rating: 3.2,
     email: "daniel4@example.com",
     password: "docabc",
     addressLoc: "951 Healing St",
@@ -213,6 +217,7 @@ export const doctors = [
   {
     id: 5,
     fullName: "Dr. Eva Martinez",
+    rating: 4.7,
     email: "eva5@example.com",
     password: "docdef",
     addressLoc: "357 Brain St",
@@ -232,6 +237,7 @@ export const doctors = [
   {
     id: 6,
     fullName: "Dr. Frank Adams",
+    rating: 4.9,
     email: "frank6@example.com",
     password: "docghi",
     addressLoc: "258 Spine St",
@@ -251,6 +257,7 @@ export const doctors = [
   {
     id: 7,
     fullName: "Dr. Grace Wilson",
+    rating: 5,
     email: "grace7@example.com",
     password: "docjkl",
     addressLoc: "753 Heart St",
@@ -270,6 +277,7 @@ export const doctors = [
   {
     id: 8,
     fullName: "Dr. Henry Carter",
+    rating: 4.6,
     email: "henry8@example.com",
     password: "docmno",
     addressLoc: "852 Lung St",
@@ -289,6 +297,7 @@ export const doctors = [
   {
     id: 9,
     fullName: "Dr. Irene Lopez",
+    rating: 3.5,
     email: "irene9@example.com",
     password: "docpqr",
     addressLoc: "159 Skin St",
@@ -308,6 +317,7 @@ export const doctors = [
   {
     id: 10,
     fullName: "Dr. Jack Taylor",
+    rating: 4.2,
     email: "jack10@example.com",
     password: "docstu",
     addressLoc: "357 Vision St",
@@ -327,6 +337,7 @@ export const doctors = [
   {
     id: 11,
     fullName: "Dr. Kelly Stewart",
+    rating: 4.8,
     email: "kelly11@example.com",
     password: "docvwx",
     addressLoc: "654 Mental St",
@@ -346,6 +357,7 @@ export const doctors = [
   {
     id: 12,
     fullName: "Dr. Liam Anderson",
+    rating: 4.2,
     email: "liam12@example.com",
     password: "docyz",
     addressLoc: "951 Dental St",
@@ -368,6 +380,7 @@ export const clinics = [
   {
     id: 1,
     name: "City Health Clinic",
+    rating: 4.2,
     email: "cityclinic@example.com",
     password: "clinic123",
     address: "789 Wellness St",
@@ -380,6 +393,7 @@ export const clinics = [
   {
     id: 2,
     name: "Medical Center",
+    rating: 3.7,
     email: "downtownclinic@example.com",
     password: "clinic456",
     address: "654 Hospital Ave",
@@ -392,6 +406,7 @@ export const clinics = [
   {
     id: 3,
     name: "Sunrise Family Clinic",
+    rating: 1.2,
     email: "sunriseclinic@example.com",
     password: "clinic789",
     address: "321 Wellness Blvd",
@@ -404,6 +419,7 @@ export const clinics = [
   {
     id: 4,
     name: "Dental Care",
+    rating: 2.9,
     email: "greenwoodclinic@example.com",
     password: "clinicabc",
     address: "159 Dental St",
@@ -416,6 +432,7 @@ export const clinics = [
   {
     id: 5,
     name: "Elite Women’s Health Center",
+    rating: 4.5,
     email: "eliteclinic@example.com",
     password: "clinicdef",
     address: "357 Women’s Ave",
@@ -428,6 +445,7 @@ export const clinics = [
   {
     id: 6,
     name: "Metro Ortho & Rehab",
+    rating: 4.0,
     email: "metroclinic@example.com",
     password: "clinicghi",
     address: "258 Spine St",
@@ -440,6 +458,7 @@ export const clinics = [
   {
     id: 7,
     name: "Heart & Vascular Institute",
+    rating: 2.2,
     email: "heartclinic@example.com",
     password: "clinicjkl",
     address: "753 Heart St",
@@ -452,6 +471,7 @@ export const clinics = [
   {
     id: 8,
     name: "Clear Vision Eye Center",
+    rating: 4.2,
     email: "visionclinic@example.com",
     password: "clinicmno",
     address: "852 Vision Blvd",
@@ -464,6 +484,7 @@ export const clinics = [
   {
     id: 9,
     name: "Bright Future Pediatric Clinic",
+    rating: 4.8,
     email: "brightclinic@example.com",
     password: "clinicpqr",
     address: "951 Kids Ave",
@@ -476,6 +497,7 @@ export const clinics = [
   {
     id: 10,
     name: "Summit Mental Health Center",
+    rating: 3.2,
     email: "summitclinic@example.com",
     password: "clinicstu",
     address: "654 Mind St",
@@ -488,6 +510,7 @@ export const clinics = [
   {
     id: 11,
     name: "Peak Performance Sports Clinic",
+    rating: 1.2,
     email: "peakclinic@example.com",
     password: "clinicvwx",
     address: "357 Athlete Blvd",
@@ -500,6 +523,7 @@ export const clinics = [
   {
     id: 12,
     name: "Northside Skin & Aesthetics",
+    rating: 4.7,
     email: "northsideclinic@example.com",
     password: "clinicyz",
     address: "258 Skin St",
@@ -515,6 +539,7 @@ export const laboratories = [
   {
     id: 1,
     name: "MedLab Diagnostics",
+    rating: 4.2,
     email: "medlab@example.com",
     password: "lab123",
     address: "567 Lab St",
@@ -527,6 +552,7 @@ export const laboratories = [
   {
     id: 2,
     name: "BioTech Labs",
+    rating: 2.2,
     email: "biotech@example.com",
     password: "lab456",
     address: "876 Research Rd",
@@ -539,6 +565,7 @@ export const laboratories = [
   {
     id: 3,
     name: "Precision Pathology",
+    rating: 5.0,
     email: "precisionlab@example.com",
     password: "lab789",
     address: "321 Pathology Blvd",
@@ -551,6 +578,7 @@ export const laboratories = [
   {
     id: 4,
     name: "Diagnostic Center",
+    rating: 1.2,
     email: "visionlab@example.com",
     password: "lababc",
     address: "159 Eye Care St",
@@ -563,6 +591,7 @@ export const laboratories = [
   {
     id: 5,
     name: "CardioCheck Laboratories",
+    rating: 4.2,
     email: "cardiolab@example.com",
     password: "labdef",
     address: "357 Heart Ave",
@@ -575,6 +604,7 @@ export const laboratories = [
   {
     id: 6,
     name: "NeuroScan Imaging",
+    rating: 4.7,
     email: "neurolab@example.com",
     password: "labghi",
     address: "258 Brain Blvd",
@@ -587,6 +617,7 @@ export const laboratories = [
   {
     id: 7,
     name: "Elite Women's Health Lab",
+    rating: 4.3,
     email: "womenslab@example.com",
     password: "labjkl",
     address: "753 Women's Health St",
@@ -599,6 +630,7 @@ export const laboratories = [
   {
     id: 8,
     name: "Summit Allergy Testing",
+    rating: 3.2,
     email: "allergylab@example.com",
     password: "labmno",
     address: "852 Allergy Blvd",
@@ -611,6 +643,7 @@ export const laboratories = [
   {
     id: 9,
     name: "Northside Infectious Disease Lab",
+    rating: 5.0,
     email: "infectiouslab@example.com",
     password: "labpqr",
     address: "951 Virus St",
@@ -623,6 +656,7 @@ export const laboratories = [
   {
     id: 10,
     name: "Metabolic Health Labs",
+    rating: 4.2,
     email: "metaboliclab@example.com",
     password: "labstu",
     address: "654 Diabetes Ave",
@@ -635,6 +669,7 @@ export const laboratories = [
   {
     id: 11,
     name: "Summit Toxicology Center",
+    rating: 4.8,
     email: "toxiclab@example.com",
     password: "labvwx",
     address: "357 Chemical St",
@@ -647,6 +682,7 @@ export const laboratories = [
   {
     id: 12,
     name: "Peak Performance Sports Lab",
+    rating: 4.3,
     email: "sportslab@example.com",
     password: "labyz",
     address: "258 Athlete Ave",
@@ -656,4 +692,51 @@ export const laboratories = [
     createdAt: "2024-01-12",
     image: "features.jpg",
   },
+];
+export const specializedDoctors = [
+  "",
+  "Cardiology",
+  "Dermatology",
+  "Neurology",
+  "Pediatrics",
+  "Orthopedics",
+  "Ophthalmology",
+  "Gynecology",
+  "Urology",
+  "Psychiatry",
+  "Endocrinology",
+  "Gastroenterology",
+  "Pulmonology",
+  "Oncology",
+  "Rheumatology",
+  "Nephrology",
+  "Allergy & Immunology",
+  "Otolaryngology (ENT)",
+  "Plastic Surgery",
+  "General Surgery",
+  "Anesthesiology",
+];
+
+export const cities = [
+  "",
+  "Casablanca",
+  "Rabat",
+  "Marrakech",
+  "Fes",
+  "Tangier",
+  "Agadir",
+  "Meknes",
+  "Oujda",
+  "Kenitra",
+  "Tetouan",
+  "Safi",
+  "El Jadida",
+  "Nador",
+  "Settat",
+  "Beni Mellal",
+  "Temara",
+  "Taza",
+  "Mohammedia",
+  "Laayoune",
+  "Errachidia",
 ];

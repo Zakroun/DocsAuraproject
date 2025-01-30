@@ -3,7 +3,6 @@ import { FaFacebook, FaInstagram, FaTiktok, FaTwitter } from "react-icons/fa";
 import { useRef, useEffect } from "react";
 export default function Header() {
   const menuRef = useRef(null);
-
   const toggleMenu = () => {
     if (menuRef.current) {
       if (menuRef.current.style.display === "block") {
@@ -59,9 +58,7 @@ export default function Header() {
           </button>
         </div>
         <div className="menu" id="menu" ref={menuRef}>
-          <Link to="/">
             <h1>DocsAura</h1>
-          </Link>
           <div className="linksmenu">
             <Link to="/" className="linksm">
               HOME
