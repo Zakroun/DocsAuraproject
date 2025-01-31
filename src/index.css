@@ -507,7 +507,7 @@ body {
 
 .header .social-icon:hover {
   transform: scale(1.1);
-  color: #00eeff;
+  color: #7ae2e0;
 }
 
 .footer .social-icon {
@@ -1424,6 +1424,5 @@ hr {
     margin-top: 5%;
     margin-left: 43%;
   }
-
   /* Styles for Extra Large (XL) */
 }
