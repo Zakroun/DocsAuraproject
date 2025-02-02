@@ -28,7 +28,7 @@ export default function ListDoctors() {
         ? doctor.specialty.toLowerCase().includes(specialty.toLowerCase())
         : true;
       const matchesCity = city
-        ? doctor.city.toLowerCase().includes(city.toLowerCase())
+        ? doctor.addressLoc.toLowerCase().includes(city.toLowerCase())
         : true;
 
       return matchesName && matchesSpecialty && matchesCity;

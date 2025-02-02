@@ -1145,6 +1145,9 @@ hr {
 #search:hover{
   background-color: #029896;
 }
+.text-center p{
+  padding: 10px;
+}
 /* Responsive Design */
 
 @media (max-width: 479px) {

@@ -22,7 +22,7 @@ export default function ListClinic() {
         ? l.name.toLowerCase().includes(name.toLowerCase())
         : true;
       const matchesCity = city
-        ? l.city.toLowerCase().includes(city.toLowerCase())
+        ? l.address.toLowerCase().includes(city.toLowerCase())
         : true;
 
       return matchesName && matchesCity;
