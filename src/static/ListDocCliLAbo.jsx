@@ -8,11 +8,23 @@ export default function ListDocCliLAbo() {
   function generateStars(rating) {
     return Array.from({ length: 5 }, (_, i) => {
       if (i < Math.floor(rating)) {
-        return <span key={i} className="star filled">★</span>;
+        return (
+          <span key={i} className="star filled">
+            ★
+          </span>
+        );
       } else if (i < rating) {
-        return <span key={i} className="star half">★</span>;
+        return (
+          <span key={i} className="star half">
+            ★
+          </span>
+        );
       } else {
-        return <span key={i} className="star empty">☆</span>; 
+        return (
+          <span key={i} className="star empty">
+            ☆
+          </span>
+        );
       }
     });
   }
@@ -21,25 +33,23 @@ export default function ListDocCliLAbo() {
       <h1>Doctors</h1>
       <hr className="hrsevice" />
       <div className="containerDoctors">
-      {Doc.slice(0, 4).map((d) => (
-  <div key={d.id} className="doctor">
-    <Link to={`/pages/doctors/${d.id}`} id="Linktoone">
-      <img
-        id="imgDocLabcli"
-        src={`/images/${d.image}`}
-        alt={d.fullName}
-      />
-    </Link>
-    <div className="informations">
-      <h3>{d.fullName}</h3>
-      <p>{d.specialty}</p>
-      <div className="stars">{generateStars(d.rating)}</div>
-      <Link to={`/pages/doctors/${d.id}`}>
-        <button className="btnsee">See</button>
-      </Link>
-    </div>
-  </div>
-))}
+        {Doc.slice(0, 4).map((d) => (
+          <div key={d.id} className="doctor">
+            <Link to={`/pages/doctor`} state={{ id: d.id }} id="Linktoone">
+              <img
+                id="imgDocLabcli"
+                src={`/images/${d.image}`}
+                alt={d.fullName}
+              />
+            <div className="informations">
+              <h3>{d.fullName}</h3>
+              <p>{d.specialty}</p>
+              <div className="stars">{generateStars(d.rating)}</div>
+              <button className="btnsee">See</button>
+            </div>
+            </Link>
+          </div>
+        ))}
       </div>
       <Link to="/pages/Doctors">
         <button className="btnseemore">See more</button>
@@ -49,15 +59,13 @@ export default function ListDocCliLAbo() {
       <div className="containerClinics">
         {Clinic.slice(0, 4).map((c) => (
           <div key={c.id} className="clinic">
-            <Link to={`/pages/clinics/${c.id}`} id="Linktoone">
+            <Link to={`/pages/clinic`} state={{ id: c.id }} id="Linktoone">
               <img id="imgDocLabcli" src={`/images/${c.image}`} alt={c.name} />
               <div className="informations">
                 <h3>{c.name}</h3>
                 <p>{c.address}</p>
                 <div className="stars">{generateStars(c.rating)}</div>
-                <Link to={`/pages/clinics/${c.id}`}>
                   <button className="btnsee">See</button>
-                </Link>
               </div>
             </Link>
           </div>
@@ -71,15 +79,13 @@ export default function ListDocCliLAbo() {
       <div className="containerLaboratories">
         {Labo.slice(0, 4).map((l) => (
           <div key={l.id} className="laboratory">
-            <Link to={`/pages/laboratories/${l.id}`} id="Linktoone">
+            <Link to={`/pages/laboratory`} state={{ id: l.id }} id="Linktoone">
               <img id="imgDocLabcli" src={`/images/${l.image}`} alt={l.name} />
               <div className="informations">
                 <h3>{l.name}</h3>
                 <p>{l.address}</p>
                 <div className="stars">{generateStars(l.rating)}</div>
-                <Link to={`/pages/laboratories/${l.id}`}>
                   <button className="btnsee">See</button>
-                </Link>
               </div>
             </Link>
           </div>

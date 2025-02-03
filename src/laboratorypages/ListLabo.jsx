@@ -83,15 +83,13 @@ export default function ListLabo() {
       <div className="containerLaboratories">
         {ListLabo.map((l) => (
           <div key={l.id} className="laboratory">
-            <Link to={`/pages/laboratories/${l.id}`} id="Linktoone">
+            <Link to={`/pages/laboratory`} state={{ id: l.id }} id="Linktoone">
               <img id="imgDocLabcli" src={`/images/${l.image}`} alt={l.name} />
               <div className="informations">
                 <h3>{l.name}</h3>
                 <p>{l.address}</p>
                 <div className="stars">{generateStars(l.rating)}</div>
-                <Link to={`/pages/laboratories/${l.id}`}>
                   <button className="btnsee">See</button>
-                </Link>
               </div>
             </Link>
           </div>

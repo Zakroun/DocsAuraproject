@@ -11,11 +11,11 @@ export default function ListDoctors() {
   const [city, setcity] = useState("");
   const [ListD, setList] = useState(Doctors);
   useEffect(() => {
-    if (name === "" && specialty === "" && city=== ""){
+    if (name === "" && specialty === "" && city === "") {
       setList(doctors);
     }
     setList(Doctors);
-  }, [Doctors,name,specialty,city]);
+  }, [Doctors, name, specialty, city]);
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
@@ -99,12 +99,14 @@ export default function ListDoctors() {
             );
           })}
         </select>
-        <button id="search" onClick={Search}>Search</button>
+        <button id="search" onClick={Search}>
+          Search
+        </button>
       </div>
       <div className="containerDoctors">
         {ListD.map((d) => (
           <div key={d.id} className="doctor">
-            <Link to={`/pages/doctors/${d.id}`} id="Linktoone">
+            <Link to={`/pages/doctor`} state={{ id: d.id }} id="Linktoone">
               <img
                 id="imgDocLabcli"
                 src={`/images/${d.image}`}
@@ -114,9 +116,7 @@ export default function ListDoctors() {
                 <h3>{d.fullName}</h3>
                 <p>{d.specialty}</p>
                 <div className="stars">{generateStars(d.rating)}</div>
-                <Link to={`/pages/doctors/${d.id}`}>
-                  <button className="btnsee">See</button>
-                </Link>
+                <button className="btnsee">See</button>
               </div>
             </Link>
           </div>

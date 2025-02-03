@@ -39,7 +39,6 @@ body {
 .spinner span:nth-child(3) {
   animation: fade 1s ease-in-out 0.66s infinite;
 }
-
 @keyframes fade {
   0%,
   100% {
@@ -305,7 +304,7 @@ body {
   margin-bottom: 5px;
   margin-top: 20px;
 }
-#btn:hover{
+#btn:hover {
   background-color: #029896;
 }
 #google {
@@ -401,7 +400,7 @@ body {
   padding-right: 150px;
 }
 /* ContactForm */
-.ContactForm{
+.ContactForm {
   margin-top: 10%;
   margin-left: 2%;
   width: fit-content;
@@ -474,7 +473,7 @@ body {
   margin-bottom: 5px;
   margin-top: 5px;
 }
-#btnRegister:hover{
+#btnRegister:hover {
   background-color: #029896;
 }
 #imgindiv {
@@ -601,7 +600,7 @@ body {
   margin-right: 10px;
   margin-top: 7px;
 }
-.loginbtn:hover{
+.loginbtn:hover {
   background-color: #029896;
 }
 .signupbtn {
@@ -613,7 +612,7 @@ body {
   margin-top: 7px;
   cursor: pointer;
 }
-.signupbtn:hover{
+.signupbtn:hover {
   background-color: #00d5e4;
 }
 /* footer */
@@ -693,7 +692,7 @@ hr {
   border-radius: 6px;
   margin-left: 10px;
 }
-#btnconfirm:hover{
+#btnconfirm:hover {
   background-color: #029896;
 }
 .divimage2 {
@@ -970,7 +969,9 @@ hr {
   flex-wrap: wrap;
   flex-direction: row;
 }
-.doctor,.clinic,.laboratory{
+.doctor,
+.clinic,
+.laboratory {
   border-radius: 5px;
   cursor: pointer;
   width: 260px;
@@ -984,22 +985,22 @@ hr {
   overflow: hidden;
   text-align: left;
 }
-#Linktoone{
+#Linktoone {
   text-decoration: none;
   color: black;
 }
-.informations{
+.informations {
   padding-left: 15px;
   padding-bottom: 5px;
 }
-#imgDocLabcli{
+#imgDocLabcli {
   width: 100%;
   height: 54%;
   /* border-radius: 50%; */
   margin: 0 auto;
   display: block;
 }
-.btnseemore{
+.btnseemore {
   background-color: #018786;
   color: white;
   border: none;
@@ -1008,10 +1009,10 @@ hr {
   cursor: pointer;
   margin-top: 30px;
 }
-.btnseemore:hover{
+.btnseemore:hover {
   background-color: #029896;
 }
-.btnsee{
+.btnsee {
   background-color: #018786;
   color: white;
   border: none;
@@ -1019,10 +1020,10 @@ hr {
   border-radius: 5px;
   cursor: pointer;
 }
-.btnsee:hover{
+.btnsee:hover {
   background-color: #029896;
 }
-.services{
+.services {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
@@ -1038,21 +1039,21 @@ hr {
   position: relative;
   overflow: hidden;
 }
-.about-container h1{
+.about-container h1 {
   text-align: center;
   margin-top: 80px;
 }
-.about-icons{
+.about-icons {
   padding-right: 7%;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
 }
-.icon-box{
+.icon-box {
   text-align: center;
   color: #016b69;
 }
-.statistics{
+.statistics {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
@@ -1071,7 +1072,7 @@ hr {
 }
 
 .stat-icon {
-  color: #016b69; 
+  color: #016b69;
   margin-bottom: 10px;
 }
 
@@ -1085,10 +1086,10 @@ hr {
   color: #016b69;
   font-weight: bold;
 }
-.Parent{
+.Parent {
   margin-top: 120px;
 }
-.Parent h1{
+.Parent h1 {
   text-align: center;
 }
 .stars {
@@ -1109,12 +1110,12 @@ hr {
 .star.empty {
   color: #ddd;
 }
-.search{
+.search {
   text-align: center;
   margin-top: 30px;
   flex-wrap: wrap;
 }
-#name{
+#name {
   border: 1px solid rgb(219, 219, 219);
   outline: none;
   width: 200px;
@@ -1123,7 +1124,8 @@ hr {
   margin-right: 10px;
   border-radius: 5px;
 }
-#specialized,#citie{
+#specialized,
+#citie {
   border: 1px solid rgb(219, 219, 219);
   outline: none;
   width: 200px;
@@ -1132,7 +1134,7 @@ hr {
   margin-right: 10px;
   border-radius: 5px;
 }
-#search{
+#search {
   cursor: pointer;
   background-color: #2e8084;
   border: none;
@@ -1142,11 +1144,80 @@ hr {
   font-size: 16px;
   border-radius: 6px;
 }
-#search:hover{
+#search:hover {
   background-color: #029896;
 }
-.text-center p{
+.text-center p {
   padding: 10px;
+}
+
+/* doctorprofile */
+
+.profile {
+  flex-wrap: wrap;
+  margin-top: 120px;
+  display: flex;
+  margin-left: 100px;
+}
+#imageprofile {
+  border-radius: 50%;
+  width: 150px;
+  height: 140px;
+  border: 2px solid #016b69;
+}
+.part1{
+  text-align: center;
+}
+.part1 .stars{
+  margin-top: 10px;
+}
+.comment{
+  border-top-left-radius:10px;
+  border-bottom-right-radius:10px;
+  padding: 5px;
+  background-color: #018786;
+  color: white;
+  margin-top: 10px;
+}
+.part2{
+  margin-left: 50px;
+  text-align: left;
+}
+.profile h1{
+  color: #016b69;
+}
+.specialty{
+  font-weight: bold;
+}
+.head{
+  display: flex;
+  flex-direction: row;
+}
+.part2head{
+  margin-top: 30px;
+  margin-left: 50px;
+}
+.reserve{
+  cursor: pointer;
+  background-color: #2e8084;
+  border: none;
+  color: white;
+  width: 100px;
+  height: 33px;
+  font-size: 16px;
+  border-radius: 6px;
+  margin-left: 10px;
+}
+.msg{
+  cursor: pointer;
+  background-color: #17a2b8;
+  border: none;
+  color: white;
+  width: 120px;
+  height: 33px;
+  font-size: 16px;
+  border-radius: 6px;
+  margin-left: 10px;
 }
 /* Responsive Design */
 
@@ -1262,10 +1333,10 @@ hr {
   .divimage2 .slider-button {
     display: none;
   }
-  .divimage{
+  .divimage {
     display: none;
   }
-  .ContactForm{
+  .ContactForm {
     margin-top: 10%;
     padding-left: 0px;
   }

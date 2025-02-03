@@ -14,8 +14,14 @@ import ListLabo from "./laboratorypages/ListLabo";
 import Header from "./static/header";
 import Footer from "./static/Footer";
 import { GoMoveToTop } from "react-icons/go";
+import { useLocation } from "react-router-dom";
+import Clinicprofile from "./clinicpages/clinicprofile";
+import Doctorprofile from "./Doctorpages/Doctorprofile";
+import Laboratoryprofile from "./laboratorypages/laboratorypeofile";
 export default function Routage() {
   const { d } = useParams();
+  const Loc = useLocation();
+  const id = Loc.state?.id
   if (d === "Login") {
     return (
       <div className="countainer">
@@ -94,5 +100,29 @@ export default function Routage() {
         <Footer />
       </>
     );
+  }else if (d === "doctor"){
+    return(
+      <>
+        <Header></Header>
+        <Doctorprofile id={id}></Doctorprofile>
+        <Footer></Footer>
+      </>
+    )
+  }else if (d === "clinic"){
+    return(
+      <>
+        <Header></Header>
+        <Clinicprofile id={id}></Clinicprofile>
+        <Footer></Footer>
+      </>
+    )
+  }else if (d === "laboratory"){
+    return(
+      <>
+        <Header></Header>
+        <Laboratoryprofile id={id}></Laboratoryprofile>
+        <Footer></Footer>
+      </>
+    )
   }
 }

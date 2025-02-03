@@ -72,15 +72,13 @@ export default function ListClinic() {
       <div className="containerClinics">
         {Listcl.map((c) => (
           <div key={c.id} className="clinic">
-            <Link to={`/pages/clinics/${c.id}`} id="Linktoone">
+            <Link to={`/pages/clinic`} state={{ id: c.id }} id="Linktoone">
               <img id="imgDocLabcli" src={`/images/${c.image}`} alt={c.name} />
               <div className="informations">
                 <h3>{c.name}</h3>
                 <p>{c.address}</p>
                 <div className="stars">{generateStars(c.rating)}</div>
-                <Link to={`/pages/clinics/${c.id}`}>
                   <button className="btnsee">See</button>
-                </Link>
               </div>
             </Link>
           </div>
