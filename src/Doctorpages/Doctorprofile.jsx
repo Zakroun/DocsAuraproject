@@ -32,7 +32,7 @@ export default function Doctorprofile(props) {
       <div className="part1">
         <div className="imgprofile">
           <img
-            src={`/images/${Doctor.image}`}
+            src={`../images/${Doctor.image}`}
             alt="imgprofile"
             id="imageprofile"
           />

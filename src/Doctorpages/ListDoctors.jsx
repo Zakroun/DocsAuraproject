@@ -109,7 +109,7 @@ export default function ListDoctors() {
             <Link to={`/pages/doctor`} state={{ id: d.id }} id="Linktoone">
               <img
                 id="imgDocLabcli"
-                src={`/images/${d.image}`}
+                src={`../images/${d.image}`}
                 alt={d.fullName}
               />
               <div className="informations">

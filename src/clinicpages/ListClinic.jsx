@@ -12,10 +12,10 @@ export default function ListClinic() {
       setList(clinics);
     }
     setList(clinics);
-  }, [clinics,name,city]);
-  useEffect(()=>{
-    window.scrollTo({top: 0, behavior: 'smooth'})
-  },[])
+  }, [clinics, name, city]);
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
   const Search = () => {
     const filter = clinics.filter((l) => {
       const matchesName = name
@@ -33,11 +33,23 @@ export default function ListClinic() {
   function generateStars(rating) {
     return Array.from({ length: 5 }, (_, i) => {
       if (i < Math.floor(rating)) {
-        return <span key={i} className="star filled">★</span>;
+        return (
+          <span key={i} className="star filled">
+            ★
+          </span>
+        );
       } else if (i < rating) {
-        return <span key={i} className="star half">★</span>;
+        return (
+          <span key={i} className="star half">
+            ★
+          </span>
+        );
       } else {
-        return <span key={i} className="star empty">☆</span>; 
+        return (
+          <span key={i} className="star empty">
+            ☆
+          </span>
+        );
       }
     });
   }
@@ -67,18 +79,24 @@ export default function ListClinic() {
             );
           })}
         </select>
-        <button id="search" onClick={Search}>Search</button>
+        <button id="search" onClick={Search}>
+          Search
+        </button>
       </div>
       <div className="containerClinics">
         {Listcl.map((c) => (
           <div key={c.id} className="clinic">
             <Link to={`/pages/clinic`} state={{ id: c.id }} id="Linktoone">
-              <img id="imgDocLabcli" src={`/images/${c.image}`} alt={c.name} />
+              <img
+                id="imgDocLabcli"
+                src={`../images/${c.image}`}
+                alt={c.name}
+              />
               <div className="informations">
                 <h3>{c.name}</h3>
                 <p>{c.address}</p>
                 <div className="stars">{generateStars(c.rating)}</div>
-                  <button className="btnsee">See</button>
+                <button className="btnsee">See</button>
               </div>
             </Link>
           </div>

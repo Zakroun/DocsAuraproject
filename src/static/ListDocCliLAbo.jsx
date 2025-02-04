@@ -38,15 +38,15 @@ export default function ListDocCliLAbo() {
             <Link to={`/pages/doctor`} state={{ id: d.id }} id="Linktoone">
               <img
                 id="imgDocLabcli"
-                src={`/images/${d.image}`}
+                src={`../images/${d.image}`}
                 alt={d.fullName}
               />
-            <div className="informations">
-              <h3>{d.fullName}</h3>
-              <p>{d.specialty}</p>
-              <div className="stars">{generateStars(d.rating)}</div>
-              <button className="btnsee">See</button>
-            </div>
+              <div className="informations">
+                <h3>{d.fullName}</h3>
+                <p>{d.specialty}</p>
+                <div className="stars">{generateStars(d.rating)}</div>
+                <button className="btnsee">See</button>
+              </div>
             </Link>
           </div>
         ))}
@@ -60,12 +60,16 @@ export default function ListDocCliLAbo() {
         {Clinic.slice(0, 4).map((c) => (
           <div key={c.id} className="clinic">
             <Link to={`/pages/clinic`} state={{ id: c.id }} id="Linktoone">
-              <img id="imgDocLabcli" src={`/images/${c.image}`} alt={c.name} />
+              <img
+                id="imgDocLabcli"
+                src={`../images/${c.image}`}
+                alt={c.name}
+              />
               <div className="informations">
                 <h3>{c.name}</h3>
                 <p>{c.address}</p>
                 <div className="stars">{generateStars(c.rating)}</div>
-                  <button className="btnsee">See</button>
+                <button className="btnsee">See</button>
               </div>
             </Link>
           </div>
@@ -80,12 +84,16 @@ export default function ListDocCliLAbo() {
         {Labo.slice(0, 4).map((l) => (
           <div key={l.id} className="laboratory">
             <Link to={`/pages/laboratory`} state={{ id: l.id }} id="Linktoone">
-              <img id="imgDocLabcli" src={`/images/${l.image}`} alt={l.name} />
+              <img
+                id="imgDocLabcli"
+                src={`../images/${l.image}`}
+                alt={l.name}
+              />
               <div className="informations">
                 <h3>{l.name}</h3>
                 <p>{l.address}</p>
                 <div className="stars">{generateStars(l.rating)}</div>
-                  <button className="btnsee">See</button>
+                <button className="btnsee">See</button>
               </div>
             </Link>
           </div>
