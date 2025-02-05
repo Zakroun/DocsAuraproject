@@ -38,7 +38,7 @@ export default function ListDocCliLAbo() {
             <Link to={`/pages/doctor`} state={{ id: d.id }} id="Linktoone">
               <img
                 id="imgDocLabcli"
-                src={`../images/${d.image}`}
+                src={`/images/${d.image}`}
                 alt={d.fullName}
               />
               <div className="informations">
@@ -62,7 +62,7 @@ export default function ListDocCliLAbo() {
             <Link to={`/pages/clinic`} state={{ id: c.id }} id="Linktoone">
               <img
                 id="imgDocLabcli"
-                src={`../images/${c.image}`}
+                src={`/images/${c.image}`}
                 alt={c.name}
               />
               <div className="informations">
@@ -86,7 +86,7 @@ export default function ListDocCliLAbo() {
             <Link to={`/pages/laboratory`} state={{ id: l.id }} id="Linktoone">
               <img
                 id="imgDocLabcli"
-                src={`../images/${l.image}`}
+                src={`/images/${l.image}`}
                 alt={l.name}
               />
               <div className="informations">

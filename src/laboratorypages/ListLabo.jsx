@@ -84,7 +84,7 @@ export default function ListLabo() {
         {ListLabo.map((l) => (
           <div key={l.id} className="laboratory">
             <Link to={`/pages/laboratory`} state={{ id: l.id }} id="Linktoone">
-              <img id="imgDocLabcli" src={`../images/${l.image}`} alt={l.name} />
+              <img id="imgDocLabcli" src={`/images/${l.image}`} alt={l.name} />
               <div className="informations">
                 <h3>{l.name}</h3>
                 <p>{l.address}</p>

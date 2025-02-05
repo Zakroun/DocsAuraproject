@@ -89,7 +89,7 @@ export default function ListClinic() {
             <Link to={`/pages/clinic`} state={{ id: c.id }} id="Linktoone">
               <img
                 id="imgDocLabcli"
-                src={`../images/${c.image}`}
+                src={`/images/${c.image}`}
                 alt={c.name}
               />
               <div className="informations">
