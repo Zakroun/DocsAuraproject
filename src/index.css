@@ -119,6 +119,13 @@ body {
 #email,
 #password,
 #fullname,
+#date,
+#cin,
+#time,
+#phone,
+#cvv,
+#cardNumber,
+#expiryDate,
 #confirmpassword,
 #emailpass,
 #code,
@@ -127,6 +134,7 @@ body {
   border: 1px solid rgb(219, 219, 219);
   border-radius: 3px;
   width: 380px;
+
   height: 22px;
   padding: 5px;
   margin-bottom: 8px;
@@ -360,6 +368,7 @@ body {
 }
 
 #Role,
+#paymentMethod,
 #gender,
 #cities {
   -webkit-user-select: auto;
@@ -444,7 +453,7 @@ body {
   padding: 10px 15px;
   cursor: pointer;
   border-radius: 50%;
-  z-index: 10;
+  z-index: 1;
   font-size: 18px;
 }
 
@@ -574,6 +583,7 @@ body {
   cursor: pointer;
 }
 .menu {
+  z-index: 3;
   display: none;
   padding-top: 50px;
   margin-top: 35px;
@@ -585,7 +595,6 @@ body {
   background-color: #018786;
   height: 100%;
   position: fixed;
-  z-index: 1;
 }
 .links:hover {
   color: #018786;
@@ -1220,8 +1229,37 @@ hr {
   border-radius: 6px;
   margin-left: 10px;
 }
-/* Responsive Design */
 
+/* divreserve */
+.divreserve{
+  margin-top: 130px;
+  margin-left: 40px;
+}
+.divreserve h1{
+  color: #016b69;
+}
+.part1serve{
+  border-radius: 5px;
+  background-color: #2fc8c571;
+  margin-bottom: 30px;
+  padding-left: 20px;
+  padding: 13px;
+  margin-right: 20px;
+}
+.part2serve{
+  border-radius: 5px;
+  background-color: #2fc8c571;
+  padding-left: 20px;
+  padding: 13px;
+  margin-right: 20px;
+}
+.spanserve{
+  color: #00504e;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Responsive Design */
 @media (max-width: 479px) {
   /* Styles for Extra Small (XS) */
   .loader {

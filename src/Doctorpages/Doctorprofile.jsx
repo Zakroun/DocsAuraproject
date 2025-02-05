@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { MdVerified } from "react-icons/md";
-
+import { Link } from "react-router-dom";
 export default function Doctorprofile(props) {
   const List = useSelector((s) => s.Docsaura.doctors);
   const Doctor = List?.find((a) => a.id === props.id);
@@ -58,7 +58,10 @@ export default function Doctorprofile(props) {
               </h1>
             </div>
             <div className="part2head">
-                <button className="reserve">Reserve</button><button className="msg">Send Message</button>
+              <Link to={`/pages/reservedoc`} state={{id : Doctor.id}}>
+                <button className="reserve">Reserve</button>
+              </Link>
+              <button className="msg">Send Message</button>
             </div>
           </div>
           <p>{Doctor.addressLoc}</p>
@@ -68,29 +71,29 @@ export default function Doctorprofile(props) {
           <p className="specialty">specialty : {Doctor.specialty}</p>
           <p className="specialty">Address Location : </p>
           <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3032.8241741085076!2d-85.7219484243674!3d38.21289738680233!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88690d94db47e13b%3A0x73357ab7faf3550b!2sAlice%20H%20Johnson%2C%20MD!5e1!3m2!1sen!2sma!4v1738597550212!5m2!1sen!2sma"
-        width="600"
-        height="250"
-        style={{
-          border: 0,
-          borderRadius: "10px",
-          boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
-          width: "100%",
-          maxWidth: "600px",
-          height: "250px",
-        }}
-        // allowFullScreen
-        loading="lazy"
-        referrerPolicy="no-referrer-when-downgrade"
-      ></iframe>
+            title="Google Map Location - Alice H Johnson, MD"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3032.8241741085076!2d-85.7219484243674!3d38.21289738680233!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88690d94db47e13b%3A0x73357ab7faf3550b!2sAlice%20H%20Johnson%2C%20MD!5e1!3m2!1sen!2sma!4v1738597550212!5m2!1sen!2sma"
+            width="600"
+            height="250"
+            style={{
+              border: 0,
+              borderRadius: "10px",
+              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+              width: "100%",
+              maxWidth: "600px",
+              height: "250px",
+            }}
+            // allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          ></iframe>
           {/* <div className="part2head">
             <button className="reserve">Reserve</button>
             <button className="msg">Send Message</button>
           </div> */}
         </div>
       </div>
-      <div className="part3">
-      </div>
+      <div className="part3"></div>
     </div>
   );
 }

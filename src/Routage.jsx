@@ -18,6 +18,9 @@ import { useLocation } from "react-router-dom";
 import Clinicprofile from "./clinicpages/clinicprofile";
 import Doctorprofile from "./Doctorpages/Doctorprofile";
 import Laboratoryprofile from "./laboratorypages/laboratorypeofile";
+import DoctorReserve from "./Doctorpages/ReserveDoctor";
+import ClinicReserve from "./clinicpages/ClinicReserve";
+import LaboratoryReserve from "./laboratorypages/Reservelaboratory";
 export default function Routage() {
   const { d } = useParams();
   const Loc = useLocation();
@@ -121,6 +124,30 @@ export default function Routage() {
       <>
         <Header></Header>
         <Laboratoryprofile id={id}></Laboratoryprofile>
+        <Footer></Footer>
+      </>
+    )
+  }else if (d === "reservedoc"){
+    return(
+      <>
+        <Header></Header>
+        <DoctorReserve id={id}></DoctorReserve>
+        <Footer></Footer>
+      </>
+    )
+  }else if (d === "reserveclinic"){
+    return(
+      <>
+        <Header></Header>
+        <ClinicReserve id={id}></ClinicReserve>
+        <Footer></Footer>
+      </>
+    )
+  }else if (d === "reservelabo"){
+    return(
+      <>
+        <Header></Header>
+        <LaboratoryReserve id={id}></LaboratoryReserve>
         <Footer></Footer>
       </>
     )
