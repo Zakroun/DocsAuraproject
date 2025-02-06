@@ -134,8 +134,18 @@ body {
   border: 1px solid rgb(219, 219, 219);
   border-radius: 3px;
   width: 380px;
-
   height: 22px;
+  padding: 5px;
+  margin-bottom: 8px;
+  outline: none;
+}
+#descrption{
+  border: 1px solid rgb(219, 219, 219);
+  border-radius: 3px;
+  min-width: 380px;
+  min-height: 25px;
+  max-width: 380px;
+  max-height: 27px;
   padding: 5px;
   margin-bottom: 8px;
   outline: none;
@@ -1240,7 +1250,7 @@ hr {
 }
 .part1serve{
   border-radius: 5px;
-  background-color: #2fc8c571;
+  background-color: #2fc8c557;
   margin-bottom: 30px;
   padding-left: 20px;
   padding: 13px;
@@ -1248,17 +1258,31 @@ hr {
 }
 .part2serve{
   border-radius: 5px;
-  background-color: #2fc8c571;
+  background-color: #2fc8c557;
   padding-left: 20px;
   padding: 13px;
   margin-right: 20px;
 }
+.content1{
+  margin-top:20px;
+  margin-left:20px
+}
+.content2{
+  margin-top:20px;
+  margin-left:20px
+}
 .spanserve{
   color: #00504e;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
 }
-
+.spancontent{
+  display: flex;
+  justify-content: space-between;
+}
+.iconspan{
+  color: #00504e;
+}
 /* Responsive Design */
 @media (max-width: 479px) {
   /* Styles for Extra Small (XS) */
@@ -1274,14 +1298,25 @@ hr {
     padding-left: 0px;
   }
   #email,
-  #password,
-  #fullname,
-  #confirmpassword,
-  #emailpass,
-  #code,
-  #newpass,
-  #confirmpass {
+#password,
+#fullname,
+#date,
+#cin,
+#time,
+#phone,
+#cvv,
+#cardNumber,
+#expiryDate,
+#confirmpassword,
+#emailpass,
+#code,
+#newpass,
+#confirmpass {
     width: 330px;
+  }
+  #descrption{
+    min-width: 330px;
+    max-width: 330px;
   }
   #btn {
     width: 337px;
@@ -1298,7 +1333,8 @@ hr {
   }
   #Role,
   #gender,
-  #cities {
+  #cities,
+  #paymentMethod{
     width: 342px;
   }
   #birthyear {
@@ -1404,6 +1440,27 @@ hr {
     margin-top: 10px;
     margin-bottom: 20px;
   }
+  .divreserve{
+    margin-left: 5px;
+  }
+  .part1serve{
+    width: 96%;
+    padding-left: 5px;
+    padding: 7px;
+    margin-right: 20px;
+  }
+  .part2serve{
+    width: 96%;
+    padding-left: 5px;
+    padding: 7px;
+    margin-right: 20px;
+  }
+  .content1{
+    margin-left:8px
+  }
+  .content2{
+    margin-left:8px
+  }
 }
 
 @media (min-width: 480px) and (max-width: 767px) {
@@ -1485,6 +1542,25 @@ hr {
   .part2head{
     margin-top: 25px;
     margin-bottom: 20px;
+  }
+  .divreserve{
+    margin-left: 10px;
+  }
+  .part1serve{
+    padding-left: 5px;
+    padding: 7px;
+    margin-right: 20px;
+  }
+  .part2serve{
+    padding-left: 0px;
+    padding: 7px;
+    margin-right: 20px;
+  }
+  .content1{
+    margin-left:8px
+  }
+  .content2{
+    margin-left:8px
   }
 }
 

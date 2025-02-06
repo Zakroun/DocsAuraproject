@@ -1,10 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
+import { PiVideoConferenceFill } from "react-icons/pi";
+import { MdOutlinePayment } from "react-icons/md";
+
 export default function DoctorReserve(props) {
   const dispatch = useDispatch();
   const Ldoctor = useSelector((s) => s.Docsaura.doctors);
   const doctor = Ldoctor.find((a) => a.id === props.id);
-  console.log(props.id)
   const [content1, setcontent1] = useState("block");
   const [content2, setcontent2] = useState("none");
   const [formData, setFormData] = useState({
@@ -13,6 +15,7 @@ export default function DoctorReserve(props) {
     phone: "",
     date: "",
     time: "",
+    description: "",
     paymentMethod: "",
     cardNumber: "",
     expiryDate: "",
@@ -33,17 +36,24 @@ export default function DoctorReserve(props) {
         }
       }
     }
-    
+
     console.log("Appointment Booked:", formData);
     alert("Appointment successfully booked!");
   };
 
   const Next = () => {
-    if (!formData.fullName || !formData.email || !formData.phone || !formData.date || !formData.time) {
-      alert("Please fill in all personal information fields before proceeding.");
+    if (
+      !formData.fullName ||
+      !formData.email ||
+      !formData.phone ||
+      !formData.date ||
+      !formData.time
+    ) {
+      alert(
+        "Please fill in all personal information fields before proceeding."
+      );
       return;
     }
-
     setcontent1("none");
     setcontent2("block");
   };
@@ -51,11 +61,14 @@ export default function DoctorReserve(props) {
     <div className="divreserve">
       <h1>Book a consultation with , {doctor.fullName}</h1>
       <div className="part1serve">
-        <span className="spanserve">1 | Personal Information</span>
-        <div className="content1" style={{ display: content1,marginTop:'20px',marginLeft:'20px' }}>
+        <div className="spancontent">
+          <span className="spanserve">1 | Personal Information</span>
+          <PiVideoConferenceFill size={35} className="iconspan" />
+        </div>
+        <div className="content1" style={{ display: content1 }}>
           <form onSubmit={handleSubmit} className="booking-form">
             <input
-            style={{marginRight:'20px'}}
+              style={{ marginRight: "20px" }}
               type="text"
               name="fullName"
               id="fullname"
@@ -74,7 +87,7 @@ export default function DoctorReserve(props) {
               required
             />
             <input
-            style={{marginRight:'20px'}}
+              style={{ marginRight: "20px" }}
               type="tel"
               name="phone"
               id="phone"
@@ -82,7 +95,7 @@ export default function DoctorReserve(props) {
               value={formData.phone}
               onChange={handleChange}
               required
-            /> 
+            />
             <input
               type="text"
               name="cin"
@@ -94,7 +107,7 @@ export default function DoctorReserve(props) {
             />
             <br />
             <input
-            style={{marginRight:'20px'}}
+              style={{ marginRight: "20px" }}
               type="date"
               id="date"
               name="date"
@@ -109,7 +122,16 @@ export default function DoctorReserve(props) {
               value={formData.time}
               onChange={handleChange}
               required
-            /> <br />
+            />{" "}
+            <br />
+            <textarea
+              id="descrption"
+              name="descrption"
+              placeholder="Small description of the case ..."
+              value={formData.description}
+              onChange={handleChange}
+            />
+            <br />
             <button id="btn" type="button" onClick={Next}>
               Next
             </button>
@@ -117,25 +139,28 @@ export default function DoctorReserve(props) {
         </div>
       </div>
       <div className="part2serve">
-        <span className="spanserve">2 | Payment Information</span>
-        <div className="content2" style={{ display: content2,marginTop:'20px' }}>
+        <div className="spancontent">
+          <span className="spanserve">2 | Payment Information </span>
+          <MdOutlinePayment size={35} className="iconspan" />
+        </div>
+        <div className="content2" style={{ display: content2 }}>
           <form onSubmit={handleSubmit} className="booking-form">
             <select
               name="paymentMethod"
               id="paymentMethod"
-              style={{marginBottom:'30px'}}
+              style={{ marginBottom: "30px" }}
               value={formData.paymentMethod}
               onChange={handleChange}
             >
               <option value="">Choose Payment Method</option>
               <option value="credit-card">Credit Card</option>
               <option value="cash">Cash on Arrival</option>
-            </select> <br />
-
+            </select>{" "}
+            <br />
             {formData.paymentMethod === "credit-card" && (
               <>
                 <input
-                style={{marginRight:'10px'}}
+                  style={{ marginRight: "10px" }}
                   type="text"
                   name="cardNumber"
                   id="cardNumber"
@@ -145,7 +170,7 @@ export default function DoctorReserve(props) {
                   required
                 />
                 <input
-                style={{marginRight:'10px'}}
+                  style={{ marginRight: "10px" }}
                   type="text"
                   id="expiryDate"
                   name="expiryDate"
@@ -155,7 +180,7 @@ export default function DoctorReserve(props) {
                   required
                 />
                 <input
-                style={{marginRight:'10px'}}
+                  style={{ marginRight: "10px" }}
                   type="text"
                   name="cvv"
                   id="cvv"
@@ -166,7 +191,12 @@ export default function DoctorReserve(props) {
                 />
               </>
             )}
-            <button disabled={formData.paymentMethod === ""}  id="btn" type="submit" className="btn-submit">
+            <button
+              disabled={formData.paymentMethod === ""}
+              id="btn"
+              type="submit"
+              className="btn-submit"
+            >
               Book Appointment
             </button>
           </form>

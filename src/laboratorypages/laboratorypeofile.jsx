@@ -1,9 +1,13 @@
 import { useSelector } from "react-redux";
 import { MdVerified } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 export default function Laboratoryprofile(props) {
   const List = useSelector((s) => s.Docsaura.laboratories);
   const laboratory = List.find((a) => a.id === props.id);
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
   function generateStars(rating) {
     return Array.from({ length: 5 }, (_, i) => {
       if (i < Math.floor(rating)) {

@@ -1,5 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
+import { PiVideoConferenceFill } from "react-icons/pi";
+import { MdOutlinePayment } from "react-icons/md";
 export default function LaboratoryReserve(props) {
   const dispatch = useDispatch();
   const Llabo = useSelector((s) => s.Docsaura.laboratories);
@@ -58,7 +60,10 @@ export default function LaboratoryReserve(props) {
     <div className="divreserve">
       <h1>Book a consultation with , {labo.name}</h1>
       <div className="part1serve">
-        <span className="spanserve">1 | Personal Information</span>
+        <div className="spancontent">
+          <span className="spanserve">1 | Personal Information</span>
+          <PiVideoConferenceFill size={35} className="iconspan" />
+        </div>
         <div
           className="content1"
           style={{ display: content1, marginTop: "20px", marginLeft: "20px" }}
@@ -128,7 +133,10 @@ export default function LaboratoryReserve(props) {
         </div>
       </div>
       <div className="part2serve">
-        <span className="spanserve">2 | Payment Information</span>
+        <div className="spancontent">
+          <span className="spanserve">2 | Payment Information </span>
+          <MdOutlinePayment size={35} className="iconspan" />
+        </div>
         <div
           className="content2"
           style={{ display: content2, marginTop: "20px" }}
