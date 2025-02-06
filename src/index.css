@@ -1312,17 +1312,17 @@ hr {
 #code,
 #newpass,
 #confirmpass {
-    width: 330px;
+    width: 290px;
   }
   #descrption{
-    min-width: 330px;
-    max-width: 330px;
+    min-width: 290px;
+    max-width: 290px;
   }
   #btn {
-    width: 337px;
+    width: 397px;
   }
   #btn2 {
-    width: 337px;
+    width: 397px;
   }
   #link {
     margin-left: 8%;
@@ -1335,13 +1335,13 @@ hr {
   #gender,
   #cities,
   #paymentMethod{
-    width: 342px;
+    width: 300px;
   }
   #birthyear {
-    width: 330px;
+    width: 397px;
   }
   #btnRegister {
-    width: 337px;
+    width: 397px;
   }
   .ForgetPass {
     margin-top: 20%;
