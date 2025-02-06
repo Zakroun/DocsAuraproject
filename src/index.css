@@ -1312,17 +1312,17 @@ hr {
 #code,
 #newpass,
 #confirmpass {
-    width: 290px;
+    width: 310px;
   }
   #descrption{
-    min-width: 290px;
-    max-width: 290px;
+    min-width: 310px;
+    max-width: 310px;
   }
   #btn {
-    width: 297px;
+    width: 317px;
   }
   #btn2 {
-    width: 297px;
+    width: 317px;
   }
   #link {
     margin-left: 8%;
@@ -1335,13 +1335,13 @@ hr {
   #gender,
   #cities,
   #paymentMethod{
-    width: 300px;
+    width: 320px;
   }
   #birthyear {
-    width: 297px;
+    width: 3177px;
   }
   #btnRegister {
-    width: 297px;
+    width: 317px;
   }
   .ForgetPass {
     margin-top: 20%;
@@ -1356,7 +1356,7 @@ hr {
     padding-left: 5px;
   }
   .error {
-    width: 290px;
+    width: 310px;
   }
   .part2header {
     padding: 6px 10px 6px 10px;
@@ -1422,8 +1422,8 @@ hr {
     border: none;
     border: 1px solid rgb(219, 219, 219);
     border-radius: 3px;
-    max-width: 290px;
-    min-width: 290px;
+    max-width: 310px;
+    min-width: 310px;
     min-height: 30px;
     max-height: 50px;
     padding: 5px;
