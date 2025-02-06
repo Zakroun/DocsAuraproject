@@ -1004,6 +1004,18 @@ hr {
   overflow: hidden;
   text-align: left;
 }
+.doctor:hover{
+  transform: scale(1.05);
+  transition: 1s;
+}
+.clinic:hover{
+  transform: scale(1.05);
+  transition: 1s;
+}
+.laboratory:hover{
+  transform: scale(1.05);
+  transition: 1s;
+}
 #Linktoone {
   text-decoration: none;
   color: black;
