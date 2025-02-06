@@ -1295,7 +1295,7 @@ hr {
   }
   .login {
     margin-top: 6%;
-    padding-left: 0px;
+    padding-left: 8px;
   }
   #email,
 #password,
@@ -1329,7 +1329,7 @@ hr {
   }
   .Register {
     margin-top: 6%;
-    padding-left: 0px;
+    padding-left: 8px;
   }
   #Role,
   #gender,
@@ -1345,15 +1345,15 @@ hr {
   }
   .ForgetPass {
     margin-top: 20%;
-    padding-left: 5px;
+    padding-left: 8px;
   }
   .CodeConfirm {
     margin-top: 20%;
-    padding-left: 5px;
+    padding-left: 8px;
   }
   .NewPass {
     margin-top: 20%;
-    padding-left: 5px;
+    padding-left: 8px;
   }
   .error {
     width: 310px;
@@ -1416,7 +1416,7 @@ hr {
   }
   .ContactForm {
     margin-top: 10%;
-    padding-left: 0px;
+    padding-left: 8px;
   }
   #message {
     border: none;
