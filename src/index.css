@@ -124,6 +124,7 @@ body {
 #time,
 #phone,
 #cvv,
+#descrption,
 #cardNumber,
 #expiryDate,
 #confirmpassword,
@@ -135,17 +136,6 @@ body {
   border-radius: 3px;
   width: 380px;
   height: 22px;
-  padding: 5px;
-  margin-bottom: 8px;
-  outline: none;
-}
-#descrption{
-  border: 1px solid rgb(219, 219, 219);
-  border-radius: 3px;
-  min-width: 380px;
-  min-height: 25px;
-  max-width: 380px;
-  max-height: 27px;
   padding: 5px;
   margin-bottom: 8px;
   outline: none;
@@ -376,7 +366,19 @@ body {
   padding-left: 100px;
   padding-right: 150px;
 }
-
+#consultationType{
+  -webkit-user-select: auto;
+  user-select: auto;
+  border: none;
+  border: 1px solid rgb(219, 219, 219);
+  border-radius: 3px;
+  width: 392px;
+  height: 30px;
+  padding: 5px;
+  margin-bottom: 12px;
+  margin-left:20px ;
+  outline: none;
+}
 #Role,
 #paymentMethod,
 #gender,
@@ -426,7 +428,7 @@ body {
   padding-left: 100px;
 }
 .countainer {
-  height: 105%;
+  height: 100%;
   top: 0;
   left: 0;
   position: fixed;
@@ -435,7 +437,7 @@ body {
 .divimage {
   margin-top: 8px;
   width: 63%;
-  height: 578px;
+  height: 100%;
   position: relative;
   overflow: hidden;
   border-radius: 5px;
@@ -1386,6 +1388,25 @@ hr {
 .iconspan{
   color: #00504e;
 }
+.upload-label {
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+.upload-btn {
+  padding: 10px 20px;
+  background-color: #a5c5c4;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.upload-btn:hover {
+  background-color:  #00cecbde;
+}
+
 /* Responsive Design */
 @media (max-width: 479px) {
   /* Styles for Extra Small (XS) */

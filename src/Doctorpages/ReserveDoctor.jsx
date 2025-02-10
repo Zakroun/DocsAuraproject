@@ -16,6 +16,7 @@ export default function DoctorReserve(props) {
     date: "",
     time: "",
     description: "",
+    consultationType:"",
     paymentMethod: "",
     cardNumber: "",
     expiryDate: "",
@@ -47,7 +48,9 @@ export default function DoctorReserve(props) {
       !formData.email ||
       !formData.phone ||
       !formData.date ||
-      !formData.time
+      !formData.time ||
+      !formData.description ||
+      !formData.consultationType
     ) {
       alert(
         "Please fill in all personal information fields before proceeding."
@@ -107,6 +110,22 @@ export default function DoctorReserve(props) {
             />
             <br />
             <input
+              id="descrption"
+              name="descrption"
+              placeholder="Small description of the case ..."
+              value={formData.description}
+              onChange={handleChange}
+            />
+            <select name="consultationType" id="consultationType">
+              <option value=""> Select consultation type</option>
+              {
+                doctor.consultationTypes.map((c, i) =>{
+                  return <option key={i} value={c.type}>{c.type} - {c.price}</option>
+                })
+              }
+            </select>
+            <br />
+            <input
               style={{ marginRight: "20px" }}
               type="date"
               id="date"
@@ -123,14 +142,6 @@ export default function DoctorReserve(props) {
               onChange={handleChange}
               required
             />{" "}
-            <br />
-            <textarea
-              id="descrption"
-              name="descrption"
-              placeholder="Small description of the case ..."
-              value={formData.description}
-              onChange={handleChange}
-            />
             <br />
             <button id="btn" type="button" onClick={Next}>
               Next

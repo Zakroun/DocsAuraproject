@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { PiVideoConferenceFill } from "react-icons/pi";
 import { MdOutlinePayment } from "react-icons/md";
+
 export default function LaboratoryReserve(props) {
   const dispatch = useDispatch();
   const Llabo = useSelector((s) => s.Docsaura.laboratories);
@@ -18,14 +19,35 @@ export default function LaboratoryReserve(props) {
     cardNumber: "",
     expiryDate: "",
     cvv: "",
+    image: null,
+    imagePreview: null,
   });
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+      
+      reader.onloadend = () => {
+        setFormData({
+          ...formData,
+          image: file,
+          imagePreview: reader.result,
+        });
+      };
+
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (content2 === "block") {
       if (formData.paymentMethod === "credit-card") {
         if (!formData.cardNumber || !formData.expiryDate || !formData.cvv) {
@@ -35,7 +57,22 @@ export default function LaboratoryReserve(props) {
       }
     }
 
-    console.log("Appointment Booked:", formData);
+    const submitData = new FormData();
+    submitData.append("fullName", formData.fullName);
+    submitData.append("email", formData.email);
+    submitData.append("phone", formData.phone);
+    submitData.append("date", formData.date);
+    submitData.append("time", formData.time);
+    submitData.append("paymentMethod", formData.paymentMethod);
+    submitData.append("cardNumber", formData.cardNumber);
+    submitData.append("expiryDate", formData.expiryDate);
+    submitData.append("cvv", formData.cvv);
+
+    if (formData.image) {
+      submitData.append("image", formData.image);
+    }
+
+    console.log("Appointment Booked:", submitData);
     alert("Appointment successfully booked!");
   };
 
@@ -47,15 +84,14 @@ export default function LaboratoryReserve(props) {
       !formData.date ||
       !formData.time
     ) {
-      alert(
-        "Please fill in all personal information fields before proceeding."
-      );
+      alert("Please fill in all personal information fields before proceeding.");
       return;
     }
 
     setcontent1("none");
     setcontent2("block");
   };
+
   return (
     <div className="divreserve">
       <h1>Book a consultation with , {labo.name}</h1>
@@ -124,8 +160,32 @@ export default function LaboratoryReserve(props) {
               value={formData.time}
               onChange={handleChange}
               required
-            />{" "}
+            />
             <br />
+
+            <div className="image-upload-container" style={{ marginTop: '20px' }}>
+              <input
+                type="file"
+                id="image"
+                name="image"
+                onChange={handleFileChange}
+                accept="image/*"
+                required
+                style={{ display: 'none' }}
+              />
+              <button
+                type="button"
+                onClick={() => document.getElementById('image').click()}
+                className="upload-btn"
+              >
+                Choose Image
+              </button>
+              {formData.imagePreview && (
+                <div className="image-preview">
+                  <img src={formData.imagePreview} alt="Preview" width="100" />
+                </div>
+              )}
+            </div>
             <button id="btn" type="button" onClick={Next}>
               Next
             </button>
