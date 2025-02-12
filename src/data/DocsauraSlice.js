@@ -9,9 +9,14 @@ export const DocsauraSlice = createSlice({
         clinics : clinics,
         laboratories : laboratories,
         specializedDoctors:specializedDoctors,
-        cities:cities
+        cities:cities,
+        currentboard:'home'
     },
     reducers:{
-        
+        changeboard:(state,action)=>{
+            state.currentboard = action.payload
+        }
     }
 })
+
+export const {changeboard} = DocsauraSlice.actions

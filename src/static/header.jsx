@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import { FaFacebook, FaInstagram, FaTiktok, FaTwitter } from "react-icons/fa";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
+import { FaRegUserCircle } from "react-icons/fa";
 export default function Header() {
+  const [profile, setprofile] = useState(false);
   const menuRef = useRef(null);
   const toggleMenu = () => {
     if (menuRef.current) {
@@ -58,7 +60,7 @@ export default function Header() {
           </button>
         </div>
         <div className="menu" id="menu" ref={menuRef}>
-            <h1>DocsAura</h1>
+          <h1>DocsAura</h1>
           <div className="linksmenu">
             <Link to="/" className="linksm">
               HOME
@@ -79,14 +81,24 @@ export default function Header() {
               CONTACT
             </Link>
           </div>
-          <div className="btnmenu">
-            <Link to={"/pages/Login"}>
-              <button className="loginbtn2">LOGIN</button>
-            </Link>
-            <Link to={"/pages/register"}>
-              <button className="signupbtn">SIGN UP</button>
+          {profile === true ? (
+            <div className="btnmenu">
+              <Link to={"/pages/Login"}>
+                <button className="loginbtn2">LOGIN</button>
+              </Link>
+              <Link to={"/pages/register"}>
+                <button className="signupbtn">SIGN UP</button>
+              </Link>
+            </div>
+          ) : (
+            <div className="Profilemenu">
+            <Link to={"/pages/Dashboard"}>
+              <button className="btnProfile2">
+                <FaRegUserCircle />
+              </button>
             </Link>
           </div>
+          )}
         </div>
         <div className="linksdiv">
           <Link to="/" className="links">
@@ -108,14 +120,24 @@ export default function Header() {
             CONTACT
           </Link>
         </div>
-        <div className="btnuser">
-          <Link to={"/pages/Login"}>
-            <button className="loginbtn">LOGIN</button>
-          </Link>
-          <Link to={"/pages/register"}>
-            <button className="signupbtn">SIGN UP</button>
-          </Link>
-        </div>
+        {profile === true ? (
+          <div className="btnuser">
+            <Link to={"/pages/Login"}>
+              <button className="loginbtn">LOGIN</button>
+            </Link>
+            <Link to={"/pages/register"}>
+              <button className="signupbtn">SIGN UP</button>
+            </Link>
+          </div>
+        ) : (
+          <div className="Profile">
+            <Link to={"/pages/Dashboard"}>
+              <button className="btnProfile">
+                <FaRegUserCircle />
+              </button>
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );

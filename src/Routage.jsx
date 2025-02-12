@@ -21,10 +21,11 @@ import Laboratoryprofile from "./laboratorypages/laboratorypeofile";
 import DoctorReserve from "./Doctorpages/ReserveDoctor";
 import ClinicReserve from "./clinicpages/ClinicReserve";
 import LaboratoryReserve from "./laboratorypages/Reservelaboratory";
+import Dashboard from "./pages/Dashboard";
 export default function Routage() {
   const { d } = useParams();
   const Loc = useLocation();
-  const id = Loc.state?.id
+  const id = Loc.state?.id;
   if (d === "Login") {
     return (
       <div className="countainer">
@@ -75,9 +76,12 @@ export default function Routage() {
       <>
         <Header />
         <ListDoctors></ListDoctors>
-        <button className="moveToTop" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
-                <GoMoveToTop /> 
-            </button>
+        <button
+          className="moveToTop"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        >
+          <GoMoveToTop />
+        </button>
         <Footer />
       </>
     );
@@ -86,9 +90,12 @@ export default function Routage() {
       <>
         <Header />
         <ListClinic></ListClinic>
-        <button className="moveToTop" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
-                <GoMoveToTop /> 
-            </button>
+        <button
+          className="moveToTop"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        >
+          <GoMoveToTop />
+        </button>
         <Footer />
       </>
     );
@@ -97,59 +104,64 @@ export default function Routage() {
       <>
         <Header />
         <ListLabo></ListLabo>
-        <button className="moveToTop" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
-                <GoMoveToTop /> 
-            </button>
+        <button
+          className="moveToTop"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        >
+          <GoMoveToTop />
+        </button>
         <Footer />
       </>
     );
-  }else if (d === "doctor"){
-    return(
+  } else if (d === "doctor") {
+    return (
       <>
         <Header></Header>
         <Doctorprofile id={id}></Doctorprofile>
         <Footer></Footer>
       </>
-    )
-  }else if (d === "clinic"){
-    return(
+    );
+  } else if (d === "clinic") {
+    return (
       <>
         <Header></Header>
         <Clinicprofile id={id}></Clinicprofile>
         <Footer></Footer>
       </>
-    )
-  }else if (d === "laboratory"){
-    return(
+    );
+  } else if (d === "laboratory") {
+    return (
       <>
         <Header></Header>
         <Laboratoryprofile id={id}></Laboratoryprofile>
         <Footer></Footer>
       </>
-    )
-  }else if (d === "reservedoc"){
-    return(
+    );
+  } else if (d === "reservedoc") {
+    return (
       <>
         <Header></Header>
         <DoctorReserve id={id}></DoctorReserve>
         <Footer></Footer>
       </>
-    )
-  }else if (d === "reserveclinic"){
-    return(
+    );
+  } else if (d === "reserveclinic") {
+    return (
       <>
         <Header></Header>
         <ClinicReserve id={id}></ClinicReserve>
         <Footer></Footer>
       </>
-    )
-  }else if (d === "reservelabo"){
-    return(
+    );
+  } else if (d === "reservelabo") {
+    return (
       <>
         <Header></Header>
         <LaboratoryReserve id={id}></LaboratoryReserve>
         <Footer></Footer>
       </>
-    )
+    );
+  } else if (d === "Dashboard") {
+    return <Dashboard />;
   }
 }
