@@ -1997,3 +1997,43 @@ tr.completed {
   }
   /* Styles for Extra Large (XL) */
 }
+
+.add {
+  display: flex;
+  align-items: center;  /* محاذاة زر الإضافة مع الأيقونة */
+  gap: 10px;  /* مسافة بين العناصر */
+}
+
+.notification-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.notification-icon {
+  transition: transform 0.2s ease-in-out;
+}
+
+.notification-icon:hover {
+  transform: scale(1.1);
+}
+
+.notification-dropdown {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  background: white;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  width: 200px;
+  padding: 10px;
+  text-align: center;
+  font-size: 14px;
+  color: #333;
+  z-index: 10;
+}
+
+.notification-dropdown p {
+  margin: 0;
+}

@@ -12,8 +12,9 @@ import { FaHospitalUser } from "react-icons/fa";
 import { IoCallSharp } from "react-icons/io5";
 import { FaCalendarAlt } from "react-icons/fa";
 import { MdMarkEmailUnread } from "react-icons/md";
-import { MdOutlineIncompleteCircle } from "react-icons/md";
-import { FaCircleCheck } from "react-icons/fa6";
+import { IoNotificationsSharp } from "react-icons/io5"; // تم الاحتفاظ بهذا التعديل
+import { MdOutlineIncompleteCircle } from "react-icons/md"; // تم الاحتفاظ بهذا التعديل
+import { FaCircleCheck } from "react-icons/fa"; // تم الاحتفاظ بهذا التعديل
 
 export default function Homeboard(props) {
   const d = props.doctor;
@@ -22,6 +23,7 @@ export default function Homeboard(props) {
   const [filteredAppointments, setFilteredAppointments] = useState(
     d.appointments
   );
+  const [showNotifications, setShowNotifications] = useState(false);
 
   useEffect(() => {
     const currentHour = new Date().getHours();
@@ -59,7 +61,20 @@ export default function Homeboard(props) {
           </button>
         </div>
         <div className="add">
-          <button className="addbtn"> + Add Patients</button>
+          <button className="addbtn">+ Add Patients</button>
+          <div className="notification-container">
+            <IoNotificationsSharp
+              size={24}
+              color="#008481"
+              className="notification-icon"
+              onClick={() => setShowNotifications(!showNotifications)}
+            />
+            {showNotifications && (
+              <div className="notification-dropdown">
+                <p>No notifications for now</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
       <div className="homeboard__header">
