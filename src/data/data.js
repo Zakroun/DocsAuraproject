@@ -203,6 +203,21 @@ export const doctors = [
       { day: "Thu", thisWeek: 140, lastWeek: 130 },
       { day: "Fri", thisWeek: 130, lastWeek: 120 },
     ],
+    patientDatamonth : [
+      { month: "Jan", patients: 30 },
+      { month: "Feb", patients: 45 },
+      { month: "Mar", patients: 20 },
+      { month: "Apr", patients: 35 },
+      { month: "May", patients: 50 },
+      { month: "Jun", patients: 80 },
+      { month: "Jul", patients: 60 },
+      { month: "Aug", patients: 40 },
+      { month: "Sep", patients: 55 },
+      { month: "Oct", patients: 70 },
+      { month: "Nov", patients: 65 },
+      { month: "Dec", patients: 85 },
+    ]
+    ,
     appointments:[
       {
         id: 1,

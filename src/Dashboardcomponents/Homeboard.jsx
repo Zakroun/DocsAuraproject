@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import {
+  LineChart,
   BarChart,
   Bar,
+  Line,
   XAxis,
   YAxis,
   Tooltip,
   ResponsiveContainer,
+  CartesianGrid,
 } from "recharts";
 import { LuSearch } from "react-icons/lu";
 import { FaHospitalUser } from "react-icons/fa";
@@ -18,6 +21,7 @@ import { FaCircleCheck } from "react-icons/fa6";
 
 export default function Homeboard(props) {
   const d = props.doctor;
+  const patientDatamonth = d.patientDatamonth;
   const [greeting, setGreeting] = useState("");
   const [selectedDay, setSelectedDay] = useState("All");
   const [filteredAppointments, setFilteredAppointments] = useState(
@@ -125,6 +129,7 @@ export default function Homeboard(props) {
             <option value="this year">This Year</option>
           </select>
         </div>
+
         <div className="weeklyReports__content">
           <div className="partweekly">
             <div className="partweekly__header">
@@ -187,9 +192,46 @@ export default function Homeboard(props) {
             <h3 style={{ color: "rgb(0, 0, 155)" }}>10</h3>
           </div>
         </div>
-
         <div className="chart-container">
-          <h2>Number of Patients Over the Week</h2>
+        <div className="weeklyheader">
+        <h2>Number of Patients Per Month</h2>
+          <select name="weeklyselect" id="weeklyselect">
+            <option value="last year">Last Year</option>
+            <option value="this year">This Year</option>
+            <option value="2023">2023</option>
+            <option value="2022">2022</option>
+            <option value="2021">2021</option>
+            <option value="2020">2020</option>
+          </select>
+        </div>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={patientDatamonth}>
+              <XAxis dataKey="month" stroke="#555" />
+              <YAxis />
+              <CartesianGrid stroke="#ddd" strokeDasharray="5 5" />
+              <Tooltip />
+              <Line
+                type="monotone"
+                dataKey="patients"
+                stroke="#008481"
+                strokeWidth={3}
+                dot={{ r: 5 }}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+        <div className="chart-container">
+        <div className="weeklyheader">
+        <h2>Number of Patients Over the Week</h2>
+          <select name="weeklyselect" id="weeklyselect">
+            <option value="last week">Last Week</option>
+            <option value="this week">This Week</option>
+            <option value="last month">Last Month</option>
+            <option value="this month">This Month</option>
+            <option value="last year">Last Year</option>
+            <option value="this year">This Year</option>
+          </select>
+        </div>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={patientData}>
               <XAxis dataKey="day" stroke="#555" />

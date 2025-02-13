@@ -1497,7 +1497,7 @@ hr {
   justify-content: space-between;
   background-color: white;
   border-radius: 20px;
-  padding: 30px;
+  padding: 25px;
 }
 .homeboard__header__title span{
   color: #008481;
@@ -1540,7 +1540,7 @@ hr {
   margin-top: -70px;
 }
 .weeklyReports{
-  padding: 30px;
+  padding: 25px;
 }
 .weeklyReports__content{
   display: flex;
@@ -1671,6 +1671,10 @@ tr.completed {
 
 .appointment-day-filter{
   margin-top: 25px;
+}
+.chart-container{
+  margin-top: 20px;
+  margin-bottom: 40px;
 }
 /* Responsive Design */
 @media (max-width: 479px) {
