@@ -1,4 +1,12 @@
 import React, { useState, useEffect } from "react";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 import { LuSearch } from "react-icons/lu";
 import { FaHospitalUser } from "react-icons/fa";
 import { IoCallSharp } from "react-icons/io5";
@@ -11,7 +19,6 @@ export default function Homeboard(props) {
 
   useEffect(() => {
     const currentHour = new Date().getHours();
-
     if (currentHour < 12) {
       setGreeting("Good Morning");
     } else if (currentHour < 18) {
@@ -20,6 +27,7 @@ export default function Homeboard(props) {
       setGreeting("Good Night");
     }
   }, []);
+  const patientData = d.patientData;
 
   return (
     <div className="homeboard">
@@ -45,6 +53,8 @@ export default function Homeboard(props) {
           <img src={`../images/doctor.png`} alt="Doctor Image" />
         </div>
       </div>
+
+      {/* قسم الإحصائيات */}
       <div className="weeklyReports">
         <div className="weeklyheader">
           <h2>Weekly Reports</h2>
@@ -60,32 +70,87 @@ export default function Homeboard(props) {
         <div className="weeklyReports__content">
           <div className="partweekly">
             <div className="partweekly__header">
-              <FaHospitalUser size={30} color="#008481" style={{backgroundColor:'#00848276', padding:7 , borderRadius:10}}/>
+              <FaHospitalUser
+                size={30}
+                color="#008481"
+                style={{
+                  backgroundColor: "#00848276",
+                  padding: 7,
+                  borderRadius: 10,
+                }}
+              />
             </div>
             <h3>Total Patients </h3>
-            <h3>200</h3>
+            <h3 style={{ color: "#008481" }}>200</h3>
           </div>
           <div className="partweekly">
             <div className="partweekly__header">
-              <IoCallSharp size={30} color="rgb(195, 101, 0)" style={{backgroundColor:'rgba(195, 101, 0, 0.45)', padding:7 , borderRadius:10}}/>
+              <IoCallSharp
+                size={30}
+                color="rgb(195, 101, 0)"
+                style={{
+                  backgroundColor: "rgba(195, 101, 0, 0.45)",
+                  padding: 7,
+                  borderRadius: 10,
+                }}
+              />
             </div>
             <h3>Phone Calls </h3>
-            <h3>20</h3>
+            <h3 style={{ color: "rgb(195, 101, 0)" }}>20</h3>
           </div>
           <div className="partweekly">
             <div className="partweekly__header">
-              <FaCalendarAlt size={30} color="rgb(153, 0, 0)" style={{backgroundColor:'rgba(153, 0, 0, 0.46)', padding:7 , borderRadius:10}}/>
+              <FaCalendarAlt
+                size={30}
+                color="rgb(153, 0, 0)"
+                style={{
+                  backgroundColor: "rgba(153, 0, 0, 0.46)",
+                  padding: 7,
+                  borderRadius: 10,
+                }}
+              />
             </div>
-            <h3>Appointements </h3>
-            <h3>100</h3>
+            <h3>Appointments </h3>
+            <h3 style={{ color: "rgb(153, 0, 0)" }}>100</h3>
           </div>
           <div className="partweekly">
             <div className="partweekly__header">
-              <MdMarkEmailUnread size={30} color="rgb(0, 0, 155)" style={{backgroundColor:'rgba(0, 0, 155, 0.44)', padding:7 , borderRadius:10}}/>
+              <MdMarkEmailUnread
+                size={30}
+                color="rgb(0, 0, 155)"
+                style={{
+                  backgroundColor: "rgba(0, 0, 155, 0.44)",
+                  padding: 7,
+                  borderRadius: 10,
+                }}
+              />
             </div>
             <h3>Unread Messages </h3>
-            <h3>10</h3>
+            <h3 style={{ color: "rgb(0, 0, 155)" }}>10</h3>
           </div>
+        </div>
+
+        <div className="chart-container">
+          <h2>Number of Patients Over the Week</h2>
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={patientData}>
+              <XAxis dataKey="day" stroke="#555" />
+              <YAxis />
+              <Tooltip />
+              <Bar
+                dataKey="thisWeek"
+                fill="#008481"
+                barSize={40}
+                name="This Week"
+              />
+              <Bar
+                dataKey="lastWeek"
+                fill="rgba(197, 197, 197, 0.75)"
+                barSize={40}
+                name="Last Week"
+              />
+            </BarChart>
+          </ResponsiveContainer>
         </div>
       </div>
     </div>

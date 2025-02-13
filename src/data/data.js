@@ -196,6 +196,13 @@ export const doctors = [
       { type: "Consultation at the patient's home", price: 300 },
       { type: "Consultation at the doctor's office", price: 200 },
     ],
+    patientData : [
+      { day: "Mon", thisWeek: 80, lastWeek: 70 },
+      { day: "Tue", thisWeek: 120, lastWeek: 110 },
+      { day: "Wed", thisWeek: 100, lastWeek: 90 },
+      { day: "Thu", thisWeek: 140, lastWeek: 130 },
+      { day: "Fri", thisWeek: 130, lastWeek: 120 },
+    ]
   },
   {
     id: 2,

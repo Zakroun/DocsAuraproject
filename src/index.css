@@ -1434,7 +1434,7 @@ hr {
   top: 0;
   left: 0;
   position: fixed;
-  height: 555px;
+  height: 100%;
   width: 100%;
   display: flex;
 }
@@ -1470,10 +1470,13 @@ hr {
   cursor: pointer;
   color: white;
   margin-top: 60px;
-  font-size: 30px;
+  font-size: 35px;
 }
 .iconleft:hover{
   color: #00cecbde;
+}
+.footerdashbord{
+  margin-top: -30px;
 }
 .part2dashboard{
   overflow-y: scroll;
@@ -1541,6 +1544,7 @@ hr {
 }
 .weeklyReports__content{
   display: flex;
+  margin-bottom: 70px;
   justify-content: space-around;
 }
 .weeklyheader{
@@ -1553,7 +1557,7 @@ hr {
   outline: none;
 }
 .partweekly{
-  width: 150px;
+  width: 160px;
   background-color: white;
   border-radius: 10px;
   text-align: center;
