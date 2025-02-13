@@ -12,9 +12,9 @@ import { FaHospitalUser } from "react-icons/fa";
 import { IoCallSharp } from "react-icons/io5";
 import { FaCalendarAlt } from "react-icons/fa";
 import { MdMarkEmailUnread } from "react-icons/md";
-import { IoNotificationsSharp } from "react-icons/io5"; // تم الاحتفاظ بهذا التعديل
-import { MdOutlineIncompleteCircle } from "react-icons/md"; // تم الاحتفاظ بهذا التعديل
-import { FaCircleCheck } from "react-icons/fa"; // تم الاحتفاظ بهذا التعديل
+import { IoNotificationsSharp } from "react-icons/io5";
+import { MdOutlineIncompleteCircle } from "react-icons/md";
+import { FaCircleCheck } from "react-icons/fa6";
 
 export default function Homeboard(props) {
   const d = props.doctor;
@@ -24,6 +24,11 @@ export default function Homeboard(props) {
     d.appointments
   );
   const [showNotifications, setShowNotifications] = useState(false);
+  const notifications = [
+    { id: 1, message: "New patient registered", time: "2 mins ago" },
+    { id: 2, message: "Appointment rescheduled", time: "10 mins ago" },
+    { id: 3, message: "New message from John", time: "30 mins ago" },
+  ];
 
   useEffect(() => {
     const currentHour = new Date().getHours();
@@ -63,15 +68,34 @@ export default function Homeboard(props) {
         <div className="add">
           <button className="addbtn">+ Add Patients</button>
           <div className="notification-container">
-            <IoNotificationsSharp
-              size={24}
-              color="#008481"
-              className="notification-icon"
+            <div
+              className="icon-wrapper"
               onClick={() => setShowNotifications(!showNotifications)}
-            />
+            >
+              <IoNotificationsSharp
+                size={24}
+                color="#008481"
+                className="notification-icon"
+              />
+              {notifications.length > 0 && (
+                <span className="notification-badge">
+                  {notifications.length}
+                </span>
+              )}
+            </div>
+
             {showNotifications && (
               <div className="notification-dropdown">
-                <p>No notifications for now</p>
+                {notifications.length > 0 ? (
+                  notifications.map((notif) => (
+                    <div key={notif.id} className="notification-item">
+                      {notif.message}
+                      <span className="time">{notif.time}</span>
+                    </div>
+                  ))
+                ) : (
+                  <p>No notifications for now</p>
+                )}
               </div>
             )}
           </div>
@@ -85,7 +109,7 @@ export default function Homeboard(props) {
           <p>Have a nice day at the hospital!</p>
         </div>
         <div className="homeboard__header__image">
-          <img src={`../images/doctor.png`} alt="Doctor Image" />
+          <img src={`../images/doctor.png`} alt="Doctor imge" />
         </div>
       </div>
 
