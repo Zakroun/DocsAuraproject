@@ -196,13 +196,60 @@ export const doctors = [
       { type: "Consultation at the patient's home", price: 300 },
       { type: "Consultation at the doctor's office", price: 200 },
     ],
-    patientData : [
+    patientData: [
       { day: "Mon", thisWeek: 80, lastWeek: 70 },
       { day: "Tue", thisWeek: 120, lastWeek: 110 },
       { day: "Wed", thisWeek: 100, lastWeek: 90 },
       { day: "Thu", thisWeek: 140, lastWeek: 130 },
       { day: "Fri", thisWeek: 130, lastWeek: 120 },
-    ]
+    ],
+    appointments:[
+      {
+        id: 1,
+        name: "Yassir Benjelloun",
+        location: "Casablanca",
+        date: "28 Jul 2025",
+        time: "08.30 AM",
+        status: "completed",
+        image: "user.png",
+      },
+      {
+        id: 2,
+        name: "Sara El Mouden",
+        location: "Marrakech",
+        date: "12 Jul 2025",
+        time: "03.00 PM",
+        status: "pending",
+        image: "user.png",
+      },
+      {
+        id: 3,
+        name: "Ahmed Chouhan",
+        location: "Rabat",
+        date: "15 Aug 2025",
+        time: "06.00 PM",
+        status: "completed",
+        image: "user.png",
+      },
+      {
+        id: 4,
+        name: "Kenza Amrani",
+        location: "Fes",
+        date: "20 Aug 2025",
+        time: "09.00 AM",
+        status: "pending",
+        image: "user.png",
+      },
+      {
+        id: 5,
+        name: "Ibrahim Maani",
+        location: "Tangier",
+        date: "10 Sep 2025",
+        time: "07.30 PM",
+        status: "completed",
+        image: "user.png",
+      }
+    ]    
   },
   {
     id: 2,

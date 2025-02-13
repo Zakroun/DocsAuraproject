@@ -12,10 +12,16 @@ import { FaHospitalUser } from "react-icons/fa";
 import { IoCallSharp } from "react-icons/io5";
 import { FaCalendarAlt } from "react-icons/fa";
 import { MdMarkEmailUnread } from "react-icons/md";
+import { MdOutlineIncompleteCircle } from "react-icons/md";
+import { FaCircleCheck } from "react-icons/fa6";
 
 export default function Homeboard(props) {
   const d = props.doctor;
   const [greeting, setGreeting] = useState("");
+  const [selectedDay, setSelectedDay] = useState("All");
+  const [filteredAppointments, setFilteredAppointments] = useState(
+    d.appointments
+  );
 
   useEffect(() => {
     const currentHour = new Date().getHours();
@@ -27,7 +33,21 @@ export default function Homeboard(props) {
       setGreeting("Good Night");
     }
   }, []);
+
+  const handleDayChange = (e) => {
+    const selected = e.target.value;
+    setSelectedDay(selected);
+    if (selected === "All") {
+      setFilteredAppointments(d.appointments);
+    } else {
+      setFilteredAppointments(
+        d.appointments.filter((appt) => appt.date === selected)
+      );
+    }
+  };
+
   const patientData = d.patientData;
+  const appointments = filteredAppointments;
 
   return (
     <div className="homeboard">
@@ -54,7 +74,6 @@ export default function Homeboard(props) {
         </div>
       </div>
 
-      {/* قسم الإحصائيات */}
       <div className="weeklyReports">
         <div className="weeklyheader">
           <h2>Weekly Reports</h2>
@@ -152,6 +171,66 @@ export default function Homeboard(props) {
             </BarChart>
           </ResponsiveContainer>
         </div>
+      </div>
+      <div className="appointments-table">
+        <div className="appointments_header">
+          <h2>Upcoming Appointments</h2>
+          <div className="appointment-day-filter">
+            <label htmlFor="day-select">Select Day:</label>
+            <select
+              id="day-select"
+              value={selectedDay}
+              onChange={handleDayChange}
+            >
+              <option value="All">All</option>
+              {appointments
+                .map((appt) => appt.date)
+                .map((day) => (
+                  <option key={day} value={day}>
+                    {day}
+                  </option>
+                ))}
+            </select>
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Location</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {appointments.map((appt) => (
+              <tr
+                key={appt.id}
+                className={appt.status === "completed" ? "completed" : ""}
+              >
+                <td>
+                  <img
+                    src={`/images/${appt.image}`}
+                    alt="profile"
+                    className="profile-img"
+                  />
+                  {appt.name}
+                </td>
+                <td>{appt.location}</td>
+                <td>{appt.date}</td>
+                <td>{appt.time}</td>
+                <td>
+                  {appt.status === "completed" ? (
+                    <FaCircleCheck color="rgb(0, 88, 87)" size={25} />
+                  ) : (
+                    <MdOutlineIncompleteCircle color="orange" size={25} />
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

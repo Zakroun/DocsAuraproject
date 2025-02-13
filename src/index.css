@@ -1527,7 +1527,7 @@ hr {
 }
 .addbtn{
   background-color: #008481;
-  border: 1px solid #008481;
+  border: 1px solid rgb(0, 133, 130);
   border-radius: 10px;
   color: white;
   padding: 8px;
@@ -1563,6 +1563,44 @@ hr {
   text-align: center;
   padding: 20px;
   height: 130px;
+}
+.appointments-table {
+  width: 100%;
+  margin-bottom: 40px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #f4f4f4;
+}
+
+tr.completed {
+  background-color: #00848284;
+  color: white;
+}
+
+.profile-img {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.appointments_header{
+  display: flex;
+  justify-content: space-between;
+}
+.appointment-day-filter{
+  margin-top: 25px;
 }
 /* Responsive Design */
 @media (max-width: 479px) {
