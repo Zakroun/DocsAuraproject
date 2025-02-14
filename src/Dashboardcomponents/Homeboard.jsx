@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { MdVerified } from "react-icons/md";
+import { Link } from "react-router-dom";
 import {
   LineChart,
   BarChart,
@@ -56,10 +58,31 @@ export default function Homeboard(props) {
       );
     }
   };
-
+  function generateStars(rating) {
+    return Array.from({ length: 5 }, (_, i) => {
+      if (i < Math.floor(rating)) {
+        return (
+          <span key={i} className="star filled">
+            ★
+          </span>
+        );
+      } else if (i < rating) {
+        return (
+          <span key={i} className="star half">
+            ★
+          </span>
+        );
+      } else {
+        return (
+          <span key={i} className="star empty">
+            ☆
+          </span>
+        );
+      }
+    });
+  }
   const patientData = d.patientData;
   const appointments = filteredAppointments;
-
   return (
     <div className="homeboard">
       <div className="searchadd">
@@ -87,7 +110,6 @@ export default function Homeboard(props) {
                 </span>
               )}
             </div>
-
             {showNotifications && (
               <div className="notification-dropdown">
                 {notifications.length > 0 ? (
@@ -108,211 +130,231 @@ export default function Homeboard(props) {
       <div className="homeboard__header">
         <div className="homeboard__header__title">
           <h1>
-            {greeting} <br /> <span> {d.fullName} </span>
+            {greeting} <br /> <span> {d.fullName} {d.Verified ? <MdVerified className="verif" /> : ""} </span>
           </h1>
-          <p>Have a nice day at the hospital!</p>
+          {d.Role === "Patients" ? <p>Have a nice day!</p> : <p>Have a nice day at the hospital!</p>}
+          {d.Role === "Patients" ? '' :<div className="stars">{generateStars(d.rating)}</div>}
         </div>
+
         <div className="homeboard__header__image">
-          <img src={`../images/doctor.png`} alt="Doctor imge" />
+          <img
+            src={
+              d.Role === "Patients"
+                ? `../Images/examination.png`
+                : d.Role === "doctor"
+                ? `../images/doctor.png`
+                : d.Role === "clinic"
+                ? `../images/hospital.png`
+                : `../images/research.png`
+            }
+            alt="Doctor imge"
+          />
         </div>
       </div>
 
-      <div className="weeklyReports">
-        <div className="weeklyheader">
-          <h2>Weekly Reports</h2>
-          <select name="weeklyselect" id="weeklyselect">
-            <option value="last week">Last Week</option>
-            <option value="this week">This Week</option>
-            <option value="last month">Last Month</option>
-            <option value="this month">This Month</option>
-            <option value="last year">Last Year</option>
-            <option value="this year">This Year</option>
-          </select>
-        </div>
+      {(d.Role === "doctor" ||
+        d.Role === "clinic" ||
+        d.Role === "laboratori") &&
+        d.Verified === true ? (
+          <>
+            <div className="weeklyReports">
+              <div className="weeklyheader">
+                <h2>Weekly Reports</h2>
+                <select name="weeklyselect" id="weeklyselect">
+                  <option value="last week">Last Week</option>
+                  <option value="this week">This Week</option>
+                  <option value="last month">Last Month</option>
+                  <option value="this month">This Month</option>
+                  <option value="last year">Last Year</option>
+                  <option value="this year">This Year</option>
+                </select>
+              </div>
 
-        <div className="weeklyReports__content">
-          <div className="partweekly">
-            <div className="partweekly__header">
-              <FaHospitalUser
-                size={30}
-                color="#008481"
-                style={{
-                  backgroundColor: "#00848276",
-                  padding: 7,
-                  borderRadius: 10,
-                }}
-              />
+              <div className="weeklyReports__content">
+                <div className="partweekly">
+                  <div className="partweekly__header">
+                    <FaHospitalUser
+                      size={30}
+                      color="#008481"
+                      style={{
+                        backgroundColor: "#00848276",
+                        padding: 7,
+                        borderRadius: 10,
+                      }}
+                    />
+                  </div>
+                  <h3>Total Patients </h3>
+                  <h3 style={{ color: "#008481" }}>200</h3>
+                </div>
+                <div className="partweekly">
+                  <div className="partweekly__header">
+                    <IoCallSharp
+                      size={30}
+                      color="rgb(195, 101, 0)"
+                      style={{
+                        backgroundColor: "rgba(195, 101, 0, 0.45)",
+                        padding: 7,
+                        borderRadius: 10,
+                      }}
+                    />
+                  </div>
+                  <h3>Phone Calls </h3>
+                  <h3 style={{ color: "rgb(195, 101, 0)" }}>20</h3>
+                </div>
+                <div className="partweekly">
+                  <div className="partweekly__header">
+                    <FaCalendarAlt
+                      size={30}
+                      color="rgb(153, 0, 0)"
+                      style={{
+                        backgroundColor: "rgba(153, 0, 0, 0.46)",
+                        padding: 7,
+                        borderRadius: 10,
+                      }}
+                    />
+                  </div>
+                  <h3>Appointments </h3>
+                  <h3 style={{ color: "rgb(153, 0, 0)" }}>100</h3>
+                </div>
+                <div className="partweekly">
+                  <div className="partweekly__header">
+                    <MdMarkEmailUnread
+                      size={30}
+                      color="rgb(0, 0, 155)"
+                      style={{
+                        backgroundColor: "rgba(0, 0, 155, 0.44)",
+                        padding: 7,
+                        borderRadius: 10,
+                      }}
+                    />
+                  </div>
+                  <h3>Unread Messages </h3>
+                  <h3 style={{ color: "rgb(0, 0, 155)" }}>10</h3>
+                </div>
+              </div>
+              <div className="chart-container">
+                <div className="weeklyheader">
+                  <h2>Number of Patients Per Month</h2>
+                  <select name="weeklyselect" id="weeklyselect">
+                    <option value="last year">Last Year</option>
+                    <option value="this year">This Year</option>
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                    <option value="2021">2021</option>
+                    <option value="2020">2020</option>
+                  </select>
+                </div>
+                <ResponsiveContainer width="100%" height={300}>
+                  <LineChart data={patientDatamonth}>
+                    <XAxis dataKey="month" stroke="#555" />
+                    <YAxis />
+                    <CartesianGrid stroke="#ddd" strokeDasharray="5 5" />
+                    <Tooltip />
+                    <Line
+                      type="monotone"
+                      dataKey="patients"
+                      stroke="#008481"
+                      strokeWidth={3}
+                      dot={{ r: 5 }}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="chart-container">
+                <div className="weeklyheader">
+                  <h2>Number of Patients Over the Week</h2>
+                  <select name="weeklyselect" id="weeklyselect">
+                    <option value="last week">Last Week</option>
+                    <option value="this week">This Week</option>
+                    <option value="last month">Last Month</option>
+                    <option value="this month">This Month</option>
+                    <option value="last year">Last Year</option>
+                    <option value="this year">This Year</option>
+                  </select>
+                </div>
+                <ResponsiveContainer width="100%" height={300}>
+                  <BarChart data={patientData}>
+                    <XAxis dataKey="day" stroke="#555" />
+                    <YAxis />
+                    <Tooltip />
+                    <Bar
+                      dataKey="thisWeek"
+                      fill="#008481"
+                      barSize={40}
+                      name="This Week"
+                    />
+                    <Bar
+                      dataKey="lastWeek"
+                      fill="rgba(197, 197, 197, 0.75)"
+                      barSize={40}
+                      name="Last Week"
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
             </div>
-            <h3>Total Patients </h3>
-            <h3 style={{ color: "#008481" }}>200</h3>
-          </div>
-          <div className="partweekly">
-            <div className="partweekly__header">
-              <IoCallSharp
-                size={30}
-                color="rgb(195, 101, 0)"
-                style={{
-                  backgroundColor: "rgba(195, 101, 0, 0.45)",
-                  padding: 7,
-                  borderRadius: 10,
-                }}
-              />
-            </div>
-            <h3>Phone Calls </h3>
-            <h3 style={{ color: "rgb(195, 101, 0)" }}>20</h3>
-          </div>
-          <div className="partweekly">
-            <div className="partweekly__header">
-              <FaCalendarAlt
-                size={30}
-                color="rgb(153, 0, 0)"
-                style={{
-                  backgroundColor: "rgba(153, 0, 0, 0.46)",
-                  padding: 7,
-                  borderRadius: 10,
-                }}
-              />
-            </div>
-            <h3>Appointments </h3>
-            <h3 style={{ color: "rgb(153, 0, 0)" }}>100</h3>
-          </div>
-          <div className="partweekly">
-            <div className="partweekly__header">
-              <MdMarkEmailUnread
-                size={30}
-                color="rgb(0, 0, 155)"
-                style={{
-                  backgroundColor: "rgba(0, 0, 155, 0.44)",
-                  padding: 7,
-                  borderRadius: 10,
-                }}
-              />
-            </div>
-            <h3>Unread Messages </h3>
-            <h3 style={{ color: "rgb(0, 0, 155)" }}>10</h3>
-          </div>
-        </div>
-        <div className="chart-container">
-        <div className="weeklyheader">
-        <h2>Number of Patients Per Month</h2>
-          <select name="weeklyselect" id="weeklyselect">
-            <option value="last year">Last Year</option>
-            <option value="this year">This Year</option>
-            <option value="2023">2023</option>
-            <option value="2022">2022</option>
-            <option value="2021">2021</option>
-            <option value="2020">2020</option>
-          </select>
-        </div>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={patientDatamonth}>
-              <XAxis dataKey="month" stroke="#555" />
-              <YAxis />
-              <CartesianGrid stroke="#ddd" strokeDasharray="5 5" />
-              <Tooltip />
-              <Line
-                type="monotone"
-                dataKey="patients"
-                stroke="#008481"
-                strokeWidth={3}
-                dot={{ r: 5 }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-        <div className="chart-container">
-        <div className="weeklyheader">
-        <h2>Number of Patients Over the Week</h2>
-          <select name="weeklyselect" id="weeklyselect">
-            <option value="last week">Last Week</option>
-            <option value="this week">This Week</option>
-            <option value="last month">Last Month</option>
-            <option value="this month">This Month</option>
-            <option value="last year">Last Year</option>
-            <option value="this year">This Year</option>
-          </select>
-        </div>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={patientData}>
-              <XAxis dataKey="day" stroke="#555" />
-              <YAxis />
-              <Tooltip />
-              <Bar
-                dataKey="thisWeek"
-                fill="#008481"
-                barSize={40}
-                name="This Week"
-              />
-              <Bar
-                dataKey="lastWeek"
-                fill="rgba(197, 197, 197, 0.75)"
-                barSize={40}
-                name="Last Week"
-              />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-      <div className="appointments-table">
-        <div className="appointments_header">
-          <h2>Upcoming Appointments</h2>
-          <div className="appointment-day-filter">
-            <label htmlFor="day-select">Select Day:</label>
-            <select
-              id="day-select"
-              value={selectedDay}
-              onChange={handleDayChange}
-            >
-              <option value="All">All</option>
-              {appointments
-                .map((appt) => appt.date)
-                .map((day) => (
-                  <option key={day} value={day}>
-                    {day}
-                  </option>
-                ))}
-            </select>
-          </div>
-        </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Location</th>
-              <th>Date</th>
-              <th>Time</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {appointments.map((appt) => (
-              <tr
-                key={appt.id}
-                className={appt.status === "completed" ? "completed" : ""}
-              >
-                <td>
-                  <img
-                    src={`/images/${appt.image}`}
-                    alt="profile"
-                    className="profile-img"
-                  />
-                  {appt.name}
-                </td>
-                <td>{appt.location}</td>
-                <td>{appt.date}</td>
-                <td>{appt.time}</td>
-                <td>
-                  {appt.status === "completed" ? (
-                    <FaCircleCheck color="rgb(0, 88, 87)" size={25} />
-                  ) : (
-                    <MdOutlineIncompleteCircle color="orange" size={25} />
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            <div className="appointments-table">
+              <div className="appointments_header">
+                <h2>Upcoming Appointments</h2>
+                <div className="appointment-day-filter">
+                  <label htmlFor="day-select">Select Day:</label>
+                  <select
+                    id="day-select"
+                    value={selectedDay}
+                    onChange={handleDayChange}
+                  >
+                    <option value="All">All</option>
+                    {appointments
+                      .map((appt) => appt.date)
+                      .map((day) => (
+                        <option key={day} value={day}>
+                          {day}
+                        </option>
+                      ))}
+                  </select>
+                </div>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Location</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {appointments.map((appt) => (
+                    <tr
+                      key={appt.id}
+                      className={appt.status === "completed" ? "completed" : ""}
+                    >
+                      <td>
+                        <img
+                          src={`/images/${appt.image}`}
+                          alt="profile"
+                          className="profile-img"
+                        />
+                        {appt.fullname}
+                      </td>
+                      <td>{appt.location}</td>
+                      <td>{appt.date}</td>
+                      <td>{appt.time}</td>
+                      <td>
+                        {appt.status === "completed" ? (
+                          <FaCircleCheck color="rgb(0, 88, 87)" size={25} />
+                        ) : (
+                          <MdOutlineIncompleteCircle color="orange" size={25} />
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>{" "}
+          </>
+        ) : <Link to={'/pages/Activate'} state={{object: d}}><button className="verfier">Activate my account </button></Link>}
     </div>
   );
 }

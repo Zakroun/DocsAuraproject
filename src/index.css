@@ -119,6 +119,16 @@ body {
 #email,
 #password,
 #fullname,
+#address,
+#amoCode,
+#cnssCode,
+#phoneNumber,
+#medicalOrderNumber,
+#taxId,
+#patente,
+#clinicId,
+#patientId,
+#emergencyContact,
 #date,
 #cin,
 #time,
@@ -301,7 +311,6 @@ body {
 }
 #btn {
   cursor: pointer;
-  /* background-image: linear-gradient(to right, #2e8084,#00AAB7,#E6F4F1); */
   background-color: #2e8084;
   border: none;
   color: white;
@@ -359,14 +368,15 @@ body {
   opacity: 1;
 }
 /* Register */
-.Register {
+.Register,
+.activate-form {
   margin-top: 4%;
   margin-left: 2%;
   width: fit-content;
   padding-left: 100px;
   padding-right: 150px;
 }
-#consultationType{
+#consultationType {
   -webkit-user-select: auto;
   user-select: auto;
   border: none;
@@ -376,10 +386,11 @@ body {
   height: 30px;
   padding: 5px;
   margin-bottom: 12px;
-  margin-left:20px ;
+  margin-left: 20px;
   outline: none;
 }
 #Role,
+#specialty,
 #paymentMethod,
 #gender,
 #cities {
@@ -483,7 +494,6 @@ body {
 
 #btnRegister {
   cursor: pointer;
-  /* background-image: linear-gradient(to right, #2e8084,#00AAB7,#E6F4F1); */
   background-color: #2e8084;
   border: none;
   color: white;
@@ -636,26 +646,26 @@ body {
 .signupbtn:hover {
   background-color: #00d5e4;
 }
-.Profile{
+.Profile {
   margin-top: 3px;
 }
-.btnProfile{
+.btnProfile {
   /* background-color: #018786; */
   border: 1px solid transparent;
   background-color: transparent;
   color: #00504e;
   font-size: 30px;
-  padding:7px;
+  padding: 7px;
   width: 42px;
   border-radius: 50%;
   cursor: pointer;
 }
-.btnProfile2{
+.btnProfile2 {
   border: 1px solid transparent;
   background-color: transparent;
   color: white;
   font-size: 30px;
-  padding:7px;
+  padding: 7px;
   width: 42px;
   border-radius: 50%;
   cursor: pointer;
@@ -922,18 +932,18 @@ hr {
 
 .chat-footer button {
   background: #018786;
-  border-radius:10px ;
+  border-radius: 10px;
   color: white;
   border: none;
   padding: 8px;
   cursor: pointer;
 }
-.bot{
+.bot {
   background-color: #c2fbff;
   padding: 8px;
   border-radius: 10px;
 }
-.user{
+.user {
   background-color: #008d8bc9;
   padding: 8px;
   border-radius: 10px;
@@ -1121,15 +1131,15 @@ hr {
   overflow: hidden;
   text-align: left;
 }
-.doctor:hover{
+.doctor:hover {
   transform: scale(1.05);
   transition: 1s;
 }
-.clinic:hover{
+.clinic:hover {
   transform: scale(1.05);
   transition: 1s;
 }
-.laboratory:hover{
+.laboratory:hover {
   transform: scale(1.05);
   transition: 1s;
 }
@@ -1313,40 +1323,40 @@ hr {
   height: 140px;
   border: 2px solid #016b69;
 }
-.part1{
+.part1 {
   text-align: center;
 }
-.part1 .stars{
+.part1 .stars {
   margin-top: 10px;
 }
-.comment{
-  border-top-left-radius:10px;
-  border-bottom-right-radius:10px;
+.comment {
+  border-top-left-radius: 10px;
+  border-bottom-right-radius: 10px;
   padding: 5px;
   background-color: #018786;
   color: white;
   margin-top: 10px;
 }
-.part2{
+.part2 {
   margin-left: 50px;
   text-align: left;
 }
-.profile h1{
+.profile h1 {
   color: #016b69;
 }
-.specialty{
+.specialty {
   font-weight: bold;
 }
-.head{
+.head {
   flex-wrap: wrap;
   justify-content: space-between;
   display: flex;
   flex-direction: row;
 }
-.part2head{
+.part2head {
   margin-top: 30px;
 }
-.reserve{
+.reserve {
   cursor: pointer;
   background-color: #2e8084;
   border: none;
@@ -1357,7 +1367,7 @@ hr {
   border-radius: 6px;
   margin-left: 10px;
 }
-.msg{
+.msg {
   cursor: pointer;
   background-color: #17a2b8;
   border: none;
@@ -1370,14 +1380,14 @@ hr {
 }
 
 /* divreserve */
-.divreserve{
+.divreserve {
   margin-top: 130px;
   margin-left: 40px;
 }
-.divreserve h1{
+.divreserve h1 {
   color: #016b69;
 }
-.part1serve{
+.part1serve {
   border-radius: 5px;
   background-color: #2fc8c557;
   margin-bottom: 30px;
@@ -1385,31 +1395,31 @@ hr {
   padding: 13px;
   margin-right: 20px;
 }
-.part2serve{
+.part2serve {
   border-radius: 5px;
   background-color: #2fc8c557;
   padding-left: 20px;
   padding: 13px;
   margin-right: 20px;
 }
-.content1{
-  margin-top:20px;
-  margin-left:20px
+.content1 {
+  margin-top: 20px;
+  margin-left: 20px;
 }
-.content2{
-  margin-top:20px;
-  margin-left:20px
+.content2 {
+  margin-top: 20px;
+  margin-left: 20px;
 }
-.spanserve{
+.spanserve {
   color: #00504e;
   font-size: 20px;
   font-weight: bold;
 }
-.spancontent{
+.spancontent {
   display: flex;
   justify-content: space-between;
 }
-.iconspan{
+.iconspan {
   color: #00504e;
 }
 .upload-label {
@@ -1428,9 +1438,9 @@ hr {
 }
 
 .upload-btn:hover {
-  background-color:  #00cecbde;
+  background-color: #00cecbde;
 }
-.containerDashboard{
+.containerDashboard {
   top: 0;
   left: 0;
   position: fixed;
@@ -1438,7 +1448,7 @@ hr {
   width: 100%;
   display: flex;
 }
-.Part1Dashboard{
+.Part1Dashboard {
   border-radius: 7px;
   flex-direction: column;
   display: flex;
@@ -1449,36 +1459,36 @@ hr {
   height: 100%;
   width: 7%;
 }
-.logodashboard{
+.logodashboard {
   width: 70px;
 }
-.content{
+.content {
   display: flex;
   align-items: center;
   flex-direction: column;
 }
-.icon{
+.icon {
   cursor: pointer;
   color: white;
   margin-top: 30px;
   font-size: 30px;
 }
-.icon:hover{
+.icon:hover {
   color: #00cecbde;
 }
-.iconleft{
+.iconleft {
   cursor: pointer;
   color: white;
   margin-top: 60px;
   font-size: 35px;
 }
-.iconleft:hover{
+.iconleft:hover {
   color: #00cecbde;
 }
-.footerdashbord{
+.footerdashbord {
   margin-top: -30px;
 }
-.part2dashboard{
+.part2dashboard {
   overflow-y: scroll;
   background-color: white;
   margin-left: -10px;
@@ -1487,10 +1497,10 @@ hr {
   padding: 20px;
   border-radius: 10px;
 }
-.part2dashboard{
+.part2dashboard {
   background-color: rgb(245, 245, 245);
 }
-.homeboard__header{
+.homeboard__header {
   margin-top: 70px;
   display: flex;
   height: fit-content;
@@ -1499,14 +1509,14 @@ hr {
   border-radius: 20px;
   padding: 25px;
 }
-.homeboard__header__title span{
+.homeboard__header__title span {
   color: #008481;
 }
-.searchadd{
+.searchadd {
   display: flex;
   justify-content: space-between;
 }
-.searchdiv{
+.searchdiv {
   background-color: white;
   width: 300px;
   display: flex;
@@ -1514,18 +1524,18 @@ hr {
   padding: 5px;
   border-radius: 10px;
 }
-.inputsearch{
+.inputsearch {
   width: 100%;
   border: none;
   outline: none;
   background-color: transparent;
 }
-.searchbtn{
+.searchbtn {
   cursor: pointer;
   border: none;
   background-color: transparent;
 }
-.addbtn{
+.addbtn {
   background-color: #008481;
   border: 1px solid rgb(0, 133, 130);
   border-radius: 10px;
@@ -1536,27 +1546,28 @@ hr {
 .homeboard__header__title p {
   color: rgb(165, 165, 165);
 }
-.homeboard__header__image img{
+.homeboard__header__image img {
   margin-top: -70px;
+  width: 250px;
 }
-.weeklyReports{
+.weeklyReports {
   padding: 25px;
 }
-.weeklyReports__content{
+.weeklyReports__content {
   display: flex;
   margin-bottom: 70px;
   justify-content: space-around;
 }
-.weeklyheader{
+.weeklyheader {
   display: flex;
   justify-content: space-between;
 }
-#weeklyselect{
+#weeklyselect {
   border: none;
   background-color: transparent;
   outline: none;
 }
-.partweekly{
+.partweekly {
   width: 160px;
   background-color: white;
   border-radius: 10px;
@@ -1575,7 +1586,8 @@ table {
   border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
   padding: 10px;
   text-align: left;
 }
@@ -1595,7 +1607,7 @@ tr.completed {
   border-radius: 50%;
   margin-right: 10px;
 }
-.appointments_header{
+.appointments_header {
   display: flex;
   justify-content: space-between;
 }
@@ -1669,12 +1681,64 @@ tr.completed {
   margin-left: auto;
 }
 
-.appointment-day-filter{
+.appointment-day-filter {
   margin-top: 25px;
 }
-.chart-container{
+.chart-container {
   margin-top: 20px;
   margin-bottom: 40px;
+}
+
+.add {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.notification-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.notification-icon {
+  transition: transform 0.2s ease-in-out;
+}
+
+.notification-icon:hover {
+  transform: scale(1.1);
+}
+
+.notification-dropdown {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  background: white;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  width: 200px;
+  padding: 10px;
+  text-align: center;
+  font-size: 14px;
+  color: #333;
+  z-index: 10;
+}
+
+.notification-dropdown p {
+  margin: 0;
+}
+.verfier {
+  cursor: pointer;
+  background-color: #2e8084;
+  border: none;
+  color: white;
+  width: 200px;
+  height: 35px;
+  font-size: 16px;
+  border-radius: 6px;
+  margin-bottom: 5px;
+  margin-top: 30px;
 }
 /* Responsive Design */
 @media (max-width: 479px) {
@@ -1691,23 +1755,34 @@ tr.completed {
     padding-left: 8px;
   }
   #email,
-#password,
-#fullname,
-#date,
-#cin,
-#time,
-#phone,
-#cvv,
-#cardNumber,
-#expiryDate,
-#confirmpassword,
-#emailpass,
-#code,
-#newpass,
-#confirmpass {
+  #password,
+  #fullname,
+  #address,
+  #amoCode,
+  #cnssCode,
+  #phoneNumber,
+  #medicalOrderNumber,
+  #taxId,
+  #patente,
+  #clinicId,
+  #patientId,
+  #emergencyContact,
+  #date,
+  #cin,
+  #time,
+  #phone,
+  #cvv,
+  #descrption,
+  #cardNumber,
+  #expiryDate,
+  #confirmpassword,
+  #emailpass,
+  #code,
+  #newpass,
+  #confirmpass {
     width: 310px;
   }
-  #descrption{
+  #descrption {
     min-width: 310px;
     max-width: 310px;
   }
@@ -1720,14 +1795,15 @@ tr.completed {
   #link {
     margin-left: 8%;
   }
-  .Register {
+  .Register,
+  .activate-form {
     margin-top: 6%;
     padding-left: 8px;
   }
   #Role,
   #gender,
   #cities,
-  #paymentMethod{
+  #paymentMethod {
     width: 320px;
   }
   #birthyear {
@@ -1826,41 +1902,41 @@ tr.completed {
   .profile {
     margin-left: 40px;
   }
-  .part2{
+  .part2 {
     margin-left: 0px;
   }
-  .part2head{
+  .part2head {
     margin-top: 10px;
     margin-bottom: 20px;
   }
-  .divreserve{
+  .divreserve {
     margin-left: 5px;
   }
-  .part1serve{
+  .part1serve {
     width: 96%;
     padding-left: 5px;
     padding: 7px;
     margin-right: 20px;
   }
-  .part2serve{
+  .part2serve {
     width: 96%;
     padding-left: 5px;
     padding: 7px;
     margin-right: 20px;
   }
-  .content1{
-    margin-left:8px
+  .content1 {
+    margin-left: 8px;
   }
-  .content2{
-    margin-left:8px
+  .content2 {
+    margin-left: 8px;
   }
   .chat-window {
     right: 24px;
   }
-  .Profile{
+  .Profile {
     display: none;
   }
-  .Profilemenu{
+  .Profilemenu {
     display: block;
   }
 }
@@ -1935,39 +2011,39 @@ tr.completed {
   .profile {
     margin-left: 80px;
   }
-  .part1{
+  .part1 {
     margin-left: 10px;
   }
-  .part2{
+  .part2 {
     margin-left: 0px;
   }
-  .part2head{
+  .part2head {
     margin-top: 25px;
     margin-bottom: 20px;
   }
-  .divreserve{
+  .divreserve {
     margin-left: 10px;
   }
-  .part1serve{
+  .part1serve {
     padding-left: 5px;
     padding: 7px;
     margin-right: 20px;
   }
-  .part2serve{
+  .part2serve {
     padding-left: 0px;
     padding: 7px;
     margin-right: 20px;
   }
-  .content1{
-    margin-left:8px
+  .content1 {
+    margin-left: 8px;
   }
-  .content2{
-    margin-left:8px
+  .content2 {
+    margin-left: 8px;
   }
-  .Profile{
+  .Profile {
     display: none;
   }
-  .Profilemenu{
+  .Profilemenu {
     display: block;
   }
 }
@@ -1987,7 +2063,8 @@ tr.completed {
     margin-left: 4%;
     padding-left: 0px;
   }
-  .Register {
+  .Register,
+  .activate-form {
     margin-top: 6%;
     margin-right: -8%;
     margin-left: 8%;
@@ -2043,21 +2120,20 @@ tr.completed {
   .profile {
     margin-left: 20px;
   }
-  .part1{
+  .part1 {
     margin-left: 0px;
   }
-  .part2{
+  .part2 {
     margin-left: 20px;
     width: 60%;
   }
-  .part2head{
+  .part2head {
     margin-top: 25px;
     margin-bottom: 20px;
   }
 }
 
 @media (min-width: 1024px) and (max-width: 1279px) {
-  /* Styles for Large (LG) */
   .loader {
     margin-top: 5%;
     margin-left: 40%;
@@ -2069,45 +2145,4 @@ tr.completed {
     margin-top: 5%;
     margin-left: 43%;
   }
-  /* Styles for Extra Large (XL) */
-}
-
-.add {
-  display: flex;
-  align-items: center;  /* محاذاة زر الإضافة مع الأيقونة */
-  gap: 10px;  /* مسافة بين العناصر */
-}
-
-.notification-container {
-  position: relative;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-.notification-icon {
-  transition: transform 0.2s ease-in-out;
-}
-
-.notification-icon:hover {
-  transform: scale(1.1);
-}
-
-.notification-dropdown {
-  position: absolute;
-  top: 30px;
-  right: 0;
-  background: white;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
-  width: 200px;
-  padding: 10px;
-  text-align: center;
-  font-size: 14px;
-  color: #333;
-  z-index: 10;
-}
-
-.notification-dropdown p {
-  margin: 0;
 }

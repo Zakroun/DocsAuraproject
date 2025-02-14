@@ -22,10 +22,12 @@ import DoctorReserve from "./Doctorpages/ReserveDoctor";
 import ClinicReserve from "./clinicpages/ClinicReserve";
 import LaboratoryReserve from "./laboratorypages/Reservelaboratory";
 import Dashboard from "./pages/Dashboard";
+import Activate from "./authentication/Activate";
 export default function Routage() {
   const { d } = useParams();
   const Loc = useLocation();
   const id = Loc.state?.id;
+  const object = Loc.state?.object
   if (d === "Login") {
     return (
       <div className="countainer">
@@ -163,5 +165,11 @@ export default function Routage() {
     );
   } else if (d === "Dashboard") {
     return <Dashboard />;
+  } else if (d === "Activate") {
+    return(
+      <div className="countainer">
+      <DivImage /> <Activate data={object} />
+    </div>
+    )
   }
 }
