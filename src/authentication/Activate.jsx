@@ -54,18 +54,17 @@ export default function Activate(props) {
             <form onSubmit={handleSubmit}>
                 <input type="text" id="address" name="address" value={formData.address} onChange={handleChange} placeholder="Complete Address" />
                 <br />
-                <h4>Type of Assurance : </h4>
-                <div className="radio-group">
-                    <label className="radio-label">
-                        <input type="radio" name="insuranceType" value="AMO" checked={formData.insuranceType === "AMO"} onChange={handleChange} className="custom-radio" style={{ accentColor: '#018786' }}/> AMO
-                    </label>
-                    <label className="radio-label">
-                        <input type="radio" name="insuranceType" value="CNSS" checked={formData.insuranceType === "CNSS"} onChange={handleChange} className="custom-radio" style={{ accentColor: '#018786' }}/> CNSS
-                    </label>
-                    
+                <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                    <label>Type of Assurance:</label>
+                    <div className="radio-group" style={{ display: "flex", gap: "10px" }}>
+                        <label className="radio-label" style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                            <input type="radio" name="insuranceType" value="AMO" checked={formData.insuranceType === "AMO"} onChange={handleChange} className="custom-radio" style={{ accentColor: '#018786' }} /> AMO
+                        </label>
+                        <label className="radio-label" style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                            <input type="radio" name="insuranceType" value="CNSS" checked={formData.insuranceType === "CNSS"} onChange={handleChange} className="custom-radio" style={{ accentColor: '#018786' }} /> CNSS
+                        </label>
+                    </div>
                 </div>
-                <br />
-                
                 {formData.insuranceType === "AMO" && (
                     <input type="text" id="amoCode" name="amoCode" value={formData.amoCode} onChange={handleChange} placeholder="Your AMO Code" />
                 )}
@@ -73,12 +72,10 @@ export default function Activate(props) {
                     <input type="text" id="cnssCode" name="cnssCode" value={formData.cnssCode} onChange={handleChange} placeholder="Your CNSS Code" />
                 )}
                 <br />
-                
                 <input type="text" id="phoneNumber" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} placeholder="Phone Number" />
                 <br />
                 <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} placeholder="Professional Email" />
                 <br />
-                
                 {role === "doctor" && (
                     <>
                         <select id="specialty" name="specialty" value={formData.specialty} onChange={handleChange}>
@@ -92,7 +89,6 @@ export default function Activate(props) {
                         <br />
                     </>
                 )}
-                
                 {role === "laboratori" && (
                     <>
                         <input type="text" id="taxId" name="taxId" value={formData.taxId} onChange={handleChange} placeholder="Tax ID" />
@@ -101,7 +97,6 @@ export default function Activate(props) {
                         <br />
                     </>
                 )}
-                
                 {role === "clinic" && (
                     <>
                         <input type="text" id="clinicId" name="clinicId" value={formData.clinicId} onChange={handleChange} placeholder="Clinic ID" />
@@ -110,7 +105,6 @@ export default function Activate(props) {
                         <br />
                     </>
                 )}
-                
                 {role === "Patients" && (
                     <>
                         <input type="text" id="patientId" name="patientId" value={formData.patientId} onChange={handleChange} placeholder="Patient ID" />
@@ -119,7 +113,6 @@ export default function Activate(props) {
                         <br />
                     </>
                 )}
-                
                 <button type="submit" id="btn">Activate</button>
             </form>
         </div>
