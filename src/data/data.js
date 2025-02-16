@@ -2,6 +2,7 @@ export const visitors = [
   {
     id: 1,
     Role: "Patients",
+    Verified: false,
     fullName: "John Doe",
     dateIncrease: "2024-01-01",
     email: "john1@example.com",
@@ -13,6 +14,7 @@ export const visitors = [
   },
   {
     id: 2,
+    Verified: false,
     Role: "Patients",
     fullName: "Jane Smith",
     dateIncrease: "2024-01-02",
@@ -25,6 +27,7 @@ export const visitors = [
   },
   {
     id: 3,
+    Verified: false,
     Role: "Patients",
     fullName: "Robert Johnson",
     dateIncrease: "2024-01-03",
@@ -37,6 +40,7 @@ export const visitors = [
   },
   {
     id: 4,
+    Verified: false,
     Role: "Patients",
     fullName: "Emily Brown",
     dateIncrease: "2024-01-04",
@@ -49,6 +53,7 @@ export const visitors = [
   },
   {
     id: 5,
+    Verified: false,
     Role: "Patients",
     fullName: "Michael White",
     dateIncrease: "2024-01-05",
@@ -61,6 +66,7 @@ export const visitors = [
   },
   {
     id: 6,
+    Verified: false,
     Role: "Patients",
     fullName: "Sarah Wilson",
     dateIncrease: "2024-01-06",
@@ -73,6 +79,7 @@ export const visitors = [
   },
   {
     id: 7,
+    Verified: false,
     Role: "Patients",
     fullName: "David Martinez",
     dateIncrease: "2024-01-07",
@@ -85,6 +92,7 @@ export const visitors = [
   },
   {
     id: 8,
+    Verified: false,
     Role: "Patients",
     fullName: "Emma Garcia",
     dateIncrease: "2024-01-08",
@@ -97,6 +105,7 @@ export const visitors = [
   },
   {
     id: 9,
+    Verified: false,
     Role: "Patients",
     fullName: "James Rodriguez",
     dateIncrease: "2024-01-09",
@@ -109,6 +118,7 @@ export const visitors = [
   },
   {
     id: 10,
+    Verified: false,
     Role: "Patients",
     fullName: "Olivia Lee",
     dateIncrease: "2024-01-10",
@@ -121,6 +131,7 @@ export const visitors = [
   },
   {
     id: 11,
+    Verified: false,
     Role: "Patients",
     fullName: "William Harris",
     dateIncrease: "2024-01-11",
@@ -133,6 +144,7 @@ export const visitors = [
   },
   {
     id: 12,
+    Verified: false,
     Role: "Patients",
     fullName: "Sophia Clark",
     dateIncrease: "2024-01-12",

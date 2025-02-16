@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import Homeboard from "../Dashboardcomponents/Homeboard";
 export default function Dashboard() {
   const curboard = useSelector((state) => state.Docsaura.currentboard);
-  const doctors = useSelector((s) => s.Docsaura.doctors);
+  const doctors = useSelector((s) => s.Docsaura.visitors);
   const doctor = doctors.find((a) => a.id === 7);
   return (
     <div className="containerDashboard">
