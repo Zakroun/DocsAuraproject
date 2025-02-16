@@ -1740,6 +1740,10 @@ tr.completed {
   margin-bottom: 5px;
   margin-top: 30px;
 }
+.disabled{
+  opacity: 0.6;
+  cursor:not-allowed;
+}
 /* Responsive Design */
 @media (max-width: 479px) {
   /* Styles for Extra Small (XS) */

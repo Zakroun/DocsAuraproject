@@ -7,8 +7,11 @@ import { RiLoginBoxFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { changeboard } from "../data/DocsauraSlice";
-export default function Part1Dashboard() {
+
+export default function Part1Dashboard(props) {
+  const user = props.user;
   const dispatch = useDispatch();
+
   return (
     <div className="Part1Dashboard">
       <div className="Part1Dashboard__header">
@@ -26,20 +29,20 @@ export default function Part1Dashboard() {
           onClick={() => dispatch(changeboard("home"))}
         />
         <FaCalendarAlt
-          className="icon"
-          onClick={() => dispatch(changeboard("calander"))}
+          className={`icon ${user.Verified === false ? "disabled" : ""}`}
+          onClick={user.Verified === false ? null : () => dispatch(changeboard("calander"))}
         />
         <BiSolidMessageSquareDetail
-          className="icon"
-          onClick={() => dispatch(changeboard("messages"))}
+          className={`icon ${user.Verified === false ? "disabled" : ""}`}
+          onClick={user.Verified === false ? null : () => dispatch(changeboard("messages"))}
         />
         <IoMdSettings
-          className="icon"
-          onClick={() => dispatch(changeboard("settings"))}
+          className={`icon ${user.Verified === false ? "disabled" : ""}`}
+          onClick={user.Verified === false ? null : () => dispatch(changeboard("settings"))}
         />
         <GoFileSubmodule
-          className="icon"
-          onClick={() => dispatch(changeboard("files"))}
+          className={`icon ${user.Verified === false ? "disabled" : ""}`}
+          onClick={user.Verified === false ? null : () => dispatch(changeboard("files"))}
         />
       </div>
       <div className="footerdashbord">
