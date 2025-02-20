@@ -192,7 +192,7 @@ export default function Homeboard(props) {
                       size={30}
                       color="rgb(195, 101, 0)"
                       style={{
-                        backgroundColor: "rgba(195, 101, 0, 0.45)",
+                        backgroundColor: "rgba(236, 122, 0, 0.45)",
                         padding: 7,
                         borderRadius: 10,
                       }}
@@ -207,7 +207,7 @@ export default function Homeboard(props) {
                       size={30}
                       color="rgb(153, 0, 0)"
                       style={{
-                        backgroundColor: "rgba(153, 0, 0, 0.46)",
+                        backgroundColor: "rgba(219, 0, 0, 0.46)",
                         padding: 7,
                         borderRadius: 10,
                       }}

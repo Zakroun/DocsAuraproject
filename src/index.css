@@ -1454,7 +1454,8 @@ hr {
   display: flex;
   justify-content: space-around;
   text-align: center;
-  padding: 20px;
+  padding: 18px;
+  padding-left: 10px;
   background-color: #016b69;
   height: 100%;
   width: 7%;
@@ -1473,7 +1474,7 @@ hr {
   margin-top: 30px;
   font-size: 30px;
 }
-.icon:hover {
+.enabled:hover {
   color: #00cecbde;
 }
 .iconleft {
@@ -1743,6 +1744,63 @@ tr.completed {
 .disabled{
   opacity: 0.6;
   cursor:not-allowed;
+}
+.calendar {
+  font-family: Arial, sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.calendar-header h2 {
+  margin: 0;
+}
+
+.calendar-filters select {
+  padding: 5px;
+  margin-bottom: 20px;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  font-weight: bold;
+  text-align: center;
+}
+
+.calendar-dates {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+
+.appointment {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.appointment-time {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.appointment-details {
+  font-size: 0.9em;
 }
 /* Responsive Design */
 @media (max-width: 479px) {

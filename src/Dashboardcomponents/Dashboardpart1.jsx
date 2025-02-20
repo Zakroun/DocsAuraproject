@@ -25,23 +25,23 @@ export default function Part1Dashboard(props) {
       </div>
       <div className="content">
         <IoMdHome
-          className="icon"
+          className="icon enabled"
           onClick={() => dispatch(changeboard("home"))}
         />
         <FaCalendarAlt
-          className={`icon ${user.Verified === false ? "disabled" : ""}`}
+          className={`icon ${user.Verified === false ? "disabled" : "enabled"}`}
           onClick={user.Verified === false ? null : () => dispatch(changeboard("calander"))}
         />
         <BiSolidMessageSquareDetail
-          className={`icon ${user.Verified === false ? "disabled" : ""}`}
+          className={`icon ${user.Verified === false ? "disabled" : "enabled"}`}
           onClick={user.Verified === false ? null : () => dispatch(changeboard("messages"))}
         />
         <IoMdSettings
-          className={`icon ${user.Verified === false ? "disabled" : ""}`}
+          className={`icon ${user.Verified === false ? "disabled" : "enabled"}`}
           onClick={user.Verified === false ? null : () => dispatch(changeboard("settings"))}
         />
         <GoFileSubmodule
-          className={`icon ${user.Verified === false ? "disabled" : ""}`}
+          className={`icon ${user.Verified === false ? "disabled" : "enabled"}`}
           onClick={user.Verified === false ? null : () => dispatch(changeboard("files"))}
         />
       </div>
