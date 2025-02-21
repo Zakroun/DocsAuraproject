@@ -5,7 +5,7 @@ import Homeboard from "../Dashboardcomponents/Homeboard";
 export default function Dashboard() {
   const curboard = useSelector((state) => state.Docsaura.currentboard);
   const doctors = useSelector((s) => s.Docsaura.doctors);
-  const doctor = doctors.find((a) => a.id === 3);
+  const doctor = doctors.find((a) => a.id === 1);
   return (
     <div className="containerDashboard">
       <Part1Dashboard user={doctor}/>

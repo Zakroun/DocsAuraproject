@@ -1436,6 +1436,119 @@ hr {
   font-size: 16px;
   border-radius: 5px;
 }
+.calendar-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.calendar-title {
+  color: #00504e;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.filters {
+  margin-bottom: 20px;
+}
+
+.filters select {
+  padding: 8px;
+  margin-right: 10px;
+  width: 120px;
+}
+
+.calendar-grid {
+  display: grid;
+  gap: 15px;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
+
+.calendar-day {
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-date {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.noappointments{
+  text-align: center;
+  color: #666;
+}
+
+.appointment-card {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  height: 120px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.appointment-card.pending {
+  background-color: rgb(255, 241, 215);
+}
+
+.appointment-card.completed {
+  background-color: rgb(219, 255, 219);
+}
+
+.appointment-card.canceled {
+  background-color: rgb(255, 205, 205);
+}
+
+.appointment-image {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+.appointment-info {
+  flex-grow: 1;
+}
+
+.appointment-name {
+  font-weight: bold;
+}
+
+.appointment-location,
+.appointment-time {
+  font-size: 12px;
+  color: #666;
+}
+
+.status {
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.status.completed {
+  background-color: rgb(26, 225, 26);
+  color: white;
+}
+
+.status.pending {
+  background-color: rgb(255, 182, 47);
+  color: white;
+}
+
+.status.canceled {
+  background-color: rgb(255, 64, 64);
+  color: white;
+}
 
 .upload-btn:hover {
   background-color: #00cecbde;
@@ -1769,12 +1882,14 @@ tr.completed {
 }
 
 .calendar-grid {
+  flex-wrap: wrap;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 10px;
 }
 
 .calendar-days {
+  height: fit-content;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   font-weight: bold;
