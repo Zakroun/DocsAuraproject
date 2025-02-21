@@ -2323,3 +2323,258 @@ tr.completed {
     margin-left: 43%;
   }
 }
+
+/* General Styles */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f2f5;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+.calendar-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-title {
+  text-align: center;
+  color: #2c3e50;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+/* Filters and Actions */
+.filters {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  gap: 15px;
+}
+
+.filters select,
+.filters input {
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: #f9f9f9;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.filters select:focus,
+.filters input:focus {
+  border-color: #018786;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+}
+
+.calendar-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 30px;
+  gap: 10px;
+}
+
+.calendar-actions button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  background-color: #018786;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.calendar-actions button:hover {
+  background-color: #018786;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.calendar-actions button:active {
+  transform: translateY(0);
+}
+
+/* Legend */
+.legend {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+  gap: 20px;
+}
+
+.legend div {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #555;
+}
+
+.legend .status {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.legend .completed {
+  background-color: #28a745;
+}
+
+.legend .pending {
+  background-color: #ffc107;
+}
+
+.legend .canceled {
+  background-color: #dc3545;
+}
+
+/* Calendar Grid */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 15px;
+}
+
+.calendar-day {
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.calendar-day:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-date {
+  margin: 0 0 10px;
+  font-size: 16px;
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.appointment-card {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.appointment-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.appointment-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.appointment-name {
+  margin: 0;
+  font-size: 14px;
+  color: #2c3e50;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.appointment-time {
+  margin: 0;
+  font-size: 12px;
+  color: #666;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.appointment-amount {
+  margin: 0;
+  font-size: 12px;
+  color: #28a745;
+  font-weight: 500;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  color: #666;
+  gap: 4px;
+}
+
+.status.completed {
+  color: #28a745;
+}
+
+.status.pending {
+  color: #ffffff;
+}
+
+.status.canceled {
+  color: #dc3545;
+}
+
+.noappointments {
+  text-align: center;
+  color: #999;
+  font-size: 14px;
+  font-style: italic;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.calendar-day {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .calendar-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .filters {
+    flex-direction: column;
+  }
+
+  .calendar-actions {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .calendar-grid {
+    grid-template-columns: 1fr;
+  }
+}
