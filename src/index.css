@@ -2325,7 +2325,7 @@ tr.completed {
 }
 
 /* General Styles */
-body {
+.body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f0f2f5;
   margin: 0;
@@ -2476,7 +2476,7 @@ body {
   display: flex;
   align-items: center;
   transition: all 0.3s ease;
-  overflow: hidden;
+  overflow: visible; /* Ensure content is not hidden */
 }
 
 .appointment-card:hover {
@@ -2494,18 +2494,17 @@ body {
   font-size: 14px;
   color: #2c3e50;
   font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal; /* Allow text to wrap */
+  overflow: visible; /* Ensure text is not hidden */
+  text-overflow: clip; /* Remove ellipsis */
 }
-
 .appointment-time {
   margin: 0;
   font-size: 12px;
   color: #666;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal; /* Allow text to wrap */
+  overflow: visible; /* Ensure text is not hidden */
+  text-overflow: clip; /* Remove ellipsis */
 }
 
 .appointment-amount {
@@ -2524,7 +2523,7 @@ body {
 }
 
 .status.completed {
-  color: #28a745;
+  color: #ffffff;
 }
 
 .status.pending {
@@ -2532,7 +2531,7 @@ body {
 }
 
 .status.canceled {
-  color: #dc3545;
+  color: #ffffff;
 }
 
 .noappointments {
@@ -2555,9 +2554,13 @@ body {
 }
 
 .calendar-day {
-  animation: fadeIn 0.5s ease-out;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  transition: all 0.3s ease;
+  overflow: visible; /* Ensure content is not hidden */
 }
-
 /* Responsive Design */
 @media (max-width: 768px) {
   .calendar-grid {
