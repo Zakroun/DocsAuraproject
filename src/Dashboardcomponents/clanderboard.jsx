@@ -74,9 +74,6 @@ export default function Calendar(props) {
         <button className="add-appointment" onClick={() => alert('Add new appointment')}>
           Add Appointment
         </button>
-        <button className="print-button" onClick={() => window.print()}>
-          Print Calendar
-        </button>
       </div>
 
       <div className="legend">
