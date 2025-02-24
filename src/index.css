@@ -1389,7 +1389,7 @@ hr {
 }
 .part1serve {
   border-radius: 5px;
-  background-color: #2fc8c557;
+  background-color: transparent;
   margin-bottom: 30px;
   padding-left: 20px;
   padding: 13px;
@@ -1397,7 +1397,7 @@ hr {
 }
 .part2serve {
   border-radius: 5px;
-  background-color: #2fc8c557;
+  background-color: transparent;
   padding-left: 20px;
   padding: 13px;
   margin-right: 20px;
@@ -1416,6 +1416,9 @@ hr {
   font-weight: bold;
 }
 .spancontent {
+  background-color: #32cbc869;
+  border-radius: 10px;
+  padding: 10px;
   display: flex;
   justify-content: space-between;
 }
@@ -1551,7 +1554,7 @@ hr {
 }
 
 .upload-btn:hover {
-  background-color: #00cecbde;
+  background-color: #008683de;
 }
 .containerDashboard {
   top: 0;

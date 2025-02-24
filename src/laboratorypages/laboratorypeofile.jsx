@@ -57,7 +57,7 @@ export default function Laboratoryprofile(props) {
           <div className="head">
             <div className="part1head">
               <h1>
-                {laboratory.name}{" "}
+                {laboratory.fullName}{" "}
                 {laboratory.Verified ? <MdVerified className="verif" /> : ""}
               </h1>
             </div>

@@ -94,7 +94,7 @@ export default function LaboratoryReserve(props) {
 
   return (
     <div className="divreserve">
-      <h1>Book a consultation with , {labo.name}</h1>
+      <h1>Book a consultation with , {labo.fullName}</h1>
       <div className="part1serve">
         <div className="spancontent">
           <span className="spanserve">1 | Personal Information</span>

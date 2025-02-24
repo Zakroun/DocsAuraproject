@@ -86,7 +86,7 @@ export default function ListLabo() {
             <Link to={`/pages/laboratory`} state={{ id: l.id }} id="Linktoone">
               <img id="imgDocLabcli" src={`/images/${l.image}`} alt={l.name} />
               <div className="informations">
-                <h3>{l.name}</h3>
+                <h3>{l.fullName}</h3>
                 <p>{l.address}</p>
                 <div className="stars">{generateStars(l.rating)}</div>
                   <button className="btnsee">See</button>

@@ -93,7 +93,7 @@ export default function ListClinic() {
                 alt={c.name}
               />
               <div className="informations">
-                <h3>{c.name}</h3>
+                <h3>{c.fullName}</h3>
                 <p>{c.address}</p>
                 <div className="stars">{generateStars(c.rating)}</div>
                 <button className="btnsee">See</button>

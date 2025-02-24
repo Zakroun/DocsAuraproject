@@ -57,7 +57,7 @@ export default function Clinicprofile(props) {
           <div className="head">
             <div className="part1head">
               <h1>
-                {clinic.name}{" "}
+                {clinic.fullName}{" "}
                 {clinic.Verified ? <MdVerified className="verif" /> : ""}
               </h1>
             </div>
