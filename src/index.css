@@ -1706,21 +1706,26 @@ table {
 th,
 td {
   padding: 10px;
-  text-align: left;
+  text-align: center;
 }
 
 th {
   background-color: #f4f4f4;
 }
 
-tr.completed {
+/* tr.completed {
   background-color: #00848284;
   color: white;
 }
 
+tr.canceled {
+  background-color: rgba(255, 47, 47, 0.5);
+  color: white;
+} */
+
 .profile-img {
-  width: 20px;
-  height: 20px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   margin-right: 10px;
 }
@@ -1920,6 +1925,30 @@ tr.completed {
 .appointment-details {
   font-size: 0.9em;
 }
+.cancel{
+  background-color: orange;
+  width: 80px;
+  border: 1px solid orange;
+  border-radius: 10px;
+  margin-right: 20px;
+  color: white;
+  padding: 8px;
+  cursor: pointer;
+}
+.complet{
+  background-color: #00504e;
+  width: 80px;
+  border: 1px solid #00504e;
+  border-radius: 10px;
+  margin-right: 20px;
+  color: white;
+  padding: 8px;
+  cursor: pointer;
+}
+.Link{
+  text-decoration: none;
+}
+
 /* Responsive Design */
 @media (max-width: 479px) {
   /* Styles for Extra Small (XS) */
@@ -2471,20 +2500,21 @@ tr.completed {
   font-weight: 500;
 }
 
-.appointment-card {
+.appointment_card {
   background-color: #ffffff;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   padding: 12px;
   margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  transition: all 0.3s ease;
-  overflow: visible; /* Ensure content is not hidden */
+  padding: 30px;
 }
-
-.appointment-card:hover {
-  transform: translateY(-3px);
+.user-image{
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+.appointment_card:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
@@ -2564,6 +2594,65 @@ tr.completed {
   background-color: #f9f9f9;
   transition: all 0.3s ease;
   overflow: visible; /* Ensure content is not hidden */
+}
+.completform, 
+.cancelform{
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  margin-top: 20px;
+  padding: 12px;
+  margin-bottom: 10px;
+  padding: 30px;
+  margin-bottom: 40px;
+}
+.prescription,
+.diagnosis,
+.cancel-reason{
+  width: 350px;
+  max-width: 400px;
+  min-width: 350px;
+  height: 35px;
+  max-height: 35px;
+  max-height: 35px;
+}
+.Save{
+  background-color: #00504e;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+.Download{
+  background-color: #00504e;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+.Confirm{
+  background-color: #00504e;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  margin-right: 20px;
+}
+.Back{
+  background-color: orange;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  margin-right: 20px;
 }
 /* Responsive Design */
 @media (max-width: 768px) {

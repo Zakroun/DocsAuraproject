@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle, faClock, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { Link } from "react-router-dom";
 
 export default function Calendar(props) {
   const appointments = props.appointments || [];
@@ -92,7 +93,8 @@ export default function Calendar(props) {
                   appointment.fullName.toLowerCase().includes(searchQuery.toLowerCase())
                 )
                 .map((appointment) => (
-                  <div key={appointment.id} className={`appointment-card ${appointment.status}`}>
+                  <Link key={appointment.id} className="Link" to={`/pages/Dashboard`} state={{user : appointment}}>
+                  <div className={`appointment-card ${appointment.status}`}>
                     <div className="appointment-info">
                       <p className="appointment-name">{appointment.fullName}</p>
                       <p className="appointment-time">
@@ -107,6 +109,7 @@ export default function Calendar(props) {
                       </span>
                     </div>
                   </div>
+                  </Link>
                 ))
             ) : (
               <p className="noappointments">No appointments</p>
