@@ -6,16 +6,20 @@ import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { changeboard } from "../data/DocsauraSlice";
 import Appointmntform from "../Dashboardcomponents/appointmntform";
+import SettingsBoard from "../Dashboardcomponents/SettingsBoard";
+
 export default function Dashboard() {
   const locations = useLocation();
   const user = locations.state?.user || null;
   const curboard = useSelector((state) => state.Docsaura.currentboard);
-  const dispatch = useDispatch()
-  useEffect(()=>{
-    if(user){
-      dispatch(changeboard("appointmnt"))
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (user) {
+      dispatch(changeboard("appointmnt"));
     }
-  },[user,dispatch])
+  }, [user, dispatch]);
+
   console.log(curboard);
   const doctors = useSelector((s) => s.Docsaura.doctors);
   const doctor = doctors.find((a) => a.id === 1);
@@ -29,7 +33,9 @@ export default function Dashboard() {
         ) : curboard === "calander" ? (
           <Calendar appointments={doctor.appointments} />
         ) : curboard === "appointmnt" ? (
-          <Appointmntform user={user} doctor={doctor}/>
+          <Appointmntform user={user} doctor={doctor} />
+        ) : curboard === "settings" ? ( 
+          <SettingsBoard />
         ) : (
           <div></div>
         )}
