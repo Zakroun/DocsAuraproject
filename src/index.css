@@ -2745,39 +2745,49 @@ h1 {
 }
 
 /* SettingsBoard.css */
+booody, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+}
 
 .settings-board {
   font-family: Arial, sans-serif;
-  max-width: 800px;
-  margin: 0 auto;
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
   padding: 20px;
   background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
 }
 
 .tabs {
   display: flex;
+  gap: 10px;
   margin-bottom: 20px;
 }
 
 .tabs button {
-  background-color: #e0e0e0;
-  border: none;
   padding: 10px 20px;
-  margin-right: 10px;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
-  border-radius: 4px;
+  flex-grow: 1;
+  background-color: #e0e0e0;
   font-size: 14px;
 }
 
 .tabs button.active {
-  background-color: #007bff;
+  background-color: #018786;
   color: white;
 }
 
 .settings-section {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+  width: 100%;
 }
 
 .settings-section h2 {
@@ -2790,7 +2800,9 @@ h1 {
   position: relative;
   width: 100px;
   height: 100px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .profile-picture img {
@@ -2803,20 +2815,16 @@ h1 {
   position: absolute;
   bottom: 0;
   right: 0;
-  background-color: #007bff;
+  background-color: #018786;
   color: white;
-  border: none;
+  padding: 5px;
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .settings-item {
   margin-bottom: 15px;
+  width: 100%;
 }
 
 .settings-item label {
@@ -2827,17 +2835,16 @@ h1 {
 }
 
 .settings-item input {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
+  width: calc(100% - 16px);
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
 }
 
 .forgot-password {
   background: none;
   border: none;
-  color: #007bff;
+  color: #018786;
   cursor: pointer;
   font-size: 14px;
   padding: 0;
@@ -2845,25 +2852,111 @@ h1 {
 
 .settings-actions {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  width: 100%;
   margin-top: 20px;
 }
 
 .cancel-button, .save-button {
   padding: 10px 20px;
   border: none;
-  border-radius: 4px;
   cursor: pointer;
-  font-size: 14px;
+  flex-grow: 1;
+  margin: 0 5px;
+  font-size: 16px
 }
 
 .cancel-button {
   background-color: #e0e0e0;
+  color: #018786;
+}
+
+.save-button {
+  background-color: #018786;
+  color: white;
+}
+
+.theme-selector {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.theme-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #e0e0e0;
+}
+
+.theme-button.active {
+  background-color: #018786;
+  color: white;
+}
+
+select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.notification-category {
+  margin-bottom: 20px;
+}
+
+.notification-options {
+  display: flex;
+  gap: 15px;
+}
+
+.notification-options label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.permissions-container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.permissions-container h1 {
+  text-align: center;
   color: #333;
+}
+
+.permissions-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.permission-item {
+  margin: 10px 0;
+  font-size: 16px;
+}
+
+.permission-item input {
   margin-right: 10px;
 }
 
 .save-button {
-  background-color: #007bff;
-  color: white;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #018786;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.save-button:hover {
+  background-color: #018786;
 }
