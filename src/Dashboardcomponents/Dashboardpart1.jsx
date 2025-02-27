@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { changeboard } from "../data/DocsauraSlice";
 
 export default function Part1Dashboard(props) {
-  const user = props.user;
+  const user = props.Use;
   const dispatch = useDispatch();
 
   return (

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
-const SettingsBoard = () => {
+const SettingsBoard = ({doctor}) => {
+  console.log(doctor);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [retypePassword, setRetypePassword] = useState("");
@@ -24,7 +25,7 @@ const SettingsBoard = () => {
       <div className="settings-section personal-info">
         <h2>Personal Information</h2>
         <div className="profile-picture">
-          <img src="https://via.placeholder.com/100" alt="Profile" />
+          <img src="" alt="Profile" />
           <button className="edit-picture">✎</button>
         </div>
         <div className="settings-item">

@@ -7,8 +7,9 @@ import { useEffect } from "react";
 import { changeboard } from "../data/DocsauraSlice";
 import Appointmntform from "../Dashboardcomponents/appointmntform";
 import SettingsBoard from "../Dashboardcomponents/SettingsBoard";
-
+import { useNavigate } from "react-router-dom";
 export default function Dashboard() {
+  const navigate = useNavigate();
   const locations = useLocation();
   const user = locations.state?.user || null;
   const curboard = useSelector((state) => state.Docsaura.currentboard);
@@ -17,25 +18,26 @@ export default function Dashboard() {
   useEffect(() => {
     if (user) {
       dispatch(changeboard("appointmnt"));
+      navigate(".", { replace: true, state: {} });
     }
   }, [user, dispatch]);
 
   console.log(curboard);
-  const doctors = useSelector((s) => s.Docsaura.doctors);
-  const doctor = doctors.find((a) => a.id === 1);
+  const Users = useSelector((s) => s.Docsaura.visitors);
+  const Use = Users.find((a) => a.id === 1);
 
   return (
     <div className="containerDashboard">
-      <Part1Dashboard user={doctor} />
+      <Part1Dashboard Use={Use} />
       <div className="part2dashboard">
         {curboard === "home" ? (
-          <Homeboard doctor={doctor} />
+          <Homeboard Use={Use} />
         ) : curboard === "calander" ? (
-          <Calendar appointments={doctor.appointments} />
+          <Calendar appointments={Use.appointments} />
         ) : curboard === "appointmnt" ? (
-          <Appointmntform user={user} doctor={doctor} />
+          <Appointmntform user={user} Use={Use} />
         ) : curboard === "settings" ? ( 
-          <SettingsBoard />
+          <SettingsBoard Use={Use}/>
         ) : (
           <div></div>
         )}

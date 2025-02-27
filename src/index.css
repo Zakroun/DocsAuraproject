@@ -1935,7 +1935,9 @@ tr.canceled {
   padding: 8px;
   cursor: pointer;
 }
-.complet{
+.complet,
+.confirm,
+.submit-feedback{
   background-color: #00504e;
   width: 80px;
   border: 1px solid #00504e;
@@ -1948,7 +1950,65 @@ tr.canceled {
 .Link{
   text-decoration: none;
 }
+.feedback-form {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
 
+h1 {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+.completReview
+.star-rating {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.star {
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.complet_Review{background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  margin-top: 20px;
+  padding: 12px;
+  margin-bottom: 10px;
+  padding: 30px;
+  margin-bottom: 40px;
+  text-align: center;
+}
+.feedback-textarea {
+  width: 100%;
+  height: 80px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: none;
+  font-size: 14px;
+}
+
+.submit-feedback {
+  margin-top: 10px;
+  padding: 10px 15px;
+  background-color: #00504e;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.submit-feedback:hover {
+  background-color: #016866;
+}
 /* Responsive Design */
 @media (max-width: 479px) {
   /* Styles for Extra Small (XS) */
@@ -2608,7 +2668,8 @@ tr.canceled {
 }
 .prescription,
 .diagnosis,
-.cancel-reason{
+.cancel-reason,
+.resultsDescription{
   width: 350px;
   max-width: 400px;
   min-width: 350px;
@@ -2653,6 +2714,14 @@ tr.canceled {
   cursor: pointer;
   margin-top: 20px;
   margin-right: 20px;
+}
+.Upload{
+  border-radius: 10px;
+  width: 120px;
+  background-color: #00504e;
+  border: none;
+  color: white;
+  padding: 10px;
 }
 /* Responsive Design */
 @media (max-width: 768px) {

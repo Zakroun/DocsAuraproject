@@ -23,7 +23,7 @@ import { MdOutlineIncompleteCircle } from "react-icons/md";
 import { FaCircleCheck } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 export default function Homeboard(props) {
-  const d = props.doctor;
+  const d = props.Use;
   const [user, setUser] = useState(d);
   const role = d.Role;
   const doctors = useSelector((s) => s.Docsaura.doctors);
@@ -176,7 +176,7 @@ export default function Homeboard(props) {
         <div className="homeboard__header__image">
           <img
             src={
-              user.Role === "Patients"
+              user.Role === "patient"
                 ? `../Images/examination.png`
                 : d.Role === "doctor"
                 ? `../images/doctor.png`
@@ -418,11 +418,181 @@ export default function Homeboard(props) {
             </table>
           </div>{" "}
         </>
+      ) : (user.Role === "patient" && user.Verified === true) ? (
+        <>
+          <div className="weeklyReports">
+            <div className="weeklyheader">
+              <h2>Weekly Reports</h2>
+              <select name="weeklyselect" id="weeklyselect">
+                <option value="last week">Last Week</option>
+                <option value="this week">This Week</option>
+                <option value="last month">Last Month</option>
+                <option value="this month">This Month</option>
+                <option value="last year">Last Year</option>
+                <option value="this year">This Year</option>
+              </select>
+            </div>
+      
+            <div className="weeklyReports__content">
+              <div className="partweekly">
+                <div className="partweekly__header">
+                  <FaHospitalUser
+                    size={30}
+                    color="#008481"
+                    style={{
+                      backgroundColor: "#00848276",
+                      padding: 7,
+                      borderRadius: 10,
+                    }}
+                  />
+                </div>
+                <h3>Total Patients</h3>
+                <h3 style={{ color: "#008481" }}>200</h3>
+              </div>
+      
+              <div className="partweekly">
+                <div className="partweekly__header">
+                  <IoCallSharp
+                    size={30}
+                    color="rgb(195, 101, 0)"
+                    style={{
+                      backgroundColor: "rgba(236, 122, 0, 0.45)",
+                      padding: 7,
+                      borderRadius: 10,
+                    }}
+                  />
+                </div>
+                <h3>Phone Calls</h3>
+                <h3 style={{ color: "rgb(195, 101, 0)" }}>20</h3>
+              </div>
+      
+              <div className="partweekly">
+                <div className="partweekly__header">
+                  <FaCalendarAlt
+                    size={30}
+                    color="rgb(153, 0, 0)"
+                    style={{
+                      backgroundColor: "rgba(219, 0, 0, 0.46)",
+                      padding: 7,
+                      borderRadius: 10,
+                    }}
+                  />
+                </div>
+                <h3>Appointments</h3>
+                <h3 style={{ color: "rgb(153, 0, 0)" }}>100</h3>
+              </div>
+      
+              <div className="partweekly">
+                <div className="partweekly__header">
+                  <MdMarkEmailUnread
+                    size={30}
+                    color="rgb(0, 0, 155)"
+                    style={{
+                      backgroundColor: "rgba(0, 0, 155, 0.44)",
+                      padding: 7,
+                      borderRadius: 10,
+                    }}
+                  />
+                </div>
+                <h3>Unread Messages</h3>
+                <h3 style={{ color: "rgb(0, 0, 155)" }}>10</h3>
+              </div>
+            </div>
+          </div>
+          <div className="appointments-table">
+            <div className="appointments_header">
+              <h2>Upcoming Appointments</h2>
+              <div className="appointment-day-filter">
+                <label htmlFor="day-select">Select Day:</label>
+                <select
+                  id="day-select"
+                  value={selectedDay}
+                  onChange={handleDayChange}
+                >
+                  <option value="All">All</option>
+                  {appointments
+                    .map((appt) => appt.date)
+                    .map((day, k) => (
+                      <option key={k} value={day}>
+                        {day}
+                      </option>
+                    ))}
+                </select>
+              </div>
+            </div>
+            <table border={1}>
+              <thead>
+                <tr>
+                  <th>Profile</th>
+                  <th>Name</th>
+                  <th>Location</th>
+                  <th>Date</th>
+                  <th>Time From</th>
+                  <th>Time To</th>
+                  <th>Status</th>
+                  <th style={{ width: "200px" }}>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {appointments.map((appt) => (
+                  <tr
+                    key={appt.id}
+                    className={
+                      appt.status === "completed"
+                        ? "completed"
+                        : appt.status === "canceled"
+                        ? "canceled"
+                        : ""
+                    }
+                  >
+                    <td>
+                      <img
+                        src={`/images/${appt.image}`}
+                        alt="profile"
+                        className="profile-img"
+                      />
+                    </td>
+                    <td>{appt.fullName}</td>
+                    <td>{appt.location}</td>
+                    <td>{appt.date}</td>
+                    <td>{appt.timeFrom}</td>
+                    <td>{appt.timeTo}</td>
+                    <td>
+                      {appt.status === "completed" ? (
+                        <FaCircleCheck color="rgb(0, 88, 87)" size={25} />
+                      ) : appt.status === "canceled" ? (
+                        <MdCancel color="red" size={25} />
+                      ) : (
+                        <MdOutlineIncompleteCircle color="orange" size={25} />
+                      )}
+                    </td>
+                    <td className="actions">
+                      {appt.status !== "completed" &&
+                      appt.status !== "canceled" ? (
+                        <>
+                          <Link to={`/pages/Dashboard`} state={{ user: appt }}>
+                            <button className="cancel">Cancel</button>
+                          </Link>
+                          <Link to={`/pages/Dashboard`} state={{ user: appt }}>
+                            <button className="complet">Completed</button>
+                          </Link>
+                        </>
+                      ): (
+                        ""
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
       ) : (
         <Link to={"/pages/Activate"} state={{ object: d }}>
-          <button className="verfier">Activate my account </button>
+          <button className="verfier">Activate my account</button>
         </Link>
-      )}
+      )
+      }
     </div>
   );
 }
