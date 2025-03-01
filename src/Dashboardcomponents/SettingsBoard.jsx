@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { FaSun, FaMoon } from "react-icons/fa"; // استيراد الأيقونات
 
 const SettingsBoard = () => {
   const [currentPassword, setCurrentPassword] = useState("");
@@ -16,18 +17,12 @@ const SettingsBoard = () => {
   const [theme, setTheme] = useState('light');
   const [timeZone, setTimeZone] = useState('UTC+01:00) Europe/London');
   const [language, setLanguage] = useState('English (US)');
-  const [sidebarSize, setSidebarSize] = useState('Medium 300px');
-  const [iconsSize, setIconsSize] = useState('Medium 32px');
+  const [backupFrequency, setBackupFrequency] = useState('daily');
+  const [autoBackup, setAutoBackup] = useState(true);
 
   const [reminders, setReminders] = useState({ push: false, email: false, sms: false });
   const [comments, setComments] = useState({ push: false, email: false, sms: false });
   const [tags, setTags] = useState({ push: false, email: false, sms: false });
-
-  const [permissions, setPermissions] = useState({
-    view: false,
-    edit: false,
-    delete: false,
-  });
 
   const handleSave = () => {
     console.log("Settings saved");
@@ -39,14 +34,6 @@ const SettingsBoard = () => {
       const imageUrl = URL.createObjectURL(file);
       setProfileImage(imageUrl);
     }
-  };
-
-  const handlePermissionChange = (e) => {
-    const { name, checked } = e.target;
-    setPermissions({
-      ...permissions,
-      [name]: checked,
-    });
   };
 
   const renderContent = () => {
@@ -163,13 +150,13 @@ const SettingsBoard = () => {
                 className={`theme-button ${theme === 'light' ? 'active' : ''}`}
                 onClick={() => setTheme('light')}
               >
-                Light Mode
+                <FaSun /> Light Mode
               </button>
               <button
                 className={`theme-button ${theme === 'dark' ? 'active' : ''}`}
                 onClick={() => setTheme('dark')}
               >
-                Dark Mode
+                <FaMoon /> Dark Mode
               </button>
             </div>
 
@@ -182,20 +169,34 @@ const SettingsBoard = () => {
             <h2>Language</h2>
             <select value={language} onChange={(e) => setLanguage(e.target.value)}>
               <option value="English (US)">English (US)</option>
-              {/* Add more languages as needed */}
+              <option value="Arabic">العربية</option>
+              <option value="French">Français</option>
+              <option value="Spanish">Español</option>
             </select>
 
-            <h2>Sidebar Size</h2>
-            <select value={sidebarSize} onChange={(e) => setSidebarSize(e.target.value)}>
-              <option value="Medium 300px">Medium 300px</option>
-              {/* Add more sizes as needed */}
-            </select>
+            <h2>Backup Settings</h2>
+            <div className="settings-item">
+              <label>Backup Frequency</label>
+              <select
+                value={backupFrequency}
+                onChange={(e) => setBackupFrequency(e.target.value)}
+              >
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+              </select>
+            </div>
 
-            <h2>Icons Size</h2>
-            <select value={iconsSize} onChange={(e) => setIconsSize(e.target.value)}>
-              <option value="Medium 32px">Medium 32px</option>
-              {/* Add more sizes as needed */}
-            </select>
+            <div className="settings-itemm">
+              <label style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <input
+                  type="checkbox"
+                  checked={autoBackup}
+                  onChange={(e) => setAutoBackup(e.target.checked)}
+                />
+                Enable Auto Backup
+              </label>
+            </div>
           </div>
         );
       case "Notification":
@@ -296,41 +297,6 @@ const SettingsBoard = () => {
             </div>
           </div>
         );
-      case "User Permissions":
-        return (
-          <div className="settings-section user-permissions">
-            <h2>User Permissions</h2>
-            <div className="permissions-form">
-              <label className="permission-item">
-                <input
-                  type="checkbox"
-                  name="view"
-                  checked={permissions.view}
-                  onChange={handlePermissionChange}
-                />
-                View Patient Records
-              </label>
-              <label className="permission-item">
-                <input
-                  type="checkbox"
-                  name="edit"
-                  checked={permissions.edit}
-                  onChange={handlePermissionChange}
-                />
-                Edit Patient Records
-              </label>
-              <label className="permission-item">
-                <input
-                  type="checkbox"
-                  name="delete"
-                  checked={permissions.delete}
-                  onChange={handlePermissionChange}
-                />
-                Delete Patient Records
-              </label>
-            </div>
-          </div>
-        );
       default:
         return null;
     }
@@ -342,7 +308,6 @@ const SettingsBoard = () => {
         <button className={activeTab === "General" ? "active" : ""} onClick={() => setActiveTab("General")}>General</button>
         <button className={activeTab === "Preferences" ? "active" : ""} onClick={() => setActiveTab("Preferences")}>Preferences</button>
         <button className={activeTab === "Notification" ? "active" : ""} onClick={() => setActiveTab("Notification")}>Notification</button>
-        <button className={activeTab === "User Permissions" ? "active" : ""} onClick={() => setActiveTab("User Permissions")}>User Permissions</button>
       </div>
       
       {renderContent()}

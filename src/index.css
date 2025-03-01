@@ -2745,14 +2745,6 @@ h1 {
 }
 
 /* SettingsBoard.css */
-booody, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  width: 100%;
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-}
 
 .settings-board {
   font-family: Arial, sans-serif;
@@ -2834,11 +2826,16 @@ booody, html {
   color: #555;
 }
 
+.settings-item input[type="checkbox"] {
+  margin: 0;
+}
+
 .settings-item input {
   width: calc(100% - 16px);
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #ccc;
+  margin: 0;
 }
 
 .forgot-password {
@@ -2858,12 +2855,13 @@ booody, html {
 }
 
 .cancel-button, .save-button {
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  flex-grow: 1;
+  flex: 1; /* يجعل الزرين يأخذان نفس المساحة */
   margin: 0 5px;
-  font-size: 16px
+  padding: 10px 20px;
+  font-size: 16px;
+  text-align: center;
+  box-sizing: border-box;
+  cursor: pointer; /* تأكد من أن المؤشر يتغير عند التمرير فوق الأزرار */
 }
 
 .cancel-button {
@@ -2883,16 +2881,24 @@ booody, html {
 }
 
 .theme-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   background-color: #e0e0e0;
+  font-size: 14px;
 }
 
 .theme-button.active {
   background-color: #018786;
   color: white;
+}
+
+.theme-button svg {
+  font-size: 16px;
 }
 
 select {
@@ -2901,6 +2907,7 @@ select {
   margin-bottom: 20px;
   border-radius: 5px;
   border: 1px solid #ccc;
+  font-size: 14px;
 }
 
 .notification-category {
@@ -2929,7 +2936,7 @@ select {
 
 .permissions-container h1 {
   text-align: center;
-  color: #333;
+  color: #018786;
 }
 
 .permissions-form {
@@ -2944,19 +2951,4 @@ select {
 
 .permission-item input {
   margin-right: 10px;
-}
-
-.save-button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #018786;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.save-button:hover {
-  background-color: #018786;
 }
