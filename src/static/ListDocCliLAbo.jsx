@@ -63,10 +63,10 @@ export default function ListDocCliLAbo() {
               <img
                 id="imgDocLabcli"
                 src={`/images/${c.image}`}
-                alt={c.name}
+                alt={c.fullName}
               />
               <div className="informations">
-                <h3>{c.name}</h3>
+                <h3>{c.fullName}</h3>
                 <p>{c.address}</p>
                 <div className="stars">{generateStars(c.rating)}</div>
                 <button className="btnsee">See</button>
@@ -87,10 +87,10 @@ export default function ListDocCliLAbo() {
               <img
                 id="imgDocLabcli"
                 src={`/images/${l.image}`}
-                alt={l.name}
+                alt={l.fullName}
               />
               <div className="informations">
-                <h3>{l.name}</h3>
+                <h3>{l.fullName}</h3>
                 <p>{l.address}</p>
                 <div className="stars">{generateStars(l.rating)}</div>
                 <button className="btnsee">See</button>
