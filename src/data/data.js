@@ -11,6 +11,7 @@ export const visitors = [
     address: "123 Main St",
     phone: "0123456789",
     createdAt: "2024-01-01 08:00:00",
+    image : "user.png",
     appointments: [
       {
         id: 1,
@@ -47,6 +48,7 @@ export const visitors = [
     address: "456 Oak St",
     phone: "0987654321",
     createdAt: "2024-01-02 09:30:00",
+    image : "user.png",
     appointments: [
       {
         id: 1,
@@ -83,6 +85,7 @@ export const visitors = [
     address: "789 Pine St",
     phone: "0112233445",
     createdAt: "2024-01-03 10:15:00",
+    image : "user.png",
     appointments: [
       {
         id: 1,
@@ -119,6 +122,7 @@ export const visitors = [
     address: "321 Birch St",
     phone: "0223344556",
     createdAt: "2024-01-04 11:00:00",
+    image : "user.png",
     appointments: [
       {
         id: 1,
@@ -155,6 +159,7 @@ export const visitors = [
     address: "654 Cedar St",
     phone: "0334455667",
     createdAt: "2024-01-05 12:30:00",
+    image : "user.png",
     appointments: [
       {
         id: 1,
@@ -191,6 +196,7 @@ export const visitors = [
     address: "987 Maple St",
     phone: "0445566778",
     createdAt: "2024-01-06 13:45:00",
+    image : "user.png",
     appointments: [
       {
         id: 1,
@@ -227,6 +233,7 @@ export const visitors = [
     address: "159 Spruce St",
     phone: "0556677889",
     createdAt: "2024-01-07 14:15:00",
+    image : "user.png",
     appointments: [
       {
         id: 1,
@@ -263,6 +270,7 @@ export const visitors = [
     address: "753 Walnut St",
     phone: "0667788990",
     createdAt: "2024-01-08 15:30:00",
+    image : "user.png",
     appointments: [
       {
         id: 1,
@@ -299,6 +307,7 @@ export const visitors = [
     address: "852 Cherry St",
     phone: "0778899001",
     createdAt: "2024-01-09 16:45:00",
+    image : "user.png",
     appointments: [
       {
         id: 1,
@@ -335,6 +344,7 @@ export const visitors = [
     address: "951 Willow St",
     phone: "0889900112",
     createdAt: "2024-01-10 17:00:00",
+    image : "user.png",
     appointments: [
       {
         id: 1,
@@ -371,6 +381,7 @@ export const visitors = [
     address: "357 Elm St",
     phone: "0990011223",
     createdAt: "2024-01-11 18:15:00",
+    image : "user.png",
     appointments: [
       {
         id: 1,
@@ -407,6 +418,7 @@ export const visitors = [
     address: "258 Chestnut St",
     phone: "0101122334",
     createdAt: "2024-01-12 19:30:00",
+    image : "user.png",
     appointments: [
       {
         id: 1,
@@ -444,7 +456,7 @@ export const doctors = [
     password: "doc123",
     addressLoc: "123 Medical St, Casablanca",
     emailLoc: "clinic1@example.com",
-    fax: "123-456-789",
+    phone: "123-456-789",
     description: "Cardiologist",
     specialty: "Cardiology",
     workingHours: {
@@ -691,7 +703,7 @@ export const doctors = [
     password: "doc456",
     addressLoc: "456 Wellness Ave, Marrakech",
     emailLoc: "clinic2@example.com",
-    fax: "234-567-890",
+    phone: "234-567-890",
     description: "Dermatologist",
     specialty: "Dermatology",
     workingHours: {
@@ -823,7 +835,7 @@ export const doctors = [
     password: "doc789",
     addressLoc: "789 Care St, Rabat",
     emailLoc: "clinic3@example.com",
-    fax: "345-678-901",
+    phone: "345-678-901",
     description: "Pediatrician",
     specialty: "Pediatrics",
     workingHours: {
@@ -955,7 +967,7 @@ export const doctors = [
     password: "docabc",
     addressLoc: "951 Healing St, Fes",
     emailLoc: "clinic4@example.com",
-    fax: "456-789-012",
+    phone: "456-789-012",
     description: "Neurologist",
     specialty: "Neurology",
     workingHours: {
@@ -1087,7 +1099,7 @@ export const doctors = [
     password: "docdef",
     addressLoc: "357 Brain St, Agadir",
     emailLoc: "clinic5@example.com",
-    fax: "567-890-123",
+    phone: "567-890-123",
     description: "Psychiatrist",
     specialty: "Psychiatry",
     workingHours: {
@@ -1219,7 +1231,7 @@ export const doctors = [
     password: "docghi",
     addressLoc: "258 Spine St, Tangier",
     emailLoc: "clinic6@example.com",
-    fax: "678-901-234",
+    phone: "678-901-234",
     description: "Orthopedic Surgeon",
     specialty: "Orthopedics",
     workingHours: {
@@ -1278,7 +1290,7 @@ export const doctors = [
     password: "docjkl",
     addressLoc: "753 Heart St, Meknes",
     emailLoc: "clinic7@example.com",
-    fax: "789-012-345",
+    phone: "789-012-345",
     description: "Cardiac Surgeon",
     specialty: "Cardiac Surgery",
     workingHours: {
@@ -1410,7 +1422,7 @@ export const doctors = [
     password: "docmno",
     addressLoc: "852 Lung St, Oujda",
     emailLoc: "clinic8@example.com",
-    fax: "890-123-456",
+    phone: "890-123-456",
     description: "Pulmonologist",
     specialty: "Pulmonology",
     workingHours: {
@@ -1474,7 +1486,7 @@ export const doctors = [
     password: "docpqr",
     addressLoc: "852 Lung St, Oujda",
     emailLoc: "clinic9@example.com",
-    fax: "901-234-567",
+    phone: "901-234-567",
     description: "Dermatologist",
     specialty: "Dermatology",
     workingHours: {
@@ -1606,7 +1618,7 @@ export const doctors = [
     password: "docstu",
     addressLoc: "357 Brain St, Agadir",
     emailLoc: "clinic10@example.com",
-    fax: "012-345-678",
+    phone: "012-345-678",
     description: "Ophthalmologist",
     specialty: "Ophthalmology",
     workingHours: {
@@ -1738,7 +1750,7 @@ export const doctors = [
     password: "docvwx",
     addressLoc: "951 Healing St, Fes",
     emailLoc: "clinic11@example.com",
-    fax: "123-456-789",
+    phone: "123-456-789",
     description: "Psychologist",
     specialty: "Psychology",
     workingHours: {
@@ -1870,7 +1882,7 @@ export const doctors = [
     password: "docyz",
     addressLoc: "456 Wellness Ave, Marrakech",
     emailLoc: "clinic12@example.com",
-    fax: "234-567-890",
+    phone: "234-567-890",
     description: "Dentist",
     specialty: "Dentistry",
     workingHours: {
@@ -4973,3 +4985,96 @@ export const cities = [
   "Laayoune",
   "Errachidia",
 ];
+export const messagesData = [
+  {
+    idMessage: 1,
+    idvisitor: 101,
+    iddoctor: 201,
+    dateMes: "2025-03-01 14:30:00",
+    content: "Hello doctor, I need an appointment.",
+    messageFrom: "visitor",
+    messageTo: "doctor"
+  },
+  {
+    idMessage: 2,
+    idvisitor: 101,
+    iddoctor: 201,
+    dateMes: "2025-03-01 14:32:00",
+    content: "Sure, when would you be available?",
+    messageFrom: "doctor",
+    messageTo: "visitor"
+  },
+  {
+    idMessage: 3,
+    idvisitor: 101,
+    iddoctor: 201,
+    dateMes: "2025-03-01 14:35:00",
+    content: "Tomorrow at 10 AM.",
+    messageFrom: "visitor",
+    messageTo: "doctor"
+  },
+  {
+    idMessage: 4,
+    idvisitor: 101,
+    iddoctor: 201,
+    dateMes: "2025-03-01 14:37:00",
+    content: "Okay, I have scheduled your appointment.",
+    messageFrom: "doctor",
+    messageTo: "visitor"
+  },
+  {
+    idMessage: 5,
+    idvisitor: 102,
+    iddoctor: 202,
+    dateMes: "2025-03-02 10:00:00",
+    content: "Good morning, doctor. I have a headache.",
+    messageFrom: "visitor",
+    messageTo: "doctor"
+  },
+  {
+    idMessage: 6,
+    idvisitor: 102,
+    iddoctor: 202,
+    dateMes: "2025-03-02 10:05:00",
+    content: "Have you taken any medicine?",
+    messageFrom: "doctor",
+    messageTo: "visitor"
+  },
+  {
+    idMessage: 7,
+    idvisitor: 102,
+    iddoctor: 202,
+    dateMes: "2025-03-02 10:10:00",
+    content: "No, I haven't taken anything yet.",
+    messageFrom: "visitor",
+    messageTo: "doctor"
+  },
+  {
+    idMessage: 8,
+    idvisitor: 103,
+    iddoctor: 203,
+    dateMes: "2025-03-03 16:45:00",
+    content: "Doctor, my blood pressure is high.",
+    messageFrom: "visitor",
+    messageTo: "doctor"
+  },
+  {
+    idMessage: 9,
+    idvisitor: 103,
+    iddoctor: 203,
+    dateMes: "2025-03-03 16:50:00",
+    content: "Are you feeling dizzy or having chest pain?",
+    messageFrom: "doctor",
+    messageTo: "visitor"
+  },
+  {
+    idMessage: 10,
+    idvisitor: 103,
+    iddoctor: 203,
+    dateMes: "2025-03-03 16:55:00",
+    content: "No, just a slight headache.",
+    messageFrom: "visitor",
+    messageTo: "doctor"
+  }
+];
+

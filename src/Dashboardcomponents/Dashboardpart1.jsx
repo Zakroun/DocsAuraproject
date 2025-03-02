@@ -46,7 +46,9 @@ export default function Part1Dashboard(props) {
         />
       </div>
       <div className="footerdashbord">
-        <RiLoginBoxFill className="iconleft" />
+        <RiLoginBoxFill className="iconleft" 
+        onClick={()=>dispatch(changeboard("Logout"))}
+        />
       </div>
     </div>
   );

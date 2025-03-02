@@ -5,6 +5,7 @@ import {
   laboratories,
   specializedDoctors,
   cities,
+  messagesData,
 } from "./data";
 import { createSlice } from "@reduxjs/toolkit";
 
@@ -17,6 +18,7 @@ export const DocsauraSlice = createSlice({
     laboratories: laboratories,
     specializedDoctors: specializedDoctors,
     cities: cities,
+    messagesData: messagesData,
     currentboard: "home",
   },
   reducers: {

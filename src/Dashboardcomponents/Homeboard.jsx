@@ -13,12 +13,10 @@ import {
   CartesianGrid,
 } from "recharts";
 import { MdCancel } from "react-icons/md";
-import { LuSearch } from "react-icons/lu";
 import { FaHospitalUser } from "react-icons/fa";
 import { IoCallSharp } from "react-icons/io5";
 import { FaCalendarAlt } from "react-icons/fa";
 import { MdMarkEmailUnread } from "react-icons/md";
-import { IoNotificationsSharp } from "react-icons/io5";
 import { MdOutlineIncompleteCircle } from "react-icons/md";
 import { FaCircleCheck } from "react-icons/fa6";
 import { useSelector } from "react-redux";
@@ -53,12 +51,6 @@ export default function Homeboard(props) {
   const [filteredAppointments, setFilteredAppointments] = useState(
     user.appointments
   );
-  const [showNotifications, setShowNotifications] = useState(false);
-  const notifications = [
-    { id: 1, message: "New patient registered", time: "2 mins ago" },
-    { id: 2, message: "Appointment rescheduled", time: "10 mins ago" },
-    { id: 3, message: "New message from John", time: "30 mins ago" },
-  ];
 
   useEffect(() => {
     const currentHour = new Date().getHours();
@@ -109,7 +101,7 @@ export default function Homeboard(props) {
   const appointments = filteredAppointments;
   return (
     <div className="homeboard">
-      <div className="searchadd">
+      {/* <div className="searchadd">
         <div className="searchdiv">
           <input type="text" placeholder="Search ..." className="inputsearch" />
           <button className="searchbtn">
@@ -150,7 +142,7 @@ export default function Homeboard(props) {
             )}
           </div>
         </div>
-      </div>
+      </div> */}
       <div className="homeboard__header">
         <div className="homeboard__header__title">
           <h1>

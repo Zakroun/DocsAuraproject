@@ -8,6 +8,9 @@ import { changeboard } from "../data/DocsauraSlice";
 import Appointmntform from "../Dashboardcomponents/appointmntform";
 import SettingsBoard from "../Dashboardcomponents/SettingsBoard";
 import { useNavigate } from "react-router-dom";
+import Messages from "../Dashboardcomponents/Messages";
+import HeaderBoard from "../Dashboardcomponents/headerboard";
+import Logout from "../Dashboardcomponents/Logout";
 export default function Dashboard() {
   const navigate = useNavigate();
   const locations = useLocation();
@@ -20,24 +23,29 @@ export default function Dashboard() {
       dispatch(changeboard("appointmnt"));
       navigate(".", { replace: true, state: {} });
     }
-  }, [user, dispatch]);
+  }, [user, dispatch, navigate]);
 
   console.log(curboard);
-  const Users = useSelector((s) => s.Docsaura.visitors);
+  const Users = useSelector((s) => s.Docsaura.doctors);
   const Use = Users.find((a) => a.id === 1);
-
+  const messagesData = useSelector((s) => s.Docsaura.messagesData);
   return (
     <div className="containerDashboard">
       <Part1Dashboard Use={Use} />
       <div className="part2dashboard">
+        <HeaderBoard />
         {curboard === "home" ? (
           <Homeboard Use={Use} />
         ) : curboard === "calander" ? (
           <Calendar appointments={Use.appointments} />
         ) : curboard === "appointmnt" ? (
           <Appointmntform user={user} Use={Use} />
-        ) : curboard === "settings" ? ( 
-          <SettingsBoard Use={Use}/>
+        ) : curboard === "settings" ? (
+          <SettingsBoard Use={Use} />
+        ) : curboard === "messages" ? (
+          <Messages messagesData={messagesData} />
+        ) : curboard === "Logout" ? (
+          <Logout />
         ) : (
           <div></div>
         )}

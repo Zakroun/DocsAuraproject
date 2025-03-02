@@ -1629,6 +1629,9 @@ hr {
 .homeboard__header__title span {
   color: #008481;
 }
+.header-board{
+  margin-bottom: 10px;
+}
 .searchadd {
   display: flex;
   justify-content: space-between;
@@ -2009,6 +2012,259 @@ h1 {
 .submit-feedback:hover {
   background-color: #016866;
 }
+/* Messages */
+.chat-app{
+  height: 87%;
+  display: flex;
+  width: 101.5%;
+}
+.conversation-list {
+  overflow-y: scroll;
+  width: 25%;
+  background: white;
+  padding: 23px;
+  border-right: 1px solid #e5e7eb;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.conversation-items {
+  display: flex;
+  flex-direction: column;
+}
+
+.conversation-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+
+.conversation-item:hover {
+  background: #f9f9f9;
+}
+
+.avatar-icon {
+  color: #888;
+  margin-right: 10px;
+}
+
+.details {
+  flex-grow: 1;
+}
+
+.name {
+  font-weight: bold;
+}
+
+.message {
+  font-size: 14px;
+  color: #555;
+}
+
+.meta {
+  text-align: right;
+}
+
+.timestamp {
+  font-size: 12px;
+  color: #999;
+}
+
+.unread-badge {
+  background:#00504e;
+  color: white;
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.coversation{
+  width: 80%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.chat_window{
+  overflow-y: scroll;
+  padding: 5px;
+  height: 100%;
+  background-color: rgb(237, 237, 237);
+  margin-left: .4%;
+}
+.chat_window p{
+  text-align: center;
+}
+.messages2{
+  padding: 10px;
+  margin: 15px 0;
+  border-radius: 8px;
+  max-width: 100%;
+  font-size: 12px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.message2 {
+  width: fit-content;
+  padding: 2px 5px;
+  margin:15px 0;
+  border-radius: 8px;
+  max-width: 60%;
+  font-size: 12px;
+  position: relative;
+}
+.sent2 {
+  background: #00504e;
+  color: white;
+  align-self: flex-end;
+  text-align: right;
+}
+
+.received2 {
+  background: #fff;
+  color: black;
+  align-self: flex-start;
+  border: 1px solid #ddd;
+}
+.time {
+  font-size: 0.8em;
+  color: #686868;
+  position: absolute;
+  bottom: -15px;
+  right: 10px;
+}
+.message_input{
+  height: 10%;
+  width: 100%;
+}
+.message_input {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 10%;
+  width: 96%;
+  padding: 10px;
+  margin-left: .4%;
+  background-color: #f1f1f1;
+  border-top: 1px solid #ccc;
+}
+
+.message_input input {
+  flex-grow: 1;
+  padding: 10px;
+  margin-top: 8px;
+  border: none;
+  border-radius: 20px;
+  outline: none;
+}
+
+.iconsmessage {
+  display: flex;
+  gap: 10px;
+  padding-left: 10px;
+}
+
+.iconmessage {
+  font-size: 24px;
+  cursor: pointer;
+  color: #555;
+  transition: color 0.3s;
+}
+
+.iconmessage:hover {
+  color:#00504e;
+}
+
+/* Logout */
+.logout-container {
+  text-align: center;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.logout-button {
+  background-color: #f44336;
+  color: white;
+  font-size: 16px;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #e53935;
+}
+
+.confirmation-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.confirmation-content {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  width: 390px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.confirmation-buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.confirm-button, .cancel-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.confirm-button {
+  background-color: #00504e;
+  color: white;
+}
+
+.confirm-button:hover {
+  background-color: #007b79;
+}
+
+.cancel-button {
+  background-color: #f44336;
+  color: white;
+}
+
+.cancel-button:hover {
+  background-color: #e53935;
+  color: white;
+}
+
 /* Responsive Design */
 @media (max-width: 479px) {
   /* Styles for Extra Small (XS) */
@@ -2745,14 +3001,14 @@ h1 {
 }
 
 /* SettingsBoard.css */
-/* booody, html {
+booody, html {
   margin: 0;
   padding: 0;
   height: 100%;
   width: 100%;
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
-} */
+}
 
 .settings-board {
   font-family: Arial, sans-serif;
@@ -2789,7 +3045,12 @@ h1 {
   margin-bottom: 20px;
   width: 100%;
 }
-
+.settings-section h1 {
+  text-align: center;
+  font-size: 22px;
+  margin-bottom: 15px;
+  color: #00504e;
+}
 .settings-section h2 {
   font-size: 18px;
   margin-bottom: 15px;
@@ -2834,11 +3095,16 @@ h1 {
   color: #555;
 }
 
+.settings-item input[type="checkbox"] {
+  margin: 0;
+}
+
 .settings-item input {
   width: calc(100% - 16px);
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #ccc;
+  margin: 0;
 }
 
 .forgot-password {
@@ -2855,23 +3121,28 @@ h1 {
   justify-content: space-between;
   width: 100%;
   margin-top: 20px;
+  margin-bottom: 30px;
 }
 
 .cancel-button, .save-button {
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  flex-grow: 1;
+  flex: 1; 
   margin: 0 5px;
-  font-size: 16px
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  text-align: center;
+  box-sizing: border-box;
+  cursor: pointer;
 }
 
 .cancel-button {
+  border: none;
   background-color: #e0e0e0;
   color: #018786;
 }
 
 .save-button {
+  border: none;
   background-color: #018786;
   color: white;
 }
@@ -2883,11 +3154,15 @@ h1 {
 }
 
 .theme-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   background-color: #e0e0e0;
+  font-size: 14px;
 }
 
 .theme-button.active {
@@ -2895,12 +3170,17 @@ h1 {
   color: white;
 }
 
-select {
+.theme-button svg {
+  font-size: 16px;
+}
+
+.select {
   width: 100%;
   padding: 10px;
   margin-bottom: 20px;
   border-radius: 5px;
   border: 1px solid #ccc;
+  font-size: 14px;
 }
 
 .notification-category {
@@ -2929,7 +3209,7 @@ select {
 
 .permissions-container h1 {
   text-align: center;
-  color: #333;
+  color: #018786;
 }
 
 .permissions-form {
@@ -2944,19 +3224,4 @@ select {
 
 .permission-item input {
   margin-right: 10px;
-}
-
-.save-button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #018786;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.save-button:hover {
-  background-color: #018786;
 }
