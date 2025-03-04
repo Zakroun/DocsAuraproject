@@ -1608,7 +1608,7 @@ hr {
 }
 .part2dashboard {
   overflow-y: scroll;
-  background-color: white;
+  background-color: rgb(255, 255, 255);
   margin-left: -10px;
   height: 100%;
   width: 92%;
@@ -2099,7 +2099,7 @@ h1 {
 }
 .chat_window{
   overflow-y: scroll;
-  height: 93%;
+  height: 400px;
   /* background-color: rgb(237, 237, 237); */
   background-image: url('/public/Images/cover.png');
   background-repeat: no-repeat;
@@ -2148,6 +2148,61 @@ h1 {
   bottom: -15px;
   right: 10px;
 }
+.message2 {
+  position: relative;
+}
+
+.message-options {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: -30px;
+  cursor: pointer;
+}
+
+.sent2 .message-options {
+  right: 100px;
+  top: 30px;
+}
+
+.received2 .message-options {
+  left: 120px;
+  top: 30px;
+}
+
+.options-icon {
+  font-size: 18px;
+  color: #686868;
+}
+
+.options-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  z-index: 10;
+}
+
+.options-menu button {
+  background: none;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+  text-align: left;
+  width: 100%;
+}
+
+.options-menu button:hover {
+  background: #f1f1f1;
+}
+
 /* .message_input{
   height: 7%;
   margin-bottom: -50px;
@@ -2273,8 +2328,12 @@ h1 {
   justify-content: space-between;
   /* margin:0px 20px; */
   padding: 10px;
-  margin-top: -20px;
+  margin-top: 0px;
   background-color: white;
+}
+.conversation-header span{
+  font-size: 20px;
+  font-weight: bold;
 }
 .avataricon{
   vertical-align: middle;
@@ -2289,6 +2348,11 @@ h1 {
 .close-button{
   color: black;
   margin-left: 30px;
+}
+.icon_input{
+  color: #00504e;
+  margin-left: 10px;
+  cursor: pointer;
 }
 /* Responsive Design */
 @media (max-width: 479px) {
@@ -3026,14 +3090,14 @@ h1 {
 }
 
 /* SettingsBoard.css */
-booody, html {
+/* html {
   margin: 0;
   padding: 0;
   height: 100%;
   width: 100%;
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
-}
+} */
 
 .settings-board {
   font-family: Arial, sans-serif;

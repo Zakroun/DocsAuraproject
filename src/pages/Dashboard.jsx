@@ -8,7 +8,7 @@ import { changeboard } from "../data/DocsauraSlice";
 import Appointmntform from "../Dashboardcomponents/appointmntform";
 import SettingsBoard from "../Dashboardcomponents/SettingsBoard";
 import { useNavigate } from "react-router-dom";
-import Messages from "../Dashboardcomponents/Messages";
+import Messages from "../Dashboardcomponents/Messages/Messages";
 import HeaderBoard from "../Dashboardcomponents/headerboard";
 import Logout from "../Dashboardcomponents/Logout";
 export default function Dashboard() {

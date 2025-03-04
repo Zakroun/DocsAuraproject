@@ -213,7 +213,6 @@ export default function SettingsBoard({ Use }) {
               <option value="English (US)">English (US)</option>
               <option value="Arabic">العربية</option>
               <option value="French">Français</option>
-              <option value="Spanish">Español</option>
             </select>
 
             <h2>Backup Settings</h2>
@@ -249,10 +248,10 @@ export default function SettingsBoard({ Use }) {
           <div className="settings-section notification">
             <h2>Notification Settings</h2>
             <div className="notification-category">
-              <h3>Reminders</h3>
+            <h3>Appointments
+              </h3>
               <p>
-                These are notifications to remind you of updates you might have
-                missed.
+              These are notifications for when someone adds or cancels an appointment.
               </p>
               <div className="notification-options">
                 <label>
@@ -329,10 +328,10 @@ export default function SettingsBoard({ Use }) {
             </div>
 
             <div className="notification-category">
-              <h3>Tags</h3>
+            <h3>Reminders</h3>
               <p>
-                These are notifications for when someone tags you in a comment,
-                post or story.
+                These are notifications to remind you of updates you might have
+                missed.
               </p>
               <div className="notification-options">
                 <label>
