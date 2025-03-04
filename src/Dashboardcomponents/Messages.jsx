@@ -2,6 +2,10 @@ import { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { MdNotifications } from "react-icons/md";
 import { FiSend, FiMic } from "react-icons/fi";
+import { IoCall } from "react-icons/io5";
+import { MdMissedVideoCall } from "react-icons/md";
+import { FaArrowRight } from "react-icons/fa";
+
 const conversations = [
   {
     id: 1,
@@ -76,7 +80,15 @@ export default function ChatApp() {
           <h2>
             {selectedConversation ? (
               <div>
-                <h3>{selectedConversation.name}</h3>
+                <div className="conversation-header">
+                  <FaUserCircle className="avataricon" size={40} />
+                  <span>{selectedConversation.name}</span>
+                  <div className="callopr">
+                    <IoCall className="call-icon iconcall" size={27} />
+                    <MdMissedVideoCall className="video-icon iconcall" size={32} />
+                    <FaArrowRight className="close-button iconcall" onClick={() => setSelectedConversation(null)} />
+                  </div>
+                </div>
                 <div className="messages2">
                   {selectedConversation.messages.map((msg, index) => (
                     <div

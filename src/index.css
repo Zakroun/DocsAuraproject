@@ -1,5 +1,6 @@
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: white;
 }
 /* Loader Page */
 #laoderimage {
@@ -1531,7 +1532,7 @@ hr {
 }
 
 .status {
-  padding: 5px 10px;
+  padding: 10px 10px;
   border-radius: 15px;
   font-size: 12px;
   font-weight: bold;
@@ -2098,16 +2099,18 @@ h1 {
 }
 .chat_window{
   overflow-y: scroll;
-  padding: 5px;
-  height: 100%;
-  background-color: rgb(237, 237, 237);
+  height: 93%;
+  /* background-color: rgb(237, 237, 237); */
+  background-image: url('/public/Images/cover.png');
+  background-repeat: no-repeat;
+  background-size: cover;
   margin-left: .4%;
 }
 .chat_window p{
   text-align: center;
 }
 .messages2{
-  padding: 10px;
+  padding: 15px;
   margin: 15px 0;
   border-radius: 8px;
   max-width: 100%;
@@ -2145,19 +2148,20 @@ h1 {
   bottom: -15px;
   right: 10px;
 }
-.message_input{
-  height: 10%;
+/* .message_input{
+  height: 7%;
+  margin-bottom: -50px;
   width: 100%;
-}
+} */
 .message_input {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 10%;
+  height: 7%;
+  margin-bottom: -45px;
   width: 96%;
   padding: 10px;
   margin-left: .4%;
-  background-color: #f1f1f1;
   border-top: 1px solid #ccc;
 }
 
@@ -2264,7 +2268,28 @@ h1 {
   background-color: #e53935;
   color: white;
 }
-
+.conversation-header{
+  display: flex;
+  justify-content: space-between;
+  /* margin:0px 20px; */
+  padding: 10px;
+  margin-top: -20px;
+  background-color: white;
+}
+.avataricon{
+  vertical-align: middle;
+  color: #888;
+  cursor: pointer;
+}
+.iconcall{
+  color: #00504e;
+  margin-right: 15px;
+  cursor: pointer;
+}
+.close-button{
+  color: black;
+  margin-left: 30px;
+}
 /* Responsive Design */
 @media (max-width: 479px) {
   /* Styles for Extra Small (XS) */

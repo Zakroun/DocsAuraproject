@@ -73,14 +73,14 @@ export default function Calendar(props) {
 
       <div className="calendar-actions">
         <button className="add-appointment" onClick={() => alert('Add new appointment')}>
-          Add Appointment
+          + Add Appointment
         </button>
       </div>
 
       <div className="legend">
-        <div><span className="status completed"></span> Completed</div>
-        <div><span className="status pending"></span> Pending</div>
-        <div><span className="status canceled"></span> Canceled</div>
+        <div><span className="status completed"><FontAwesomeIcon icon={faCheckCircle} /></span> Completed</div>
+        <div><span className="status pending"><FontAwesomeIcon icon={ faClock} /></span> Pending</div>
+        <div><span className="status canceled"><FontAwesomeIcon icon={ faTimesCircle} /></span> Canceled</div>
       </div>
 
       <div className="calendar-grid">
