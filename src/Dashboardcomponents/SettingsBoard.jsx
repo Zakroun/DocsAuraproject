@@ -46,11 +46,11 @@ export default function SettingsBoard({ Use }) {
   };
 
   const handleCancel = () => {
-    setShowCancelConfirmation(true); // عرض نافذة التأكيد
+    setShowCancelConfirmation(true); 
   };
 
   const handleConfirmCancel = () => {
-    // إعادة تعيين جميع الحقول إلى قيمها الافتراضية
+
     setCurrentPassword("");
     setNewPassword("");
     setRetypePassword("");
@@ -70,11 +70,11 @@ export default function SettingsBoard({ Use }) {
     setComments({ push: false, email: false, sms: false });
     setTags({ push: false, email: false, sms: false });
 
-    setShowCancelConfirmation(false); // إخفاء نافذة التأكيد
+    setShowCancelConfirmation(false);
   };
 
   const handleCancelConfirmation = () => {
-    setShowCancelConfirmation(false); // إخفاء نافذة التأكيد دون تنفيذ أي إجراء
+    setShowCancelConfirmation(false); 
   };
 
   const handleImageChange = (event) => {
