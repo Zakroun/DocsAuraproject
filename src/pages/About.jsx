@@ -28,8 +28,7 @@ export const About = () => {
             laboratories, our app provides an easy and efficient way to book
             appointments, manage medical records, and communicate with
             healthcare providers securely.
-          </p>
-          <p>
+            <br />
             With features like online consultations, appointment booking, secure
             messaging, and laboratory test services, Docsaura ensures that your
             health journey is convenient, accessible, and transparent.

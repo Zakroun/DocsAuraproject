@@ -176,22 +176,22 @@ export default function AppointmentForm({ user, Use , onSubmitFeedback }) {
             <h1>Appointment Completed Form</h1>
             {Use.Role === "doctor" || Use.Role === "clinic" ? (
               <div>
-                <label>Diagnosis</label>
+                <label>Diagnosis</label><br />
                 <textarea
                   name="diagnosis"
                   className="diagnosis"
                   value={formData.diagnosis}
                   onChange={handleChange}
                   placeholder="Describe the medical condition..."
-                />
-                <label>Prescription</label>
+                /><br /><br />
+                <label>Prescription</label><br />
                 <textarea
                   name="prescription"
                   className="prescription"
                   value={formData.prescription}
                   onChange={handleChange}
                   placeholder="Enter prescribed medication..."
-                />
+                /><br /><br />
                 {!isSaved ? (
                   <button onClick={handleSave} className="Save">
                     Save Details
@@ -204,21 +204,21 @@ export default function AppointmentForm({ user, Use , onSubmitFeedback }) {
               </div>
             ) : Use.Role === "laboratori" ? (
               <div>
-                <label>Results Description</label>
+                <label>Results Description</label><br />
                 <textarea
                   name="resultsDescription"
                   className="resultsDescription"
                   value={formData.resultsDescription}
                   onChange={handleChange}
                   placeholder="Describe the test results..."
-                />
-                <label>Upload Results PDF</label>
+                /> <br /><br />
+                <label>Upload Results PDF</label><br />
                 <input
                   type="file"
                   accept=".pdf"
                   className="file"
                   onChange={handleFileChange}
-                />
+                /><br /><br />
                 <button className="Upload">Save Results</button>
               </div>
             ) : Use.Role === "patient" ? (
@@ -242,13 +242,13 @@ export default function AppointmentForm({ user, Use , onSubmitFeedback }) {
                     />
                   ))}
                 </div>
-                <label>Leave a Feedback</label>
+                <label>Leave a Feedback</label><br />
                 <textarea
                   className="feedback"
                   value={feedback}
                   onChange={(e) => setFeedback(e.target.value)}
                   placeholder="Share your experience..."
-                />
+                /> <br /><br />
                 <button
                   onClick={handleFeedbackSubmit}
                   className="SubmitFeedback"
@@ -265,20 +265,20 @@ export default function AppointmentForm({ user, Use , onSubmitFeedback }) {
             <h1>Appointment Canceled Form</h1>
             {!showConfirm ? (
               <div>
-                <label>Reason for cancellation</label>
+                <label>Reason for cancellation</label><br />
                 <textarea
                   className="cancel-reason"
                   value={cancelReason}
                   onChange={(e) => setCancelReason(e.target.value)}
                   placeholder="Enter the reason for cancellation..."
-                />
-                <button onClick={handleCancel} className="cancel">
+                /> <br /><br />
+                <button onClick={handleCancel} className="cancel_reason">
                   Cancel Appointment
                 </button>
               </div>
             ) : (
               <div>
-                <p>Are you sure you want to cancel this appointment?</p>
+                <p>Are you sure you want to cancel this appointment?</p><br />
                 <button onClick={confirmStatus} className="Confirm">
                   Yes, Confirm
                 </button>
@@ -291,7 +291,7 @@ export default function AppointmentForm({ user, Use , onSubmitFeedback }) {
         ) : confirmed && Use.Role === "patient" ? (
           <div className="complet_Review">
             <h1>Appointment Review</h1>
-            <label>Doctor's Rating</label>
+            <label>Doctor's Rating</label><br />
             <div className="star-rating">
               {[...Array(5)].map((_, index) => {
                 const ratingValue = index + 1;
@@ -317,13 +317,13 @@ export default function AppointmentForm({ user, Use , onSubmitFeedback }) {
                 );
               })}
             </div>
-            <label>Your Feedback</label>
+            <label>Your Feedback</label><br />
             <textarea
               value={feedback}
               onChange={(e) => setFeedback(e.target.value)}
               placeholder="Share your experience..."
               className="feedback-textarea"
-            />
+            /> <br /><br />
             <button onClick={handleFeedbackSubmit} className="submit-feedback">
               Submit
             </button>

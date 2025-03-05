@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { IoClose } from "react-icons/io5";
-
+// import { useEffect } from "react";
 export default function Messages({ selectedConversation }) {
   const [showOptions, setShowOptions] = useState(null);
-  const [showDetails, setShowDetails] = useState(null);
+  const [showDetails, setShowDetails] = useState(true);
   
   return (
     <div className="messages2">

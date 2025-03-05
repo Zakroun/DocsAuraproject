@@ -5,66 +5,34 @@ import { IoCall } from "react-icons/io5";
 import MessageInput from "./Messageinput";
 import Messages from "./MessagesList";
 
-const conversations = [
-  {
-    id: 1,
-    name: "Diane Cooper",
-    message: "Hey! How are you?",
-    time: "12:08 pm",
-    unread: 2,
-    messages: [
-      {
-        text: "Hey! How are you?",
-        sender: "Diane",
-        time: "12:05 pm",
-        read: true,
-      },
-      {
-        text: "I'm good, thanks!",
-        sender: "You",
-        time: "12:06 pm",
-        read: true,
-      },
-      { text: "Glad to hear!", sender: "Diane", time: "12:07 pm", read: false },
-    ],
-  },
-  {
-    id: 2,
-    name: "Aubrey Fisher",
-    message: "Let’s catch up!",
-    time: "11:45 am",
-    unread: 0,
-    messages: [
-      {
-        text: "Let’s catch up!",
-        sender: "Aubrey",
-        time: "11:40 am",
-        read: true,
-      },
-      {
-        text: "Sure! When are you free?",
-        sender: "You",
-        time: "11:42 am",
-        read: true,
-      },
-    ],
-  },
-];
-
-export default function ChatApp() {
+export default function ChatApp({ conversations }) {
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [search, setSearch] = useState("");
-  const chatBodyRef = useRef(null);
+  const [conversationList, setConversationList] = useState(conversations);
+  useEffect(()=>{
+    setConversationList(conversations)
+  },[conversations])
 
+  const chatBodyRef = useRef(null);
   useEffect(() => {
     if (chatBodyRef.current) {
       chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
     }
   }, [selectedConversation]);
 
-  const filteredConversations = conversations.filter((conv) =>
-    conv.name.toLowerCase().includes(search.toLowerCase())
-  );
+  const openConversation = (conv) => {
+    const updatedConversations = conversationList.map((c) =>
+      c.id === conv.id ? { ...c, unread: 0, messages: c.messages.map(m => ({ ...m, read: true })) } : c
+    );
+    setConversationList(updatedConversations);
+    setSelectedConversation({ ...conv, unread: 0, messages: conv.messages.map(m => ({ ...m, read: true })) });
+  };
+
+  const filteredConversations = search
+    ? conversationList.filter((conv) =>
+        conv.name.toLowerCase().includes(search.toLowerCase())
+      )
+    : conversationList;
 
   return (
     <div className="chat-app">
@@ -82,7 +50,7 @@ export default function ChatApp() {
             <div
               key={conv.id}
               className="conversation-item"
-              onClick={() => setSelectedConversation(conv)}
+              onClick={() => openConversation(conv)}
             >
               <FaUserCircle className="avatar-icon" size={40} />
               <div className="details">
@@ -93,7 +61,8 @@ export default function ChatApp() {
                 <p className="timestamp">{conv.time}</p>
                 {conv.unread > 0 && (
                   <div className="unread-badge">
-                    <MdNotifications size={18} /> {conv.unread}
+                    <MdNotifications size={18} /> 
+                    {/* {conv.unread} */}
                   </div>
                 )}
               </div>
@@ -111,7 +80,7 @@ export default function ChatApp() {
                 <IoCall className="call-icon iconcall" size={27} />
                 <MdMissedVideoCall className="video-icon iconcall" size={32} />
                 <FaArrowRight
-                size={27}
+                  size={27}
                   className="close-button iconcall"
                   onClick={() => setSelectedConversation(null)}
                 />
@@ -120,7 +89,7 @@ export default function ChatApp() {
             <div className="chat_window" ref={chatBodyRef}>
               <Messages selectedConversation={selectedConversation} />
             </div>
-            <MessageInput />
+            <MessageInput Conversationusers={selectedConversation.name} />
           </div>
         ) : (
           <p>Select a conversation to view messages ...</p>

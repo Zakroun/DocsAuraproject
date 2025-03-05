@@ -4985,96 +4985,141 @@ export const cities = [
   "Laayoune",
   "Errachidia",
 ];
-export const messagesData = [
-  {
-    idMessage: 1,
-    idvisitor: 101,
-    iddoctor: 201,
-    dateMes: "2025-03-01 14:30:00",
-    content: "Hello doctor, I need an appointment.",
-    messageFrom: "visitor",
-    messageTo: "doctor"
-  },
-  {
-    idMessage: 2,
-    idvisitor: 101,
-    iddoctor: 201,
-    dateMes: "2025-03-01 14:32:00",
-    content: "Sure, when would you be available?",
-    messageFrom: "doctor",
-    messageTo: "visitor"
-  },
-  {
-    idMessage: 3,
-    idvisitor: 101,
-    iddoctor: 201,
-    dateMes: "2025-03-01 14:35:00",
-    content: "Tomorrow at 10 AM.",
-    messageFrom: "visitor",
-    messageTo: "doctor"
-  },
-  {
-    idMessage: 4,
-    idvisitor: 101,
-    iddoctor: 201,
-    dateMes: "2025-03-01 14:37:00",
-    content: "Okay, I have scheduled your appointment.",
-    messageFrom: "doctor",
-    messageTo: "visitor"
-  },
-  {
-    idMessage: 5,
-    idvisitor: 102,
-    iddoctor: 202,
-    dateMes: "2025-03-02 10:00:00",
-    content: "Good morning, doctor. I have a headache.",
-    messageFrom: "visitor",
-    messageTo: "doctor"
-  },
-  {
-    idMessage: 6,
-    idvisitor: 102,
-    iddoctor: 202,
-    dateMes: "2025-03-02 10:05:00",
-    content: "Have you taken any medicine?",
-    messageFrom: "doctor",
-    messageTo: "visitor"
-  },
-  {
-    idMessage: 7,
-    idvisitor: 102,
-    iddoctor: 202,
-    dateMes: "2025-03-02 10:10:00",
-    content: "No, I haven't taken anything yet.",
-    messageFrom: "visitor",
-    messageTo: "doctor"
-  },
-  {
-    idMessage: 8,
-    idvisitor: 103,
-    iddoctor: 203,
-    dateMes: "2025-03-03 16:45:00",
-    content: "Doctor, my blood pressure is high.",
-    messageFrom: "visitor",
-    messageTo: "doctor"
-  },
-  {
-    idMessage: 9,
-    idvisitor: 103,
-    iddoctor: 203,
-    dateMes: "2025-03-03 16:50:00",
-    content: "Are you feeling dizzy or having chest pain?",
-    messageFrom: "doctor",
-    messageTo: "visitor"
-  },
-  {
-    idMessage: 10,
-    idvisitor: 103,
-    iddoctor: 203,
-    dateMes: "2025-03-03 16:55:00",
-    content: "No, just a slight headache.",
-    messageFrom: "visitor",
-    messageTo: "doctor"
-  }
-];
+// export const messagesData = [
+//   {
+//     idMessage: 1,
+//     idvisitor: 101,
+//     iddoctor: 201,
+//     dateMes: "2025-03-01 14:30:00",
+//     content: "Hello doctor, I need an appointment.",
+//     messageFrom: "visitor",
+//     messageTo: "doctor"
+//   },
+//   {
+//     idMessage: 2,
+//     idvisitor: 101,
+//     iddoctor: 201,
+//     dateMes: "2025-03-01 14:32:00",
+//     content: "Sure, when would you be available?",
+//     messageFrom: "doctor",
+//     messageTo: "visitor"
+//   },
+//   {
+//     idMessage: 3,
+//     idvisitor: 101,
+//     iddoctor: 201,
+//     dateMes: "2025-03-01 14:35:00",
+//     content: "Tomorrow at 10 AM.",
+//     messageFrom: "visitor",
+//     messageTo: "doctor"
+//   },
+//   {
+//     idMessage: 4,
+//     idvisitor: 101,
+//     iddoctor: 201,
+//     dateMes: "2025-03-01 14:37:00",
+//     content: "Okay, I have scheduled your appointment.",
+//     messageFrom: "doctor",
+//     messageTo: "visitor"
+//   },
+//   {
+//     idMessage: 5,
+//     idvisitor: 102,
+//     iddoctor: 202,
+//     dateMes: "2025-03-02 10:00:00",
+//     content: "Good morning, doctor. I have a headache.",
+//     messageFrom: "visitor",
+//     messageTo: "doctor"
+//   },
+//   {
+//     idMessage: 6,
+//     idvisitor: 102,
+//     iddoctor: 202,
+//     dateMes: "2025-03-02 10:05:00",
+//     content: "Have you taken any medicine?",
+//     messageFrom: "doctor",
+//     messageTo: "visitor"
+//   },
+//   {
+//     idMessage: 7,
+//     idvisitor: 102,
+//     iddoctor: 202,
+//     dateMes: "2025-03-02 10:10:00",
+//     content: "No, I haven't taken anything yet.",
+//     messageFrom: "visitor",
+//     messageTo: "doctor"
+//   },
+//   {
+//     idMessage: 8,
+//     idvisitor: 103,
+//     iddoctor: 203,
+//     dateMes: "2025-03-03 16:45:00",
+//     content: "Doctor, my blood pressure is high.",
+//     messageFrom: "visitor",
+//     messageTo: "doctor"
+//   },
+//   {
+//     idMessage: 9,
+//     idvisitor: 103,
+//     iddoctor: 203,
+//     dateMes: "2025-03-03 16:50:00",
+//     content: "Are you feeling dizzy or having chest pain?",
+//     messageFrom: "doctor",
+//     messageTo: "visitor"
+//   },
+//   {
+//     idMessage: 10,
+//     idvisitor: 103,
+//     iddoctor: 203,
+//     dateMes: "2025-03-03 16:55:00",
+//     content: "No, just a slight headache.",
+//     messageFrom: "visitor",
+//     messageTo: "doctor"
+//   }
+// ];
 
+export const conversations = [
+  {
+    id: 1,
+    name: "Diane Cooper",
+    message: "Glad to hear!",
+    time: "12:08 pm",
+    unread: 2,
+    messages: [
+      {
+        text: "Hey! How are you?",
+        sender: "Diane",
+        time: "12:05 pm",
+        read: true,
+      },
+      {
+        text: "I'm good, thanks!",
+        sender: "You",
+        time: "12:06 pm",
+        read: true,
+      },
+      { text: "Glad to hear!", sender: "Diane", time: "12:07 pm", read: false },
+    ],
+  },
+  {
+    id: 2,
+    name: "Aubrey Fisher",
+    message: "Let’s catch up!",
+    time: "11:45 am",
+    unread: 0,
+    messages: [
+      {
+        text: "Let’s catch up!",
+        sender: "Aubrey",
+        time: "11:40 am",
+        read: true,
+      },
+      {
+        text: "Sure! When are you free?",
+        sender: "You",
+        time: "11:42 am",
+        read: true,
+      },
+    ],
+  },
+];

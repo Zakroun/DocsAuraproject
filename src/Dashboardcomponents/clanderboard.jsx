@@ -40,7 +40,7 @@ export default function Calendar(props) {
 
   return (
     <div className="calendar-container">
-      <h2 className="calendar-title">Medical Appoitement</h2>
+      <h2 className="calendar-title">Medical Appointement</h2>
 
       <div className="filters">
         <select value={selectedYear} onChange={(e) => setSelectedYear(e.target.value)}>

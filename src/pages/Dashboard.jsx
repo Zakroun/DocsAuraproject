@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Calendar from "../Dashboardcomponents/clanderboard";
 import Homeboard from "../Dashboardcomponents/Homeboard";
 import { useLocation } from "react-router-dom";
+import { useState } from "react";
 import { useEffect } from "react";
 import { changeboard } from "../data/DocsauraSlice";
 import Appointmntform from "../Dashboardcomponents/appointmntform";
@@ -17,7 +18,11 @@ export default function Dashboard() {
   const user = locations.state?.user || null;
   const curboard = useSelector((state) => state.Docsaura.currentboard);
   const dispatch = useDispatch();
-
+  const conversations = useSelector((state) => state.Docsaura.conversations);
+  const [Listconversations, setListconversations] = useState(conversations);
+  useEffect(()=>{
+    setListconversations(conversations)
+  },[conversations])
   useEffect(() => {
     if (user) {
       dispatch(changeboard("appointmnt"));
@@ -25,10 +30,8 @@ export default function Dashboard() {
     }
   }, [user, dispatch, navigate]);
 
-  console.log(curboard);
   const Users = useSelector((s) => s.Docsaura.doctors);
   const Use = Users.find((a) => a.id === 1);
-  const messagesData = useSelector((s) => s.Docsaura.messagesData);
   return (
     <div className="containerDashboard">
       <Part1Dashboard Use={Use} />
@@ -43,7 +46,7 @@ export default function Dashboard() {
         ) : curboard === "settings" ? (
           <SettingsBoard Use={Use} />
         ) : curboard === "messages" ? (
-          <Messages messagesData={messagesData} />
+          <Messages conversations={Listconversations} />
         ) : curboard === "Logout" ? (
           <Logout />
         ) : (

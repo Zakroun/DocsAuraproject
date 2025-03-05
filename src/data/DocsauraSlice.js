@@ -5,10 +5,9 @@ import {
   laboratories,
   specializedDoctors,
   cities,
-  messagesData,
 } from "./data";
 import { createSlice } from "@reduxjs/toolkit";
-
+import { conversations } from "./data";
 export const DocsauraSlice = createSlice({
   name: "DocsAura",
   initialState: {
@@ -18,8 +17,8 @@ export const DocsauraSlice = createSlice({
     laboratories: laboratories,
     specializedDoctors: specializedDoctors,
     cities: cities,
-    messagesData: messagesData,
     currentboard: "home",
+    conversations:conversations
   },
   reducers: {
     changeboard: (state, action) => {
@@ -27,7 +26,6 @@ export const DocsauraSlice = createSlice({
     },
     changestatus: (state, action) => {
       const { doctorId, appointmentId, role, status } = action.payload;
-      console.log(action.payload)
       let entity;
       switch (role) {
         case 'doctor':
@@ -59,7 +57,32 @@ export const DocsauraSlice = createSlice({
       }
       appointment.status = status.toLowerCase();
     },
-  },
+    Sent: (state, action) => {
+      const { message, name } = action.payload;
+    
+      const conversation = state.conversations.find(
+        conv => conv.name.toLowerCase().trim() === name.toLowerCase().trim()
+      );
+    
+      console.log('conversation:', conversation);
+    
+      if (!conversation) {
+        console.error("Conversation not found");
+        return;
+      }
+    
+      const newMessage = {
+        text: message,
+        sender: "You",
+        time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+        read: false
+      };
+    
+      conversation.messages.push(newMessage);
+      conversation.message = message;
+      conversation.time = newMessage.time;
+    }
+  },    
 });
 
-export const { changeboard, changestatus } = DocsauraSlice.actions;
+export const { changeboard, changestatus,Sent } = DocsauraSlice.actions;
