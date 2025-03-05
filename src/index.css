@@ -2979,6 +2979,7 @@ h1 {
 
 /* Calendar Grid */
 .calendar-grid {
+  padding-top: 40px;
   overflow-x: scroll;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
