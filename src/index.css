@@ -3099,6 +3099,7 @@ h1 {
   background-color: #f4f4f4;
 } */
 
+/* SettingsBoard.css */
 .settings-board {
   font-family: Arial, sans-serif;
   width: 100%;
@@ -3134,12 +3135,14 @@ h1 {
   margin-bottom: 20px;
   width: 100%;
 }
+
 .settings-section h1 {
   text-align: center;
   font-size: 22px;
   margin-bottom: 15px;
   color: #00504e;
 }
+
 .settings-section h2 {
   font-size: 18px;
   margin-bottom: 15px;
@@ -3313,4 +3316,69 @@ h1 {
 
 .permission-item input {
   margin-right: 10px;
+}
+
+.notifications {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #4CAF50;
+  color: white;
+  padding: 15px;
+  border-radius: 5px;
+  z-index: 1000;
+}
+
+.confirmation-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.confirmation-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.confirmation-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.confirm-button, .cancel-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.confirm-button {
+  background-color: #ff4d4d;
+  color: white;
+}
+
+.confirm-button:hover {
+  background-color: #ff1a1a;
+}
+
+.cancel-button {
+  background-color: #cccccc;
+  color: black;
+}
+
+.cancel-button:hover {
+  background-color: #b3b3b3;
 }
