@@ -295,7 +295,6 @@ export default function SettingsBoard({ Use }) {
                 These are notifications for when someone adds or cancels an appointment.
                 </p>
                 <div className="notification-options">
-                  
                   <label>
                     <input
                       type="checkbox"
@@ -318,7 +317,6 @@ export default function SettingsBoard({ Use }) {
                   </label>
                 </div>
               </div>
-  
               <div className="notification-category">
                 <h3>Comments</h3>
                 <p>
@@ -349,7 +347,6 @@ export default function SettingsBoard({ Use }) {
                   </label>
                 </div>
               </div>
-  
               <div className="notification-category">
               <h3>Reminders</h3>
                 <p>
