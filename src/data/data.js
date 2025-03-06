@@ -11,7 +11,7 @@ export const visitors = [
     address: "123 Main St",
     phone: "0123456789",
     createdAt: "2024-01-01 08:00:00",
-    image : "user.png",
+    image: "user.png",
     appointments: [
       {
         id: 1,
@@ -48,7 +48,7 @@ export const visitors = [
     address: "456 Oak St",
     phone: "0987654321",
     createdAt: "2024-01-02 09:30:00",
-    image : "user.png",
+    image: "user.png",
     appointments: [
       {
         id: 1,
@@ -85,7 +85,7 @@ export const visitors = [
     address: "789 Pine St",
     phone: "0112233445",
     createdAt: "2024-01-03 10:15:00",
-    image : "user.png",
+    image: "user.png",
     appointments: [
       {
         id: 1,
@@ -122,7 +122,7 @@ export const visitors = [
     address: "321 Birch St",
     phone: "0223344556",
     createdAt: "2024-01-04 11:00:00",
-    image : "user.png",
+    image: "user.png",
     appointments: [
       {
         id: 1,
@@ -159,7 +159,7 @@ export const visitors = [
     address: "654 Cedar St",
     phone: "0334455667",
     createdAt: "2024-01-05 12:30:00",
-    image : "user.png",
+    image: "user.png",
     appointments: [
       {
         id: 1,
@@ -196,7 +196,7 @@ export const visitors = [
     address: "987 Maple St",
     phone: "0445566778",
     createdAt: "2024-01-06 13:45:00",
-    image : "user.png",
+    image: "user.png",
     appointments: [
       {
         id: 1,
@@ -233,7 +233,7 @@ export const visitors = [
     address: "159 Spruce St",
     phone: "0556677889",
     createdAt: "2024-01-07 14:15:00",
-    image : "user.png",
+    image: "user.png",
     appointments: [
       {
         id: 1,
@@ -270,7 +270,7 @@ export const visitors = [
     address: "753 Walnut St",
     phone: "0667788990",
     createdAt: "2024-01-08 15:30:00",
-    image : "user.png",
+    image: "user.png",
     appointments: [
       {
         id: 1,
@@ -307,7 +307,7 @@ export const visitors = [
     address: "852 Cherry St",
     phone: "0778899001",
     createdAt: "2024-01-09 16:45:00",
-    image : "user.png",
+    image: "user.png",
     appointments: [
       {
         id: 1,
@@ -344,7 +344,7 @@ export const visitors = [
     address: "951 Willow St",
     phone: "0889900112",
     createdAt: "2024-01-10 17:00:00",
-    image : "user.png",
+    image: "user.png",
     appointments: [
       {
         id: 1,
@@ -381,7 +381,7 @@ export const visitors = [
     address: "357 Elm St",
     phone: "0990011223",
     createdAt: "2024-01-11 18:15:00",
-    image : "user.png",
+    image: "user.png",
     appointments: [
       {
         id: 1,
@@ -418,7 +418,7 @@ export const visitors = [
     address: "258 Chestnut St",
     phone: "0101122334",
     createdAt: "2024-01-12 19:30:00",
-    image : "user.png",
+    image: "user.png",
     appointments: [
       {
         id: 1,
@@ -530,7 +530,7 @@ export const doctors = [
       { month: "Nov", patients: 65 },
       { month: "Dec", patients: 85 },
     ],
-    appointments : [
+    appointments: [
       {
         id: 1,
         fullName: "Yassir Benjelloun",
@@ -690,8 +690,8 @@ export const doctors = [
         timeTo: "12:30 PM",
         status: "pending",
         image: "user.png",
-      }
-    ]    
+      },
+    ],
   },
   {
     id: 2,
@@ -5084,7 +5084,6 @@ export const conversations = [
     name: "Diane Cooper",
     message: "Glad to hear!",
     time: "12:08 pm",
-    unread: 2,
     messages: [
       {
         text: "Hey! How are you?",
@@ -5093,12 +5092,17 @@ export const conversations = [
         read: true,
       },
       {
+        text: "Glad to hear!",
+        sender: "Diane",
+        time: "12:07 pm",
+        read: true,
+      },
+      {
         text: "I'm good, thanks!",
         sender: "You",
         time: "12:06 pm",
-        read: true,
+        read: false,
       },
-      { text: "Glad to hear!", sender: "Diane", time: "12:07 pm", read: false },
     ],
   },
   {
@@ -5106,7 +5110,6 @@ export const conversations = [
     name: "Aubrey Fisher",
     message: "Let’s catch up!",
     time: "11:45 am",
-    unread: 0,
     messages: [
       {
         text: "Let’s catch up!",

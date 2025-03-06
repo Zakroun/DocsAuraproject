@@ -2293,7 +2293,7 @@ h1 {
 }
 
 .send-button {
-  background: #007bff;
+  background: #00504e;
   color: white;
   border: none;
   padding: 8px 12px;
@@ -2305,7 +2305,7 @@ h1 {
 }
 
 .send-button:hover {
-  background: #00504e;
+  background: #018481;
 }
 
 /* Recording Indicator */

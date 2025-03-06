@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FaUserCircle, FaArrowRight } from "react-icons/fa";
-import { MdNotifications, MdMissedVideoCall } from "react-icons/md";
-import { IoCall } from "react-icons/io5";
+import { MdNotifications } from "react-icons/md";
+// import { IoCall } from "react-icons/io5";
 import MessageInput from "./Messageinput";
 import Messages from "./MessagesList";
 
@@ -9,9 +9,9 @@ export default function ChatApp({ conversations }) {
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [search, setSearch] = useState("");
   const [conversationList, setConversationList] = useState(conversations);
-  useEffect(()=>{
-    setConversationList(conversations)
-  },[conversations])
+  useEffect(() => {
+    setConversationList(conversations);
+  }, [conversations]);
 
   const chatBodyRef = useRef(null);
   useEffect(() => {
@@ -22,10 +22,20 @@ export default function ChatApp({ conversations }) {
 
   const openConversation = (conv) => {
     const updatedConversations = conversationList.map((c) =>
-      c.id === conv.id ? { ...c, unread: 0, messages: c.messages.map(m => ({ ...m, read: true })) } : c
+      c.id === conv.id
+        ? {
+            ...c,
+            unread: 0,
+            messages: c.messages.map((m) => ({ ...m, read: true })),
+          }
+        : c
     );
     setConversationList(updatedConversations);
-    setSelectedConversation({ ...conv, unread: 0, messages: conv.messages.map(m => ({ ...m, read: true })) });
+    setSelectedConversation({
+      ...conv,
+      unread: 0,
+      messages: conv.messages.map((m) => ({ ...m, read: true })),
+    });
   };
 
   const filteredConversations = search
@@ -59,10 +69,16 @@ export default function ChatApp({ conversations }) {
               </div>
               <div className="meta">
                 <p className="timestamp">{conv.time}</p>
-                {conv.unread > 0 && (
+                {conv.messages.reduce(
+                  (t, a) => (a.read === false ? t + 1 : t),
+                  0
+                ) > 0 && (
                   <div className="unread-badge">
-                    <MdNotifications size={18} /> 
-                    {/* {conv.unread} */}
+                    <MdNotifications size={18} />
+                    {conv.messages.reduce(
+                      (t, a) => (a.read === false ? t + 1 : t),
+                      0
+                    )}
                   </div>
                 )}
               </div>
@@ -77,8 +93,8 @@ export default function ChatApp({ conversations }) {
               <FaUserCircle className="avataricon" size={40} />
               <span>{selectedConversation.name}</span>
               <div className="callopr">
-                <IoCall className="call-icon iconcall" size={27} />
-                <MdMissedVideoCall className="video-icon iconcall" size={32} />
+                {/* <IoCall className="call-icon iconcall" size={27} />
+                <MdMissedVideoCall className="video-icon iconcall" size={32} /> */}
                 <FaArrowRight
                   size={27}
                   className="close-button iconcall"
