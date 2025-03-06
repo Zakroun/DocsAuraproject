@@ -295,16 +295,7 @@ export default function SettingsBoard({ Use }) {
                 These are notifications for when someone adds or cancels an appointment.
                 </p>
                 <div className="notification-options">
-                  <label>
-                    <input
-                      type="checkbox"
-                      checked={reminders.push}
-                      onChange={(e) =>
-                        setReminders({ ...reminders, push: e.target.checked })
-                      }
-                    />
-                    Push
-                  </label>
+                  
                   <label>
                     <input
                       type="checkbox"
@@ -335,16 +326,7 @@ export default function SettingsBoard({ Use }) {
                   to your comments.
                 </p>
                 <div className="notification-options">
-                  <label>
-                    <input
-                      type="checkbox"
-                      checked={comments.push}
-                      onChange={(e) =>
-                        setComments({ ...comments, push: e.target.checked })
-                      }
-                    />
-                    Push
-                  </label>
+                  
                   <label>
                     <input
                       type="checkbox"
@@ -375,16 +357,6 @@ export default function SettingsBoard({ Use }) {
                   missed.
                 </p>
                 <div className="notification-options">
-                  <label>
-                    <input
-                      type="checkbox"
-                      checked={tags.push}
-                      onChange={(e) =>
-                        setTags({ ...tags, push: e.target.checked })
-                      }
-                    />
-                    Push
-                  </label>
                   <label>
                     <input
                       type="checkbox"
