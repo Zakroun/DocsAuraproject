@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, {useState } from "react";
 import { FaSun, FaMoon } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function SettingsBoard({ Use }) {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [retypePassword, setRetypePassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [phoneNo, setPhoneNo] = useState("");
-  const [name, setName] = useState("");
-  const [profileImage, setProfileImage] = useState(
-    "https://via.placeholder.com/100"
-  );
+  const [email, setEmail] = useState(Use.email);
+  const [phoneNo, setPhoneNo] = useState(Use.phone);
+  const [name, setName] = useState(Use.fullName);
+  const [profileImage, setProfileImage] = useState(`/images/${Use.image}`);
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showRetypePassword, setShowRetypePassword] = useState(false);
@@ -35,14 +33,14 @@ export default function SettingsBoard({ Use }) {
   const [showNotification, setShowNotification] = useState(false);
   const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleSave = () => {
     console.log("Settings saved");
     setShowNotification(true);
     setTimeout(() => {
       setShowNotification(false);
-    }, 6000); 
+    }, 3000); 
   };
 
   const handleCancel = () => {
@@ -50,7 +48,6 @@ export default function SettingsBoard({ Use }) {
   };
 
   const handleConfirmCancel = () => {
-
     setCurrentPassword("");
     setNewPassword("");
     setRetypePassword("");
@@ -85,14 +82,14 @@ export default function SettingsBoard({ Use }) {
     }
   };
 
-  useEffect(() => {
-    if (Use) {
-      setName(Use.fullName);
-      setEmail(Use.email);
-      setPhoneNo(Use.phone);
-      setProfileImage(Use.image);
-    }
-  }, [Use]);
+  // useEffect(() => {
+  //   if (Use) {
+  //     setName(Use.fullName);
+  //     setEmail(Use.email);
+  //     setPhoneNo(Use.phone);
+  //     setProfileImage(Use.image);
+  //   }
+  // }, [Use]);
 
   const renderContent = () => {
     switch (activeTab) {
