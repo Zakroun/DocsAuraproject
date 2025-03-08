@@ -51,7 +51,8 @@ export default function Dashboard() {
           <Logout />
         ) : (
           <div></div>
-        )}
+        )
+      }
       </div>
     </div>
   );

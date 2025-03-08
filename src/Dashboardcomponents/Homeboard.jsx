@@ -204,16 +204,16 @@ export default function Homeboard(props) {
                 <div className="partweekly__header">
                   <FaHospitalUser
                     size={30}
-                    color="#008481"
+                    color="rgb(0, 0, 155)"
                     style={{
-                      backgroundColor: "#00848276",
+                      backgroundColor: "rgba(0, 0, 155, 0.38)",
                       padding: 7,
                       borderRadius: 10,
                     }}
                   />
                 </div>
                 <h3>Total Patients </h3>
-                <h3 style={{ color: "#008481" }}>200</h3>
+                <h3 style={{ color: "rgb(0, 0, 155)" }}>200</h3>
               </div>
               <div className="partweekly">
                 <div className="partweekly__header">
@@ -227,7 +227,7 @@ export default function Homeboard(props) {
                     }}
                   />
                 </div>
-                <h3>Phone Calls </h3>
+                <h3>Pending Appointments </h3>
                 <h3 style={{ color: "rgb(195, 101, 0)" }}>20</h3>
               </div>
               <div className="partweekly">
@@ -242,23 +242,23 @@ export default function Homeboard(props) {
                     }}
                   />
                 </div>
-                <h3>Appointments </h3>
+                <h3>Canceled Appointments </h3>
                 <h3 style={{ color: "rgb(153, 0, 0)" }}>100</h3>
               </div>
               <div className="partweekly">
                 <div className="partweekly__header">
                   <MdMarkEmailUnread
                     size={30}
-                    color="rgb(0, 0, 155)"
+                    color="rgb(0, 113, 128)"
                     style={{
-                      backgroundColor: "rgba(0, 0, 155, 0.44)",
+                      backgroundColor: "rgba(0, 113, 128, 0.39)",
                       padding: 7,
                       borderRadius: 10,
                     }}
                   />
                 </div>
-                <h3>Unread Messages </h3>
-                <h3 style={{ color: "rgb(0, 0, 155)" }}>10</h3>
+                <h3>Completed Appointments </h3>
+                <h3 style={{ color: "rgb(0, 113, 128)" }}>10</h3>
               </div>
             </div>
             <div className="chart-container">

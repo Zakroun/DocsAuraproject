@@ -1,7 +1,10 @@
 import { LuSearch } from "react-icons/lu";
 import { IoNotificationsSharp } from "react-icons/io5";
 import { useState } from "react";
+// import { changeboard } from "../data/DocsauraSlice";
+// import { useDispatch } from "react-redux";
 export default function HeaderBoard() {
+  // const dispatch = useDispatch();
   const [showNotifications, setShowNotifications] = useState(false);
   const notifications = [
     { id: 1, message: "New patient registered", time: "2 mins ago" },
@@ -18,7 +21,7 @@ export default function HeaderBoard() {
           </button>
         </div>
         <div className="add">
-          <button className="addbtn">+ Add Patients</button>
+          {/* <button className="addbtn" onClick={()=>dispatch(changeboard('addPatient'))}>+ Add Patients</button> */}
           <div className="notification-container">
             <div
               className="icon-wrapper"
