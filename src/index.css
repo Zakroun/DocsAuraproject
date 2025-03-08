@@ -3193,16 +3193,6 @@ h1 {
 }
 
 /* SettingsBoard.css */
-/* html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  width: 100%;
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-} */
-
-/* SettingsBoard.css */
 .settings-board {
   font-family: Arial, sans-serif;
   width: 100%;
@@ -3432,6 +3422,10 @@ h1 {
   z-index: 1000;
 }
 
+.notifications.error {
+  background-color: #ff4d4d;
+}
+
 .confirmation-modal {
   position: fixed;
   top: 0;
@@ -3484,4 +3478,73 @@ h1 {
 
 .cancel-button:hover {
   background-color: #b3b3b3;
+}
+
+.password-strength {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #666;
+}
+
+.password-strength.faible {
+  color: #ff4d4d;
+}
+
+.password-strength.medium {
+  color: #ffa500;
+}
+
+.password-strength.strong {
+  color: #28a745;
+}
+
+.notification-top {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  animation: fadeInDown 0.5s ease-in-out;
+}
+
+.notification {
+  padding: 15px 30px;
+  border-radius: 0 0 10px 10px;
+  color: white;
+  font-size: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  animation: fadeOutUp 0.5s ease-in-out 2.5s;
+}
+
+.notification.success {
+  background-color: #28a745;
+}
+
+.notification.error {
+  background-color: #ff4d4d;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOutUp {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
 }

@@ -1,4 +1,4 @@
-import React, {useState } from "react";
+import React, { useState } from "react";
 import { FaSun, FaMoon } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
@@ -32,19 +32,46 @@ export default function SettingsBoard({ Use }) {
   const [tags, setTags] = useState({ push: false, email: false, sms: false });
   const [showNotification, setShowNotification] = useState(false);
   const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [passwordStrength, setPasswordStrength] = useState("");
 
-  // const navigate = useNavigate();
+
+  const evaluatePasswordStrength = (password) => {
+    if (password.length === 0) return "";
+    if (password.length < 6) return "Faible";
+    if (password.length >= 6 && password.length < 10) return "Medium";
+    if (password.length >= 10 && /[!@#$%^&*(),.?":{}|<>]/.test(password)) return "Strong";
+    return "Medium";
+  };
 
   const handleSave = () => {
-    console.log("Settings saved");
+    if (!name || !email || !phoneNo || !currentPassword || !newPassword || !retypePassword) {
+      setErrorMessage("Everything must be Full");
+      return;
+    }
+
+    if (!newPassword.includes("@")) {
+      setErrorMessage("Password must contain@");
+      return;
+    }
+
+    if (newPassword !== retypePassword) {
+      setErrorMessage("Passwords Dosnt Much");
+      return;
+    }
+
+    setErrorMessage("");
     setShowNotification(true);
+
+  
     setTimeout(() => {
       setShowNotification(false);
-    }, 3000); 
+      window.location.reload(); 
+    }, 3000);
   };
 
   const handleCancel = () => {
-    setShowCancelConfirmation(true); 
+    setShowCancelConfirmation(true);
   };
 
   const handleConfirmCancel = () => {
@@ -71,7 +98,7 @@ export default function SettingsBoard({ Use }) {
   };
 
   const handleCancelConfirmation = () => {
-    setShowCancelConfirmation(false); 
+    setShowCancelConfirmation(false);
   };
 
   const handleImageChange = (event) => {
@@ -81,15 +108,6 @@ export default function SettingsBoard({ Use }) {
       setProfileImage(imageUrl);
     }
   };
-
-  // useEffect(() => {
-  //   if (Use) {
-  //     setName(Use.fullName);
-  //     setEmail(Use.email);
-  //     setPhoneNo(Use.phone);
-  //     setProfileImage(Use.image);
-  //   }
-  // }, [Use]);
 
   const renderContent = () => {
     switch (activeTab) {
@@ -168,7 +186,10 @@ export default function SettingsBoard({ Use }) {
                   <input
                     type={showNewPassword ? "text" : "password"}
                     value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
+                    onChange={(e) => {
+                      setNewPassword(e.target.value);
+                      setPasswordStrength(evaluatePasswordStrength(e.target.value));
+                    }}
                   />
                   <span
                     style={{
@@ -182,6 +203,9 @@ export default function SettingsBoard({ Use }) {
                   >
                     {showNewPassword ? "👁️" : "👁️‍🗨️"}
                   </span>
+                </div>
+                <div className={`password-strength ${passwordStrength.toLowerCase()}`}>
+                passwordStrength: {passwordStrength}
                 </div>
               </div>
               <div className="settings-item">
@@ -281,127 +305,139 @@ export default function SettingsBoard({ Use }) {
             </div>
           </div>
         );
-        case "Notification":
-          return (
-            <div className="settings-section notification">
-              <h2>Notification Settings</h2>
-              <div className="notification-category">
-              <h3>Appointments
-                </h3>
-                <p>
+      case "Notification":
+        return (
+          <div className="settings-section notification">
+            <h2>Notification Settings</h2>
+            <div className="notification-category">
+              <h3>Appointments</h3>
+              <p>
                 These are notifications for when someone adds or cancels an appointment.
-                </p>
-                <div className="notification-options">
-                  <label>
-                    <input
-                      type="checkbox"
-                      checked={reminders.email}
-                      onChange={(e) =>
-                        setReminders({ ...reminders, email: e.target.checked })
-                      }
-                    />
-                    Email
-                  </label>
-                  <label>
-                    <input
-                      type="checkbox"
-                      checked={reminders.sms}
-                      onChange={(e) =>
-                        setReminders({ ...reminders, sms: e.target.checked })
-                      }
-                    />
-                    SMS
-                  </label>
-                </div>
-              </div>
-              <div className="notification-category">
-                <h3>Comments</h3>
-                <p>
-                  These are notifications for comments on your posts and replies
-                  to your comments.
-                </p>
-                <div className="notification-options">
-                  
-                  <label>
-                    <input
-                      type="checkbox"
-                      checked={comments.email}
-                      onChange={(e) =>
-                        setComments({ ...comments, email: e.target.checked })
-                      }
-                    />
-                    Email
-                  </label>
-                  <label>
-                    <input
-                      type="checkbox"
-                      checked={comments.sms}
-                      onChange={(e) =>
-                        setComments({ ...comments, sms: e.target.checked })
-                      }
-                    />
-                    SMS
-                  </label>
-                </div>
-              </div>
-              <div className="notification-category">
-              <h3>Reminders</h3>
-                <p>
-                  These are notifications to remind you of updates you might have
-                  missed.
-                </p>
-                <div className="notification-options">
-                  <label>
-                    <input
-                      type="checkbox"
-                      checked={tags.email}
-                      onChange={(e) =>
-                        setTags({ ...tags, email: e.target.checked })
-                      }
-                    />
-                    Email
-                  </label>
-                  <label>
-                    <input
-                      type="checkbox"
-                      checked={tags.sms}
-                      onChange={(e) =>
-                        setTags({ ...tags, sms: e.target.checked })
-                      }
-                    />
-                    SMS
-                  </label>
-                </div>
+              </p>
+              <div className="notification-options">
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={reminders.email}
+                    onChange={(e) =>
+                      setReminders({ ...reminders, email: e.target.checked })
+                    }
+                  />
+                  Email
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={reminders.sms}
+                    onChange={(e) =>
+                      setReminders({ ...reminders, sms: e.target.checked })
+                    }
+                  />
+                  SMS
+                </label>
               </div>
             </div>
-          );
-        default:
-          return null;
-      }
-    };
+            <div className="notification-category">
+              <h3>Comments</h3>
+              <p>
+                These are notifications for comments on your posts and replies
+                to your comments.
+              </p>
+              <div className="notification-options">
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={comments.email}
+                    onChange={(e) =>
+                      setComments({ ...comments, email: e.target.checked })
+                    }
+                  />
+                  Email
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={comments.sms}
+                    onChange={(e) =>
+                      setComments({ ...comments, sms: e.target.checked })
+                    }
+                  />
+                  SMS
+                </label>
+              </div>
+            </div>
+            <div className="notification-category">
+              <h3>Reminders</h3>
+              <p>
+                These are notifications to remind you of updates you might have
+                missed.
+              </p>
+              <div className="notification-options">
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={tags.email}
+                    onChange={(e) =>
+                      setTags({ ...tags, email: e.target.checked })
+                    }
+                  />
+                  Email
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={tags.sms}
+                    onChange={(e) =>
+                      setTags({ ...tags, sms: e.target.checked })
+                    }
+                  />
+                  SMS
+                </label>
+              </div>
+            </div>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
     <div className="settings-board">
       {showNotification && (
-        <div className="notifications">
-          Successfully Saved
+        <div className="notification-top">
+          <div className="notification success">
+          Succecufly Updated!
+          </div>
+        </div>
+      )}
+
+      {errorMessage && (
+        <div className="notification-top">
+          <div className="notification error">
+            {errorMessage}
+          </div>
         </div>
       )}
 
       {showCancelConfirmation && (
-        <div className="confirmation-modal">
-          <div className="confirmation-content">
-            <h2>Are you sure you want to cancel?</h2>
-            <div className="confirmation-buttons">
-              <button className="confirm-button" onClick={handleConfirmCancel}>
-                Yes
-              </button>
-              <button className="cancel-button" onClick={handleCancelConfirmation}>
-                No
-              </button>
+        <div className="settings-board">
+        {showNotification && (
+          <div className="notification-top">
+            <div className="custom-notifications success">
+            Succecufly Updated!
             </div>
           </div>
-        </div>
+        )}
+      
+        {errorMessage && (
+          <div className="notification-top">
+            <div className="custom-notifications error">
+              {errorMessage}
+            </div>
+          </div>
+        )}
+      </div>
       )}
 
       <div className="tabs">
