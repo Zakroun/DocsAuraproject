@@ -2,8 +2,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { PiVideoConferenceFill } from "react-icons/pi";
 import { MdOutlinePayment } from "react-icons/md";
-
+import { useNavigate } from "react-router-dom";
 export default function DoctorReserve(props) {
+  const navigate = useNavigate();
+  const [errorMessage, seterrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const dispatch = useDispatch();
   const Ldoctor = useSelector((s) => s.Docsaura.doctors);
   const doctor = Ldoctor.find((a) => a.id === props.id);
@@ -13,10 +16,11 @@ export default function DoctorReserve(props) {
     fullName: "",
     email: "",
     phone: "",
+    cin: "",
     date: "",
     time: "",
     description: "",
-    consultationType:"",
+    consultationType: "",
     paymentMethod: "",
     cardNumber: "",
     expiryDate: "",
@@ -31,30 +35,39 @@ export default function DoctorReserve(props) {
     e.preventDefault();
     if (content2 === "block") {
       if (formData.paymentMethod === "credit-card") {
-        if (!formData.cardNumber || !formData.expiryDate || !formData.cvv) {
-          alert("Please fill in all the credit card details!");
+        if (formData.cardNumber || formData.expiryDate || formData.cvv) {
+          seterrorMessage("Please fill in all the credit card details");
+          setTimeout(() => {
+            seterrorMessage("");
+          }, 3000);
           return;
         }
       }
     }
-
-    console.log("Appointment Booked:", formData);
-    alert("Appointment successfully booked!");
+    setSuccessMessage("Appointment successfully booked");
+    setTimeout(() => {
+      setSuccessMessage("");
+    }, 3000);
   };
 
   const Next = () => {
+    console.log(formData)
     if (
-      !formData.fullName ||
-      !formData.email ||
-      !formData.phone ||
-      !formData.date ||
-      !formData.time ||
-      !formData.description ||
-      !formData.consultationType
+      formData.fullName === "" ||
+      formData.email === "" ||
+      formData.phone === "" ||
+      formData.cin === "" ||
+      formData.date === "" ||
+      formData.time === "" ||
+      formData.description === "" ||
+      formData.consultationType === ""
     ) {
-      alert(
+      seterrorMessage(
         "Please fill in all personal information fields before proceeding."
       );
+      setTimeout(() => {
+        seterrorMessage("");
+      }, 3000);
       return;
     }
     setcontent1("none");
@@ -62,6 +75,19 @@ export default function DoctorReserve(props) {
   };
   return (
     <div className="divreserve">
+      {successMessage && (
+        <div className="notification-top">
+          <div className="notification success">
+            Appointment added successfully
+          </div>
+        </div>
+      )}
+
+      {errorMessage && (
+        <div className="notification-top">
+          <div className="notification error">{errorMessage}</div>
+        </div>
+      )}
       <h1>Book a consultation with , {doctor.fullName}</h1>
       <div className="part1serve">
         <div className="spancontent">
@@ -104,25 +130,28 @@ export default function DoctorReserve(props) {
               name="cin"
               id="cin"
               placeholder="CIN"
-              value={formData.phone}
+              value={formData.cin}
               onChange={handleChange}
               required
             />
             <br />
             <input
+              type="text"
               id="descrption"
-              name="descrption"
+              name="description"
               placeholder="Small description of the case ..."
               value={formData.description}
               onChange={handleChange}
             />
-            <select name="consultationType" id="consultationType">
+            <select name="consultationType" id="consultationType" value={formData.consultationType} onChange={handleChange}>
               <option value=""> Select consultation type</option>
-              {
-                doctor.consultationTypes.map((c, i) =>{
-                  return <option key={i} value={c.type}>{c.type} - {c.price}</option>
-                })
-              }
+              {doctor.consultationTypes.map((c, i) => {
+                return (
+                  <option key={i} value={c.type}>
+                    {c.type} - {c.price}
+                  </option>
+                );
+              })}
             </select>
             <br />
             <input

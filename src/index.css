@@ -1358,7 +1358,7 @@ hr {
   flex-direction: row;
 }
 .part2head {
-  margin-top: 30px;
+  margin-top: 15px;
 }
 .reserve {
   cursor: pointer;
@@ -1657,6 +1657,22 @@ hr {
   border: none;
   outline: none;
   background-color: transparent;
+}
+.serachresult{
+  width: 310px;
+  margin-top: 5px;
+  /* position: absolute; */
+  background-color: rgb(230, 230, 230);
+}
+.searchitem{
+  cursor: pointer;
+  padding: 10px;
+}
+.searchitem p{
+  margin: 0px;
+}
+.searchitem:hover{
+  background-color: #f0f0f0;
 }
 .searchbtn {
   cursor: pointer;
@@ -3525,7 +3541,7 @@ h1 {
 }
 
 .notification.success {
-  background-color: #28a745;
+  background-color: #007b79;
 }
 
 .notification.error {

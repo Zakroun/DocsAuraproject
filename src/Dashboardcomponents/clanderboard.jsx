@@ -8,6 +8,8 @@ import {
 import { Link } from "react-router-dom";
 // import { useNavigate } from "react-router-dom";
 export default function Calendar(props) {
+  const [errorMessage,seterrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const appointments = props.appointments || [];
   const [Listeappointments, setappointments] = useState(appointments);
   const [selectedYear, setSelectedYear] = useState("2025");
@@ -81,14 +83,33 @@ export default function Calendar(props) {
         time: formData.time,
         status: "pending"
       };
-      alert('Appointment Added sussessfully');
+      setSuccessMessage('Appointment Added sussessfully');
     setFormAdd(true)
     }else{
-      alert('Please fill all the fields');
+      seterrorMessage('Please fill all the fields');
     }
+    setTimeout(() => {
+      setSuccessMessage("");
+      seterrorMessage("");
+    }, 3000);
   };
   return (
     <div className="calendar-container">
+      {successMessage && (
+        <div className="notification-top">
+          <div className="notification success">
+          Appointment added successfully!
+          </div>
+        </div>
+      )}
+
+      {errorMessage && (
+        <div className="notification-top">
+          <div className="notification error">
+            {errorMessage}
+          </div>
+        </div>
+      )}
       {formAdd === true ? (
         <>
           <h2 className="calendar-title">Medical Appointments</h2>

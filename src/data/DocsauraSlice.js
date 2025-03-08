@@ -22,6 +22,7 @@ export const DocsauraSlice = createSlice({
   },
   reducers: {
     changeboard: (state, action) => {
+      console.log(action.payload)
       state.currentboard = action.payload;
     },
     changestatus: (state, action) => {

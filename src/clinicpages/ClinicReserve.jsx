@@ -3,6 +3,8 @@ import { useState } from "react";
 import { PiVideoConferenceFill } from "react-icons/pi";
 import { MdOutlinePayment } from "react-icons/md";
 export default function ClinicReserve(props) {
+  const [errorMessage, seterrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const dispatch = useDispatch();
   const Lclinic = useSelector((s) => s.Docsaura.clinics);
   const clinic = Lclinic.find((a) => a.id === props.id);
@@ -13,9 +15,10 @@ export default function ClinicReserve(props) {
     email: "",
     phone: "",
     date: "",
+    cin: "",
     time: "",
     description: "",
-    consultationType:"",
+    consultationType: "",
     paymentMethod: "",
     cardNumber: "",
     expiryDate: "",
@@ -31,14 +34,18 @@ export default function ClinicReserve(props) {
     if (content2 === "block") {
       if (formData.paymentMethod === "credit-card") {
         if (!formData.cardNumber || !formData.expiryDate || !formData.cvv) {
-          alert("Please fill in all the credit card details!");
+          seterrorMessage("Please fill in all the credit card details");
+          setTimeout(() => {
+            seterrorMessage("");
+          }, 4000);
           return;
         }
       }
     }
-
-    console.log("Appointment Booked:", formData);
-    alert("Appointment successfully booked!");
+    setSuccessMessage("Appointment successfully booked");
+    setTimeout(() => {
+      setSuccessMessage("");
+    }, 3000);
   };
 
   const Next = () => {
@@ -49,9 +56,12 @@ export default function ClinicReserve(props) {
       !formData.date ||
       !formData.time
     ) {
-      alert(
+      seterrorMessage(
         "Please fill in all personal information fields before proceeding."
       );
+      setTimeout(() => {
+        seterrorMessage("");
+      }, 3000);
       return;
     }
 
@@ -60,6 +70,19 @@ export default function ClinicReserve(props) {
   };
   return (
     <div className="divreserve">
+      {successMessage && (
+        <div className="notification-top">
+          <div className="notification success">
+            Appointment added successfully
+          </div>
+        </div>
+      )}
+
+      {errorMessage && (
+        <div className="notification-top">
+          <div className="notification error">{errorMessage}</div>
+        </div>
+      )}
       <h1>Book a consultation with , {clinic.fullName}</h1>
       <div className="part1serve">
         <div className="spancontent">
@@ -105,20 +128,25 @@ export default function ClinicReserve(props) {
               name="cin"
               id="cin"
               placeholder="CIN"
-              value={formData.phone}
+              value={formData.cin}
               onChange={handleChange}
               required
             />
             <br />
             <input
+              type="text"
               id="descrption"
-              name="descrption"
+              name="description"
               placeholder="Small description of the case ..."
               value={formData.description}
               onChange={handleChange}
             />
-            <select name="consultationType" id="consultationType" value={formData.consultationType}
-              onChange={handleChange}>
+            <select
+              name="consultationType"
+              id="consultationType"
+              value={formData.consultationType}
+              onChange={handleChange}
+            >
               <option value=""> Select consultation type</option>
               {clinic.consultationTypes.map((c, i) => {
                 return (
