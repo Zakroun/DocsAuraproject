@@ -5,16 +5,27 @@ export default function Messages({ selectedConversation }) {
   const [showOptions, setShowOptions] = useState(null);
   const [showDetails, setShowDetails] = useState(null);
 
+  // Function to parse time correctly
   const parseTime = (timeString) => {
-    const [time, modifier] = timeString.split(" ");
-    let [hours, minutes] = time.split(":").map(Number);
+    const timeRegex = /^(\d{1,2}):(\d{2}) ?(am|pm)?$/i;
+    const match = timeString.match(timeRegex);
 
-    if (modifier === "pm" && hours !== 12) hours += 12;
-    if (modifier === "am" && hours === 12) hours = 0;
+    if (!match) return 0; // Default to 0 if format is invalid
 
-    return hours * 60 + minutes;
+    let [_, hours, minutes, modifier] = match;
+    hours = Number(hours);
+    minutes = Number(minutes);
+
+    if (modifier) {
+      // Handle 12-hour format with AM/PM
+      if (modifier.toLowerCase() === "pm" && hours !== 12) hours += 12;
+      if (modifier.toLowerCase() === "am" && hours === 12) hours = 0;
+    }
+
+    return hours * 60 + minutes; // Convert to total minutes
   };
 
+  // Sort messages by time
   const sortedMessages = [...selectedConversation.messages].sort(
     (a, b) => parseTime(a.time) - parseTime(b.time)
   );

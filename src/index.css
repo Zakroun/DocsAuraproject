@@ -3530,7 +3530,7 @@ h1 {
   animation: fadeInDown 0.5s ease-in-out;
 }
 
-.notification {
+.notifications {
   padding: 15px 30px;
   border-radius: 0 0 10px 10px;
   color: white;
