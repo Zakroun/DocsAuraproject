@@ -1,34 +1,57 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IoClose } from "react-icons/io5";
+import { deletemessage } from "../../data/DocsauraSlice";
+import { useDispatch } from "react-redux";
 
-export default function Messages({ selectedConversation }) {
+export default function Messages({ selectedConversation, idconv }) {
   const [showOptions, setShowOptions] = useState(null);
   const [showDetails, setShowDetails] = useState(null);
+  const [sortedMessages, setSortedMessages] = useState([]);
+  const dispatch = useDispatch();
 
-  // Function to parse time correctly
+  // Fonction pour parser l'heure correctement
   const parseTime = (timeString) => {
     const timeRegex = /^(\d{1,2}):(\d{2}) ?(am|pm)?$/i;
     const match = timeString.match(timeRegex);
 
-    if (!match) return 0; // Default to 0 if format is invalid
+    if (!match) return 0;
 
     let [_, hours, minutes, modifier] = match;
     hours = Number(hours);
     minutes = Number(minutes);
 
     if (modifier) {
-      // Handle 12-hour format with AM/PM
       if (modifier.toLowerCase() === "pm" && hours !== 12) hours += 12;
       if (modifier.toLowerCase() === "am" && hours === 12) hours = 0;
     }
 
-    return hours * 60 + minutes; // Convert to total minutes
+    return hours * 60 + minutes;
   };
 
-  // Sort messages by time
-  const sortedMessages = [...selectedConversation.messages].sort(
-    (a, b) => parseTime(a.time) - parseTime(b.time)
-  );
+  const truncateFileName = (fileName) => {
+    const words = fileName.split(" ");
+    return words.length > 3 ? words.slice(0, 3).join(" ") + "..." : fileName;
+  };
+
+  // Mettre à jour sortedMessages quand selectedConversation.messages change
+  useEffect(() => {
+    if (selectedConversation?.messages) {
+      const sorted = [...selectedConversation.messages].sort(
+        (a, b) => parseTime(a.time) - parseTime(b.time)
+      );
+      setSortedMessages(sorted);
+    }
+  }, [selectedConversation?.messages]); // Écoute les changements de messages
+
+  // Fonction pour supprimer un message
+  const handleDeleteMessage = (idmessage) => {
+    dispatch(deletemessage({ idconv, idmessage }));
+
+    // Mettre à jour localement sortedMessages après suppression
+    setSortedMessages((prevMessages) =>
+      prevMessages.filter((msg) => msg.idMessage !== idmessage)
+    );
+  };
 
   return (
     <div className="messages2">
@@ -40,13 +63,40 @@ export default function Messages({ selectedConversation }) {
           onMouseLeave={() => setShowOptions(null)}
           onClick={() => setShowOptions(index)}
         >
-          <p>{msg.text}</p>
+          {/* Texte */}
+          {msg.type === "text" && <p>{msg.content}</p>}
+
+          {/* Audio */}
+          {msg.type === "audio" && (
+            <audio className="audio" controls>
+              <source src={msg.content} type="audio/mp3" />
+              Your browser does not support the audio element.
+            </audio>
+          )}
+
+          {/* Fichier Document / PDF / Image */}
+          {msg.type === "document" && (
+            <div className="linkfile">
+              <a
+                href={msg.content}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="file-link"
+              >
+                📄 {truncateFileName(msg.fileName)}
+              </a>
+            </div>
+          )}
+
           <span className="time">{msg.time}</span>
 
+          {/* Options du message */}
           {showOptions === index && (
             <div className="message-options">
               <div className="options-menu">
-                <button>Delete</button>
+                <button onClick={() => handleDeleteMessage(msg.idMessage)}>
+                  Delete
+                </button>
                 <button onClick={() => setShowDetails(index)}>Details</button>
 
                 {showDetails === index && (

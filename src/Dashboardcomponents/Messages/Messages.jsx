@@ -19,7 +19,9 @@ export default function ChatApp({ conversations }) {
       chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
     }
   }, [selectedConversation]);
-
+  useEffect(()=>{
+    setConversationList(conversations)
+  },[conversations])
   const openConversation = (conv) => {
     const updatedConversations = conversationList.map((c) =>
       c.id === conv.id
@@ -56,34 +58,56 @@ export default function ChatApp({ conversations }) {
           onChange={(e) => setSearch(e.target.value)}
         />
         <div className="conversation-items">
-          {filteredConversations.map((conv) => (
-            <div
-              key={conv.id}
-              className="conversation-item"
-              onClick={() => openConversation(conv)}
-            >
-              <FaUserCircle className="avatar-icon" size={40} />
-              <div className="details">
-                <p className="name">{conv.name}</p>
-                <p className="message">{conv.message}</p>
+          {filteredConversations.map((conv) => {
+            // Récupérer le dernier message
+            const lastMessage =
+              conv.messages.length > 0
+                ? conv.messages[conv.messages.length - 1]
+                : null;
+
+            // Fonction pour tronquer le message à 10 caractères
+            const truncateMessage = (text) => {
+              return text.length > 10 ? text.slice(0, 10) + "..." : text;
+            };
+
+            // Déterminer le texte à afficher
+            let displayMessage = lastMessage
+              ? lastMessage.type === "audio"
+                ? "Sent an Audio"
+                : lastMessage.type === "document"
+                ? "Sent a File"
+                : truncateMessage(lastMessage.content)
+              : "No messages yet";
+
+            return (
+              <div
+                key={conv.id}
+                className="conversation-item"
+                onClick={() => openConversation(conv)}
+              >
+                <FaUserCircle className="avatar-icon" size={40} />
+                <div className="details">
+                  <p className="name">{conv.name}</p>
+                  <p className="message">{displayMessage}</p>
+                </div>
+                <div className="meta">
+                  <p className="timestamp">{conv.time}</p>
+                  {conv.messages.reduce(
+                    (t, a) => (a.read === false ? t + 1 : t),
+                    0
+                  ) > 0 && (
+                    <div className="unread-badge">
+                      <MdNotifications size={18} />
+                      {conv.messages.reduce(
+                        (t, a) => (a.read === false ? t + 1 : t),
+                        0
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
-              <div className="meta">
-                <p className="timestamp">{conv.time}</p>
-                {conv.messages.reduce(
-                  (t, a) => (a.read === false ? t + 1 : t),
-                  0
-                ) > 0 && (
-                  <div className="unread-badge">
-                    <MdNotifications size={18} />
-                    {conv.messages.reduce(
-                      (t, a) => (a.read === false ? t + 1 : t),
-                      0
-                    )}
-                  </div>
-                )}
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
       <div className="coversation">
@@ -93,8 +117,6 @@ export default function ChatApp({ conversations }) {
               <FaUserCircle className="avataricon" size={40} />
               <span>{selectedConversation.name}</span>
               <div className="callopr">
-                {/* <IoCall className="call-icon iconcall" size={27} />
-                <MdMissedVideoCall className="video-icon iconcall" size={32} /> */}
                 <FaArrowRight
                   size={27}
                   className="close-button iconcall"
@@ -103,7 +125,7 @@ export default function ChatApp({ conversations }) {
               </div>
             </div>
             <div className="chat_window" ref={chatBodyRef}>
-              <Messages selectedConversation={selectedConversation} />
+              <Messages selectedConversation={selectedConversation} idconv= {selectedConversation.id} />
             </div>
             <MessageInput Conversationusers={selectedConversation.name} />
           </div>

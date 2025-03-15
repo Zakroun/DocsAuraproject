@@ -14,7 +14,9 @@ export default function MessageInput({ Conversationusers }) {
 
   const SentMessage = () => {
     if (message.trim() !== "") {
-      dispatch(Sent({message: message, name: Conversationusers }));
+      dispatch(
+        Sent({ type: "text", content: message, name: Conversationusers })
+      );
       setMessage("");
     }
   };
@@ -52,7 +54,13 @@ export default function MessageInput({ Conversationusers }) {
 
   const sendAudio = () => {
     if (audioBlob) {
-      dispatch(Sent({ type: "audio", content: URL.createObjectURL(audioBlob), name: Conversationusers }));
+      dispatch(
+        Sent({
+          type: "audio",
+          content: URL.createObjectURL(audioBlob),
+          name: Conversationusers,
+        })
+      );
       setAudioBlob(null);
     }
   };
@@ -66,7 +74,14 @@ export default function MessageInput({ Conversationusers }) {
 
   const sendFile = () => {
     if (file) {
-      dispatch(Sent({ type: "document", content: URL.createObjectURL(file), name: Conversationusers, fileName: file.name }));
+      dispatch(
+        Sent({
+          type: "document",
+          content: URL.createObjectURL(file),
+          name: Conversationusers,
+          fileName: file.name,
+        })
+      );
       setFile(null);
     }
   };
@@ -80,13 +95,21 @@ export default function MessageInput({ Conversationusers }) {
         onChange={(e) => setMessage(e.target.value)}
       />
       <div className="icons">
-        <FiSend className="icon_input send-icon" size={30} onClick={SentMessage} />
+        <FiSend
+          className="icon_input send-icon"
+          size={30}
+          onClick={SentMessage}
+        />
 
         {isRecording ? (
           <div className="recording-indicator">
             <div className="recording-dot"></div>
             <span>Recording...</span>
-            <FiMic className="icon_input recording-active" size={30} onClick={stopRecording} />
+            <FiMic
+              className="icon_input recording-active"
+              size={30}
+              onClick={stopRecording}
+            />
           </div>
         ) : (
           <FiMic className="icon_input" size={30} onClick={startRecording} />
@@ -98,7 +121,13 @@ export default function MessageInput({ Conversationusers }) {
           </button>
         )}
 
-        <input type="file" id="fileInput" hidden onChange={handleFileUpload} />
+        <input
+          type="file"
+          id="fileInput"
+          hidden
+          accept="image/*, application/pdf"
+          onChange={handleFileUpload}
+        />
         <RiStickyNoteAddFill
           className="icon_input"
           size={30}

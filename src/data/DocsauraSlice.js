@@ -22,7 +22,7 @@ export const DocsauraSlice = createSlice({
   },
   reducers: {
     changeboard: (state, action) => {
-      console.log(action.payload)
+      console.log(action.payload);
       state.currentboard = action.payload;
     },
     changestatus: (state, action) => {
@@ -63,21 +63,30 @@ export const DocsauraSlice = createSlice({
       appointment.status = status.toLowerCase();
     },
     Sent: (state, action) => {
-      const { message, name } = action.payload;
+      const { type, content, name, fileName } = action.payload;
+      console.log(action.payload);
 
       const conversation = state.conversations.find(
         (conv) => conv.name.toLowerCase().trim() === name.toLowerCase().trim()
       );
-
-      console.log("conversation:", conversation);
 
       if (!conversation) {
         console.error("Conversation not found");
         return;
       }
 
+      // Trouver le dernier idMessage et l'incrémenter
+      const lastMessage =
+        conversation.messages.length > 0
+          ? conversation.messages[conversation.messages.length - 1]
+          : null;
+
+      const newIdMessage = lastMessage ? lastMessage.idMessage + 1 : 1;
+
       const newMessage = {
-        text: message,
+        idMessage: newIdMessage, // Ajout de l'ID unique
+        type: type,
+        content: content,
         sender: "You",
         time: new Date().toLocaleTimeString([], {
           hour: "2-digit",
@@ -87,11 +96,30 @@ export const DocsauraSlice = createSlice({
         read: false,
       };
 
+      if (type === "document" && fileName) {
+        newMessage.fileName = fileName;
+      }
+
       conversation.messages.push(newMessage);
-      conversation.message = message;
+      conversation.message = content;
       conversation.time = newMessage.time;
+    },
+    deletemessage: (state, action) => {
+      const { idconv, idmessage } = action.payload;
+      console.log(action.payload)
+      console.log(state.conversations);
+      const conversation = state.conversations.find(
+        (conv) => conv.id === idconv
+      );
+      if (conversation) {
+        conversation.messages = conversation.messages.filter(
+          (message) => message.idMessage !== idmessage
+        );
+        console.log("suucccccccccc");
+      }
     },
   },
 });
 
-export const { changeboard, changestatus, Sent } = DocsauraSlice.actions;
+export const { changeboard, changestatus, Sent, deletemessage } =
+  DocsauraSlice.actions;
