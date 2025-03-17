@@ -5136,3 +5136,38 @@ export const conversations = [
     ],
   },
 ];
+
+
+const filesData = {
+  files: [
+    { name: "Medical Report", size: "5 MB", type: "pdf" },
+    { name: "Lab Results", size: "2 MB", type: "docx" },
+    { name: "Prescription", size: "1 MB", type: "img" },
+    { name: "Project Video", size: "30 MB", type: "video" },
+    { name: "Medical Report", size: "5 MB", type: "pdf" },
+    { name: "Lab Results", size: "2 MB", type: "docx" },
+    { name: "Prescription", size: "1 MB", type: "img" },
+    { name: "Project Video", size: "30 MB", type: "video" },
+    { name: "Medical Report", size: "5 MB", type: "pdf" },
+    { name: "Lab Results", size: "2 MB", type: "docx" },
+    { name: "Prescription", size: "1 MB", type: "img" },
+    { name: "Project Video", size: "30 MB", type: "video" },
+    { name: "Medical Report", size: "5 MB", type: "pdf" },
+    { name: "Lab Results", size: "2 MB", type: "docx" },
+    { name: "Prescription", size: "1 MB", type: "img" },
+    { name: "Project Video", size: "30 MB", type: "video" },
+    { name: "Medical Report", size: "5 MB", type: "pdf" },
+    { name: "Lab Results", size: "2 MB", type: "docx" },
+    { name: "Prescription", size: "1 MB", type: "img" },
+    { name: "Project Video", size: "30 MB", type: "video" },
+  ],
+  activity: [
+    "Dr. Smith uploaded Medical Report",
+    "Lab updated Lab Results",
+    "Patient downloaded Prescription",
+    "Admin uploaded Project Video",
+    "User uploaded Profile Picture",
+  ],
+};
+
+export default filesData;

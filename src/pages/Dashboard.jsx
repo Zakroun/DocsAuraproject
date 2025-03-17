@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Calendar from "../Dashboardcomponents/clanderboard";
 import Homeboard from "../Dashboardcomponents/Homeboard";
 import { useLocation } from "react-router-dom";
+import FileManager from "../Dashboardcomponents/Filemanager";
 import { useState } from "react";
 import { useEffect } from "react";
 import { changeboard } from "../data/DocsauraSlice";
@@ -50,6 +51,8 @@ export default function Dashboard() {
           <Messages conversations={Listconversations} />
         ) : curboard === "Logout" ? (
           <Logout />
+        ) :  curboard === "files" ? (
+          <FileManager />
         ) : (
           <div></div>
         )

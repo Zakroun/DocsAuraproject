@@ -2511,6 +2511,235 @@ h1 {
   margin-left: 10px;
   cursor: pointer;
 }
+/* File manager */
+.file-manager-wrapper {
+  display: flex;
+  height: 100vh;
+  background-color: #f9fafb;
+  padding: 20px;
+  gap: 20px;
+}
+
+/* Main Content */
+.file-manager-main {
+  overflow-y: scroll;
+  flex: 1;
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.file-manager-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.file-manager-title {
+  font-size: 22px;
+  font-weight: bold;
+  color: #1f2937;
+}
+
+.file-manager-search{
+  width: 50%;
+  padding: 7px;
+  border-radius: 10px;
+  border: .5px solid #d1d5db;
+  outline: none;
+}
+
+.file-manager-add-button {
+  display: flex;
+  align-items: center;
+  background-color: rgb(0, 113, 128);
+  color: white;
+  padding: 10px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.file-manager-add-button:hover {
+  background-color: #005c64;
+}
+
+.file-manager-icon {
+  margin-right: 8px;
+}
+
+.file-manager-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+}
+
+.file-manager-card {
+  background: #ffffff;
+  cursor: pointer;
+  padding: 16px;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.2s, border-color 0.3s;
+  border: 2px solid transparent;
+}
+
+.file-manager-card:hover {
+  transform: scale(1.05);
+}
+
+.file-manager-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.file-manager-file-icon {
+  margin-bottom: 8px;
+}
+
+.file-manager-file-name {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.file-manager-file-size {
+  font-size: 12px;
+  color: gray;
+}
+
+/* Activity Panel */
+.file-manager-activity-panel {
+  width: 300px;
+  background: #ffffff;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.file-manager-activity-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #1f2937;
+}
+
+.file-manager-activity-list {
+  margin-top: 16px;
+}
+
+.file-manager-activity-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+  padding: 5px 0;
+}
+
+.file-manager-activity-icon {
+  color: rgb(0, 113, 128);
+}
+
+/* File Manager Add File Form */
+.file-manager-add-file-form {
+  width: 100%;
+  max-width: 600px;
+  margin: 5px 0px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.file-manager-add-file-form h2 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.file-manager-form-group {
+  margin-bottom: 15px;
+}
+
+.file-manager-form-group label {
+  display: block;
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+.file-manager-form-group input {
+  width: 80%;
+  padding: 10px;
+  font-size: 16px;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.file-manager-form-group select {
+  width: 83.5%;
+  padding: 10px;
+  font-size: 16px;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+}
+.file-manager-form-group input:focus,
+.file-manager-form-group select:focus {
+  border-color: #2563EB; /* Blue border on focus */
+  outline: none;
+}
+
+.file-manager-submit-button {
+  display: block;
+  width: 83.5%;
+  padding: 12px;
+  font-size: 18px;
+  color: #fff;
+  background-color: #00504e;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.file-manager-form-group input[type="file"] {
+  padding: 10px;
+  font-size: 16px;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  width: 80%;
+  cursor: pointer;
+}
+
+.file-manager-form-group input[type="file"]:focus {
+  border-color: #2563EB;
+  outline: none;
+}
+
+.file-manager-submit-button:hover {
+  background-color: #005c64; /* Darker blue on hover */
+}
+
+.file-manager-submit-button:active {
+  background-color: #007b79; /* Even darker blue when clicked */
+}
+
+.file-manager-submit-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
 /* Responsive Design */
 @media (max-width: 479px) {
   /* Styles for Extra Small (XS) */
