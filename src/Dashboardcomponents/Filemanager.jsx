@@ -8,6 +8,7 @@ import {
   FaFile,
   FaPlus,
   FaTasks,
+  FaTrash,
 } from "react-icons/fa";
 
 const fileIcons = {
@@ -24,9 +25,10 @@ const fileIcons = {
 export default function FileManager() {
   const [files, setFiles] = useState(filesData.files);
   const [recentActivity, setRecentActivity] = useState(filesData.activity);
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState("");
   const [AddFile, setAddFile] = useState(false);
   const [newFile, setNewFile] = useState({ name: "", type: "", size: "" });
+  const [selectedFilesToDelete, setSelectedFilesToDelete] = useState([]);
 
   const Search = (e) => {
     setSelectedFile(e);
@@ -43,13 +45,12 @@ export default function FileManager() {
       setNewFile((prevFile) => ({
         ...prevFile,
         name: file.name,
-        type: file.type.split('/')[1], 
+        type: file.type.split("/")[1],
         size: `${(file.size / 1024 / 1024).toFixed(2)} MB`,
       }));
     }
   };
 
-  
   const changetoaddfile = () => {
     setAddFile(true);
   };
@@ -75,6 +76,25 @@ export default function FileManager() {
     }
   };
 
+  const toggleFileSelection = (fileName) => {
+    setSelectedFilesToDelete((prevSelected) =>
+      prevSelected.includes(fileName)
+        ? prevSelected.filter((name) => name !== fileName)
+        : [...prevSelected, fileName]
+    );
+  };
+
+  const handleDeleteFiles = () => {
+    setFiles((prevFiles) =>
+      prevFiles.filter((file) => !selectedFilesToDelete.includes(file.name))
+    );
+    setRecentActivity((prevActivity) => [
+      ...prevActivity,
+      `Deleted ${selectedFilesToDelete.length} files`,
+    ]);
+    setSelectedFilesToDelete([]);
+  };
+
   return (
     <div className="file-manager-wrapper">
       {!AddFile ? (
@@ -96,6 +116,7 @@ export default function FileManager() {
                 <FaPlus size={16} className="file-manager-icon" /> Add File
               </button>
             </div>
+
             <div className="file-manager-grid">
               {files.map((file, index) => {
                 const fileType = file.type in fileIcons ? file.type : "default";
@@ -105,6 +126,12 @@ export default function FileManager() {
                     className="file-manager-card"
                     style={{ borderColor: fileIcons[fileType].color }}
                   >
+                    <input
+                      type="checkbox"
+                      checked={selectedFilesToDelete.includes(file.name)}
+                      onChange={() => toggleFileSelection(file.name)}
+                      className="file-checkbox"
+                    />
                     <div className="file-manager-content">
                       {fileIcons[fileType].icon}
                       <p
@@ -119,14 +146,27 @@ export default function FileManager() {
                 );
               })}
             </div>
+            {selectedFilesToDelete.length > 0 && (
+              <button
+                className="file-manager-delete-button"
+                onClick={handleDeleteFiles}
+              >
+                <FaTrash size={16} className="file-manager-icon" /> Delete Selected ({selectedFilesToDelete.length})
+              </button>
+            )}
           </main>
+
           <aside className="file-manager-activity-panel">
             <h2 className="file-manager-activity-title">Recent Activity</h2>
             <ul className="file-manager-activity-list">
               {recentActivity.map((activity, index) => (
                 <li key={index} className="file-manager-activity-item">
                   <FaTasks size={16} className="file-manager-activity-icon" />
-                  <span>{activity}</span>
+                  <span>
+                    {activity.length > 40
+                      ? activity.slice(0, 30) + "..."
+                      : activity}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -163,12 +203,7 @@ export default function FileManager() {
             </div>
             <div className="file-manager-form-group">
               <label>Upload File:</label>
-              <input
-                type="file"
-                name="file"
-                onChange={handleFileUpload}
-                required
-              />
+              <input type="file" name="file" onChange={handleFileUpload} required />
             </div>
             <button type="submit" className="file-manager-submit-button">
               Add File

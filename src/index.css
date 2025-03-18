@@ -2514,7 +2514,8 @@ h1 {
 /* File manager */
 .file-manager-wrapper {
   display: flex;
-  height: 100vh;
+  height: 80vh;
+  margin-bottom: 30px;
   background-color: #f9fafb;
   padding: 20px;
   gap: 20px;
@@ -2646,7 +2647,6 @@ h1 {
 /* File Manager Add File Form */
 .file-manager-add-file-form {
   width: 100%;
-  max-width: 600px;
   margin: 5px 0px;
   padding: 20px;
   border: 1px solid #ddd;
@@ -2659,7 +2659,7 @@ h1 {
   font-size: 24px;
   font-weight: bold;
   color: #333;
-  text-align: center;
+  /* text-align: center; */
   margin-bottom: 20px;
 }
 
@@ -2675,7 +2675,7 @@ h1 {
 }
 
 .file-manager-form-group input {
-  width: 80%;
+  width: 400px;
   padding: 10px;
   font-size: 16px;
   color: #333;
@@ -2685,7 +2685,7 @@ h1 {
 }
 
 .file-manager-form-group select {
-  width: 83.5%;
+  width: 423px;
   padding: 10px;
   font-size: 16px;
   color: #333;
@@ -2701,7 +2701,7 @@ h1 {
 
 .file-manager-submit-button {
   display: block;
-  width: 83.5%;
+  width: 425px;
   padding: 12px;
   font-size: 18px;
   color: #fff;
@@ -2718,7 +2718,7 @@ h1 {
   border: 1px solid #ccc;
   border-radius: 4px;
   background-color: #fff;
-  width: 80%;
+  width: 400px;
   cursor: pointer;
 }
 
@@ -2739,7 +2739,20 @@ h1 {
   background-color: #cccccc;
   cursor: not-allowed;
 }
-
+.file-checkbox{
+  margin-bottom: 10px;
+}
+.file-manager-delete-button{
+  margin-top: 20px;
+  width: 200px;
+  height: 35px;
+  background-color: red;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-left: 225px;
+  border: none;
+}
 /* Responsive Design */
 @media (max-width: 479px) {
   /* Styles for Extra Small (XS) */
