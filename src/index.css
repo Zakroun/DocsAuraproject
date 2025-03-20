@@ -3981,3 +3981,47 @@ h1 {
 .cancel-button:hover {
   background-color: #b3b3b3;
 }
+body.dark-mode {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+.dark-mode .settings-board {
+  background-color: #1e1e1e;
+  color: #ffffff;
+}
+
+.dark-mode .settings-item input,
+.dark-mode .settings-item select {
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #555;
+}
+
+.dark-mode .theme-button {
+  background-color: #444;
+  color: #fff;
+}
+
+.dark-mode .theme-button.active {
+  background-color: #666;
+}
+
+.dark-mode .custom-notification {
+  background-color: #333;
+  color: #fff;
+}
+
+.dark-mode .confirmation-modal {
+  background-color: #333;
+  color: #fff;
+}
+
+.dark-mode .confirmation-buttons button {
+  background-color: #444;
+  color: #fff;
+}
+
+.dark-mode .confirmation-buttons button:hover {
+  background-color: #666;
+}
