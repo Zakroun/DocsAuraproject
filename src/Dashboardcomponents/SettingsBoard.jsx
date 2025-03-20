@@ -1,6 +1,9 @@
 import React, { useState } from "react";
-import { FaSun, FaMoon } from "react-icons/fa";
+import { FaSun, FaMoon, FaBell, FaBellSlash, FaSave, FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
+
+// الصورة الافتراضية
+const defaultProfileImage = "https://www.gravatar.com/avatar/default?s=200&d=mp";
 
 export default function SettingsBoard({ Use }) {
   const [currentPassword, setCurrentPassword] = useState("");
@@ -9,7 +12,7 @@ export default function SettingsBoard({ Use }) {
   const [email, setEmail] = useState(Use.email);
   const [phoneNo, setPhoneNo] = useState(Use.phone);
   const [name, setName] = useState(Use.fullName);
-  const [profileImage, setProfileImage] = useState(`/images/${Use.image}`);
+  const [profileImage, setProfileImage] = useState(defaultProfileImage);
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showRetypePassword, setShowRetypePassword] = useState(false);
@@ -19,26 +22,17 @@ export default function SettingsBoard({ Use }) {
   const [language, setLanguage] = useState("English (US)");
   const [backupFrequency, setBackupFrequency] = useState("daily");
   const [autoBackup, setAutoBackup] = useState(true);
-  const [reminders, setReminders] = useState({
-    push: false,
-    email: false,
-    sms: false,
-  });
-  const [comments, setComments] = useState({
-    push: false,
-    email: false,
-    sms: false,
-  });
-  const [tags, setTags] = useState({ push: false, email: false, sms: false });
+  const [reminders, setReminders] = useState({ push: false, email: false, sms: false, doNotDisturb: false });
+  const [comments, setComments] = useState({ push: false, email: false, sms: false, doNotDisturb: false });
+  const [tags, setTags] = useState({ push: false, email: false, sms: false, doNotDisturb: false });
   const [showNotification, setShowNotification] = useState(false);
   const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [passwordStrength, setPasswordStrength] = useState("");
 
-
   const evaluatePasswordStrength = (password) => {
     if (password.length === 0) return "";
-    if (password.length < 6) return "Faible";
+    if (password.length < 6) return "Weak";
     if (password.length >= 6 && password.length < 10) return "Medium";
     if (password.length >= 10 && /[!@#$%^&*(),.?":{}|<>]/.test(password)) return "Strong";
     return "Medium";
@@ -46,27 +40,20 @@ export default function SettingsBoard({ Use }) {
 
   const handleSave = () => {
     if (!name || !email || !phoneNo || !currentPassword || !newPassword || !retypePassword) {
-      setErrorMessage("Everything must be Full");
-      return;
-    }
-
-    if (!newPassword.includes("@")) {
-      setErrorMessage("Password must contain@");
+      setErrorMessage("All fields must be filled");
       return;
     }
 
     if (newPassword !== retypePassword) {
-      setErrorMessage("Passwords Dosnt Much");
+      setErrorMessage("Passwords do not match");
       return;
     }
 
     setErrorMessage("");
     setShowNotification(true);
 
-  
     setTimeout(() => {
       setShowNotification(false);
-      window.location.reload(); 
     }, 3000);
   };
 
@@ -81,7 +68,7 @@ export default function SettingsBoard({ Use }) {
     setEmail("");
     setPhoneNo("");
     setName("");
-    setProfileImage("https://via.placeholder.com/100");
+    setProfileImage(defaultProfileImage);
     setShowCurrentPassword(false);
     setShowNewPassword(false);
     setShowRetypePassword(false);
@@ -90,9 +77,9 @@ export default function SettingsBoard({ Use }) {
     setLanguage("English (US)");
     setBackupFrequency("daily");
     setAutoBackup(true);
-    setReminders({ push: false, email: false, sms: false });
-    setComments({ push: false, email: false, sms: false });
-    setTags({ push: false, email: false, sms: false });
+    setReminders({ push: false, email: false, sms: false, doNotDisturb: false });
+    setComments({ push: false, email: false, sms: false, doNotDisturb: false });
+    setTags({ push: false, email: false, sms: false, doNotDisturb: false });
 
     setShowCancelConfirmation(false);
   };
@@ -205,7 +192,7 @@ export default function SettingsBoard({ Use }) {
                   </span>
                 </div>
                 <div className={`password-strength ${passwordStrength.toLowerCase()}`}>
-                passwordStrength: {passwordStrength}
+                  Password Strength: {passwordStrength}
                 </div>
               </div>
               <div className="settings-item">
@@ -292,9 +279,7 @@ export default function SettingsBoard({ Use }) {
             </div>
 
             <div className="settings-itemm">
-              <label
-                style={{ display: "flex", alignItems: "center", gap: "10px" }}
-              >
+              <label style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                 <input
                   type="checkbox"
                   checked={autoBackup}
@@ -312,7 +297,7 @@ export default function SettingsBoard({ Use }) {
             <div className="notification-category">
               <h3>Appointments</h3>
               <p>
-                These are notifications for when someone adds or cancels an appointment.
+                Receive notifications for appointment updates.
               </p>
               <div className="notification-options">
                 <label>
@@ -335,13 +320,32 @@ export default function SettingsBoard({ Use }) {
                   />
                   SMS
                 </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={reminders.push}
+                    onChange={(e) =>
+                      setReminders({ ...reminders, push: e.target.checked })
+                    }
+                  />
+                  <FaBell /> Push
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={reminders.doNotDisturb}
+                    onChange={(e) =>
+                      setReminders({ ...reminders, doNotDisturb: e.target.checked })
+                    }
+                  />
+                  <FaBellSlash /> Do Not Disturb
+                </label>
               </div>
             </div>
             <div className="notification-category">
-              <h3>Comments</h3>
+              <h3>Prescriptions</h3>
               <p>
-                These are notifications for comments on your posts and replies
-                to your comments.
+                Get notified when new prescriptions are available.
               </p>
               <div className="notification-options">
                 <label>
@@ -364,13 +368,32 @@ export default function SettingsBoard({ Use }) {
                   />
                   SMS
                 </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={comments.push}
+                    onChange={(e) =>
+                      setComments({ ...comments, push: e.target.checked })
+                    }
+                  />
+                  <FaBell /> Push
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={comments.doNotDisturb}
+                    onChange={(e) =>
+                      setComments({ ...comments, doNotDisturb: e.target.checked })
+                    }
+                  />
+                  <FaBellSlash /> Do Not Disturb
+                </label>
               </div>
             </div>
             <div className="notification-category">
-              <h3>Reminders</h3>
+              <h3>Health Reminders</h3>
               <p>
-                These are notifications to remind you of updates you might have
-                missed.
+                Receive reminders for health check-ups and updates.
               </p>
               <div className="notification-options">
                 <label>
@@ -393,6 +416,26 @@ export default function SettingsBoard({ Use }) {
                   />
                   SMS
                 </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={tags.push}
+                    onChange={(e) =>
+                      setTags({ ...tags, push: e.target.checked })
+                    }
+                  />
+                  <FaBell /> Push
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={tags.doNotDisturb}
+                    onChange={(e) =>
+                      setTags({ ...tags, doNotDisturb: e.target.checked })
+                    }
+                  />
+                  <FaBellSlash /> Do Not Disturb
+                </label>
               </div>
             </div>
           </div>
@@ -405,39 +448,35 @@ export default function SettingsBoard({ Use }) {
   return (
     <div className="settings-board">
       {showNotification && (
-        <div className="notification-top">
-          <div className="notification success">
-          Succecufly Updated!
+        <div className="custom-notification-top">
+          <div className="custom-notification success">
+            Successfully Updated!
           </div>
         </div>
       )}
 
       {errorMessage && (
-        <div className="notification-top">
-          <div className="notification error">
+        <div className="custom-notification-top">
+          <div className="custom-notification error">
             {errorMessage}
           </div>
         </div>
       )}
 
       {showCancelConfirmation && (
-        <div className="settings-board">
-        {showNotification && (
-          <div className="notification-top">
-            <div className="custom-notifications success">
-            Succecufly Updated!
+        <div className="confirmation-modal">
+          <div className="confirmation-content">
+            <p>Are you sure you want to cancel all changes?</p>
+            <div className="confirmation-buttons">
+              <button className="confirm-button" onClick={handleConfirmCancel}>
+                Confirm
+              </button>
+              <button className="cancel-button" onClick={handleCancelConfirmation}>
+                Cancel
+              </button>
             </div>
           </div>
-        )}
-      
-        {errorMessage && (
-          <div className="notification-top">
-            <div className="custom-notifications error">
-              {errorMessage}
-            </div>
-          </div>
-        )}
-      </div>
+        </div>
       )}
 
       <div className="tabs">
@@ -465,10 +504,10 @@ export default function SettingsBoard({ Use }) {
 
       <div className="settings-actions">
         <button className="cancel-button" onClick={handleCancel}>
-          Cancel
+          <FaTimes /> Cancel
         </button>
         <button className="save-button" onClick={handleSave}>
-          Save
+          <FaSave /> Save
         </button>
       </div>
     </div>
