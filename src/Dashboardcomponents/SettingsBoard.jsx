@@ -1,6 +1,8 @@
-import React, { useState } from "react";
-import { FaSun, FaMoon } from "react-icons/fa";
+import React, { useState, useEffect } from "react";
+import { FaSun, FaMoon, FaBell, FaBellSlash, FaSave, FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
+
+const defaultProfileImage = "https://www.gravatar.com/avatar/default?s=200&d=mp";
 
 export default function SettingsBoard({ Use }) {
   const [currentPassword, setCurrentPassword] = useState("");
@@ -9,7 +11,7 @@ export default function SettingsBoard({ Use }) {
   const [email, setEmail] = useState(Use.email);
   const [phoneNo, setPhoneNo] = useState(Use.phone);
   const [name, setName] = useState(Use.fullName);
-  const [profileImage, setProfileImage] = useState(`/images/${Use.image}`);
+  const [profileImage, setProfileImage] = useState(defaultProfileImage);
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showRetypePassword, setShowRetypePassword] = useState(false);
@@ -19,26 +21,81 @@ export default function SettingsBoard({ Use }) {
   const [language, setLanguage] = useState("English (US)");
   const [backupFrequency, setBackupFrequency] = useState("daily");
   const [autoBackup, setAutoBackup] = useState(true);
-  const [reminders, setReminders] = useState({
-    push: false,
-    email: false,
-    sms: false,
-  });
-  const [comments, setComments] = useState({
-    push: false,
-    email: false,
-    sms: false,
-  });
-  const [tags, setTags] = useState({ push: false, email: false, sms: false });
+  const [reminders, setReminders] = useState({ push: false, email: false, sms: false, doNotDisturb: false });
+  const [comments, setComments] = useState({ push: false, email: false, sms: false, doNotDisturb: false });
+  const [tags, setTags] = useState({ push: false, email: false, sms: false, doNotDisturb: false });
   const [showNotification, setShowNotification] = useState(false);
   const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [passwordStrength, setPasswordStrength] = useState("");
+  const [shouldRefresh, setShouldRefresh] = useState(false);
 
+  const translations = {
+    "English (US)": {
+      settingsTitle: "Settings Board",
+      personalInfo: "Personal Information",
+      name: "Name",
+      email: "Email",
+      phoneNo: "Phone No",
+      security: "Security",
+      currentPassword: "Current Password",
+      newPassword: "New Password",
+      retypePassword: "Retype Password",
+      forgotPassword: "Forgot password?",
+      preferences: "Preferences",
+      timeZone: "Time Zone",
+      language: "Language",
+      backupSettings: "Backup Settings",
+      backupFrequency: "Backup Frequency",
+      enableAutoBackup: "Enable Auto Backup",
+      notificationSettings: "Notification Settings",
+      appointments: "Appointments",
+      prescriptions: "Prescriptions",
+      healthReminders: "Health Reminders",
+      cancel: "Cancel",
+      save: "Save",
+    },
+    "Arabic": {
+      settingsTitle: "لوحة الإعدادات",
+      personalInfo: "المعلومات الشخصية",
+      name: "الاسم",
+      email: "البريد الإلكتروني",
+      phoneNo: "رقم الهاتف",
+      security: "الأمان",
+      currentPassword: "كلمة المرور الحالية",
+      newPassword: "كلمة المرور الجديدة",
+      retypePassword: "أعد إدخال كلمة المرور",
+      forgotPassword: "نسيت كلمة المرور؟",
+      preferences: "التفضيلات",
+      timeZone: "المنطقة الزمنية",
+      language: "اللغة",
+      backupSettings: "إعدادات النسخ الاحتياطي",
+      backupFrequency: "تكرار النسخ الاحتياطي",
+      enableAutoBackup: "تمكين النسخ الاحتياطي التلقائي",
+      notificationSettings: "إعدادات الإشعارات",
+      appointments: "المواعيد",
+      prescriptions: "الوصفات الطبية",
+      healthReminders: "تذكيرات الصحة",
+      cancel: "إلغاء",
+      save: "حفظ",
+    },
+  };
+
+  const getTranslation = (key) => {
+    return translations[language][key] || key;
+  };
+
+  useEffect(() => {
+    if (theme === "dark") {
+      document.body.classList.add("dark-mode");
+    } else {
+      document.body.classList.remove("dark-mode");
+    }
+  }, [theme]);
 
   const evaluatePasswordStrength = (password) => {
     if (password.length === 0) return "";
-    if (password.length < 6) return "Faible";
+    if (password.length < 6) return "Weak";
     if (password.length >= 6 && password.length < 10) return "Medium";
     if (password.length >= 10 && /[!@#$%^&*(),.?":{}|<>]/.test(password)) return "Strong";
     return "Medium";
@@ -46,29 +103,29 @@ export default function SettingsBoard({ Use }) {
 
   const handleSave = () => {
     if (!name || !email || !phoneNo || !currentPassword || !newPassword || !retypePassword) {
-      setErrorMessage("Everything must be Full");
-      return;
-    }
-
-    if (!newPassword.includes("@")) {
-      setErrorMessage("Password must contain@");
+      setErrorMessage("All fields must be filled");
       return;
     }
 
     if (newPassword !== retypePassword) {
-      setErrorMessage("Passwords Dosnt Much");
+      setErrorMessage("Passwords do not match");
       return;
     }
 
     setErrorMessage("");
     setShowNotification(true);
 
-  
     setTimeout(() => {
       setShowNotification(false);
-      window.location.reload(); 
+      setShouldRefresh(true);
     }, 3000);
   };
+
+  useEffect(() => {
+    if (shouldRefresh) {
+      window.location.reload();
+    }
+  }, [shouldRefresh]);
 
   const handleCancel = () => {
     setShowCancelConfirmation(true);
@@ -81,7 +138,7 @@ export default function SettingsBoard({ Use }) {
     setEmail("");
     setPhoneNo("");
     setName("");
-    setProfileImage("https://via.placeholder.com/100");
+    setProfileImage(defaultProfileImage);
     setShowCurrentPassword(false);
     setShowNewPassword(false);
     setShowRetypePassword(false);
@@ -90,9 +147,9 @@ export default function SettingsBoard({ Use }) {
     setLanguage("English (US)");
     setBackupFrequency("daily");
     setAutoBackup(true);
-    setReminders({ push: false, email: false, sms: false });
-    setComments({ push: false, email: false, sms: false });
-    setTags({ push: false, email: false, sms: false });
+    setReminders({ push: false, email: false, sms: false, doNotDisturb: false });
+    setComments({ push: false, email: false, sms: false, doNotDisturb: false });
+    setTags({ push: false, email: false, sms: false, doNotDisturb: false });
 
     setShowCancelConfirmation(false);
   };
@@ -115,7 +172,7 @@ export default function SettingsBoard({ Use }) {
         return (
           <>
             <div className="settings-section personal-info">
-              <h1>Settings Board</h1>
+              <h1>{getTranslation("settingsTitle")}</h1>
               <br />
               <div className="profile-picture">
                 <img src={profileImage} alt="Profile" />
@@ -130,8 +187,8 @@ export default function SettingsBoard({ Use }) {
                 </label>
               </div>
               <div className="settings-item">
-                <h2>Personal Information</h2>
-                <label>Name</label>
+                <h2>{getTranslation("personalInfo")}</h2>
+                <label>{getTranslation("name")}</label>
                 <input
                   type="text"
                   value={name}
@@ -139,7 +196,7 @@ export default function SettingsBoard({ Use }) {
                 />
               </div>
               <div className="settings-item">
-                <label>Email</label>
+                <label>{getTranslation("email")}</label>
                 <input
                   type="email"
                   value={email}
@@ -147,7 +204,7 @@ export default function SettingsBoard({ Use }) {
                 />
               </div>
               <div className="settings-item">
-                <label>Phone No</label>
+                <label>{getTranslation("phoneNo")}</label>
                 <input
                   type="tel"
                   value={phoneNo}
@@ -157,9 +214,9 @@ export default function SettingsBoard({ Use }) {
             </div>
 
             <div className="settings-section security">
-              <h2>Security</h2>
+              <h2>{getTranslation("security")}</h2>
               <div className="settings-item">
-                <label>Current Password</label>
+                <label>{getTranslation("currentPassword")}</label>
                 <div style={{ position: "relative" }}>
                   <input
                     type={showCurrentPassword ? "text" : "password"}
@@ -181,7 +238,7 @@ export default function SettingsBoard({ Use }) {
                 </div>
               </div>
               <div className="settings-item">
-                <label>New Password</label>
+                <label>{getTranslation("newPassword")}</label>
                 <div style={{ position: "relative" }}>
                   <input
                     type={showNewPassword ? "text" : "password"}
@@ -205,11 +262,11 @@ export default function SettingsBoard({ Use }) {
                   </span>
                 </div>
                 <div className={`password-strength ${passwordStrength.toLowerCase()}`}>
-                passwordStrength: {passwordStrength}
+                  Password Strength: {passwordStrength}
                 </div>
               </div>
               <div className="settings-item">
-                <label>Retype Password</label>
+                <label>{getTranslation("retypePassword")}</label>
                 <div style={{ position: "relative" }}>
                   <input
                     type={showRetypePassword ? "text" : "password"}
@@ -231,88 +288,92 @@ export default function SettingsBoard({ Use }) {
                 </div>
               </div>
               <Link to="/pages/forgetpass">
-                <button className="forgot-password">Forgot password?</button>
+                <button className="forgot-password">{getTranslation("forgotPassword")}</button>
               </Link>
             </div>
           </>
         );
-      case "Preferences":
-        return (
-          <div className="settings-section preferences">
-            <h2>Preferences</h2>
-            <div className="theme-selector">
-              <button
-                className={`theme-button ${theme === "light" ? "active" : ""}`}
-                onClick={() => setTheme("light")}
-              >
-                <FaSun /> Light Mode
-              </button>
-              <button
-                className={`theme-button ${theme === "dark" ? "active" : ""}`}
-                onClick={() => setTheme("dark")}
-              >
-                <FaMoon /> Dark Mode
-              </button>
-            </div>
-
-            <h2>Time Zone</h2>
-            <select
-              value={timeZone}
-              onChange={(e) => setTimeZone(e.target.value)}
-              className="select"
-            >
-              <option value="UTC+01:00) Europe/London">
-                (UTC+01:00) Europe/London
-              </option>
-            </select>
-
-            <h2>Language</h2>
-            <select
-              value={language}
-              onChange={(e) => setLanguage(e.target.value)}
-              className="select"
-            >
-              <option value="English (US)">English (US)</option>
-              <option value="Arabic">العربية</option>
-              <option value="French">Français</option>
-            </select>
-
-            <h2>Backup Settings</h2>
-            <div className="settings-item">
-              <label>Backup Frequency</label>
+        case "Preferences":
+          return (
+            <div className="settings-section preferences">
+              <h2>{getTranslation("preferences")}</h2>
+              <div className="theme-selector">
+                <button
+                  className={`theme-button ${theme === "light" ? "active" : ""}`}
+                  onClick={() => setTheme("light")}
+                >
+                  <FaSun /> {getTranslation("lightMode")}
+                </button>
+                <button
+                  className={`theme-button ${theme === "dark" ? "active" : ""}`}
+                  onClick={() => setTheme("dark")}
+                >
+                  <FaMoon /> {getTranslation("darkMode")}
+                </button>
+              </div>
+        
+              <h2>{getTranslation("backupSettings")}</h2>
+              <div className="settings-item">
+                <label style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                  <input
+                    type="checkbox"
+                    checked={autoBackup}
+                    onChange={(e) => setAutoBackup(e.target.checked)}
+                  />
+                  Enable Auto Backup
+                </label>
+              </div>
+        
+              <div className="settings-item">
+                <label>{getTranslation("backupFrequency")}</label>
+                <select
+                  value={backupFrequency}
+                  onChange={(e) => setBackupFrequency(e.target.value)}
+                  className="select"
+                >
+                  <option value="daily">Daily</option>
+                  <option value="weekly">Weekly</option>
+                  <option value="monthly">Monthly</option>
+                </select>
+              </div>
+        
+              <h2>{getTranslation("timeZone")}</h2>
               <select
-                value={backupFrequency}
-                onChange={(e) => setBackupFrequency(e.target.value)}
+                value={timeZone}
+                onChange={(e) => setTimeZone(e.target.value)}
                 className="select"
               >
-                <option value="daily">Daily</option>
-                <option value="weekly">Weekly</option>
-                <option value="monthly">Monthly</option>
+                <option value="UTC+01:00) Europe/London">
+                  (UTC+01:00) Europe/London
+                </option>
+                <option value="UTC+02:00) Europe/Paris">
+                  (UTC+02:00) Europe/Paris
+                </option>
+                <option value="UTC-05:00) America/New_York">
+                  (UTC-05:00) America/New_York
+                </option>
+              </select>
+        
+              <h2>{getTranslation("language")}</h2>
+              <select
+                value={language}
+                onChange={(e) => setLanguage(e.target.value)}
+                className="select"
+              >
+                <option value="English (US)">English (US)</option>
+                <option value="Arabic">العربية</option>
+                <option value="French">Français</option>
               </select>
             </div>
-
-            <div className="settings-itemm">
-              <label
-                style={{ display: "flex", alignItems: "center", gap: "10px" }}
-              >
-                <input
-                  type="checkbox"
-                  checked={autoBackup}
-                  onChange={(e) => setAutoBackup(e.target.checked)}
-                />
-                Enable Auto Backup
-              </label>
-            </div>
-          </div>
         );
       case "Notification":
         return (
           <div className="settings-section notification">
-            <h2>Notification Settings</h2>
+            <h2>{getTranslation("notificationSettings")}</h2>
             <div className="notification-category">
-              <h3>Appointments</h3>
+              <h3>{getTranslation("appointments")}</h3>
               <p>
-                These are notifications for when someone adds or cancels an appointment.
+                {getTranslation("appointmentsDescription")}
               </p>
               <div className="notification-options">
                 <label>
@@ -323,7 +384,7 @@ export default function SettingsBoard({ Use }) {
                       setReminders({ ...reminders, email: e.target.checked })
                     }
                   />
-                  Email
+                  {getTranslation("email")}
                 </label>
                 <label>
                   <input
@@ -333,15 +394,34 @@ export default function SettingsBoard({ Use }) {
                       setReminders({ ...reminders, sms: e.target.checked })
                     }
                   />
-                  SMS
+                  {getTranslation("sms")}
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={reminders.push}
+                    onChange={(e) =>
+                      setReminders({ ...reminders, push: e.target.checked })
+                    }
+                  />
+                  <FaBell /> {getTranslation("push")}
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={reminders.doNotDisturb}
+                    onChange={(e) =>
+                      setReminders({ ...reminders, doNotDisturb: e.target.checked })
+                    }
+                  />
+                  <FaBellSlash /> {getTranslation("doNotDisturb")}
                 </label>
               </div>
             </div>
             <div className="notification-category">
-              <h3>Comments</h3>
+              <h3>{getTranslation("prescriptions")}</h3>
               <p>
-                These are notifications for comments on your posts and replies
-                to your comments.
+                {getTranslation("prescriptionsDescription")}
               </p>
               <div className="notification-options">
                 <label>
@@ -352,7 +432,7 @@ export default function SettingsBoard({ Use }) {
                       setComments({ ...comments, email: e.target.checked })
                     }
                   />
-                  Email
+                  {getTranslation("email")}
                 </label>
                 <label>
                   <input
@@ -362,15 +442,34 @@ export default function SettingsBoard({ Use }) {
                       setComments({ ...comments, sms: e.target.checked })
                     }
                   />
-                  SMS
+                  {getTranslation("sms")}
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={comments.push}
+                    onChange={(e) =>
+                      setComments({ ...comments, push: e.target.checked })
+                    }
+                  />
+                  <FaBell /> {getTranslation("push")}
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={comments.doNotDisturb}
+                    onChange={(e) =>
+                      setComments({ ...comments, doNotDisturb: e.target.checked })
+                    }
+                  />
+                  <FaBellSlash /> {getTranslation("doNotDisturb")}
                 </label>
               </div>
             </div>
             <div className="notification-category">
-              <h3>Reminders</h3>
+              <h3>{getTranslation("healthReminders")}</h3>
               <p>
-                These are notifications to remind you of updates you might have
-                missed.
+                {getTranslation("healthRemindersDescription")}
               </p>
               <div className="notification-options">
                 <label>
@@ -381,7 +480,7 @@ export default function SettingsBoard({ Use }) {
                       setTags({ ...tags, email: e.target.checked })
                     }
                   />
-                  Email
+                  {getTranslation("email")}
                 </label>
                 <label>
                   <input
@@ -391,7 +490,27 @@ export default function SettingsBoard({ Use }) {
                       setTags({ ...tags, sms: e.target.checked })
                     }
                   />
-                  SMS
+                  {getTranslation("sms")}
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={tags.push}
+                    onChange={(e) =>
+                      setTags({ ...tags, push: e.target.checked })
+                    }
+                  />
+                  <FaBell /> {getTranslation("push")}
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={tags.doNotDisturb}
+                    onChange={(e) =>
+                      setTags({ ...tags, doNotDisturb: e.target.checked })
+                    }
+                  />
+                  <FaBellSlash /> {getTranslation("doNotDisturb")}
                 </label>
               </div>
             </div>
@@ -405,39 +524,35 @@ export default function SettingsBoard({ Use }) {
   return (
     <div className="settings-board">
       {showNotification && (
-        <div className="notification-top">
-          <div className="notification success">
-          Succecufly Updated!
+        <div className="custom-notification-top">
+          <div className="custom-notification success">
+            {getTranslation("successfullyUpdated")}
           </div>
         </div>
       )}
 
       {errorMessage && (
-        <div className="notification-top">
-          <div className="notification error">
+        <div className="custom-notification-top">
+          <div className="custom-notification error">
             {errorMessage}
           </div>
         </div>
       )}
 
       {showCancelConfirmation && (
-        <div className="settings-board">
-        {showNotification && (
-          <div className="notification-top">
-            <div className="custom-notifications success">
-            Succecufly Updated!
+        <div className="confirmation-modal">
+          <div className="confirmation-content">
+            <p>{getTranslation("confirmCancel")}</p>
+            <div className="confirmation-buttons">
+              <button className="confirm-button" onClick={handleConfirmCancel}>
+                {getTranslation("confirm")}
+              </button>
+              <button className="cancel-button" onClick={handleCancelConfirmation}>
+                {getTranslation("cancel")}
+              </button>
             </div>
           </div>
-        )}
-      
-        {errorMessage && (
-          <div className="notification-top">
-            <div className="custom-notifications error">
-              {errorMessage}
-            </div>
-          </div>
-        )}
-      </div>
+        </div>
       )}
 
       <div className="tabs">
@@ -445,19 +560,19 @@ export default function SettingsBoard({ Use }) {
           className={activeTab === "General" ? "active" : ""}
           onClick={() => setActiveTab("General")}
         >
-          General
+          {getTranslation("general")}
         </button>
         <button
           className={activeTab === "Preferences" ? "active" : ""}
           onClick={() => setActiveTab("Preferences")}
         >
-          Preferences
+          {getTranslation("preferences")}
         </button>
         <button
           className={activeTab === "Notification" ? "active" : ""}
           onClick={() => setActiveTab("Notification")}
         >
-          Notification
+          {getTranslation("notification")}
         </button>
       </div>
 
@@ -465,10 +580,10 @@ export default function SettingsBoard({ Use }) {
 
       <div className="settings-actions">
         <button className="cancel-button" onClick={handleCancel}>
-          Cancel
+          <FaTimes /> {getTranslation("cancel")}
         </button>
         <button className="save-button" onClick={handleSave}>
-          Save
+          <FaSave /> {getTranslation("save")}
         </button>
       </div>
     </div>
