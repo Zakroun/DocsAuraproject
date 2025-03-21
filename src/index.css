@@ -1584,6 +1584,48 @@ hr {
   height: 100%;
   width: 7%;
 }
+.Part1Dashboard_menu{
+  position: absolute;
+  width: 60px;
+  height: 100%;
+  width: 150px;
+  display: none;
+}
+.Part1Dashboard_active {
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(-100%);
+}
+
+.Part1Dashboard_active.open {
+  transform: translateX(0);
+}
+
+.Part1Dashboard_active{
+  top: 0;
+  position: absolute;
+  z-index: 10;
+  border-radius: 7px;
+  flex-direction: column;
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+  padding: 18px;
+  padding-left: 10px;
+  background-color: #016b69;
+  height: 99%;
+  width: 150px;
+}
+.menu-icon{
+  margin-top: 10px;
+  margin-left: 5px;
+  cursor: pointer;
+  color: black;
+  display: none;
+}
+.menu-icon2{
+  color: white;
+  cursor: pointer;
+}
 .logodashboard {
   width: 70px;
 }
@@ -1642,7 +1684,8 @@ hr {
 }
 .searchadd {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
+
 }
 .searchdiv {
   background-color: white;
@@ -2952,6 +2995,15 @@ h1 {
   .Profilemenu {
     display: block;
   }
+  .Part1Dashboard{
+    display: none;
+  }
+  .menu-icon{
+    display: block;
+  }
+  .Part1Dashboard_menu{
+    display: block;
+  }
 }
 
 @media (min-width: 480px) and (max-width: 767px) {
@@ -3057,6 +3109,15 @@ h1 {
     display: none;
   }
   .Profilemenu {
+    display: block;
+  }
+  .Part1Dashboard{
+    display: none;
+  }
+  .menu-icon{
+    display: block;
+  }
+  .Part1Dashboard_menu{
     display: block;
   }
 }
