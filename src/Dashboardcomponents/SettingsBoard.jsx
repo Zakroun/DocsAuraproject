@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaSun, FaMoon, FaBell, FaBellSlash, FaSave, FaTimes } from "react-icons/fa";
+import { FaBell, FaBellSlash, FaSave, FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const defaultProfileImage = "https://www.gravatar.com/avatar/default?s=200&d=mp";
@@ -16,11 +16,6 @@ export default function SettingsBoard({ Use }) {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showRetypePassword, setShowRetypePassword] = useState(false);
   const [activeTab, setActiveTab] = useState("General");
-  const [theme, setTheme] = useState("light");
-  const [timeZone, setTimeZone] = useState("UTC+01:00) Europe/London");
-  const [language, setLanguage] = useState("English (US)");
-  const [backupFrequency, setBackupFrequency] = useState("daily");
-  const [autoBackup, setAutoBackup] = useState(true);
   const [reminders, setReminders] = useState({ push: false, email: false, sms: false, doNotDisturb: false });
   const [comments, setComments] = useState({ push: false, email: false, sms: false, doNotDisturb: false });
   const [tags, setTags] = useState({ push: false, email: false, sms: false, doNotDisturb: false });
@@ -42,12 +37,6 @@ export default function SettingsBoard({ Use }) {
       newPassword: "New Password",
       retypePassword: "Retype Password",
       forgotPassword: "Forgot password?",
-      preferences: "Preferences",
-      timeZone: "Time Zone",
-      language: "Language",
-      backupSettings: "Backup Settings",
-      backupFrequency: "Backup Frequency",
-      enableAutoBackup: "Enable Auto Backup",
       notificationSettings: "Notification Settings",
       appointments: "Appointments",
       prescriptions: "Prescriptions",
@@ -66,12 +55,6 @@ export default function SettingsBoard({ Use }) {
       newPassword: "كلمة المرور الجديدة",
       retypePassword: "أعد إدخال كلمة المرور",
       forgotPassword: "نسيت كلمة المرور؟",
-      preferences: "التفضيلات",
-      timeZone: "المنطقة الزمنية",
-      language: "اللغة",
-      backupSettings: "إعدادات النسخ الاحتياطي",
-      backupFrequency: "تكرار النسخ الاحتياطي",
-      enableAutoBackup: "تمكين النسخ الاحتياطي التلقائي",
       notificationSettings: "إعدادات الإشعارات",
       appointments: "المواعيد",
       prescriptions: "الوصفات الطبية",
@@ -82,16 +65,8 @@ export default function SettingsBoard({ Use }) {
   };
 
   const getTranslation = (key) => {
-    return translations[language][key] || key;
+    return translations["English (US)"][key] || key; // Default to English (US)
   };
-
-  useEffect(() => {
-    if (theme === "dark") {
-      document.body.classList.add("dark-mode");
-    } else {
-      document.body.classList.remove("dark-mode");
-    }
-  }, [theme]);
 
   const evaluatePasswordStrength = (password) => {
     if (password.length === 0) return "";
@@ -142,11 +117,6 @@ export default function SettingsBoard({ Use }) {
     setShowCurrentPassword(false);
     setShowNewPassword(false);
     setShowRetypePassword(false);
-    setTheme("light");
-    setTimeZone("UTC+01:00) Europe/London");
-    setLanguage("English (US)");
-    setBackupFrequency("daily");
-    setAutoBackup(true);
     setReminders({ push: false, email: false, sms: false, doNotDisturb: false });
     setComments({ push: false, email: false, sms: false, doNotDisturb: false });
     setTags({ push: false, email: false, sms: false, doNotDisturb: false });
@@ -293,88 +263,12 @@ export default function SettingsBoard({ Use }) {
             </div>
           </>
         );
-        case "Preferences":
-          return (
-            <div className="settings-section preferences">
-              <h2>{getTranslation("preferences")}</h2>
-              <div className="theme-selector">
-                <button
-                  className={`theme-button ${theme === "light" ? "active" : ""}`}
-                  onClick={() => setTheme("light")}
-                >
-                  <FaSun /> {getTranslation("lightMode")}
-                </button>
-                <button
-                  className={`theme-button ${theme === "dark" ? "active" : ""}`}
-                  onClick={() => setTheme("dark")}
-                >
-                  <FaMoon /> {getTranslation("darkMode")}
-                </button>
-              </div>
-        
-              <h2>{getTranslation("backupSettings")}</h2>
-              <div className="settings-item">
-                <label style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                  <input
-                    type="checkbox"
-                    checked={autoBackup}
-                    onChange={(e) => setAutoBackup(e.target.checked)}
-                  />
-                  Enable Auto Backup
-                </label>
-              </div>
-        
-              <div className="settings-item">
-                <label>{getTranslation("backupFrequency")}</label>
-                <select
-                  value={backupFrequency}
-                  onChange={(e) => setBackupFrequency(e.target.value)}
-                  className="select"
-                >
-                  <option value="daily">Daily</option>
-                  <option value="weekly">Weekly</option>
-                  <option value="monthly">Monthly</option>
-                </select>
-              </div>
-        
-              <h2>{getTranslation("timeZone")}</h2>
-              <select
-                value={timeZone}
-                onChange={(e) => setTimeZone(e.target.value)}
-                className="select"
-              >
-                <option value="UTC+01:00) Europe/London">
-                  (UTC+01:00) Europe/London
-                </option>
-                <option value="UTC+02:00) Europe/Paris">
-                  (UTC+02:00) Europe/Paris
-                </option>
-                <option value="UTC-05:00) America/New_York">
-                  (UTC-05:00) America/New_York
-                </option>
-              </select>
-        
-              <h2>{getTranslation("language")}</h2>
-              <select
-                value={language}
-                onChange={(e) => setLanguage(e.target.value)}
-                className="select"
-              >
-                <option value="English (US)">English (US)</option>
-                <option value="Arabic">العربية</option>
-                <option value="French">Français</option>
-              </select>
-            </div>
-        );
       case "Notification":
         return (
           <div className="settings-section notification">
             <h2>{getTranslation("notificationSettings")}</h2>
             <div className="notification-category">
               <h3>{getTranslation("appointments")}</h3>
-              <p>
-                {getTranslation("appointmentsDescription")}
-              </p>
               <div className="notification-options">
                 <label>
                   <input
@@ -420,9 +314,6 @@ export default function SettingsBoard({ Use }) {
             </div>
             <div className="notification-category">
               <h3>{getTranslation("prescriptions")}</h3>
-              <p>
-                {getTranslation("prescriptionsDescription")}
-              </p>
               <div className="notification-options">
                 <label>
                   <input
@@ -468,9 +359,6 @@ export default function SettingsBoard({ Use }) {
             </div>
             <div className="notification-category">
               <h3>{getTranslation("healthReminders")}</h3>
-              <p>
-                {getTranslation("healthRemindersDescription")}
-              </p>
               <div className="notification-options">
                 <label>
                   <input
@@ -561,12 +449,6 @@ export default function SettingsBoard({ Use }) {
           onClick={() => setActiveTab("General")}
         >
           {getTranslation("general")}
-        </button>
-        <button
-          className={activeTab === "Preferences" ? "active" : ""}
-          onClick={() => setActiveTab("Preferences")}
-        >
-          {getTranslation("preferences")}
         </button>
         <button
           className={activeTab === "Notification" ? "active" : ""}
