@@ -1198,7 +1198,7 @@ hr {
   position: relative;
   overflow: hidden;
 }
-.about-description p{
+.about-description p {
   padding: 30px;
 }
 .about-container h1 {
@@ -1454,7 +1454,7 @@ hr {
   font-weight: bold;
   margin-bottom: 20px;
 }
-.Form_Appointemnt h2{
+.Form_Appointemnt h2 {
   text-align: left;
 }
 .filters {
@@ -1487,7 +1487,7 @@ hr {
   margin-bottom: 10px;
 }
 
-.noappointments{
+.noappointments {
   text-align: center;
   color: #666;
 }
@@ -1500,7 +1500,7 @@ hr {
   border-radius: 8px;
   margin-bottom: 20px;
   height: 100px;
-  width: 120px;
+  width: 70%;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -1584,11 +1584,11 @@ hr {
   height: 100%;
   width: 7%;
 }
-.Part1Dashboard_menu{
+.Part1Dashboard_menu {
   position: absolute;
   width: 60px;
   height: 100%;
-  width: 150px;
+  /* width: 150px; */
   display: none;
 }
 .Part1Dashboard_active {
@@ -1600,7 +1600,7 @@ hr {
   transform: translateX(0);
 }
 
-.Part1Dashboard_active{
+.Part1Dashboard_active {
   top: 0;
   position: absolute;
   z-index: 10;
@@ -1613,18 +1613,20 @@ hr {
   padding-left: 10px;
   background-color: #016b69;
   height: 99%;
-  width: 150px;
+  width: 60px;
 }
-.menu-icon{
+.menu-icon {
+  position: relative;
   margin-top: 10px;
   margin-left: 5px;
   cursor: pointer;
   color: black;
   display: none;
 }
-.menu-icon2{
+.menu-icon2 {
   color: white;
   cursor: pointer;
+  margin-top: -40px;
 }
 .logodashboard {
   width: 70px;
@@ -1679,13 +1681,12 @@ hr {
 .homeboard__header__title span {
   color: #008481;
 }
-.header-board{
+.header-board {
   margin-bottom: 10px;
 }
 .searchadd {
   display: flex;
   justify-content: space-around;
-
 }
 .searchdiv {
   background-color: white;
@@ -1701,20 +1702,20 @@ hr {
   outline: none;
   background-color: transparent;
 }
-.serachresult{
+.serachresult {
   width: 310px;
   margin-top: 5px;
-  /* position: absolute; */
+  position: absolute;
   background-color: rgb(230, 230, 230);
 }
-.searchitem{
+.searchitem {
   cursor: pointer;
   padding: 10px;
 }
-.searchitem p{
+.searchitem p {
   margin: 0px;
 }
-.searchitem:hover{
+.searchitem:hover {
   background-color: #f0f0f0;
 }
 .searchbtn {
@@ -1742,6 +1743,7 @@ hr {
 }
 .weeklyReports__content {
   display: flex;
+  flex-wrap: wrap;
   margin-bottom: 70px;
   justify-content: space-around;
 }
@@ -1759,6 +1761,7 @@ hr {
   background-color: white;
   border-radius: 10px;
   text-align: center;
+  margin-bottom: 30px;
   padding: 35px 15px;
   height: 130px;
 }
@@ -1773,7 +1776,7 @@ table {
   border-color: rgb(201, 201, 201);
   border-collapse: collapse;
 }
-.appointments-table table th{
+.appointments-table table th {
   background-color: #007b79;
 }
 th,
@@ -1935,9 +1938,9 @@ tr.canceled {
   margin-bottom: 5px;
   margin-top: 30px;
 }
-.disabled{
+.disabled {
   opacity: 0.6;
-  cursor:not-allowed;
+  cursor: not-allowed;
 }
 .calendar {
   font-family: Arial, sans-serif;
@@ -1998,7 +2001,7 @@ tr.canceled {
 .appointment-details {
   font-size: 0.9em;
 }
-.cancel{
+.cancel {
   background-color: orange;
   width: 80px;
   border: 1px solid orange;
@@ -2010,7 +2013,7 @@ tr.canceled {
 }
 .complet,
 .confirm,
-.submit-feedback{
+.submit-feedback {
   background-color: #00504e;
   width: 80px;
   border: 1px solid #00504e;
@@ -2020,7 +2023,7 @@ tr.canceled {
   padding: 8px;
   cursor: pointer;
 }
-.Link{
+.Link {
   text-decoration: none;
 }
 .feedback-form {
@@ -2037,8 +2040,7 @@ h1 {
   font-size: 22px;
   margin-bottom: 10px;
 }
-.completReview
-.star-rating {
+.completReview .star-rating {
   display: flex;
   justify-content: center;
   margin-bottom: 15px;
@@ -2048,7 +2050,8 @@ h1 {
   cursor: pointer;
   transition: color 0.2s;
 }
-.complet_Review{background-color: #ffffff;
+.complet_Review {
+  background-color: #ffffff;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   margin-top: 20px;
@@ -2083,7 +2086,7 @@ h1 {
   background-color: #016866;
 }
 /* Messages */
-.chat-app{
+.chat-app {
   height: 87%;
   display: flex;
   width: 101.5%;
@@ -2106,7 +2109,7 @@ h1 {
   border-radius: 4px;
   outline: none;
 }
-.search-input:hover{
+.search-input:hover {
   border: 1px solid #00504e;
 }
 .conversation-items {
@@ -2154,7 +2157,7 @@ h1 {
 }
 
 .unread-badge {
-  background:#00504e;
+  background: #00504e;
   color: white;
   padding: 4px 8px;
   font-size: 12px;
@@ -2163,25 +2166,25 @@ h1 {
   align-items: center;
   gap: 5px;
 }
-.coversation{
+.coversation {
   width: 80%;
   height: 100%;
   display: flex;
   flex-direction: column;
 }
-.chat_window{
+.chat_window {
   overflow-y: scroll;
   height: 400px;
   /* background-color: rgb(237, 237, 237); */
-  background-image: url('/public/Images/cover.png');
+  background-image: url("/public/Images/cover.png");
   background-repeat: no-repeat;
   background-size: cover;
-  margin-left: .4%;
+  margin-left: 0.4%;
 }
-.chat_window p{
+.chat_window p {
   text-align: center;
 }
-.messages2{
+.messages2 {
   padding: 15px;
   margin: 15px 0;
   border-radius: 8px;
@@ -2194,7 +2197,7 @@ h1 {
 .message2 {
   width: fit-content;
   padding: 1px 22px;
-  margin:15px 0;
+  margin: 15px 0;
   border-radius: 8px;
   max-width: 80%;
   font-size: 12px;
@@ -2242,7 +2245,7 @@ h1 {
   left: 120px;
   top: 30px;
 }
-.message-details{
+.message-details {
   color: black;
 }
 .options-icon {
@@ -2299,15 +2302,15 @@ h1 {
 .audio::-webkit-media-controls-timeline {
   color: red;
 }
-.file-link{
+.file-link {
   color: white;
   text-decoration: none;
 }
-.linkfile{
+.linkfile {
   padding: 10px 0px;
 }
-.file-link:hover{
-  text-decoration:underline;
+.file-link:hover {
+  text-decoration: underline;
 }
 /* .message_input{
   height: 7%;
@@ -2426,9 +2429,15 @@ h1 {
 }
 
 @keyframes blink {
-  0% { opacity: 1; }
-  50% { opacity: 0.5; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .recording-active {
@@ -2485,7 +2494,8 @@ h1 {
   margin-top: 20px;
 }
 
-.confirm-button, .cancel-button {
+.confirm-button,
+.cancel-button {
   padding: 10px 20px;
   font-size: 16px;
   border: none;
@@ -2512,7 +2522,7 @@ h1 {
   background-color: #e53935;
   color: white;
 }
-.cancel_reason{
+.cancel_reason {
   padding: 10px 20px;
   font-size: 16px;
   border: none;
@@ -2522,7 +2532,7 @@ h1 {
   background-color: orange;
   color: white;
 }
-.conversation-header{
+.conversation-header {
   display: flex;
   justify-content: space-between;
   /* margin:0px 20px; */
@@ -2530,26 +2540,26 @@ h1 {
   margin-top: 0px;
   background-color: white;
 }
-.conversation-header span{
+.conversation-header span {
   font-size: 20px;
   font-weight: bold;
 }
-.avataricon{
+.avataricon {
   vertical-align: middle;
   color: #888;
   cursor: pointer;
 }
-.iconcall{
+.iconcall {
   color: #00504e;
   margin-right: 15px;
   cursor: pointer;
 }
-.close-button{
+.close-button {
   color: black;
   margin-left: 30px;
   margin-top: 7px;
 }
-.icon_input{
+.icon_input {
   color: #00504e;
   margin-left: 10px;
   cursor: pointer;
@@ -2576,6 +2586,7 @@ h1 {
 
 .file-manager-header {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
@@ -2587,11 +2598,11 @@ h1 {
   color: #1f2937;
 }
 
-.file-manager-search{
+.file-manager-search {
   width: 50%;
   padding: 7px;
   border-radius: 10px;
-  border: .5px solid #d1d5db;
+  border: 0.5px solid #d1d5db;
   outline: none;
 }
 
@@ -2684,6 +2695,7 @@ h1 {
 }
 
 .file-manager-activity-icon {
+  margin-right: 10px;
   color: rgb(0, 113, 128);
 }
 
@@ -2738,7 +2750,7 @@ h1 {
 }
 .file-manager-form-group input:focus,
 .file-manager-form-group select:focus {
-  border-color: #2563EB; /* Blue border on focus */
+  border-color: #2563eb; /* Blue border on focus */
   outline: none;
 }
 
@@ -2766,7 +2778,7 @@ h1 {
 }
 
 .file-manager-form-group input[type="file"]:focus {
-  border-color: #2563EB;
+  border-color: #2563eb;
   outline: none;
 }
 
@@ -2782,10 +2794,10 @@ h1 {
   background-color: #cccccc;
   cursor: not-allowed;
 }
-.file-checkbox{
+.file-checkbox {
   margin-bottom: 10px;
 }
-.file-manager-delete-button{
+.file-manager-delete-button {
   margin-top: 20px;
   width: 200px;
   height: 35px;
@@ -2995,14 +3007,108 @@ h1 {
   .Profilemenu {
     display: block;
   }
-  .Part1Dashboard{
+  .Part1Dashboard {
     display: none;
   }
-  .menu-icon{
+  .menu-icon {
     display: block;
   }
-  .Part1Dashboard_menu{
+  .Part1Dashboard_menu {
     display: block;
+  }
+  .searchdiv {
+    width: 200px;
+    margin-top: 20px;
+  }
+  .notification-container {
+    margin-top: 10px;
+  }
+  .homeboard__header__image img {
+    margin-top: -70px;
+    width: 180px;
+  }
+  .chart-container {
+    margin-left: -10px;
+  }
+  .weeklyReports h2 {
+    font-size: 17px;
+  }
+  .chart-container h2 {
+    font-size: 17px;
+  }
+  .appointments_header h2 {
+    font-size: 17px;
+  }
+  .appointments-table table {
+    width: 300px;
+    border-color: rgb(201, 201, 201);
+    border-collapse: collapse;
+  }
+  th,
+  td {
+    padding: 5px;
+    text-align: center;
+  }
+  .profile-img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  .legend {
+    margin-left: -15px;
+  }
+  .appointment-card {
+    width: 83%;
+  }
+  .file-manager-activity-panel {
+    padding: 7px;
+    width: 100px;
+  }
+  .file-manager-activity-list {
+    margin-left: -25px;
+  }
+  .file-manager-activity-item {
+    gap: 0px;
+    font-size: 12px;
+    padding: 0px 0;
+  }
+  .file-manager-header h2 {
+    display: none;
+  }
+  .file-manager-header input {
+    width: 140px;
+  }
+  .file-manager-header button {
+    margin-top: 30px;
+    margin-left: 30px;
+  }
+  .file-manager-add-file-form {
+    width: 90%;
+  }
+
+  .file-manager-add-file-form h2 {
+    font-size: 24px;
+  }
+  .file-manager-form-group input {
+    width: 280px;
+  }
+
+  .file-manager-form-group select {
+    width: 303px;
+  }
+  .file-manager-submit-button {
+    width: 305px;
+  }
+  .file-manager-form-group input[type="file"] {
+    width: 280px;
+  }
+  .prescription,
+  .diagnosis,
+  .cancel-reason,
+  .resultsDescription {
+    width: 200px;
+    max-width: 200px;
   }
 }
 
@@ -3111,14 +3217,21 @@ h1 {
   .Profilemenu {
     display: block;
   }
-  .Part1Dashboard{
+  .Part1Dashboard {
     display: none;
   }
-  .menu-icon{
+  .menu-icon {
     display: block;
   }
-  .Part1Dashboard_menu{
+  .Part1Dashboard_menu {
     display: block;
+  }
+  .searchdiv {
+    width: 250px;
+    margin-top: 20px;
+  }
+  .notification-container {
+    margin-top: 10px;
   }
 }
 
@@ -3223,7 +3336,7 @@ h1 {
 
 /* General Styles */
 .body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f0f2f5;
   margin: 0;
   padding: 0;
@@ -3375,7 +3488,7 @@ h1 {
   margin-bottom: 10px;
   padding: 30px;
 }
-.user-image{
+.user-image {
   width: 100px;
   height: 100px;
   border-radius: 50%;
@@ -3462,8 +3575,8 @@ h1 {
   transition: all 0.3s ease;
   overflow: visible; /* Ensure content is not hidden */
 }
-.completform, 
-.cancelform{
+.completform,
+.cancelform {
   background-color: #ffffff;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
@@ -3476,15 +3589,15 @@ h1 {
 .prescription,
 .diagnosis,
 .cancel-reason,
-.resultsDescription{
+.resultsDescription {
   width: 350px;
   max-width: 400px;
-  min-width: 350px;
+  min-width: 200px;
   height: 35px;
   max-height: 35px;
   max-height: 35px;
 }
-.Save{
+.Save {
   background-color: #00504e;
   color: white;
   padding: 10px 20px;
@@ -3493,7 +3606,7 @@ h1 {
   cursor: pointer;
   margin-top: 20px;
 }
-.Download{
+.Download {
   background-color: #00504e;
   color: white;
   padding: 10px 20px;
@@ -3502,7 +3615,7 @@ h1 {
   cursor: pointer;
   margin-top: 20px;
 }
-.Confirm{
+.Confirm {
   background-color: #00504e;
   color: white;
   padding: 10px 20px;
@@ -3512,7 +3625,7 @@ h1 {
   margin-top: 20px;
   margin-right: 20px;
 }
-.Back{
+.Back {
   background-color: orange;
   color: white;
   padding: 10px 20px;
@@ -3522,7 +3635,7 @@ h1 {
   margin-top: 20px;
   margin-right: 20px;
 }
-.Upload{
+.Upload {
   border-radius: 10px;
   width: 120px;
   background-color: #00504e;
@@ -3789,7 +3902,8 @@ h1 {
   margin-bottom: 30px;
 }
 
-.cancel-button, .save-button {
+.cancel-button,
+.save-button {
   flex: 1;
   margin: 0 5px;
   padding: 10px 20px;
@@ -4016,7 +4130,8 @@ h1 {
   margin-top: 20px;
 }
 
-.confirm-button, .cancel-button {
+.confirm-button,
+.cancel-button {
   padding: 10px 20px;
   font-size: 16px;
   border: none;

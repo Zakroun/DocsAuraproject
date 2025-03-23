@@ -5,24 +5,25 @@ import { IoMdSettings } from "react-icons/io";
 import { GoFileSubmodule } from "react-icons/go";
 import { RiLoginBoxFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { changeboard } from "../data/DocsauraSlice";
 import { IoMenu } from "react-icons/io5";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Menu } from "../data/DocsauraSlice";
 export default function Part1Dashboard(props) {
   const user = props.Use;
   const dispatch = useDispatch();
-  const [menuOpen, setMenuOpen] = useState(false);
-
+  const curmenu = useSelector(s=>s.Docsaura.menu);
+  const [menuOpen, setMenuOpen] = useState(curmenu);
   const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
+    dispatch(Menu());
   };
+  useEffect(()=>{
+    setMenuOpen(curmenu)
+  },[curmenu])
   return (
     <>
       <div className="Part1Dashboard_menu">
-        <div className="Part1Dashboard__header">
-          <IoMenu className="menu-icon" size={50} onClick={toggleMenu} />
-        </div>
         <div
           className={`Part1Dashboard_active ${menuOpen ? "open" : "closed"}`}
         >

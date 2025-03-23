@@ -161,7 +161,7 @@ export default function FileManager() {
             <ul className="file-manager-activity-list">
               {recentActivity.map((activity, index) => (
                 <li key={index} className="file-manager-activity-item">
-                  <FaTasks size={16} className="file-manager-activity-icon" />
+                  <FaTasks size={18} className="file-manager-activity-icon" />
                   <span>
                     {activity.length > 40
                       ? activity.slice(0, 30) + "..."

@@ -1,17 +1,19 @@
 import { LuSearch } from "react-icons/lu";
 import { IoNotificationsSharp } from "react-icons/io5";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { changeboard } from "../data/DocsauraSlice";
+import { Menu } from "../data/DocsauraSlice";
 // import { changeboard } from "../data/DocsauraSlice";
+import { IoMenu } from "react-icons/io5";
 export default function HeaderBoard() {
   const dispatch = useDispatch();
   const tableSearch = [
     "home",
     "calander",
-    "appointmnt",
     "settings",
     "messages",
+    "files",
     "Logout",
   ];
   const [search, setSearch] = useState("");
@@ -31,7 +33,10 @@ export default function HeaderBoard() {
     const parts = word.split(new RegExp(`(${query})`, "gi"));
     return parts.map((part, index) =>
       part.toLowerCase() === query.toLowerCase() ? (
-        <span key={index} style={{ color: "rgb(0, 113, 128)", fontWeight: "bold" }}>
+        <span
+          key={index}
+          style={{ color: "rgb(0, 113, 128)", fontWeight: "bold" }}
+        >
           {part}
         </span>
       ) : (
@@ -45,13 +50,30 @@ export default function HeaderBoard() {
     { id: 2, message: "Appointment rescheduled", time: "10 mins ago" },
     { id: 3, message: "New message from John", time: "30 mins ago" },
   ];
-  const Change = (a) =>{
-    dispatch(changeboard(a))
-    setSearch("")
-  }
+  const Change = (a) => {
+    dispatch(changeboard(a));
+    setSearch("");
+  };
+  const toggleMenu = () => {
+    dispatch(Menu());
+  };
+  useEffect(() => {
+    const handleScroll = () => {
+      toggleMenu();
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   return (
     <header className="header-board">
       <div className="searchadd">
+        <div className="Part1Dashboard__header">
+          <IoMenu className="menu-icon" size={50} onClick={toggleMenu} />
+        </div>
         <div className="serach_parent">
           <div className="searchdiv">
             <input
@@ -66,9 +88,9 @@ export default function HeaderBoard() {
             </button>
           </div>
           <div className="serachresult">
-            {searchResult.map((a,k) => {
+            {searchResult.map((a, k) => {
               return (
-                <div className="searchitem" onClick={()=>Change(a)} key={k}>
+                <div className="searchitem" onClick={() => Change(a)} key={k}>
                   <p>{highlightMatch(a, search)}</p>
                 </div>
               );

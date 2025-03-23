@@ -69,7 +69,7 @@ export default function Calendar(props) {
     } else {
       setappointments(appointments);
     }
-  }, [searchQuery, Listeappointments, appointments]);
+  }, [searchQuery , appointments]);
 
   const Add = () => {
     if (

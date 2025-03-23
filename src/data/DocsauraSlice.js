@@ -19,6 +19,7 @@ export const DocsauraSlice = createSlice({
     cities: cities,
     currentboard: "home",
     conversations: conversations,
+    menu : false,
   },
   reducers: {
     changeboard: (state, action) => {
@@ -118,8 +119,11 @@ export const DocsauraSlice = createSlice({
         console.log("suucccccccccc");
       }
     },
+    Menu : (state, action) =>{
+      state.menu = !state.menu
+    }
   },
 });
 
-export const { changeboard, changestatus, Sent, deletemessage } =
+export const { changeboard, changestatus, Sent, deletemessage ,Menu } =
   DocsauraSlice.actions;

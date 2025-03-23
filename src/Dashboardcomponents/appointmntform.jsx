@@ -178,7 +178,7 @@ export default function AppointmentForm({ user, Use, onSubmitFeedback }) {
               {User.status}
             </span>
             <br />
-            {User.status === "pending" && (
+            {User.status === "pending" && (Use.Role === "laboratori" || Use.Role === "doctor" || Use.Role === "clinic") && (
               <>
                 <button
                   className="complet"
@@ -193,6 +193,14 @@ export default function AppointmentForm({ user, Use, onSubmitFeedback }) {
                   Cancel
                 </button>
               </>
+            )}
+            {User.status === "pending" && Use.Role === "patient" && (
+              <button
+              className="cancel"
+              onClick={() => setcomplete("canceled")}
+            >
+              Cancel
+            </button>
             )}
             {User.status === "completed" && Use.Role === "patient" && (
               <button className="confirm" onClick={handleConfirmAppointment}>
@@ -268,7 +276,7 @@ export default function AppointmentForm({ user, Use, onSubmitFeedback }) {
               </div>
             ) : Use.Role === "patient" ? (
               <div>
-                <h2>Confirm Appointment & Leave Feedback</h2>
+                <h4>Confirm Appointment & Leave Feedback</h4>
                 <button onClick={confirmStatus} className="Confirm">
                   Confirm Appointment
                 </button>
