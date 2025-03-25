@@ -61,13 +61,16 @@ export default function HeaderBoard() {
     const handleScroll = () => {
       toggleMenu();
     };
-
     window.addEventListener("scroll", handleScroll);
-    
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+  useEffect(()=>{
+    if(search === ''){
+      setSearchResult([])
+    }
+  },[search])
   return (
     <header className="header-board">
       <div className="searchadd">

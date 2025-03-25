@@ -8,7 +8,7 @@ import {
 import { Link } from "react-router-dom";
 // import { useNavigate } from "react-router-dom";
 export default function Calendar(props) {
-  const [errorMessage,seterrorMessage] = useState("");
+  const [errorMessage, seterrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const appointments = props.appointments || [];
   const [Listeappointments, setappointments] = useState(appointments);
@@ -21,7 +21,7 @@ export default function Calendar(props) {
     fullName: "",
     email: "",
     phone: "",
-    cin : "",
+    cin: "",
     date: "",
     time: "",
   });
@@ -56,10 +56,11 @@ export default function Calendar(props) {
     if (selectedStatus === "all") {
       return appointments;
     }
-    return Listeappointments.filter(
+    return appointments.filter(
       (appointment) => appointment.status === selectedStatus
     );
   };
+
   useEffect(() => {
     if (searchQuery !== "") {
       const filteredAppointments = Listeappointments.filter((appointment) =>
@@ -69,7 +70,7 @@ export default function Calendar(props) {
     } else {
       setappointments(appointments);
     }
-  }, [searchQuery , appointments]);
+  }, [searchQuery, appointments]);
 
   const Add = () => {
     if (
@@ -81,12 +82,12 @@ export default function Calendar(props) {
         fullName: formData.fullName,
         date: formData.date,
         time: formData.time,
-        status: "pending"
+        status: "pending",
       };
-      setSuccessMessage('Appointment Added sussessfully');
-    setFormAdd(true)
-    }else{
-      seterrorMessage('Please fill all the fields');
+      setSuccessMessage("Appointment Added sussessfully");
+      setFormAdd(true);
+    } else {
+      seterrorMessage("Please fill all the fields");
     }
     setTimeout(() => {
       setSuccessMessage("");
@@ -98,16 +99,14 @@ export default function Calendar(props) {
       {successMessage && (
         <div className="notification-top">
           <div className="notification success">
-          Appointment added successfully!
+            Appointment added successfully!
           </div>
         </div>
       )}
 
       {errorMessage && (
         <div className="notification-top">
-          <div className="notification error">
-            {errorMessage}
-          </div>
+          <div className="notification error">{errorMessage}</div>
         </div>
       )}
       {formAdd === true ? (
@@ -188,7 +187,12 @@ export default function Calendar(props) {
                 <h4 className="calendar-date">{date}</h4>
                 {groupedAppointments[date] &&
                 groupedAppointments[date].length > 0 ? (
-                  filterAppointmentsByStatus(groupedAppointments[date])
+                  groupedAppointments[date]
+                    .filter(
+                      (appointment) =>
+                        selectedStatus === "all" ||
+                        appointment.status === selectedStatus
+                    )
                     .filter((appointment) =>
                       appointment.fullName
                         .toLowerCase()

@@ -97,7 +97,7 @@ export default function ChatApp({ conversations }) {
                     0
                   ) > 0 && (
                     <div className="unread-badge">
-                      <MdNotifications size={18} />
+                      <MdNotifications size={18} className="notify"/>
                       {conv.messages.reduce(
                         (t, a) => (a.read === false ? t + 1 : t),
                         0

@@ -3091,17 +3091,17 @@ h1 {
     font-size: 24px;
   }
   .file-manager-form-group input {
-    width: 280px;
+    width: 260px;
   }
 
   .file-manager-form-group select {
-    width: 303px;
+    width: 283px;
   }
   .file-manager-submit-button {
-    width: 305px;
+    width: 285px;
   }
   .file-manager-form-group input[type="file"] {
-    width: 280px;
+    width: 260px;
   }
   .prescription,
   .diagnosis,
@@ -3109,6 +3109,63 @@ h1 {
   .resultsDescription {
     width: 200px;
     max-width: 200px;
+  }
+  .file-manager-card {
+    width: 100px;
+    height: 140px;
+  }
+  .file-manager-search {
+    width: 50%;
+    margin-left: -20px;
+  }
+  .message_input {
+    padding: 5px;
+  }
+  
+  .message_input input {
+    padding: 5px;
+    width: 150px;
+    font-size: 13px;
+  }
+  
+  .icons {
+    width: 120px;
+    margin-left: 0px;
+  }
+  .messages2 {
+    max-width: 90%;
+  }
+  .conversation-list {
+    width: 40%;
+    padding: 5px;
+  }
+  .conversation-list h2{
+    font-size: 18px;
+  }
+  .search-input {
+    width: 80%;
+  }
+  .conversation-item {
+    padding: 5px;
+  }
+  .conversation-item .name{
+    font-size: 13px;
+  }
+  .conversation-item .avatar-icon{
+    width: 120px;
+  }
+  .unread-badge {
+    background: #00504e;
+    color: white;
+    padding: 2px 4px;
+    font-size: 7px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .notify{
+    width: 10px;
   }
 }
 
@@ -3233,6 +3290,7 @@ h1 {
   .notification-container {
     margin-top: 10px;
   }
+
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
