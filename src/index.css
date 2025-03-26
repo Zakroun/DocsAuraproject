@@ -2007,6 +2007,7 @@ tr.canceled {
   border: 1px solid orange;
   border-radius: 10px;
   margin-right: 20px;
+  margin-bottom: 10px;
   color: white;
   padding: 8px;
   cursor: pointer;
@@ -2373,9 +2374,8 @@ h1 {
 
 .icons {
   display: flex;
-  align-items: center;
   gap: 10px;
-  margin-left: 10px;
+  margin-left: 8px;
 }
 
 .icon_input {
@@ -2418,6 +2418,7 @@ h1 {
   padding: 5px 10px;
   border-radius: 5px;
   border: 1px solid red;
+  cursor: pointer;
 }
 
 .recording-dot {
@@ -3059,7 +3060,7 @@ h1 {
     margin-left: -15px;
   }
   .appointment-card {
-    width: 83%;
+    width: 80%;
   }
   .file-manager-activity-panel {
     padding: 7px;
@@ -3124,7 +3125,7 @@ h1 {
   
   .message_input input {
     padding: 5px;
-    width: 150px;
+    width: 130px;
     font-size: 13px;
   }
   
@@ -3166,6 +3167,42 @@ h1 {
   }
   .notify{
     width: 10px;
+  }
+  .file-manager-delete-button {
+    width: 140px;
+    margin-left: -10px;
+  }
+  .coversation{
+    margin-right: -29px;
+  }
+  .recording-indicator {
+    gap: 2px;
+    padding: 0px 2px;
+    height: 20px;
+    width: 60px;
+    margin-left: 0px;
+  }
+  .recording-indicator span{
+    font-size: 8px;
+  }
+  .recording-active{
+    width: 200px;
+  }
+  .send-button {
+    padding: 4px 5px;
+    font-size: 10px;
+  }
+  .icon_input2{
+    margin-left: -8px;
+  }
+  .audio {
+    width: 150px;
+    height: 35px;
+    padding: 0px;
+    border: none;
+  }
+  .details .message {
+    width: 20px;
   }
 }
 

@@ -102,17 +102,16 @@ export default function MessageInput({ Conversationusers }) {
         />
 
         {isRecording ? (
-          <div className="recording-indicator">
+          <div className="recording-indicator" onClick={stopRecording}>
             <div className="recording-dot"></div>
             <span>Recording...</span>
             <FiMic
               className="icon_input recording-active"
               size={30}
-              onClick={stopRecording}
             />
           </div>
         ) : (
-          <FiMic className="icon_input" size={30} onClick={startRecording} />
+          <FiMic className="icon_input icon_input2" size={30} onClick={startRecording} />
         )}
 
         {audioBlob && (
@@ -129,7 +128,7 @@ export default function MessageInput({ Conversationusers }) {
           onChange={handleFileUpload}
         />
         <RiStickyNoteAddFill
-          className="icon_input"
+          className="icon_input icon_input2"
           size={30}
           onClick={() => document.getElementById("fileInput").click()}
         />
