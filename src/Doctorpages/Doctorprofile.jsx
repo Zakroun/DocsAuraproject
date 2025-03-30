@@ -46,6 +46,7 @@ export default function Doctorprofile(props) {
           {Doctor.comments.map((c) => {
             return (
               <div className="comment" key={c.id}>
+                <img src={`/images/${c.img}`} alt="usercomment" className="usercomment"/>
                 {c.text}
               </div>
             );
@@ -65,7 +66,6 @@ export default function Doctorprofile(props) {
               <Link to={`/pages/reservedoc`} state={{id : Doctor.id}}>
                 <button className="reserve">Reserve</button>
               </Link>
-              <button className="msg">Send Message</button>
             </div>
           </div>
           <p>{Doctor.addressLoc}</p>
@@ -87,14 +87,9 @@ export default function Doctorprofile(props) {
               maxWidth: "600px",
               height: "250px",
             }}
-            // allowFullScreen
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
           ></iframe>
-          {/* <div className="part2head">
-            <button className="reserve">Reserve</button>
-            <button className="msg">Send Message</button>
-          </div> */}
         </div>
       </div>
       <div className="part3"></div>

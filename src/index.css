@@ -1328,10 +1328,14 @@ hr {
   border: 2px solid #016b69;
 }
 .part1 {
+  margin-top: 20px;
   text-align: center;
 }
 .part1 .stars {
   margin-top: 10px;
+}
+.comments{
+  text-align: left;
 }
 .comment {
   border-top-left-radius: 10px;
@@ -1340,6 +1344,11 @@ hr {
   background-color: #018786;
   color: white;
   margin-top: 10px;
+}
+.usercomment{
+  width: 25px;
+  margin-right: 10px;
+  vertical-align: middle;
 }
 .part2 {
   margin-left: 50px;
@@ -3420,12 +3429,18 @@ h1 {
     margin-top: 5%;
     margin-left: 40%;
   }
+  .part2 {
+    width: 40%;
+  }
 }
 
 @media (min-width: 1280px) and (max-width: 1535px) {
   .loader {
     margin-top: 5%;
     margin-left: 43%;
+  }
+  .part2 {
+    width: 40%;
   }
 }
 

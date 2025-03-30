@@ -65,7 +65,6 @@ export default function Clinicprofile(props) {
             <Link to={`/pages/reserveclinic`} state={{id : clinic.id}}>
             <button className="reserve">Reserve</button>
             </Link>
-              <button className="msg">Send Message</button>
             </div>
           </div>
           <p>{clinic.addressLoc}</p>

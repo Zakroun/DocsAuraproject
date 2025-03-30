@@ -65,7 +65,6 @@ export default function Laboratoryprofile(props) {
             <Link to={`/pages/reservelabo`} state={{id : laboratory.id}}>
             <button className="reserve">Reserve</button>
             </Link>
-              <button className="msg">Send Message</button>
             </div>
           </div>
           <p>{laboratory.addressLoc}</p>
