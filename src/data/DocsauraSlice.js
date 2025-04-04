@@ -20,6 +20,7 @@ export const DocsauraSlice = createSlice({
     currentboard: "home",
     conversations: conversations,
     menu : false,
+    currentpage : 'home',
   },
   reducers: {
     changeboard: (state, action) => {
@@ -121,9 +122,12 @@ export const DocsauraSlice = createSlice({
     },
     Menu : (state, action) =>{
       state.menu = !state.menu
+    },
+    changecurrentpage : (state, action) => {
+      state.currentpage = action.payload
     }
   },
 });
 
-export const { changeboard, changestatus, Sent, deletemessage ,Menu } =
+export const {changecurrentpage, changeboard, changestatus, Sent, deletemessage ,Menu } =
   DocsauraSlice.actions;

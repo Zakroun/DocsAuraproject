@@ -545,6 +545,7 @@ export const doctors = [
         timeTo: "09:00 AM",
         status: "completed",
         image: "user.png",
+        type: "Consultation at the doctor's office"
       },
       {
         id: 2,
@@ -555,6 +556,7 @@ export const doctors = [
         timeTo: "03:30 PM",
         status: "pending",
         image: "user.png",
+        type: "online Conversation, voice or video call"
       },
       {
         id: 3,
@@ -565,6 +567,7 @@ export const doctors = [
         timeTo: "06:30 PM",
         status: "completed",
         image: "user.png",
+        type: "Consultation at the patient's home"
       },
       {
         id: 4,
@@ -575,6 +578,7 @@ export const doctors = [
         timeTo: "09:30 AM",
         status: "pending",
         image: "user.png",
+        type: "Consultation at the doctor's office"
       },
       {
         id: 5,
@@ -585,6 +589,7 @@ export const doctors = [
         timeTo: "08:00 PM",
         status: "completed",
         image: "user.png",
+        type: "online Conversation, voice or video call"
       },
       {
         id: 6,
@@ -595,6 +600,7 @@ export const doctors = [
         timeTo: "10:30 AM",
         status: "pending",
         image: "user.png",
+        type: "Consultation at the patient's home"
       },
       {
         id: 7,
@@ -605,6 +611,7 @@ export const doctors = [
         timeTo: "11:30 AM",
         status: "completed",
         image: "user.png",
+        type: "Consultation at the doctor's office"
       },
       {
         id: 8,
@@ -615,6 +622,7 @@ export const doctors = [
         timeTo: "02:30 PM",
         status: "canceled",
         image: "user.png",
+        type: "Consultation at the patient's home"
       },
       {
         id: 9,
@@ -625,6 +633,7 @@ export const doctors = [
         timeTo: "03:30 PM",
         status: "canceled",
         image: "user.png",
+        type: "Consultation at the doctor's office"
       },
       {
         id: 10,
@@ -635,6 +644,7 @@ export const doctors = [
         timeTo: "09:30 AM",
         status: "pending",
         image: "user.png",
+        type: "online Conversation, voice or video call"
       },
       {
         id: 11,
@@ -645,6 +655,7 @@ export const doctors = [
         timeTo: "11:00 AM",
         status: "completed",
         image: "user.png",
+        type: "Consultation at the patient's home"
       },
       {
         id: 12,
@@ -655,6 +666,7 @@ export const doctors = [
         timeTo: "01:30 PM",
         status: "completed",
         image: "user.png",
+        type: "Consultation at the doctor's office"
       },
       {
         id: 13,
@@ -665,6 +677,7 @@ export const doctors = [
         timeTo: "03:30 PM",
         status: "canceled",
         image: "user.png",
+        type: "Consultation at the patient's home"
       },
       {
         id: 14,
@@ -675,6 +688,7 @@ export const doctors = [
         timeTo: "09:00 AM",
         status: "pending",
         image: "user.png",
+        type: "Consultation at the doctor's office"
       },
       {
         id: 15,
@@ -685,6 +699,7 @@ export const doctors = [
         timeTo: "04:30 PM",
         status: "completed",
         image: "user.png",
+        type: "online Conversation, voice or video call"
       },
       {
         id: 16,
@@ -695,6 +710,7 @@ export const doctors = [
         timeTo: "12:30 PM",
         status: "pending",
         image: "user.png",
+        type: "Consultation at the patient's home"
       },
     ],
   },
@@ -4944,6 +4960,8 @@ export const laboratories = [
     ],
   },
 ];
+
+
 export const specializedDoctors = [
   "Cardiology",
   "Dermatology",
@@ -4990,98 +5008,6 @@ export const cities = [
   "Laayoune",
   "Errachidia",
 ];
-// export const messagesData = [
-//   {
-//     idMessage: 1,
-//     idvisitor: 101,
-//     iddoctor: 201,
-//     dateMes: "2025-03-01 14:30:00",
-//     content: "Hello doctor, I need an appointment.",
-//     messageFrom: "visitor",
-//     messageTo: "doctor"
-//   },
-//   {
-//     idMessage: 2,
-//     idvisitor: 101,
-//     iddoctor: 201,
-//     dateMes: "2025-03-01 14:32:00",
-//     content: "Sure, when would you be available?",
-//     messageFrom: "doctor",
-//     messageTo: "visitor"
-//   },
-//   {
-//     idMessage: 3,
-//     idvisitor: 101,
-//     iddoctor: 201,
-//     dateMes: "2025-03-01 14:35:00",
-//     content: "Tomorrow at 10 AM.",
-//     messageFrom: "visitor",
-//     messageTo: "doctor"
-//   },
-//   {
-//     idMessage: 4,
-//     idvisitor: 101,
-//     iddoctor: 201,
-//     dateMes: "2025-03-01 14:37:00",
-//     content: "Okay, I have scheduled your appointment.",
-//     messageFrom: "doctor",
-//     messageTo: "visitor"
-//   },
-//   {
-//     idMessage: 5,
-//     idvisitor: 102,
-//     iddoctor: 202,
-//     dateMes: "2025-03-02 10:00:00",
-//     content: "Good morning, doctor. I have a headache.",
-//     messageFrom: "visitor",
-//     messageTo: "doctor"
-//   },
-//   {
-//     idMessage: 6,
-//     idvisitor: 102,
-//     iddoctor: 202,
-//     dateMes: "2025-03-02 10:05:00",
-//     content: "Have you taken any medicine?",
-//     messageFrom: "doctor",
-//     messageTo: "visitor"
-//   },
-//   {
-//     idMessage: 7,
-//     idvisitor: 102,
-//     iddoctor: 202,
-//     dateMes: "2025-03-02 10:10:00",
-//     content: "No, I haven't taken anything yet.",
-//     messageFrom: "visitor",
-//     messageTo: "doctor"
-//   },
-//   {
-//     idMessage: 8,
-//     idvisitor: 103,
-//     iddoctor: 203,
-//     dateMes: "2025-03-03 16:45:00",
-//     content: "Doctor, my blood pressure is high.",
-//     messageFrom: "visitor",
-//     messageTo: "doctor"
-//   },
-//   {
-//     idMessage: 9,
-//     idvisitor: 103,
-//     iddoctor: 203,
-//     dateMes: "2025-03-03 16:50:00",
-//     content: "Are you feeling dizzy or having chest pain?",
-//     messageFrom: "doctor",
-//     messageTo: "visitor"
-//   },
-//   {
-//     idMessage: 10,
-//     idvisitor: 103,
-//     iddoctor: 203,
-//     dateMes: "2025-03-03 16:55:00",
-//     content: "No, just a slight headache.",
-//     messageFrom: "visitor",
-//     messageTo: "doctor"
-//   }
-// ];
 
 export const conversations = [
   {

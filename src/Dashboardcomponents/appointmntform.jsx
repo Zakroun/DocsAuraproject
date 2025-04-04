@@ -15,12 +15,14 @@ export default function AppointmentForm({ user, Use, onSubmitFeedback }) {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [User, setuser] = useState(user);
+  const [isVideoCall, setIsVideoCall] = useState(true);
   const dispatch = useDispatch();
   const [selectedFile, setSelectedFile] = useState(null);
   const [complete, setcomplete] = useState(false);
   const [cancelReason, setCancelReason] = useState("");
   const [showConfirm, setShowConfirm] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
+  const [call, setcall] = useState(false);
   const [formData, setFormData] = useState({
     diagnosis: "",
     prescription: "",
@@ -28,6 +30,9 @@ export default function AppointmentForm({ user, Use, onSubmitFeedback }) {
     rating: "",
     feedback: "",
   });
+  const toggleCallMode = () => {
+    setIsVideoCall((prev) => !prev);
+  };
   const [isSaved, setIsSaved] = useState(false);
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(null);
@@ -145,71 +150,106 @@ export default function AppointmentForm({ user, Use, onSubmitFeedback }) {
           </div>
         </div>
       )}
-      <div className="appointment-container">
-        <div className="appointment_card">
-          <div className="user-info">
-            <img
-              src={`../images/${User.image}`}
-              alt={User.fullName}
-              className="user-image"
-            />
-            <h2 className="user-name">{User.fullName}</h2>
-            <p className="user-location">{User.location}</p>
-            <p>
-              📅 Date: <span>{User.date}</span>
-            </p>
-            <p>
-              ⏰ Time:{" "}
-              <span>
-                {User.timeFrom} - {User.timeTo}
+      {call !== true ? (
+        <div className="appointment-container">
+          <div className="appointment_card">
+            <div className="user-info">
+              <img
+                src={`../images/${User.image}`}
+                alt={User.fullName}
+                className="user-image"
+              />
+              <h2 className="user-name">{User.fullName}</h2>
+              <p className="user-location">{User.location}</p>
+              <p className="user-type-appointemnt">{User.type}</p>
+              <p>
+                📅 Date: <span>{User.date}</span>
+              </p>
+              <p>
+                ⏰ Time:{" "}
+                <span>
+                  {User.timeFrom} - {User.timeTo}
+                </span>
+              </p>
+              <span
+                className={`status ${User.status}`}
+                style={{ width: "200px" }}
+              >
+                {User.status === "completed" && (
+                  <FontAwesomeIcon icon={faCheckCircle} />
+                )}
+                {User.status === "pending" && (
+                  <FontAwesomeIcon icon={faClock} />
+                )}
+                {User.status === "canceled" && (
+                  <FontAwesomeIcon icon={faTimesCircle} />
+                )}
+                {User.status}
               </span>
-            </p>
-            <span
-              className={`status ${User.status}`}
-              style={{ width: "200px" }}
-            >
-              {User.status === "completed" && (
-                <FontAwesomeIcon icon={faCheckCircle} />
-              )}
-              {User.status === "pending" && <FontAwesomeIcon icon={faClock} />}
-              {User.status === "canceled" && (
-                <FontAwesomeIcon icon={faTimesCircle} />
-              )}
-              {User.status}
-            </span>
-            <br />
-            {User.status === "pending" && (Use.Role === "laboratori" || Use.Role === "doctor" || Use.Role === "clinic") && (
-              <>
-                <button
-                  className="complet"
-                  onClick={() => setcomplete("completed")}
-                >
-                  Complete
-                </button>
+              <br />
+              {User.status === "pending" &&
+                (Use.Role === "laboratori" ||
+                  Use.Role === "doctor" ||
+                  Use.Role === "clinic") && (
+                  <>
+                    <button
+                      className="complet"
+                      onClick={() => setcomplete("completed")}
+                    >
+                      Complete
+                    </button>
+                    <button
+                      className="cancel"
+                      onClick={() => setcomplete("canceled")}
+                    >
+                      Cancel
+                    </button>
+                    {User.type ===
+                      "online Conversation, voice or video call" && (
+                      <button className="call" onClick={() => setcall(true)}>
+                        Call
+                      </button>
+                    )}
+                  </>
+                )}
+              {User.status === "pending" && Use.Role === "patient" && (
                 <button
                   className="cancel"
                   onClick={() => setcomplete("canceled")}
                 >
                   Cancel
                 </button>
-              </>
-            )}
-            {User.status === "pending" && Use.Role === "patient" && (
-              <button
-              className="cancel"
-              onClick={() => setcomplete("canceled")}
-            >
-              Cancel
-            </button>
-            )}
-            {User.status === "completed" && Use.Role === "patient" && (
-              <button className="confirm" onClick={handleConfirmAppointment}>
-                Confirmer
-              </button>
-            )}
+              )}
+              {User.status === "completed" && Use.Role === "patient" && (
+                <button className="confirm" onClick={handleConfirmAppointment}>
+                  Confirmer
+                </button>
+              )}
+            </div>
           </div>
         </div>
+      ) : (
+        <div className="call-container">
+      <h1>
+        In {isVideoCall ? "Video" : "Voice"} Call with{" "}
+        <span className="caller-name">{User.fullName}</span>
+      </h1>
+
+      <div className="status-indicator">
+        <span className="status-dot"></span>
+        <span className="status-text">Call in progress...</span>
       </div>
+
+      <div className="call-actions">
+        <button onClick={toggleCallMode} className="toggle-call-mode">
+          Switch to {isVideoCall ? "Voice" : "Video"} Call
+        </button>
+        <button onClick={() => setcall(false)} className="end-call">
+          End Call
+        </button>
+      </div>
+    </div>
+      )}
 
       <div className="appointment-form">
         {complete === "completed" ? (

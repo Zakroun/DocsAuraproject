@@ -2,8 +2,12 @@ import { Link } from "react-router-dom";
 import { FaFacebook, FaInstagram, FaTiktok, FaTwitter } from "react-icons/fa";
 import { useRef, useEffect, useState } from "react";
 import { FaRegUserCircle } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { changecurrentpage } from "../data/DocsauraSlice";
 export default function Header() {
   const [profile, setprofile] = useState(false);
+  const currentpage = useSelector(s=>s.Docsaura.currentpage)
+  const [pagestate , setpage] = useState(currentpage)
   const menuRef = useRef(null);
   const toggleMenu = () => {
     if (menuRef.current) {
@@ -14,6 +18,10 @@ export default function Header() {
       }
     }
   };
+  useEffect(()=>{
+    setpage(currentpage)
+    console.log(currentpage)
+  },[currentpage])
   useEffect(() => {
     const handleScroll = () => {
       if (menuRef.current) {
@@ -25,6 +33,7 @@ export default function Header() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+  const dispatch = useDispatch();
   return (
     <div className="header">
       <div className="part1header">
@@ -101,22 +110,22 @@ export default function Header() {
           )}
         </div>
         <div className="linksdiv">
-          <Link to="/" className="links">
+          <Link to="/" onClick={()=>dispatch(changecurrentpage('home'))} className={`links ${pagestate === "home" ? "active" : ""}`}>
             HOME
           </Link>
-          <Link to="/pages/About" className="links">
+          <Link to="/pages/About" onClick={()=>dispatch(changecurrentpage('About'))} className={`links ${pagestate === "About" ? "active" : ""}`}>
             ABOUT
           </Link>
-          <Link to="/pages/Doctors" className="links">
+          <Link to="/pages/Doctors" onClick={()=>dispatch(changecurrentpage('Doctors'))} className={`links ${pagestate === "Doctors" ? "active" : ""}`}>
             DOCTORS
           </Link>
-          <Link to="/pages/Clinical" className="links">
+          <Link to="/pages/Clinical" onClick={()=>dispatch(changecurrentpage('Clinical'))} className={`links ${pagestate === "Clinical" ? "active" : ""}`}>
             CLINICS
           </Link>
-          <Link to="/pages/Laboratories" className="links">
+          <Link to="/pages/Laboratories" onClick={()=>dispatch(changecurrentpage('Laboratories'))} className={`links ${pagestate === "Laboratories" ? "active" : ""}`}>
             LABORATORIES
           </Link>
-          <Link to="/pages/Contact" className="links">
+          <Link to="/pages/Contact" className='links'>
             CONTACT
           </Link>
         </div>
