@@ -1,4 +1,6 @@
+import { Link } from "react-router-dom";
 import { useState } from "react";
+import { RiCloseLargeLine } from "react-icons/ri";
 export default function NewPass() {
   const [newPass, setNewPass] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
@@ -26,6 +28,7 @@ export default function NewPass() {
   };
   return (
     <div className="NewPass">
+      <Link to={'/'}><button className="X_button"><RiCloseLargeLine size={25}/></button></Link>
       <h2 id="h2code">Please enter the new Password</h2>
       <form action="" method="post">
         {valid && (

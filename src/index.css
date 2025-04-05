@@ -112,7 +112,7 @@ body {
   width: 120px;
 }
 #h1 {
-  margin-left: 80px;
+  margin-left: 100px;
 }
 #h3 {
   margin-left: 90px;
@@ -208,7 +208,17 @@ body {
   width: 100%;
   cursor: pointer;
 }
-
+.X_button{
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: white;
+  border: none;
+  cursor: pointer;
+}
+.X_button:hover {
+  color: #007b79;
+}
 /* Box */
 .cl-checkbox > span::before {
   content: "";
@@ -3604,8 +3614,7 @@ h1 {
   font-weight: 500;
 }
 
-.appointment_card,
-.call-container {
+.appointment_card{
   background-color: #ffffff;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
@@ -3691,14 +3700,48 @@ h1 {
     transform: translateY(0);
   }
 }
+/* Call */
+.call-container {
+  max-width: 500px;
+  margin: 20px auto;
+  margin-bottom: 20px;
+  padding: 24px;
+  background-color: #1a1a1a;
+  color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+}
+
 .call-container h1 {
   font-size: 24px;
   margin-bottom: 12px;
 }
 
 .caller-name {
-  color: #007b79;
+  color: #00b3a4;
   font-weight: bold;
+}
+.user-info2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.user-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 8px;
+  border: 2px solid #00b3a4;
+}
+.call-time {
+  font-size: 14px;
+  color: #cccccc;
+  margin-top: 4px;
 }
 
 .status-indicator {
@@ -3722,27 +3765,55 @@ h1 {
   color: #cccccc;
 }
 
-.call-actions {
+.video-preview {
+  margin-bottom: 16px;
+}
+
+.my-video {
+  width: 100%;
+  max-width: 320px;
+  border-radius: 16px;
+  border: 2px solid #00b3a4;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.call-controls {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.toggle-call-mode,
+.call-controls button {
+  background-color: #007b79;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 9999px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.toggle-call-mode:hover,
+.call-controls button:hover {
+  background-color: #00504e;
 }
 
 .end-call {
   background-color: #ef4444;
   color: #ffffff;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 9999px;
-  font-size: 16px;
   font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
 .end-call:hover {
   background-color: #dc2626;
 }
 
+/* Pulse Animation */
 @keyframes pulse {
   0% {
     transform: scale(1);
@@ -3756,22 +3827,6 @@ h1 {
     transform: scale(1);
     opacity: 0.7;
   }
-}
-.toggle-call-mode {
-  background-color: #007b79;
-  color: #ffffff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 9999px;
-  font-size: 14px;
-  font-weight: 500;
-  margin-right: 12px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.toggle-call-mode:hover {
-  background-color: #00504e;
 }
 
 .calendar-day {

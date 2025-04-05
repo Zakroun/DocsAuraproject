@@ -5,7 +5,11 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { changecurrentpage } from "../data/DocsauraSlice";
 export default function Header() {
-  const [profile, setprofile] = useState(false);
+  const p = useSelector(s=>s.Docsaura.profile)
+  const [profile, setprofile] = useState(p);
+  useEffect(()=>{
+    setprofile(p)
+  },[p])
   const currentpage = useSelector(s=>s.Docsaura.currentpage)
   const [pagestate , setpage] = useState(currentpage)
   const menuRef = useRef(null);

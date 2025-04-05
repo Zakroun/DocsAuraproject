@@ -1,4 +1,6 @@
+import { Link } from "react-router-dom";
 import { useState } from "react";
+import { RiCloseLargeLine } from "react-icons/ri";
 
 export default function Register() {
   const [fullname, setfullname] = useState("");
@@ -49,6 +51,7 @@ export default function Register() {
   };
   return (
     <div className="Register">
+      <Link to={'/'}><button className="X_button"><RiCloseLargeLine size={25}/></button></Link>
       <h1 id="h1">Create Account</h1>
       <form action="" method="post">
       {valid && (

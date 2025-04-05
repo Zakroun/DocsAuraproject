@@ -1,5 +1,7 @@
 
+import { Link } from "react-router-dom";
 import { useState } from "react";
+import { RiCloseLargeLine } from "react-icons/ri";
 export default function CodeConfirm() {
   const [code, setCode] = useState("");
   const [valid, setvalid] = useState(false);
@@ -17,6 +19,7 @@ export default function CodeConfirm() {
   };
   return (
     <div className="CodeConfirm">
+      <Link to={'/'}><button className="X_button"><RiCloseLargeLine size={25}/></button></Link>
       <h2 id="h2code">Please enter confirmation code</h2>
       <form action="" method="post">
       {valid && (

@@ -1,6 +1,8 @@
 import { useForm, ValidationError } from "@formspree/react";
-import { useState, useEffect } from "react";
-
+import {  useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import { RiCloseLargeLine } from "react-icons/ri";
 export default function ContactForm() {
   const [state, handleSubmit] = useForm("mvgzaeyy");
   const [formData, setFormData] = useState({ email: "", message: "" });
@@ -22,6 +24,7 @@ export default function ContactForm() {
 
   return (
     <div className="ContactForm">
+      <Link to={'/'}><button className="X_button"><RiCloseLargeLine size={25}/></button></Link>
       {submitted ? (
         <p>Thanks for your message! Redirecting...</p>
       ) : (

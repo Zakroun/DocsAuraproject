@@ -1,7 +1,10 @@
+import { Link } from "react-router-dom";
 import { useState } from "react";
+import { RiCloseLargeLine } from "react-icons/ri";
 import { specializedDoctors } from "../data/data";
 
 export default function Activate(props) {
+    
     const [formData, setFormData] = useState({
         address: "",
         insuranceType: "", 
@@ -44,6 +47,7 @@ export default function Activate(props) {
 
     return (
         <div className="activate-form">
+            <Link to={'/pages/Dashboard'}><button className="X_button"><RiCloseLargeLine size={25}/></button></Link>
             <h1>Activate Your Account</h1>
             {valid && (
                 <div className="error">

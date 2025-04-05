@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { changeboard, changestatus } from "../data/DocsauraSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,10 +12,47 @@ import { FaStar } from "react-icons/fa";
 import { jsPDF } from "jspdf";
 
 export default function AppointmentForm({ user, Use, onSubmitFeedback }) {
+  // call duration state
+  const [isVideoCall, setIsVideoCall] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
+  const [speakerOn, setSpeakerOn] = useState(true);
+  const [cameraOn, setCameraOn] = useState(true);
+  const [callDuration, setCallDuration] = useState(0);
+  const [localStream, setLocalStream] = useState(null);
+  const videoRef = useRef(null);
+
+  const toggleMute = () => setIsMuted((prev) => !prev);
+  const toggleSpeaker = () => setSpeakerOn((prev) => !prev);
+  const toggleCamera = () => setCameraOn((prev) => !prev);
+
+  // useEffect(() => {
+  //   const interval = setInterval(() => setCallDuration((prev) => prev + 1), 1000);
+  //   return () => clearInterval(interval);
+  // }, []);
+
+  useEffect(() => {
+    if (isVideoCall && cameraOn) {
+      navigator.mediaDevices
+        .getUserMedia({ video: true, audio: true })
+        .then((stream) => {
+          setLocalStream(stream);
+          if (videoRef.current) videoRef.current.srcObject = stream;
+        });
+    } else {
+      if (localStream) {
+        localStream.getTracks().forEach((track) => track.stop());
+        setLocalStream(null);
+      }
+    }
+  }, [isVideoCall, cameraOn]);
+  const formatDuration = (seconds) => {
+    const mins = String(Math.floor(seconds / 60)).padStart(2, "0");
+    const secs = String(seconds % 60).padStart(2, "0");
+    return `${mins}:${secs}`;
+  };
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [User, setuser] = useState(user);
-  const [isVideoCall, setIsVideoCall] = useState(true);
   const dispatch = useDispatch();
   const [selectedFile, setSelectedFile] = useState(null);
   const [complete, setcomplete] = useState(false);
@@ -133,7 +170,6 @@ export default function AppointmentForm({ user, Use, onSubmitFeedback }) {
       </div>
     );
   }
-
   return (
     <>
       {successMessage && (
@@ -230,25 +266,52 @@ export default function AppointmentForm({ user, Use, onSubmitFeedback }) {
         </div>
       ) : (
         <div className="call-container">
-      <h1>
-        In {isVideoCall ? "Video" : "Voice"} Call with{" "}
-        <span className="caller-name">{User.fullName}</span>
-      </h1>
+          <h1>
+            In {isVideoCall ? "Video" : "Voice"} Call with{" "}
+            <span className="caller-name">{User.fullName}</span>
+          </h1>
 
-      <div className="status-indicator">
-        <span className="status-dot"></span>
-        <span className="status-text">Call in progress...</span>
-      </div>
+          <div className="user-info2">
+            <img
+              src={`../images/${User.image}`}
+              alt="User"
+              className="user-avatar"
+            />
+            <p>{User.fullName}</p>
+            <span className="call-time">{formatDuration(callDuration)}</span>
+          </div>
 
-      <div className="call-actions">
-        <button onClick={toggleCallMode} className="toggle-call-mode">
-          Switch to {isVideoCall ? "Voice" : "Video"} Call
-        </button>
-        <button onClick={() => setcall(false)} className="end-call">
-          End Call
-        </button>
-      </div>
-    </div>
+          <div className="status-indicator">
+            <span className="status-dot"></span>
+            <span className="status-text">Call in progress...</span>
+          </div>
+
+          {isVideoCall && cameraOn && (
+            <div className="video-preview">
+              <video ref={videoRef} autoPlay muted className="my-video" />
+            </div>
+          )}
+
+          <div className="call-controls">
+            <button onClick={toggleCallMode} className="toggle-call-mode">
+              Switch to {isVideoCall ? "Voice" : "Video"} Call
+            </button>
+            <button onClick={toggleMute}>
+              {isMuted ? "Unmute Mic" : "Mute Mic"}
+            </button>
+            <button onClick={toggleSpeaker}>
+              {speakerOn ? "Disable Speaker" : "Enable Speaker"}
+            </button>
+            {isVideoCall && (
+              <button onClick={toggleCamera}>
+                {cameraOn ? "Turn Off Camera" : "Turn On Camera"}
+              </button>
+            )}
+            <button onClick={() => setcall(false)} className="end-call">
+              End Call
+            </button>
+          </div>
+        </div>
       )}
 
       <div className="appointment-form">

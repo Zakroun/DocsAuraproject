@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-
+import { RiCloseLargeLine } from "react-icons/ri";
 export default function Login() {
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
@@ -19,6 +19,7 @@ export default function Login() {
   };
   return (
     <div className="login">
+      <Link to={'/'}><button className="X_button"><RiCloseLargeLine size={25}/></button></Link>
       <h1 id="h1">Welcome back !</h1>
       <h3 id="h3">Please enter your details</h3>
       <form action="" method="post">

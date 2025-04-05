@@ -1,5 +1,7 @@
 
+import { Link } from "react-router-dom";
 import { useState } from "react";
+import { RiCloseLargeLine } from "react-icons/ri";
 export default function ConfirmEmail() {
   const [email, setemail] = useState("");
   const [valid, setvalid] = useState(false);
@@ -18,6 +20,7 @@ export default function ConfirmEmail() {
   return (
     <div className="ForgetPass">
       <form action="" method="post">
+        <Link to={'/'}><button className="X_button"><RiCloseLargeLine size={25}/></button></Link>
       <h2 id="h2email">
           Please enter your Email to send <br /> confirmation code
         </h2>
