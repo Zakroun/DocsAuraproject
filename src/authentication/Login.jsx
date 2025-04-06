@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { RiCloseLargeLine } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
+import { changecurrentpage } from "../data/DocsauraSlice";
+import { useDispatch } from "react-redux";
 export default function Login() {
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
@@ -17,9 +20,15 @@ export default function Login() {
       window.location.href = "/";
     }
   };
+  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const Movetohome = ()=>{
+    navigate('/')
+    dispatch(changecurrentpage('home'))
+  }
   return (
     <div className="login">
-      <Link to={'/'}><button className="X_button"><RiCloseLargeLine size={25}/></button></Link>
+      <button onClick={Movetohome} className="X_button"><RiCloseLargeLine size={25}/></button>
       <h1 id="h1">Welcome back !</h1>
       <h3 id="h3">Please enter your details</h3>
       <form action="" method="post">

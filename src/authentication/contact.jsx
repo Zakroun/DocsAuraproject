@@ -1,8 +1,11 @@
 import { useForm, ValidationError } from "@formspree/react";
 import {  useEffect } from "react";
-import { Link } from "react-router-dom";
+
 import { useState } from "react";
 import { RiCloseLargeLine } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
+import { changecurrentpage } from "../data/DocsauraSlice";
+import { useDispatch } from "react-redux";
 export default function ContactForm() {
   const [state, handleSubmit] = useForm("mvgzaeyy");
   const [formData, setFormData] = useState({ email: "", message: "" });
@@ -21,10 +24,15 @@ export default function ContactForm() {
       }, 1000); // Redirect after 2 seconds
     }
   }, [state.succeeded]);
-
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const Movetohome = () => {
+    navigate("/");
+    dispatch(changecurrentpage("home"));
+  };
   return (
     <div className="ContactForm">
-      <Link to={'/'}><button className="X_button"><RiCloseLargeLine size={25}/></button></Link>
+      <button onClick={Movetohome} className="X_button"><RiCloseLargeLine size={25}/></button>
       {submitted ? (
         <p>Thanks for your message! Redirecting...</p>
       ) : (

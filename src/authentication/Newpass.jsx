@@ -1,6 +1,9 @@
-import { Link } from "react-router-dom";
+
 import { useState } from "react";
 import { RiCloseLargeLine } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
+import { changecurrentpage } from "../data/DocsauraSlice";
+import { useDispatch } from "react-redux";
 export default function NewPass() {
   const [newPass, setNewPass] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
@@ -26,9 +29,15 @@ export default function NewPass() {
       window.location.href = "/";
     }
   };
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const Movetohome = () => {
+    navigate("/");
+    dispatch(changecurrentpage("home"));
+  };
   return (
     <div className="NewPass">
-      <Link to={'/'}><button className="X_button"><RiCloseLargeLine size={25}/></button></Link>
+      <button onClick={Movetohome} className="X_button"><RiCloseLargeLine size={25}/></button>
       <h2 id="h2code">Please enter the new Password</h2>
       <form action="" method="post">
         {valid && (

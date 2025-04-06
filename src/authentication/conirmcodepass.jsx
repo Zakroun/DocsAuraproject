@@ -1,7 +1,10 @@
 
-import { Link } from "react-router-dom";
+
 import { useState } from "react";
 import { RiCloseLargeLine } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
+import { changecurrentpage } from "../data/DocsauraSlice";
+import { useDispatch } from "react-redux";
 export default function CodeConfirm() {
   const [code, setCode] = useState("");
   const [valid, setvalid] = useState(false);
@@ -17,9 +20,15 @@ export default function CodeConfirm() {
       window.location.href = "/pages/newpass";
     }
   };
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const Movetohome = () => {
+    navigate("/");
+    dispatch(changecurrentpage("home"));
+  };
   return (
     <div className="CodeConfirm">
-      <Link to={'/'}><button className="X_button"><RiCloseLargeLine size={25}/></button></Link>
+      <button onClick={Movetohome} className="X_button"><RiCloseLargeLine size={25}/></button>
       <h2 id="h2code">Please enter confirmation code</h2>
       <form action="" method="post">
       {valid && (

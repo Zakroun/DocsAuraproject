@@ -1,7 +1,9 @@
-import { Link } from "react-router-dom";
+
 import { useState } from "react";
 import { RiCloseLargeLine } from "react-icons/ri";
-
+import { useNavigate } from "react-router-dom";
+import { changecurrentpage } from "../data/DocsauraSlice";
+import { useDispatch } from "react-redux";
 export default function Register() {
   const [fullname, setfullname] = useState("");
   const [email, setemail] = useState("");
@@ -49,9 +51,15 @@ export default function Register() {
       window.location.href = "/pages/codeconfirm";
     }
   };
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const Movetohome = () => {
+    navigate("/");
+    dispatch(changecurrentpage("home"));
+  };
   return (
     <div className="Register">
-      <Link to={'/'}><button className="X_button"><RiCloseLargeLine size={25}/></button></Link>
+      <button onClick={Movetohome} className="X_button"><RiCloseLargeLine size={25}/></button>
       <h1 id="h1">Create Account</h1>
       <form action="" method="post">
       {valid && (

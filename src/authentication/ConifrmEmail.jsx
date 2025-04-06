@@ -1,7 +1,10 @@
 
-import { Link } from "react-router-dom";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { RiCloseLargeLine } from "react-icons/ri";
+// import { useNavigate } from "react-router-dom";
+// import { changecurrentpage } from "../data/DocsauraSlice";
+// import { useDispatch } from "react-redux";
 export default function ConfirmEmail() {
   const [email, setemail] = useState("");
   const [valid, setvalid] = useState(false);
@@ -17,11 +20,19 @@ export default function ConfirmEmail() {
       window.location.href = "/pages/codeconfirmforget";
     }
   };
+  // const navigate = useNavigate();
+  // const dispatch = useDispatch();
+  // const Movetohome = () => {
+  //   navigate("/");
+  //   dispatch(changecurrentpage("home"));
+  // };
   return (
     <div className="ForgetPass">
       <form action="" method="post">
-        <Link to={'/'}><button className="X_button"><RiCloseLargeLine size={25}/></button></Link>
-      <h2 id="h2email">
+        <Link to={'/'}><button  className="X_button">
+          <RiCloseLargeLine size={25} />
+        </button></Link>
+        <h2 id="h2email">
           Please enter your Email to send <br /> confirmation code
         </h2>
         {valid && (
@@ -67,7 +78,9 @@ export default function ConfirmEmail() {
           onChange={(e) => setemail(e.target.value)}
         />
         <br />
-          <button id="btn" onClick={Submit}>Send</button>
+        <button id="btn" onClick={Submit}>
+          Send
+        </button>
       </form>
     </div>
   );
