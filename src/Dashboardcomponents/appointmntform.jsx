@@ -29,22 +29,36 @@ export default function AppointmentForm({ user, Use, onSubmitFeedback }) {
   //   const interval = setInterval(() => setCallDuration((prev) => prev + 1), 1000);
   //   return () => clearInterval(interval);
   // }, []);
-
   useEffect(() => {
-    if (isVideoCall && cameraOn) {
-      navigator.mediaDevices
-        .getUserMedia({ video: true, audio: true })
-        .then((stream) => {
-          setLocalStream(stream);
-          if (videoRef.current) videoRef.current.srcObject = stream;
+    const startStream = async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: true,
+          audio: true,
         });
-    } else {
-      if (localStream) {
-        localStream.getTracks().forEach((track) => track.stop());
-        setLocalStream(null);
+        setLocalStream(stream);
+        if (videoRef.current) videoRef.current.srcObject = stream;
+      } catch (err) {
+        console.error("Permission error:", err);
+        setErrorMessage("Camera/Mic permission denied.");
+        setTimeout(() => setErrorMessage(""), 3000);
+        setIsVideoCall(false);
+        setCameraOn(false);
       }
+    };
+  
+    if (isVideoCall && cameraOn && !localStream) {
+      startStream();
     }
-  }, [isVideoCall, cameraOn]);
+  
+    if ((!isVideoCall || !cameraOn) && localStream) {
+      localStream.getTracks().forEach((track) => track.stop());
+      if (videoRef.current) videoRef.current.srcObject = null;
+      setLocalStream(null);
+    }
+  }, [isVideoCall, cameraOn, localStream]);
+
+  
   const formatDuration = (seconds) => {
     const mins = String(Math.floor(seconds / 60)).padStart(2, "0");
     const secs = String(seconds % 60).padStart(2, "0");
@@ -173,15 +187,15 @@ export default function AppointmentForm({ user, Use, onSubmitFeedback }) {
   return (
     <>
       {successMessage && (
-        <div className="notification-top">
-          <div className="notification success">
+        <div className="custom-notification-top">
+          <div className="custom-notification success">
             <p>{successMessage}</p>
           </div>
         </div>
       )}
       {errorMessage && (
-        <div className="notification-top">
-          <div className="notification error">
+        <div className="custom-notification-top">
+          <div className="custom-notification error">
             <p>{errorMessage}</p>
           </div>
         </div>

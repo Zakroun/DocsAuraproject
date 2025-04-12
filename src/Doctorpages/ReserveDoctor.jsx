@@ -3,11 +3,13 @@ import { useState } from "react";
 import { PiVideoConferenceFill } from "react-icons/pi";
 import { MdOutlinePayment } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import { changecurrentpage } from "../data/DocsauraSlice";
+// import { useEffect } from "react";
 export default function DoctorReserve(props) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [errorMessage, seterrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const dispatch = useDispatch();
   const Ldoctor = useSelector((s) => s.Docsaura.doctors);
   const doctor = Ldoctor.find((a) => a.id === props.id);
   const [content1, setcontent1] = useState("block");
@@ -30,28 +32,45 @@ export default function DoctorReserve(props) {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+  // useEffect(() => {
+  //   if (formData.paymentMethod === "") {
+  //     seterrorMessage("Please fill payment Method");
+  //     setTimeout(() => {
+  //       seterrorMessage("");
+  //     }, 3000);
+  //     return;
+  //   }
+  // }, [formData.paymentMethod]);
 
   const handleSubmit = (e) => {
+    console.log("paymentMethod : ", formData.paymentMethod);
     e.preventDefault();
     if (content2 === "block") {
       if (formData.paymentMethod === "credit-card") {
-        if (formData.cardNumber || formData.expiryDate || formData.cvv) {
+        if (
+          formData.cardNumber === "" ||
+          formData.expiryDate === "" ||
+          formData.cvv === ""
+        ) {
           seterrorMessage("Please fill in all the credit card details");
           setTimeout(() => {
             seterrorMessage("");
           }, 3000);
           return;
         }
+      } else {
+        setSuccessMessage("Appointment successfully booked");
+        setTimeout(() => {
+          setSuccessMessage("");
+          navigate("/");
+          dispatch(changecurrentpage("home"));
+        }, 3000);
       }
     }
-    setSuccessMessage("Appointment successfully booked");
-    setTimeout(() => {
-      setSuccessMessage("");
-    }, 3000);
   };
 
   const Next = () => {
-    console.log(formData)
+    console.log(formData);
     if (
       formData.fullName === "" ||
       formData.email === "" ||
@@ -75,19 +94,19 @@ export default function DoctorReserve(props) {
   };
   return (
     <div className="divreserve">
-      {successMessage && (
-        <div className="notification-top">
-          <div className="notification success">
-            Appointment added successfully
+      <div className="custom">
+        {successMessage && (
+          <div className="custom-notification-top">
+            <div className="custom-notification success">{successMessage}</div>
           </div>
-        </div>
-      )}
+        )}
 
-      {errorMessage && (
-        <div className="notification-top">
-          <div className="notification error">{errorMessage}</div>
-        </div>
-      )}
+        {errorMessage && (
+          <div className="custom-notification-top">
+            <div className="custom-notification error">{errorMessage}</div>
+          </div>
+        )}
+      </div>
       <h1>Book a consultation with , {doctor.fullName}</h1>
       <div className="part1serve">
         <div className="spancontent">
@@ -104,7 +123,6 @@ export default function DoctorReserve(props) {
               placeholder="Full Name"
               value={formData.fullName}
               onChange={handleChange}
-              required
             />
             <input
               type="email"
@@ -113,7 +131,6 @@ export default function DoctorReserve(props) {
               placeholder="Email"
               value={formData.email}
               onChange={handleChange}
-              required
             />
             <input
               style={{ marginRight: "20px" }}
@@ -123,7 +140,6 @@ export default function DoctorReserve(props) {
               placeholder="Phone"
               value={formData.phone}
               onChange={handleChange}
-              required
             />
             <input
               type="text"
@@ -132,7 +148,6 @@ export default function DoctorReserve(props) {
               placeholder="CIN"
               value={formData.cin}
               onChange={handleChange}
-              required
             />
             <br />
             <input
@@ -143,7 +158,12 @@ export default function DoctorReserve(props) {
               value={formData.description}
               onChange={handleChange}
             />
-            <select name="consultationType" id="consultationType" value={formData.consultationType} onChange={handleChange}>
+            <select
+              name="consultationType"
+              id="consultationType"
+              value={formData.consultationType}
+              onChange={handleChange}
+            >
               <option value=""> Select consultation type</option>
               {doctor.consultationTypes.map((c, i) => {
                 return (
@@ -161,7 +181,6 @@ export default function DoctorReserve(props) {
               name="date"
               value={formData.date}
               onChange={handleChange}
-              required
             />
             <input
               type="time"
@@ -169,7 +188,6 @@ export default function DoctorReserve(props) {
               name="time"
               value={formData.time}
               onChange={handleChange}
-              required
             />{" "}
             <br />
             <button id="btn" type="button" onClick={Next}>
@@ -207,7 +225,6 @@ export default function DoctorReserve(props) {
                   placeholder="Card Number"
                   value={formData.cardNumber}
                   onChange={handleChange}
-                  required
                 />
                 <input
                   style={{ marginRight: "10px" }}
@@ -217,7 +234,6 @@ export default function DoctorReserve(props) {
                   placeholder="Expiry Date (MM/YY)"
                   value={formData.expiryDate}
                   onChange={handleChange}
-                  required
                 />
                 <input
                   style={{ marginRight: "10px" }}
@@ -227,7 +243,6 @@ export default function DoctorReserve(props) {
                   placeholder="CVV"
                   value={formData.cvv}
                   onChange={handleChange}
-                  required
                 />
               </>
             )}

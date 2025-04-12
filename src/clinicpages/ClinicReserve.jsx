@@ -2,6 +2,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { PiVideoConferenceFill } from "react-icons/pi";
 import { MdOutlinePayment } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
+import { changecurrentpage } from "../data/DocsauraSlice";
 export default function ClinicReserve(props) {
   const [errorMessage, seterrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -24,7 +26,7 @@ export default function ClinicReserve(props) {
     expiryDate: "",
     cvv: "",
   });
-
+  const navigate = useNavigate();
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -40,12 +42,15 @@ export default function ClinicReserve(props) {
           }, 4000);
           return;
         }
+      } else {
+        setSuccessMessage("Appointment successfully booked");
+        setTimeout(() => {
+          setSuccessMessage("");
+          navigate("/");
+          dispatch(changecurrentpage("home"));
+        }, 3000);
       }
     }
-    setSuccessMessage("Appointment successfully booked");
-    setTimeout(() => {
-      setSuccessMessage("");
-    }, 3000);
   };
 
   const Next = () => {
@@ -61,6 +66,8 @@ export default function ClinicReserve(props) {
       );
       setTimeout(() => {
         seterrorMessage("");
+        dispatch(changecurrentpage("home"));
+        navigate("/");
       }, 3000);
       return;
     }
@@ -71,16 +78,14 @@ export default function ClinicReserve(props) {
   return (
     <div className="divreserve">
       {successMessage && (
-        <div className="notification-top">
-          <div className="notification success">
-            Appointment added successfully
-          </div>
+        <div className="custom-notification-top">
+          <div className="custom-notification success">{successMessage}</div>
         </div>
       )}
 
       {errorMessage && (
-        <div className="notification-top">
-          <div className="notification error">{errorMessage}</div>
+        <div className="custom-notification-top">
+          <div className="custom-notification error">{errorMessage}</div>
         </div>
       )}
       <h1>Book a consultation with , {clinic.fullName}</h1>
@@ -102,7 +107,6 @@ export default function ClinicReserve(props) {
               placeholder="Full Name"
               value={formData.fullName}
               onChange={handleChange}
-              required
             />
             <input
               type="email"
@@ -111,7 +115,6 @@ export default function ClinicReserve(props) {
               placeholder="Email"
               value={formData.email}
               onChange={handleChange}
-              required
             />
             <input
               style={{ marginRight: "20px" }}
@@ -121,7 +124,6 @@ export default function ClinicReserve(props) {
               placeholder="Phone"
               value={formData.phone}
               onChange={handleChange}
-              required
             />
             <input
               type="text"
@@ -130,7 +132,6 @@ export default function ClinicReserve(props) {
               placeholder="CIN"
               value={formData.cin}
               onChange={handleChange}
-              required
             />
             <br />
             <input
@@ -164,7 +165,6 @@ export default function ClinicReserve(props) {
               name="date"
               value={formData.date}
               onChange={handleChange}
-              required
             />
             <input
               type="time"
@@ -172,7 +172,6 @@ export default function ClinicReserve(props) {
               name="time"
               value={formData.time}
               onChange={handleChange}
-              required
             />{" "}
             <br />
             <button id="btn" type="button" onClick={Next}>
@@ -213,7 +212,6 @@ export default function ClinicReserve(props) {
                   placeholder="Card Number"
                   value={formData.cardNumber}
                   onChange={handleChange}
-                  required
                 />
                 <input
                   style={{ marginRight: "10px" }}
@@ -223,7 +221,6 @@ export default function ClinicReserve(props) {
                   placeholder="Expiry Date (MM/YY)"
                   value={formData.expiryDate}
                   onChange={handleChange}
-                  required
                 />
                 <input
                   style={{ marginRight: "10px" }}
@@ -233,7 +230,6 @@ export default function ClinicReserve(props) {
                   placeholder="CVV"
                   value={formData.cvv}
                   onChange={handleChange}
-                  required
                 />
               </>
             )}

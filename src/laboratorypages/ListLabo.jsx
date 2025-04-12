@@ -12,14 +12,14 @@ export default function ListLabo() {
       setList(laboratories);
     }
     setList(laboratories);
-  }, [laboratories,name,city]);
+  }, [laboratories, name, city]);
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
   const Search = () => {
     const filter = laboratories.filter((l) => {
       const matchesName = name
-        ? l.name.toLowerCase().includes(name.toLowerCase())
+        ? l.fullName.toLowerCase().includes(name.toLowerCase())
         : true;
       const matchesCity = city
         ? l.address.toLowerCase().includes(city.toLowerCase())
@@ -78,22 +78,36 @@ export default function ListLabo() {
             );
           })}
         </select>
-        <button id="search" onClick={Search}>Search</button>
+        <button id="search" onClick={Search}>
+          Search
+        </button>
       </div>
       <div className="containerLaboratories">
-        {ListLabo.map((l) => (
-          <div key={l.id} className="laboratory">
-            <Link to={`/pages/laboratory`} state={{ id: l.id }} id="Linktoone">
-              <img id="imgDocLabcli" src={`/images/${l.image}`} alt={l.name} />
-              <div className="informations">
-                <h3>{l.fullName}</h3>
-                <p>{l.address}</p>
-                <div className="stars">{generateStars(l.rating)}</div>
+        {ListLabo.length !== 0 ? (
+          ListLabo.map((l) => (
+            <div key={l.id} className="laboratory">
+              <Link
+                to={`/pages/laboratory`}
+                state={{ id: l.id }}
+                id="Linktoone"
+              >
+                <img
+                  id="imgDocLabcli"
+                  src={`/images/${l.image}`}
+                  alt={l.name}
+                />
+                <div className="informations">
+                  <h3>{l.fullName}</h3>
+                  <p>{l.address}</p>
+                  <div className="stars">{generateStars(l.rating)}</div>
                   <button className="btnsee">See</button>
-              </div>
-            </Link>
-          </div>
-        ))}
+                </div>
+              </Link>
+            </div>
+          ))
+        ) : (
+          <p style={{ fontSize: "20px" }}>This doctor not found</p>
+        )}
       </div>
     </div>
   );

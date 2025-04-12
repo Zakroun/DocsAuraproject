@@ -33,7 +33,6 @@ export default function ListDoctors() {
 
       return matchesName && matchesSpecialty && matchesCity;
     });
-
     setList(filteredDoctors);
   };
 
@@ -104,23 +103,31 @@ export default function ListDoctors() {
         </button>
       </div>
       <div className="containerDoctors">
-        {ListD.map((d) => (
-          <div key={d.id} className="doctor">
-            <Link to={`/pages/doctor`} state={{ id: d.id }} id="Linktoone">
-              <img
-                id="imgDocLabcli"
-                src={`/images/${d.image}`}
-                alt={d.fullName}
-              />
-              <div className="informations">
-                <h3>{d.fullName}</h3>
-                <p>{d.specialty}</p>
-                <div className="stars">{generateStars(d.rating)}</div>
-                <button className="btnsee">See</button>
+        {
+          ListD.length !== 0 ? (
+            ListD.map((d) => (
+              <div key={d.id} className="doctor">
+                <Link to={`/pages/doctor`} state={{ id: d.id }} id="Linktoone">
+                  <img
+                    id="imgDocLabcli"
+                    src={`/images/${d.image}`}
+                    alt={d.fullName}
+                  />
+                  <div className="informations">
+                    <h3>{d.fullName}</h3>
+                    <p>{d.specialty}</p>
+                    <div className="stars">{generateStars(d.rating)}</div>
+                    <button className="btnsee">See</button>
+                  </div>
+                </Link>
               </div>
-            </Link>
-          </div>
-        ))}
+            ))
+          ) : (
+            <p style={{fontSize:'20px'}}>
+              This doctor not found
+            </p>
+          )
+        }
       </div>
     </div>
   );

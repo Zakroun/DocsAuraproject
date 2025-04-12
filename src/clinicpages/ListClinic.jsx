@@ -19,7 +19,7 @@ export default function ListClinic() {
   const Search = () => {
     const filter = clinics.filter((l) => {
       const matchesName = name
-        ? l.name.toLowerCase().includes(name.toLowerCase())
+        ? l.fullName.toLowerCase().includes(name.toLowerCase())
         : true;
       const matchesCity = city
         ? l.address.toLowerCase().includes(city.toLowerCase())
@@ -84,23 +84,27 @@ export default function ListClinic() {
         </button>
       </div>
       <div className="containerClinics">
-        {Listcl.map((c) => (
-          <div key={c.id} className="clinic">
-            <Link to={`/pages/clinic`} state={{ id: c.id }} id="Linktoone">
-              <img
-                id="imgDocLabcli"
-                src={`/images/${c.image}`}
-                alt={c.name}
-              />
-              <div className="informations">
-                <h3>{c.fullName}</h3>
-                <p>{c.address}</p>
-                <div className="stars">{generateStars(c.rating)}</div>
-                <button className="btnsee">See</button>
-              </div>
-            </Link>
-          </div>
-        ))}
+        {Listcl.length !== 0 ? (
+          Listcl.map((c) => (
+            <div key={c.id} className="clinic">
+              <Link to={`/pages/clinic`} state={{ id: c.id }} id="Linktoone">
+                <img
+                  id="imgDocLabcli"
+                  src={`/images/${c.image}`}
+                  alt={c.name}
+                />
+                <div className="informations">
+                  <h3>{c.fullName}</h3>
+                  <p>{c.address}</p>
+                  <div className="stars">{generateStars(c.rating)}</div>
+                  <button className="btnsee">See</button>
+                </div>
+              </Link>
+            </div>
+          ))
+        ) : (
+          <p style={{ fontSize: "20px" }}>This doctor not found</p>
+        )}
       </div>
     </div>
   );

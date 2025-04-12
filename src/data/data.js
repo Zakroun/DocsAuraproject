@@ -4963,6 +4963,7 @@ export const laboratories = [
 
 
 export const specializedDoctors = [
+  "",
   "Cardiology",
   "Dermatology",
   "Neurology",
