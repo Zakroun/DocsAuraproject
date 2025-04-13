@@ -22,8 +22,13 @@ export default function SettingsBoard({ Use }) {
   const [showNotification, setShowNotification] = useState(false);
   const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [passwordStrength, setPasswordStrength] = useState("");
+  const [passwordStrength, setPasswordStrength] = useState({
+    level: "",
+    width: "0%",
+    color: "transparent"
+  });
   const [shouldRefresh, setShouldRefresh] = useState(false);
+  const [showFullImage, setShowFullImage] = useState(false);
 
   const translations = {
     "English (US)": {
@@ -43,6 +48,15 @@ export default function SettingsBoard({ Use }) {
       healthReminders: "Health Reminders",
       cancel: "Cancel",
       save: "Save",
+      successfullyUpdated: "Settings updated successfully!",
+      confirmCancel: "Are you sure you want to cancel? All changes will be lost.",
+      confirm: "Confirm",
+      general: "General",
+      notification: "Notification",
+      passwordStrength: "Password Strength",
+      weak: "Weak",
+      medium: "Medium",
+      strong: "Strong"
     },
     "Arabic": {
       settingsTitle: "لوحة الإعدادات",
@@ -61,19 +75,64 @@ export default function SettingsBoard({ Use }) {
       healthReminders: "تذكيرات الصحة",
       cancel: "إلغاء",
       save: "حفظ",
+      successfullyUpdated: "تم تحديث الإعدادات بنجاح!",
+      confirmCancel: "هل أنت متأكد أنك تريد الإلغاء؟ سيتم فقدان جميع التغييرات.",
+      confirm: "تأكيد",
+      general: "عام",
+      notification: "الإشعارات",
+      passwordStrength: "قوة كلمة المرور",
+      weak: "ضعيفة",
+      medium: "متوسطة",
+      strong: "قوية"
     },
   };
 
   const getTranslation = (key) => {
-    return translations["English (US)"][key] || key; // Default to English (US)
+    return translations["English (US)"][key] || key;
   };
 
   const evaluatePasswordStrength = (password) => {
-    if (password.length === 0) return "";
-    if (password.length < 6) return "Weak";
-    if (password.length >= 6 && password.length < 10) return "Medium";
-    if (password.length >= 10 && /[!@#$%^&*(),.?":{}|<>]/.test(password)) return "Strong";
-    return "Medium";
+    if (password.length === 0) {
+      return {
+        level: "",
+        width: "0%",
+        color: "transparent"
+      };
+    }
+    
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    const hasNumber = /\d/.test(password);
+    const hasUpper = /[A-Z]/.test(password);
+    const hasLower = /[a-z]/.test(password);
+    
+    let strength = 0;
+    
+    if (password.length > 0) strength += 1;
+    if (password.length >= 6) strength += 1;
+    if (password.length >= 10) strength += 1;
+    if (hasSpecialChar) strength += 1;
+    if (hasNumber) strength += 1;
+    if (hasUpper && hasLower) strength += 1;
+    
+    if (strength <= 2) {
+      return {
+        level: getTranslation("weak"),
+        width: "33%",
+        color: "#ff4d4f"
+      };
+    } else if (strength <= 4) {
+      return {
+        level: getTranslation("medium"),
+        width: "66%",
+        color: "#faad14"
+      };
+    } else {
+      return {
+        level: getTranslation("strong"),
+        width: "100%",
+        color: "#52c41a"
+      };
+    }
   };
 
   const handleSave = () => {
@@ -120,7 +179,6 @@ export default function SettingsBoard({ Use }) {
     setReminders({ push: false, email: false, sms: false, doNotDisturb: false });
     setComments({ push: false, email: false, sms: false, doNotDisturb: false });
     setTags({ push: false, email: false, sms: false, doNotDisturb: false });
-
     setShowCancelConfirmation(false);
   };
 
@@ -136,6 +194,10 @@ export default function SettingsBoard({ Use }) {
     }
   };
 
+  const toggleFullImage = () => {
+    setShowFullImage(!showFullImage);
+  };
+
   const renderContent = () => {
     switch (activeTab) {
       case "General":
@@ -145,7 +207,12 @@ export default function SettingsBoard({ Use }) {
               <h1>{getTranslation("settingsTitle")}</h1>
               <br />
               <div className="profile-picture">
-                <img src={profileImage} alt="Profile" />
+                <img 
+                  src={profileImage} 
+                  alt="Profile" 
+                  onClick={toggleFullImage}
+                  style={{ cursor: 'pointer' }}
+                />
                 <label className="edit-picture">
                   ✎
                   <input
@@ -231,9 +298,27 @@ export default function SettingsBoard({ Use }) {
                     {showNewPassword ? "👁️" : "👁️‍🗨️"}
                   </span>
                 </div>
-                <div className={`password-strength ${passwordStrength.toLowerCase()}`}>
-                  Password Strength: {passwordStrength}
-                </div>
+                {newPassword.length > 0 && (
+                  <div className="password-strength-container">
+                    <div className="password-strength-label">
+                      {getTranslation("passwordStrength")}: <span style={{ color: passwordStrength.color }}>
+                        {passwordStrength.level}
+                      </span>
+                    </div>
+                    <div className="password-strength-bar">
+                      <div 
+                        className="password-strength-progress"
+                        style={{
+                          width: passwordStrength.width,
+                          backgroundColor: passwordStrength.color,
+                          height: "4px",
+                          borderRadius: "2px",
+                          transition: "all 0.3s ease"
+                        }}
+                      ></div>
+                    </div>
+                  </div>
+                )}
               </div>
               <div className="settings-item">
                 <label>{getTranslation("retypePassword")}</label>
@@ -439,6 +524,23 @@ export default function SettingsBoard({ Use }) {
                 {getTranslation("cancel")}
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {showFullImage && (
+        <div className="full-image-modal" onClick={toggleFullImage}>
+          <div className="full-image-content" onClick={(e) => e.stopPropagation()}>
+            <img 
+              src={profileImage} 
+              alt="Profile Full Size" 
+            />
+            <button 
+              className="close-full-image" 
+              onClick={toggleFullImage}
+            >
+              &times;
+            </button>
           </div>
         </div>
       )}
