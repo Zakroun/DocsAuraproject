@@ -1,7 +1,7 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { RiCloseLargeLine } from "react-icons/ri";
+import { MdEmail } from "react-icons/md";
 // import { useNavigate } from "react-router-dom";
 // import { changecurrentpage } from "../data/DocsauraSlice";
 // import { useDispatch } from "react-redux";
@@ -29,9 +29,11 @@ export default function ConfirmEmail() {
   return (
     <div className="ForgetPass">
       <form action="" method="post">
-        <Link to={'/'}><button  className="X_button">
-          <RiCloseLargeLine size={25} />
-        </button></Link>
+        <Link to={"/"}>
+          <button className="X_button">
+            <RiCloseLargeLine size={25} />
+          </button>
+        </Link>
         <h2 id="h2email">
           Please enter your Email to send <br /> confirmation code
         </h2>
@@ -69,15 +71,17 @@ export default function ConfirmEmail() {
         )}
 
         <br />
-        <input
-          type="email"
-          name="emailpass"
-          placeholder="Your Email"
-          value={email}
-          id="emailpass"
-          onChange={(e) => setemail(e.target.value)}
-        />
-        <br />
+        <div className="inputdiv">
+          <MdEmail size={25} className="icondivinput" />
+          <input
+            type="email"
+            name="emailpass"
+            placeholder="Your Email"
+            value={email}
+            id="emailpass"
+            onChange={(e) => setemail(e.target.value)}
+          />
+        </div>
         <button id="btn" onClick={Submit}>
           Send
         </button>

@@ -117,8 +117,8 @@ body {
 #h3 {
   margin-left: 90px;
 }
-#email,
 #password,
+#email,
 #fullname,
 #address,
 #amoCode,
@@ -143,12 +143,9 @@ body {
 #code,
 #newpass,
 #confirmpass {
-  border: 1px solid rgb(219, 219, 219);
-  border-radius: 3px;
-  width: 380px;
-  height: 22px;
-  padding: 5px;
-  margin-bottom: 8px;
+  width: 100%;
+  margin-left: 10px;
+  border: none;
   outline: none;
 }
 #message {
@@ -164,13 +161,9 @@ body {
   outline: none;
 }
 #birthyear {
+  width: 100%;
+  margin-left: 10px;
   border: none;
-  border: 1px solid rgb(219, 219, 219);
-  border-radius: 3px;
-  width: 380px;
-  height: 22px;
-  padding: 5px;
-  margin-bottom: 8px;
   outline: none;
 }
 .cl-checkbox {
@@ -178,7 +171,20 @@ body {
   position: relative;
   display: inline-block;
 }
-
+/* divinputs */
+.inputdiv{
+  width: 380px;
+  padding: 3px;
+  display: flex;
+  border: 1px solid rgb(219, 219, 219);
+  border-radius: 3px;
+}
+.icondivinput{
+  color: rgb(219, 219, 219);
+}
+/* #email{
+  
+} */
 /* Input */
 .cl-checkbox > input {
   -webkit-appearance: none;
@@ -361,7 +367,7 @@ body {
 #link {
   text-decoration: none;
   color: #018786;
-  margin-left: 12%;
+  margin-left: 11%;
   margin-top: 8px;
   opacity: 0.7;
 }
@@ -379,9 +385,15 @@ body {
   opacity: 1;
 }
 /* Register */
-.Register,
+.Register{
+  margin-top: 1%;
+  margin-left: 2%;
+  width: fit-content;
+  padding-left: 100px;
+  padding-right: 150px;
+}
 .activate-form {
-  margin-top: 4%;
+  margin-top: 5%;
   margin-left: 2%;
   width: fit-content;
   padding-left: 100px;
@@ -407,13 +419,9 @@ body {
 #cities {
   -webkit-user-select: auto;
   user-select: auto;
+  width: 100%;
+  margin-left: 10px;
   border: none;
-  border: 1px solid rgb(219, 219, 219);
-  border-radius: 3px;
-  width: 392px;
-  height: 30px;
-  padding: 5px;
-  margin-bottom: 12px;
   outline: none;
 }
 /* ForgetPass */
@@ -2872,32 +2880,7 @@ h1 {
     margin-top: 6%;
     padding-left: 8px;
   }
-  #email,
-  #password,
-  #fullname,
-  #address,
-  #amoCode,
-  #cnssCode,
-  #phoneNumber,
-  #medicalOrderNumber,
-  #taxId,
-  #patente,
-  #clinicId,
-  #patientId,
-  #emergencyContact,
-  #date,
-  #cin,
-  #time,
-  #phone,
-  #cvv,
-  #descrption,
-  #cardNumber,
-  #expiryDate,
-  #confirmpassword,
-  #emailpass,
-  #code,
-  #newpass,
-  #confirmpass {
+  .inputdiv{
     width: 310px;
   }
   #descrption {
@@ -2918,15 +2901,15 @@ h1 {
     margin-top: 6%;
     padding-left: 8px;
   }
-  #Role,
+  /* #Role,
   #gender,
   #cities,
   #paymentMethod {
     width: 320px;
   }
   #birthyear {
-    width: 3177px;
-  }
+    width: 317px;
+  } */
   #btnRegister {
     width: 317px;
   }

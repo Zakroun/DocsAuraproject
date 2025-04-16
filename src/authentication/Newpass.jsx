@@ -4,6 +4,7 @@ import { RiCloseLargeLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { changecurrentpage } from "../data/DocsauraSlice";
 import { useDispatch } from "react-redux";
+import { RiLockPasswordFill } from "react-icons/ri";
 export default function NewPass() {
   const [newPass, setNewPass] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
@@ -72,6 +73,8 @@ export default function NewPass() {
             </div> */}
           </div>
         )}
+        <div className="inputdiv">
+          <RiLockPasswordFill size={25} className="icondivinput" />
         <input
           type="password"
           name="newpass"
@@ -80,7 +83,10 @@ export default function NewPass() {
           value={newPass}
           onChange={(e) => setNewPass(e.target.value)}
         ></input>
+        </div>
         <br />
+        <div className="inputdiv">
+          <RiLockPasswordFill size={25} className="icondivinput" />
         <input
           type="password"
           name="confirmpass"
@@ -89,7 +95,7 @@ export default function NewPass() {
           value={confirmPass}
           onChange={(e) => setConfirmPass(e.target.value)}
         ></input>
-        <br />
+        </div>
         <button id="btn" onClick={Submit}>
           confirm
         </button>

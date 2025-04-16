@@ -94,7 +94,7 @@ export default function Header() {
               CONTACT
             </Link>
           </div>
-          {profile === true ? (
+          {profile === false ? (
             <div className="btnmenu">
               <Link to={"/pages/Login"}>
                 <button className="loginbtn2">LOGIN</button>
@@ -153,7 +153,7 @@ export default function Header() {
             CONTACT
           </Link>
         </div>
-        {profile === true ? (
+        {profile === false ? (
           <div className="btnuser">
             <Link to={"/pages/Login"}>
               <button className="loginbtn">LOGIN</button>

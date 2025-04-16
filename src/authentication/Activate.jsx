@@ -53,6 +53,7 @@ export default function Activate(props) {
         </button>
       </Link>
       <h1>Activate Your Account</h1>
+      <br />
       {valid && (
         <div className="error">
           <div className="error__title">{error}</div>
@@ -60,14 +61,17 @@ export default function Activate(props) {
       )}
 
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          id="address"
-          name="address"
-          value={formData.address}
-          onChange={handleChange}
-          placeholder="Complete Address"
-        />
+        <div className="inputdiv">
+          <input
+            style={{ height: "25px" }}
+            type="text"
+            id="address"
+            name="address"
+            value={formData.address}
+            onChange={handleChange}
+            placeholder="Complete Address"
+          />
+        </div>
         <br />
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <label>Type of Assurance:</label>
@@ -103,137 +107,173 @@ export default function Activate(props) {
               CNSS
             </label>
           </div>
+          <br />
         </div>
         {formData.insuranceType === "AMO" && (
-          <input
-            type="text"
-            id="amoCode"
-            name="amoCode"
-            value={formData.amoCode}
-            onChange={handleChange}
-            placeholder="Your AMO Code"
-          />
+          <div className="inputdiv">
+            <input
+              style={{ height: "25px" }}
+              type="text"
+              id="amoCode"
+              name="amoCode"
+              value={formData.amoCode}
+              onChange={handleChange}
+              placeholder="Your AMO Code"
+            />
+          </div>
         )}
         {formData.insuranceType === "CNSS" && (
-          <input
-            type="text"
-            id="cnssCode"
-            name="cnssCode"
-            value={formData.cnssCode}
-            onChange={handleChange}
-            placeholder="Your CNSS Code"
-          />
+          <div className="inputdiv">
+            <input
+              style={{ height: "25px" }}
+              type="text"
+              id="cnssCode"
+              name="cnssCode"
+              value={formData.cnssCode}
+              onChange={handleChange}
+              placeholder="Your CNSS Code"
+            />
+          </div>
         )}
         <br />
-        <input
-          type="text"
-          id="phoneNumber"
-          name="phoneNumber"
-          value={formData.phoneNumber}
-          onChange={handleChange}
-          placeholder="Phone Number"
-        />
+        <div className="inputdiv">
+          <input
+            style={{ height: "25px" }}
+            type="text"
+            id="phoneNumber"
+            name="phoneNumber"
+            value={formData.phoneNumber}
+            onChange={handleChange}
+            placeholder="Phone Number"
+          />
+        </div>
         <br />
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          placeholder="Professional Email"
-        />
+        <div className="inputdiv">
+          <input
+            style={{ height: "25px" }}
+            type="email"
+            id="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="Professional Email"
+          />
+        </div>
         <br />
         {role === "doctor" && (
           <>
-            <select
-              id="specialty"
-              name="specialty"
-              value={formData.specialty}
-              onChange={handleChange}
-            >
-              <option value="">Medical Specialty</option>
-              {specializedDoctors.map((a, d) => (
-                <option value={a} key={d}>
-                  {a}
-                </option>
-              ))}
-            </select>
+            <div className="inputdiv">
+              <select
+              style={{height : '25px'}}
+                id="specialty"
+                name="specialty"
+                value={formData.specialty}
+                onChange={handleChange}
+              >
+                <option value="">Medical Specialty</option>
+                {specializedDoctors.map((a, d) => (
+                  <option value={a} key={d}>
+                    {a}
+                  </option>
+                ))}
+              </select>
+            </div>
             <br />
-            <input
-              type="text"
-              id="medicalOrderNumber"
-              name="medicalOrderNumber"
-              value={formData.medicalOrderNumber}
-              onChange={handleChange}
-              placeholder="Medical Order Registration Number"
-            />
+            <div className="inputdiv">
+              <input
+                style={{ height: "25px" }}
+                type="text"
+                id="medicalOrderNumber"
+                name="medicalOrderNumber"
+                value={formData.medicalOrderNumber}
+                onChange={handleChange}
+                placeholder="Medical Order Registration Number"
+              />
+            </div>
             <br />
           </>
         )}
         {role === "laboratori" && (
           <>
-            <input
-              type="text"
-              id="taxId"
-              name="taxId"
-              value={formData.taxId}
-              onChange={handleChange}
-              placeholder="Tax ID"
-            />
+            <div className="inputdiv">
+              <input
+                style={{ height: "25px" }}
+                type="text"
+                id="taxId"
+                name="taxId"
+                value={formData.taxId}
+                onChange={handleChange}
+                placeholder="Tax ID"
+              />
+            </div>
             <br />
-            <input
-              type="text"
-              id="patente"
-              name="patente"
-              value={formData.patente}
-              onChange={handleChange}
-              placeholder="Patente & Tax ID"
-            />
+            <div className="inputdiv">
+              <input
+                style={{ height: "25px" }}
+                type="text"
+                id="patente"
+                name="patente"
+                value={formData.patente}
+                onChange={handleChange}
+                placeholder="Patente & Tax ID"
+              />
+            </div>
             <br />
           </>
         )}
         {role === "clinic" && (
           <>
-            <input
-              type="text"
-              id="clinicId"
-              name="clinicId"
-              value={formData.clinicId}
-              onChange={handleChange}
-              placeholder="Clinic ID"
-            />
+            <div className="inputdiv">
+              <input
+                style={{ height: "25px" }}
+                type="text"
+                id="clinicId"
+                name="clinicId"
+                value={formData.clinicId}
+                onChange={handleChange}
+                placeholder="Clinic ID"
+              />
+            </div>
             <br />
-            <input
-              type="text"
-              id="taxId"
-              name="taxId"
-              value={formData.taxId}
-              onChange={handleChange}
-              placeholder="Tax ID"
-            />
+            <div className="inputdiv">
+              <input
+                style={{ height: "25px" }}
+                type="text"
+                id="taxId"
+                name="taxId"
+                value={formData.taxId}
+                onChange={handleChange}
+                placeholder="Tax ID"
+              />
+            </div>
             <br />
           </>
         )}
         {role === "Patients" && (
           <>
-            <input
-              type="text"
-              id="patientId"
-              name="patientId"
-              value={formData.patientId}
-              onChange={handleChange}
-              placeholder="Patient ID"
-            />
+            <div className="inputdiv">
+              <input
+                style={{ height: "25px" }}
+                type="text"
+                id="patientId"
+                name="patientId"
+                value={formData.patientId}
+                onChange={handleChange}
+                placeholder="Patient ID"
+              />
+            </div>
             <br />
-            <input
-              type="text"
-              id="emergencyContact"
-              name="emergencyContact"
-              value={formData.emergencyContact}
-              onChange={handleChange}
-              placeholder="Emergency Contact Number"
-            />
-            <br />
+            <div className="inputdiv">
+              <input
+                style={{ height: "25px" }}
+                type="text"
+                id="emergencyContact"
+                name="emergencyContact"
+                value={formData.emergencyContact}
+                onChange={handleChange}
+                placeholder="Emergency Contact Number"
+              />
+            </div>
           </>
         )}
         <button type="submit" id="btn">

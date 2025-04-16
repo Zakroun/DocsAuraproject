@@ -4,6 +4,8 @@ import { RiCloseLargeLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { changecurrentpage } from "../data/DocsauraSlice";
 import { useDispatch } from "react-redux";
+import { MdEmail } from "react-icons/md";
+import { RiLockPasswordFill } from "react-icons/ri";
 export default function Login() {
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
@@ -21,14 +23,16 @@ export default function Login() {
     }
   };
   const navigate = useNavigate();
-  const dispatch = useDispatch()
-  const Movetohome = ()=>{
-    navigate('/')
-    dispatch(changecurrentpage('home'))
-  }
+  const dispatch = useDispatch();
+  const Movetohome = () => {
+    navigate("/");
+    dispatch(changecurrentpage("home"));
+  };
   return (
     <div className="login">
-      <button onClick={Movetohome} className="X_button"><RiCloseLargeLine size={25}/></button>
+      <button onClick={Movetohome} className="X_button">
+        <RiCloseLargeLine size={25} />
+      </button>
       <h1 id="h1">Welcome back !</h1>
       <h3 id="h3">Please enter your details</h3>
       <form action="" method="post">
@@ -64,15 +68,20 @@ export default function Login() {
             </div> */}
           </div>
         )}
-        <input
-          type="email"
-          name="email"
-          id="email"
-          value={email}
-          onChange={(e) => setemail(e.target.value)}
-          placeholder="Email"
-        />
+        <div className="inputdiv">
+          <MdEmail size={30} className="icondivinput"></MdEmail>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            value={email}
+            onChange={(e) => setemail(e.target.value)}
+            placeholder="Email"
+          />
+        </div>
         <br />
+        <div className="inputdiv">
+          <RiLockPasswordFill size={30} className="icondivinput"></RiLockPasswordFill>
         <input
           type="password"
           name="password"
@@ -81,6 +90,7 @@ export default function Login() {
           onChange={(e) => setpassword(e.target.value)}
           placeholder="Password"
         />
+        </div>
         <br />
         <label className="cl-checkbox">
           <input type="checkbox" />

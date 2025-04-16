@@ -5,6 +5,7 @@ import { RiCloseLargeLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { changecurrentpage } from "../data/DocsauraSlice";
 import { useDispatch } from "react-redux";
+import { GiConfirmed } from "react-icons/gi";
 export default function CodeConfirm() {
   const [code, setCode] = useState("");
   const [valid, setvalid] = useState(false);
@@ -63,6 +64,8 @@ export default function CodeConfirm() {
             </div> */}
           </div>
         )}
+        <div className="inputdiv">
+        <GiConfirmed size={25} className="icondivinput" />
         <input
           type="text"
           name="codeconfirmaccount"
@@ -70,8 +73,7 @@ export default function CodeConfirm() {
           id="code"
           value={code}
           onChange={(e) => setCode(e.target.value)}
-        />
-        <br />
+        /></div>
         <button id="btn" onClick={Submit}>confirm</button>
       </form>
     </div>

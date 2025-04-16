@@ -16,7 +16,7 @@ export const DocsauraSlice = createSlice({
     clinics: clinics,
     laboratories: laboratories,
     specializedDoctors: specializedDoctors,
-    profile : false,
+    profile : true,
     cities: cities,
     currentboard: "home",
     conversations: conversations,

@@ -1,11 +1,13 @@
 import { useForm, ValidationError } from "@formspree/react";
 import {  useEffect } from "react";
-
+import { MdEmail } from "react-icons/md";
 import { useState } from "react";
 import { RiCloseLargeLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { changecurrentpage } from "../data/DocsauraSlice";
 import { useDispatch } from "react-redux";
+import { MdMessage } from "react-icons/md";
+
 export default function ContactForm() {
   const [state, handleSubmit] = useForm("mvgzaeyy");
   const [formData, setFormData] = useState({ email: "", message: "" });
@@ -38,6 +40,8 @@ export default function ContactForm() {
       ) : (
         <form onSubmit={handleSubmit}>
           <h2 id="h2email">Contact us</h2>
+          <div className="inputdiv">
+          <MdEmail size={30} className="icondivinput"></MdEmail>
           <input
             placeholder="Your email address"
             id="email"
@@ -46,7 +50,7 @@ export default function ContactForm() {
             value={formData.email}
             onChange={handleChange}
             required
-          />
+          /></div>
           <ValidationError prefix="Email" field="email" errors={state.errors} />
           <br />
           <textarea
