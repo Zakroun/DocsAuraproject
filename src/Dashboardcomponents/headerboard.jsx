@@ -1,12 +1,13 @@
 import { LuSearch } from "react-icons/lu";
 import { IoNotificationsSharp } from "react-icons/io5";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { changeboard } from "../data/DocsauraSlice";
 import { Menu } from "../data/DocsauraSlice";
 // import { changeboard } from "../data/DocsauraSlice";
 import { IoMenu } from "react-icons/io5";
-export default function HeaderBoard() {
+export default function HeaderBoard({ Use }) {
+  const Verified = Use.Verified;
   const dispatch = useDispatch();
   const tableSearch = [
     "home",
@@ -66,11 +67,11 @@ export default function HeaderBoard() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-  useEffect(()=>{
-    if(search === ''){
-      setSearchResult([])
+  useEffect(() => {
+    if (search === "") {
+      setSearchResult([]);
     }
-  },[search])
+  }, [search]);
   return (
     <header className="header-board">
       <div className="searchadd">
@@ -90,15 +91,19 @@ export default function HeaderBoard() {
               <LuSearch className="iconsearch" size={15} />
             </button>
           </div>
-          <div className="serachresult">
-            {searchResult.map((a, k) => {
-              return (
-                <div className="searchitem" onClick={() => Change(a)} key={k}>
-                  <p>{highlightMatch(a, search)}</p>
-                </div>
-              );
-            })}
-          </div>
+          {Verified === true ? (
+            <div className="serachresult">
+              {searchResult.map((a, k) => {
+                return (
+                  <div className="searchitem" onClick={() => Change(a)} key={k}>
+                    <p>{highlightMatch(a, search)}</p>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div></div>
+          )}
         </div>
         <div className="add">
           {/* <button className="addbtn" onClick={()=>dispatch(changeboard('addPatient'))}>+ Add Patients</button> */}

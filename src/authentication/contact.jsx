@@ -6,7 +6,6 @@ import { RiCloseLargeLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { changecurrentpage } from "../data/DocsauraSlice";
 import { useDispatch } from "react-redux";
-import { MdMessage } from "react-icons/md";
 
 export default function ContactForm() {
   const [state, handleSubmit] = useForm("mvgzaeyy");

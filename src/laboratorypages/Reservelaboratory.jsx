@@ -132,58 +132,75 @@ export default function LaboratoryReserve(props) {
           style={{ display: content1, marginTop: "20px", marginLeft: "20px" }}
         >
           <form onSubmit={handleSubmit} className="booking-form">
-            <input
-              style={{ marginRight: "20px" }}
-              type="text"
-              name="fullName"
-              id="fullname"
-              placeholder="Full Name"
-              value={formData.fullName}
-              onChange={handleChange}
-            />
-            <input
-              type="email"
-              id="email"
-              name="email"
-              placeholder="Email"
-              value={formData.email}
-              onChange={handleChange}
-            />
-            <input
-              style={{ marginRight: "20px" }}
-              type="tel"
-              name="phone"
-              id="phone"
-              placeholder="Phone"
-              value={formData.phone}
-              onChange={handleChange}
-            />
-            <input
-              type="text"
-              name="cin"
-              id="cin"
-              placeholder="CIN"
-              value={formData.cin}
-              onChange={handleChange}
-            />
+            <div className="divinputs">
+              <div className="inputdiv">
+                <input
+                  style={{ marginRight: "20px" }}
+                  type="text"
+                  name="fullName"
+                  id="fullname"
+                  placeholder="Full Name"
+                  value={formData.fullName}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="inputdiv">
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="Email"
+                  value={formData.email}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
             <br />
-            <input
-              style={{ marginRight: "20px" }}
-              type="date"
-              id="date"
-              name="date"
-              value={formData.date}
-              onChange={handleChange}
-            />
-            <input
-              type="time"
-              id="time"
-              name="time"
-              value={formData.time}
-              onChange={handleChange}
-            />
+            <div className="divinputs">
+              <div className="inputdiv">
+                <input
+                  style={{ marginRight: "20px" }}
+                  type="tel"
+                  name="phone"
+                  id="phone"
+                  placeholder="Phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="inputdiv">
+                <input
+                  type="text"
+                  name="cin"
+                  id="cin"
+                  placeholder="CIN"
+                  value={formData.cin}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
             <br />
-
+            <div className="divinputs">
+              <div className="inputdiv">
+                <input
+                  style={{ marginRight: "20px" }}
+                  type="date"
+                  id="date"
+                  name="date"
+                  value={formData.date}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="inputdiv">
+                <input
+                  type="time"
+                  id="time"
+                  name="time"
+                  value={formData.time}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
             <div
               className="image-upload-container"
               style={{ marginTop: "20px" }}
@@ -194,7 +211,6 @@ export default function LaboratoryReserve(props) {
                 name="image"
                 onChange={handleFileChange}
                 accept="image/*"
-
                 style={{ display: "none" }}
               />
               <button
@@ -226,50 +242,58 @@ export default function LaboratoryReserve(props) {
           style={{ display: content2, marginTop: "20px" }}
         >
           <form onSubmit={handleSubmit} className="booking-form">
-            <select
-              name="paymentMethod"
-              id="paymentMethod"
-              style={{ marginBottom: "30px" }}
-              value={formData.paymentMethod}
-              onChange={handleChange}
-            >
-              <option value="">Choose Payment Method</option>
-              <option value="credit-card">Credit Card</option>
-              <option value="cash">Cash on Arrival</option>
-            </select>{" "}
+            <div className="inputdiv">
+              <select
+                name="paymentMethod"
+                id="paymentMethod"
+                style={{ marginBottom: "30px" }}
+                value={formData.paymentMethod}
+                onChange={handleChange}
+              >
+                <option value="">Choose Payment Method</option>
+                <option value="credit-card">Credit Card</option>
+                <option value="cash">Cash on Arrival</option>
+              </select>
+            </div>{" "}
             <br />
             {formData.paymentMethod === "credit-card" && (
               <>
-                <input
-                  style={{ marginRight: "10px" }}
-                  type="text"
-                  name="cardNumber"
-                  id="cardNumber"
-                  placeholder="Card Number"
-                  value={formData.cardNumber}
-                  onChange={handleChange}
-  
-                />
-                <input
-                  style={{ marginRight: "10px" }}
-                  type="text"
-                  id="expiryDate"
-                  name="expiryDate"
-                  placeholder="Expiry Date (MM/YY)"
-                  value={formData.expiryDate}
-                  onChange={handleChange}
-  
-                />
-                <input
-                  style={{ marginRight: "10px" }}
-                  type="text"
-                  name="cvv"
-                  id="cvv"
-                  placeholder="CVV"
-                  value={formData.cvv}
-                  onChange={handleChange}
-  
-                />
+                <div className="divinputs">
+                  <div className="inputdiv">
+                    <input
+                      style={{ marginRight: "10px" }}
+                      type="text"
+                      name="cardNumber"
+                      id="cardNumber"
+                      placeholder="Card Number"
+                      value={formData.cardNumber}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className="inputdiv">
+                    <input
+                      style={{ marginRight: "10px" }}
+                      type="text"
+                      id="expiryDate"
+                      name="expiryDate"
+                      placeholder="Expiry Date (MM/YY)"
+                      value={formData.expiryDate}
+                      onChange={handleChange}
+                    />
+                  </div>
+                </div>
+                <br />
+                <div className="inputdiv">
+                  <input
+                    style={{ marginRight: "10px" }}
+                    type="text"
+                    name="cvv"
+                    id="cvv"
+                    placeholder="CVV"
+                    value={formData.cvv}
+                    onChange={handleChange}
+                  />
+                </div>
               </>
             )}
             <button

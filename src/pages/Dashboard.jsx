@@ -38,7 +38,7 @@ export default function Dashboard() {
     <div className="containerDashboard">
       <Part1Dashboard Use={Use} />
       <div className="part2dashboard">
-        <HeaderBoard />
+        <HeaderBoard Use={Use}/>
         {curboard === "home" ? (
           <Homeboard Use={Use} />
         ) : curboard === "calander" ? (

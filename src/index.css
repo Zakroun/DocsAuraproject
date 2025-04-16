@@ -402,14 +402,9 @@ body {
 #consultationType {
   -webkit-user-select: auto;
   user-select: auto;
+  width: 100%;
+  margin-left: 10px;
   border: none;
-  border: 1px solid rgb(219, 219, 219);
-  border-radius: 3px;
-  width: 392px;
-  height: 30px;
-  padding: 5px;
-  margin-bottom: 12px;
-  margin-left: 20px;
   outline: none;
 }
 #Role,
@@ -1453,8 +1448,15 @@ hr {
   margin-right: 20px;
 }
 .content1 {
+  display: flex;
   margin-top: 20px;
   margin-left: 20px;
+}
+.divinputs{
+  display: flex;
+}
+.divinputs .inputdiv{
+  margin-right: 20px;
 }
 .content2 {
   margin-top: 20px;
