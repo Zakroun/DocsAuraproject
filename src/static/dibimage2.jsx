@@ -1,12 +1,8 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-export default function Divimage2() {
-  const images = [
-    "/Images/img2.jpg",
-    "/Images/img5.jpg",
-    "/Images/img12.jpg",
-  ];  
+export default function Divimage2({ profile }) {
+  const images = ["/Images/img2.jpg", "/Images/img5.jpg", "/Images/img12.jpg"];
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -32,25 +28,42 @@ export default function Divimage2() {
   }, [images.length]);
   return (
     <div className="divcontent">
+      {profile ? (
         <div className="start">
-            <h1>Welcom to DocsAura</h1>
-            <p>DocsAura is a platform that connects you with the best doctors and clinics in your area.</p>
-            <Link to={'/pages/Login'}><button className="loginbtn">Get start</button></Link>
+          <h1>Welcom to DocsAura</h1>
+          <p>
+            DocsAura is a platform that connects you with the best doctors and
+            clinics in your area.
+          </p>
+          <Link to={"/pages/Dashboard"}>
+            <button className="loginbtn">Get start</button>
+          </Link>
         </div>
-    <div className="divimage2">
-
-      <button onClick={prevSlide} className="slider-button prev">
-        &#10094;
-      </button> 
-      <img
-        src={images[currentIndex]}
-        alt={`Slide ${currentIndex + 1}`}
-        id="imagediv"
-      />
-      <button onClick={nextSlide} className="slider-button next">
-        &#10095; 
-      </button>
-    </div>
+      ) : (
+        <div className="start">
+          <h1>Welcom to DocsAura</h1>
+          <p>
+            DocsAura is a platform that connects you with the best doctors and
+            clinics in your area.
+          </p>
+          <Link to={"/pages/Login"}>
+            <button className="loginbtn">Get start</button>
+          </Link>
+        </div>
+      )}
+      <div className="divimage2">
+        <button onClick={prevSlide} className="slider-button prev">
+          &#10094;
+        </button>
+        <img
+          src={images[currentIndex]}
+          alt={`Slide ${currentIndex + 1}`}
+          id="imagediv"
+        />
+        <button onClick={nextSlide} className="slider-button next">
+          &#10095;
+        </button>
+      </div>
     </div>
   );
 }

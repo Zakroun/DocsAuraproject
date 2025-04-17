@@ -155,7 +155,6 @@ export default function LaboratoryReserve(props) {
                 />
               </div>
             </div>
-            <br />
             <div className="divinputs">
               <div className="inputdiv">
                 <input
@@ -179,7 +178,6 @@ export default function LaboratoryReserve(props) {
                 />
               </div>
             </div>
-            <br />
             <div className="divinputs">
               <div className="inputdiv">
                 <input
@@ -246,7 +244,6 @@ export default function LaboratoryReserve(props) {
               <select
                 name="paymentMethod"
                 id="paymentMethod"
-                style={{ marginBottom: "30px" }}
                 value={formData.paymentMethod}
                 onChange={handleChange}
               >

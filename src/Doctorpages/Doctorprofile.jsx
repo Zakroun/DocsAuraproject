@@ -46,7 +46,6 @@ export default function Doctorprofile(props) {
           {Doctor.comments.map((c) => {
             return (
               <div className="comment" key={c.id}>
-                <img src={`/images/${c.img}`} alt="usercomment" className="usercomment"/>
                 {c.text}
               </div>
             );

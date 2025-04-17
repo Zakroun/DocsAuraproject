@@ -113,7 +113,6 @@ export default function Register() {
             onChange={(e) => setfullname(e.target.value)}
           />
         </div>
-        <br />
         <div className="inputdiv">
           <MdEmail size={25} className="icondivinput"></MdEmail>
           <input
@@ -125,7 +124,6 @@ export default function Register() {
             onChange={(e) => setemail(e.target.value)}
           />
         </div>
-        <br />
         <div className="inputdiv">
           <FaUserPlus size={25} className="icondivinput"></FaUserPlus>
           <select
@@ -141,7 +139,6 @@ export default function Register() {
             <option value="pharmacy">laboratory</option>
           </select>
         </div>
-        <br />
         <div className="inputdiv">
           <PiGenderIntersexFill size={25}  className="icondivinput"></PiGenderIntersexFill>
           <select
@@ -155,7 +152,6 @@ export default function Register() {
             <option value="doctor">Female</option>
           </select>
         </div>
-        <br />
         <div className="inputdiv">
           <MdOutlineLocationCity size={25} className="icondivinput"></MdOutlineLocationCity>
           <select
@@ -213,7 +209,6 @@ export default function Register() {
             <input type="radio" name="doctor" id="doctor" onChange={()=>setrole('doctor')}/><label htmlFor="doctor">doctor</label>
             <input type="radio" name="pharmacy" id="pharmacy" onChange={()=>setrole('pharmacy')}/><label htmlFor="pharmacy">pharmacy</label>
             <input type="radio" name="laboratory" id="laboratory" onChange={()=>setrole('laboratory')}/><label htmlFor="laboratory">laboratory</label> */}
-        <br />
         <div className="inputdiv">
           <BsCalendarDateFill size={25} className="icondivinput"></BsCalendarDateFill>
           <input
@@ -225,7 +220,6 @@ export default function Register() {
             onChange={(e) => setbirthyear(e.target.value)}
           />
         </div>
-        <br />
         <div className="inputdiv">
           <RiLockPasswordFill size={25} className="icondivinput"></RiLockPasswordFill>
           <input
@@ -237,7 +231,6 @@ export default function Register() {
             onChange={(e) => setpassword(e.target.value)}
           />
         </div>
-        <br />
         <div className="inputdiv">
           <RiLockPasswordFill size={25} className="icondivinput"></RiLockPasswordFill>
           <input

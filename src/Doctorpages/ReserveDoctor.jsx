@@ -138,7 +138,6 @@ export default function DoctorReserve(props) {
                 />
               </div>
             </div>
-            <br />
             <div className="divinputs">
               <div className="inputdiv">
                 <input
@@ -162,7 +161,6 @@ export default function DoctorReserve(props) {
                 />
               </div>
             </div>
-            <br />
             <div className="divinputs">
               <div className="inputdiv">
                 <input
@@ -192,7 +190,6 @@ export default function DoctorReserve(props) {
                 </select>
               </div>
             </div>
-            <br />
             <div className="divinputs">
               <div className="inputdiv">
                 <input
@@ -227,21 +224,17 @@ export default function DoctorReserve(props) {
         </div>
         <div className="content2" style={{ display: content2 }}>
           <form onSubmit={handleSubmit} className="booking-form">
-            <div className="divinputs">
               <div className="inputdiv">
-                <select
+              <select
                   name="paymentMethod"
                   id="paymentMethod"
-                  style={{ marginBottom: "30px" }}
                   value={formData.paymentMethod}
-                  onChange={handleChange}
-                >
+                  onChange={handleChange}>
                   <option value="">Choose Payment Method</option>
                   <option value="credit-card">Credit Card</option>
                   <option value="cash">Cash on Arrival</option>
-                </select>{" "}
+                </select>
               </div>
-            </div>
             <br />
             {formData.paymentMethod === "credit-card" && (
               <>
@@ -269,7 +262,6 @@ export default function DoctorReserve(props) {
                     />
                   </div>
                 </div>
-                <br />
                 <div className="inputdiv">
                   <input
                     style={{ marginRight: "10px" }}

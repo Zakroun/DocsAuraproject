@@ -218,7 +218,6 @@ export default function ClinicReserve(props) {
               <select
                 name="paymentMethod"
                 id="paymentMethod"
-                style={{ marginBottom: "30px" }}
                 value={formData.paymentMethod}
                 onChange={handleChange}
               >

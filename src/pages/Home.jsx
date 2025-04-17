@@ -9,12 +9,14 @@ import { SiChatbot } from "react-icons/si";
 import ListDocCliLAbo from "../static/ListDocCliLAbo";
 import CallToAction from "../static/CallToAction";
 import { useState,useEffect ,useRef} from "react";
+import { useSelector } from "react-redux";
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
   const [message, setmessge] = useState("");
   const [Messgaes, setmessges] = useState([
     { text: "Hello! How can I assist you today?", sender: "bot" },
   ]);
+  const profile = useSelector(s=>s.Docsaura.profile)
   const chatBodyRef = useRef(null);
   useEffect(() => {
     if (chatBodyRef.current) {
@@ -30,7 +32,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <Divimage2 />
+      <Divimage2 profile={profile}/>
       <DivService1 />
       <button className="chatbot" onClick={() => setIsOpen(!isOpen)}>
         <SiChatbot />
@@ -67,7 +69,7 @@ export default function Home() {
       >
         <GoMoveToTop />
       </button>
-      <CallToAction />
+      {!profile ? <CallToAction /> : ''}
       <Services />
       <ListDocCliLAbo />
       <Faq />
