@@ -10,6 +10,7 @@ import { PiGenderIntersexFill } from "react-icons/pi";
 import { MdOutlineLocationCity } from "react-icons/md";
 import { BsCalendarDateFill } from "react-icons/bs";
 import { RiLockPasswordFill } from "react-icons/ri";
+import { Link } from "react-router-dom";
 export default function Register() {
   const [fullname, setfullname] = useState("");
   const [email, setemail] = useState("");
@@ -140,7 +141,10 @@ export default function Register() {
           </select>
         </div>
         <div className="inputdiv">
-          <PiGenderIntersexFill size={25}  className="icondivinput"></PiGenderIntersexFill>
+          <PiGenderIntersexFill
+            size={25}
+            className="icondivinput"
+          ></PiGenderIntersexFill>
           <select
             name="gender "
             value={gender}
@@ -153,7 +157,10 @@ export default function Register() {
           </select>
         </div>
         <div className="inputdiv">
-          <MdOutlineLocationCity size={25} className="icondivinput"></MdOutlineLocationCity>
+          <MdOutlineLocationCity
+            size={25}
+            className="icondivinput"
+          ></MdOutlineLocationCity>
           <select
             id="cities"
             name="cities"
@@ -210,7 +217,10 @@ export default function Register() {
             <input type="radio" name="pharmacy" id="pharmacy" onChange={()=>setrole('pharmacy')}/><label htmlFor="pharmacy">pharmacy</label>
             <input type="radio" name="laboratory" id="laboratory" onChange={()=>setrole('laboratory')}/><label htmlFor="laboratory">laboratory</label> */}
         <div className="inputdiv">
-          <BsCalendarDateFill size={25} className="icondivinput"></BsCalendarDateFill>
+          <BsCalendarDateFill
+            size={25}
+            className="icondivinput"
+          ></BsCalendarDateFill>
           <input
             type="date"
             name="birthyear"
@@ -221,23 +231,29 @@ export default function Register() {
           />
         </div>
         <div className="inputdiv">
-          <RiLockPasswordFill size={25} className="icondivinput"></RiLockPasswordFill>
+          <RiLockPasswordFill
+            size={25}
+            className="icondivinput"
+          ></RiLockPasswordFill>
           <input
             type="password"
             name="password"
             id="password"
-            placeholder="Password"
+            placeholder="Password Ex: Aabcd@1 (Upper + 4lower + @ + digit)"
             value={password}
             onChange={(e) => setpassword(e.target.value)}
           />
         </div>
         <div className="inputdiv">
-          <RiLockPasswordFill size={25} className="icondivinput"></RiLockPasswordFill>
+          <RiLockPasswordFill
+            size={25}
+            className="icondivinput"
+          ></RiLockPasswordFill>
           <input
             type="password"
             name="confirmpassword"
             id="confirmpassword"
-            placeholder="Confirm password"
+            placeholder="Confirm password Ex: Aabcd@1 (Upper + 4lower + @ + digit)"
             value={confirmpassword}
             onChange={(e) => setconfirmpassword(e.target.value)}
           />
@@ -246,6 +262,14 @@ export default function Register() {
         <button id="btnRegister" onClick={Submit}>
           Register
         </button>
+        <div className="login-redirect">
+          <p>
+            Already have an account?{" "}
+            <Link to="/pages/Login" className="login-link">
+              Log in here
+            </Link>
+          </p>
+        </div>
       </form>
     </div>
   );

@@ -11,15 +11,20 @@ export default function ConfirmEmail() {
   const [error, seterror] = useState("");
   const Submit = (e) => {
     e.preventDefault();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (email === "") {
       setvalid(true);
-      seterror("Please fill all the fields");
+      seterror("Please fill in your email");
+    } else if (!emailRegex.test(email)) {
+      setvalid(true);
+      seterror("Please enter a valid email address");
     } else {
       setvalid(false);
       seterror("");
       window.location.href = "/pages/codeconfirmforget";
     }
   };
+  
   // const navigate = useNavigate();
   // const dispatch = useDispatch();
   // const Movetohome = () => {

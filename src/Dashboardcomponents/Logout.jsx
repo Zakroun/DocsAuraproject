@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { useDispatch } from "react-redux";
+import { changeprofile } from "../data/DocsauraSlice";
 export default function Logout() {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const handleLogoutClick = () => {
     setShowConfirmation(true);
   };
 
   const handleConfirmLogout = () => {
+    dispatch(changeprofile(false));
     navigate("/pages/Login");
   };
 

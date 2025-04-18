@@ -126,9 +126,12 @@ export const DocsauraSlice = createSlice({
     },
     changecurrentpage : (state, action) => {
       state.currentpage = action.payload
+    },
+    changeprofile : (state,action) => {
+      state.profile = action.payload
     }
   },
 });
 
-export const {changecurrentpage, changeboard, changestatus, Sent, deletemessage ,Menu } =
+export const {changecurrentpage, changeboard, changestatus, Sent, deletemessage ,Menu ,changeprofile} =
   DocsauraSlice.actions;

@@ -32,7 +32,7 @@ export default function Dashboard() {
     }
   }, [user, dispatch, navigate]);
 
-  const Users = useSelector((s) => s.Docsaura.doctors);
+  const Users = useSelector((s) => s.Docsaura.laboratories);
   const Use = Users.find((a) => a.id === 1);
   return (
     <div className="containerDashboard">

@@ -27,7 +27,7 @@ export default function NewPass() {
     } else {
       setvalid(false);
       seterror("");
-      window.location.href = "/";
+      navigate("/pages/Login");
     }
   };
   const navigate = useNavigate();

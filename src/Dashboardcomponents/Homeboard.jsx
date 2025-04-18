@@ -326,9 +326,9 @@ export default function Homeboard(props) {
             <div className="appointments_header">
               <h2>Upcoming Appointments</h2>
               <div className="appointment-day-filter">
-                <label htmlFor="day-select">Select Day:</label>
+                {/* <label htmlFor="day-select">Select Day:</label> */}
                 <select
-                  id="day-select"
+                  id="weeklyselect"
                   value={selectedDay}
                   onChange={handleDayChange}
                 >

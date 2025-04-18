@@ -46,11 +46,11 @@ export default function AppointmentForm({ user, Use, onSubmitFeedback }) {
         setCameraOn(false);
       }
     };
-  
+
     if (isVideoCall && cameraOn && !localStream) {
       startStream();
     }
-  
+
     if ((!isVideoCall || !cameraOn) && localStream) {
       localStream.getTracks().forEach((track) => track.stop());
       if (videoRef.current) videoRef.current.srcObject = null;
@@ -58,7 +58,6 @@ export default function AppointmentForm({ user, Use, onSubmitFeedback }) {
     }
   }, [isVideoCall, cameraOn, localStream]);
 
-  
   const formatDuration = (seconds) => {
     const mins = String(Math.floor(seconds / 60)).padStart(2, "0");
     const secs = String(seconds % 60).padStart(2, "0");
@@ -172,6 +171,20 @@ export default function AppointmentForm({ user, Use, onSubmitFeedback }) {
     doc.text(`Diagnosis: ${formData.diagnosis}`, 10, 20);
     doc.text(`Prescription: ${formData.prescription}`, 10, 30);
     doc.save("medical_report.pdf");
+    setSuccessMessage("PDF downloaded successfully!");
+    setTimeout(() => {
+      setSuccessMessage("");
+    }, 4000);
+  };
+  const handleSaveResults = () => {
+    if (formData.resultsDescription && selectedFile) {
+      setIsSaved(true);
+      setSuccessMessage("Results saved successfully!");
+      setTimeout(() => setSuccessMessage(""), 3000);
+    } else {
+      setErrorMessage("Please add results description and upload a PDF.");
+      setTimeout(() => setErrorMessage(""), 3000);
+    }
   };
 
   const handleConfirmAppointment = () => {
@@ -334,8 +347,7 @@ export default function AppointmentForm({ user, Use, onSubmitFeedback }) {
             <h1>Appointment Completed Form</h1>
             {Use.Role === "doctor" || Use.Role === "clinic" ? (
               <div>
-                <label>Diagnosis</label>
-                <br />
+                {/* <label>Diagnosis : </label> */}
                 <textarea
                   name="diagnosis"
                   className="diagnosis"
@@ -345,8 +357,8 @@ export default function AppointmentForm({ user, Use, onSubmitFeedback }) {
                 />
                 <br />
                 <br />
-                <label>Prescription</label>
-                <br />
+                {/* <label>Prescription</label>
+                <br /> */}
                 <textarea
                   name="prescription"
                   className="prescription"
@@ -355,21 +367,23 @@ export default function AppointmentForm({ user, Use, onSubmitFeedback }) {
                   placeholder="Enter prescribed medication..."
                 />
                 <br />
-                <br />
                 {!isSaved ? (
                   <button onClick={handleSave} className="Save">
                     Save Details
                   </button>
                 ) : (
-                  <button onClick={handleDownloadPDF} className="Download">
-                    Download as PDF
-                  </button>
+                  <>
+                    <button onClick={handleDownloadPDF} className="Download">
+                      Download as PDF
+                    </button>
+                    <button onClick={confirmStatus} className="Confirm">
+                      Yes, Confirm
+                    </button>
+                  </>
                 )}
               </div>
             ) : Use.Role === "laboratori" ? (
               <div>
-                <label>Results Description</label>
-                <br />
                 <textarea
                   name="resultsDescription"
                   className="resultsDescription"
@@ -379,17 +393,26 @@ export default function AppointmentForm({ user, Use, onSubmitFeedback }) {
                 />{" "}
                 <br />
                 <br />
-                <label>Upload Results PDF</label>
+                <label className="upload-btn">
+                  Upload Results PDF
+                  <input
+                    type="file"
+                    accept=".pdf"
+                    className="hidden"
+                    onChange={handleFileChange}
+                  />
+                </label>
                 <br />
-                <input
-                  type="file"
-                  accept=".pdf"
-                  className="file"
-                  onChange={handleFileChange}
-                />
                 <br />
-                <br />
-                <button className="Upload">Save Results</button>
+                {!isSaved ? (
+                  <button className="Upload" onClick={handleSaveResults}>
+                    Save Results
+                  </button>
+                ) : (
+                  <button onClick={confirmStatus} className="Confirm">
+                    Yes, Confirm
+                  </button>
+                )}
               </div>
             ) : Use.Role === "patient" ? (
               <div>

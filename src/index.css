@@ -148,6 +148,7 @@ body {
   border: none;
   outline: none;
 }
+
 #message {
   border: none;
   border: 1px solid rgb(219, 219, 219);
@@ -386,10 +387,11 @@ body {
 }
 /* Register */
 .Register {
-  margin-top: 5%;
-  margin-left: 2%;
+  /* overflow-y: scroll; */
+  margin-top: 3%;
+  margin-left: 1%;
   width: fit-content;
-  padding-left: 100px;
+  padding-left: 110px;
   padding-right: 150px;
 }
 .Register .inputdiv {
@@ -425,6 +427,21 @@ body {
   border: none;
   outline: none;
 }
+.login-redirect {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.login-link {
+  color: #007b79;
+  text-decoration: none;
+}
+
+.login-link:hover {
+  text-decoration: underline;
+}
+
 /* ForgetPass */
 .ForgetPass {
   margin-top: 10%;
@@ -3886,6 +3903,7 @@ h1 {
 .Download {
   background-color: #00504e;
   color: white;
+  margin-right: 15px;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
@@ -3914,6 +3932,7 @@ h1 {
 }
 .Upload {
   border-radius: 10px;
+  cursor: pointer;
   width: 120px;
   background-color: #00504e;
   border: none;
@@ -4092,19 +4111,20 @@ h1 {
   border-radius: 50%;
   object-fit: cover;
 }
-
 .edit-picture {
   position: absolute;
   bottom: 0;
   right: 0;
-  background-color: #018786;
+  background: #007070;
   color: white;
-  padding: 5px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
-
 .edit-picture:hover {
   background-color: #00504e;
 }
@@ -4560,21 +4580,6 @@ body.dark-mode {
   border: 3px solid #fff;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
-
-.edit-picture {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  background: #4caf50;
-  color: white;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
 .password-strength-container {
   margin-top: 8px;
 }
@@ -4596,4 +4601,24 @@ body.dark-mode {
 .password-strength-progress {
   height: 100%;
   transition: all 0.3s ease;
+}
+
+/* upload btn */
+.upload-btn {
+  display: inline-block;
+  padding: 5px 10px;
+  background-color: #007b79;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 400;
+  transition: background-color 0.3s;
+}
+
+.upload-btn:hover {
+  background-color: #008481;
+}
+
+.upload-btn input {
+  display: none;
 }

@@ -6,6 +6,7 @@ import { changecurrentpage } from "../data/DocsauraSlice";
 import { useDispatch } from "react-redux";
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
+import { changeprofile } from "../data/DocsauraSlice";
 export default function Login() {
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
@@ -19,7 +20,8 @@ export default function Login() {
     } else {
       setvalid(false);
       seterror("");
-      window.location.href = "/";
+      dispatch(changeprofile(true));
+      navigate("/");
     }
   };
   const navigate = useNavigate();

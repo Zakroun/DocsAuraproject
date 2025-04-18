@@ -472,7 +472,7 @@ export const doctors = [
         id: 1,
         patient: "Sara Ali",
         rating: 2,
-        img : 'user.png',
+        img: "user.png",
         text: "Rushed through my heart consultation",
         date: "2024-02-01",
       },
@@ -480,7 +480,7 @@ export const doctors = [
         id: 2,
         patient: "Karim Benz",
         rating: 1,
-        img : 'user.png',
+        img: "user.png",
         text: "Missed clear signs of arrhythmia",
         date: "2024-02-15",
       },
@@ -488,7 +488,7 @@ export const doctors = [
         id: 3,
         patient: "Lina Maroc",
         rating: 3,
-        img : 'user.png',
+        img: "user.png",
         text: "Average ECG analysis",
         date: "2024-03-02",
       },
@@ -496,7 +496,7 @@ export const doctors = [
         id: 4,
         patient: "Youssef Raf",
         rating: 2,
-        img : 'user.png',
+        img: "user.png",
         text: "Poor follow-up after surgery",
         date: "2024-03-20",
       },
@@ -504,7 +504,7 @@ export const doctors = [
         id: 5,
         patient: "Nadia Tazi",
         rating: 1,
-        img : 'user.png',
+        img: "user.png",
         text: "Unclear treatment plan",
         date: "2024-04-05",
       },
@@ -545,7 +545,7 @@ export const doctors = [
         timeTo: "09:00 AM",
         status: "completed",
         image: "user.png",
-        type: "Consultation at the doctor's office"
+        type: "Consultation at the doctor's office",
       },
       {
         id: 2,
@@ -556,7 +556,7 @@ export const doctors = [
         timeTo: "03:30 PM",
         status: "pending",
         image: "user.png",
-        type: "online Conversation, voice or video call"
+        type: "online Conversation, voice or video call",
       },
       {
         id: 3,
@@ -567,7 +567,7 @@ export const doctors = [
         timeTo: "06:30 PM",
         status: "completed",
         image: "user.png",
-        type: "Consultation at the patient's home"
+        type: "Consultation at the patient's home",
       },
       {
         id: 4,
@@ -578,7 +578,7 @@ export const doctors = [
         timeTo: "09:30 AM",
         status: "pending",
         image: "user.png",
-        type: "Consultation at the doctor's office"
+        type: "Consultation at the doctor's office",
       },
       {
         id: 5,
@@ -589,7 +589,7 @@ export const doctors = [
         timeTo: "08:00 PM",
         status: "completed",
         image: "user.png",
-        type: "online Conversation, voice or video call"
+        type: "online Conversation, voice or video call",
       },
       {
         id: 6,
@@ -600,7 +600,7 @@ export const doctors = [
         timeTo: "10:30 AM",
         status: "pending",
         image: "user.png",
-        type: "Consultation at the patient's home"
+        type: "Consultation at the patient's home",
       },
       {
         id: 7,
@@ -611,7 +611,7 @@ export const doctors = [
         timeTo: "11:30 AM",
         status: "completed",
         image: "user.png",
-        type: "Consultation at the doctor's office"
+        type: "Consultation at the doctor's office",
       },
       {
         id: 8,
@@ -622,7 +622,7 @@ export const doctors = [
         timeTo: "02:30 PM",
         status: "canceled",
         image: "user.png",
-        type: "Consultation at the patient's home"
+        type: "Consultation at the patient's home",
       },
       {
         id: 9,
@@ -633,7 +633,7 @@ export const doctors = [
         timeTo: "03:30 PM",
         status: "canceled",
         image: "user.png",
-        type: "Consultation at the doctor's office"
+        type: "Consultation at the doctor's office",
       },
       {
         id: 10,
@@ -644,7 +644,7 @@ export const doctors = [
         timeTo: "09:30 AM",
         status: "pending",
         image: "user.png",
-        type: "online Conversation, voice or video call"
+        type: "online Conversation, voice or video call",
       },
       {
         id: 11,
@@ -655,7 +655,7 @@ export const doctors = [
         timeTo: "11:00 AM",
         status: "completed",
         image: "user.png",
-        type: "Consultation at the patient's home"
+        type: "Consultation at the patient's home",
       },
       {
         id: 12,
@@ -666,7 +666,7 @@ export const doctors = [
         timeTo: "01:30 PM",
         status: "completed",
         image: "user.png",
-        type: "Consultation at the doctor's office"
+        type: "Consultation at the doctor's office",
       },
       {
         id: 13,
@@ -677,7 +677,7 @@ export const doctors = [
         timeTo: "03:30 PM",
         status: "canceled",
         image: "user.png",
-        type: "Consultation at the patient's home"
+        type: "Consultation at the patient's home",
       },
       {
         id: 14,
@@ -688,7 +688,7 @@ export const doctors = [
         timeTo: "09:00 AM",
         status: "pending",
         image: "user.png",
-        type: "Consultation at the doctor's office"
+        type: "Consultation at the doctor's office",
       },
       {
         id: 15,
@@ -699,7 +699,7 @@ export const doctors = [
         timeTo: "04:30 PM",
         status: "completed",
         image: "user.png",
-        type: "online Conversation, voice or video call"
+        type: "online Conversation, voice or video call",
       },
       {
         id: 16,
@@ -710,7 +710,7 @@ export const doctors = [
         timeTo: "12:30 PM",
         status: "pending",
         image: "user.png",
-        type: "Consultation at the patient's home"
+        type: "Consultation at the patient's home",
       },
     ],
   },
@@ -3596,7 +3596,7 @@ export const laboratories = [
         id: 1,
         fullName: "Yassir Benjelloun",
         location: "Casablanca",
-        date: "28 Jul 2025",
+        date: "28 Feb 2025",
         time: "08.30 AM",
         status: "completed",
         image: "user.png",
@@ -3605,7 +3605,7 @@ export const laboratories = [
         id: 2,
         fullName: "Sara El Mouden",
         location: "Marrakech",
-        date: "12 Jul 2025",
+        date: "12 Feb 2025",
         time: "03.00 PM",
         status: "pending",
         image: "user.png",
@@ -3614,7 +3614,7 @@ export const laboratories = [
         id: 3,
         fullName: "Ahmed Chouhan",
         location: "Rabat",
-        date: "15 Aug 2025",
+        date: "15 Feb 2025",
         time: "06.00 PM",
         status: "completed",
         image: "user.png",
@@ -3623,7 +3623,7 @@ export const laboratories = [
         id: 4,
         fullName: "Kenza Amrani",
         location: "Fes",
-        date: "20 Aug 2025",
+        date: "20 Feb 2025",
         time: "09.00 AM",
         status: "pending",
         image: "user.png",
@@ -3632,7 +3632,7 @@ export const laboratories = [
         id: 5,
         fullName: "Ibrahim Maani",
         location: "Tangier",
-        date: "10 Sep 2025",
+        date: "10 Feb 2025",
         time: "07.30 PM",
         status: "completed",
         image: "user.png",
@@ -3716,7 +3716,7 @@ export const laboratories = [
         id: 1,
         fullName: "Yassir Benjelloun",
         location: "Casablanca",
-        date: "28 Jul 2025",
+        date: "28 Feb 2025",
         time: "08.30 AM",
         status: "completed",
         image: "user.png",
@@ -3725,7 +3725,7 @@ export const laboratories = [
         id: 2,
         fullName: "Sara El Mouden",
         location: "Marrakech",
-        date: "12 Jul 2025",
+        date: "12 Feb 2025",
         time: "03.00 PM",
         status: "pending",
         image: "user.png",
@@ -3734,7 +3734,7 @@ export const laboratories = [
         id: 3,
         fullName: "Ahmed Chouhan",
         location: "Rabat",
-        date: "15 Aug 2025",
+        date: "15 Feb 2025",
         time: "06.00 PM",
         status: "completed",
         image: "user.png",
@@ -3743,7 +3743,7 @@ export const laboratories = [
         id: 4,
         fullName: "Kenza Amrani",
         location: "Fes",
-        date: "20 Aug 2025",
+        date: "20 Feb 2025",
         time: "09.00 AM",
         status: "pending",
         image: "user.png",
@@ -3752,7 +3752,7 @@ export const laboratories = [
         id: 5,
         fullName: "Ibrahim Maani",
         location: "Tangier",
-        date: "10 Sep 2025",
+        date: "10 Feb 2025",
         time: "07.30 PM",
         status: "completed",
         image: "user.png",
@@ -4961,7 +4961,6 @@ export const laboratories = [
   },
 ];
 
-
 export const specializedDoctors = [
   "",
   "Cardiology",
@@ -5022,7 +5021,7 @@ export const conversations = [
         content: "Hey! How are you?",
         sender: "Diane",
         time: "09:05 am",
-        type : "text",
+        type: "text",
         read: true,
       },
       {
@@ -5030,7 +5029,7 @@ export const conversations = [
         content: "Glad to hear!",
         sender: "Diane",
         time: "09:07 am",
-        type : "text",
+        type: "text",
         read: true,
       },
       {
@@ -5038,7 +5037,7 @@ export const conversations = [
         content: "I'm good, thanks!",
         sender: "You",
         time: "09:09 am",
-        type : "text",
+        type: "text",
         read: false,
       },
     ],
@@ -5054,7 +5053,7 @@ export const conversations = [
         content: "Let’s catch up!",
         sender: "Aubrey",
         time: "08:40 am",
-        type : "text",
+        type: "text",
         read: true,
       },
       {
@@ -5062,13 +5061,12 @@ export const conversations = [
         content: "Sure! When are you free?",
         sender: "You",
         time: "09:42 am",
-        type : "text",
+        type: "text",
         read: true,
       },
     ],
   },
 ];
-
 
 const filesData = {
   files: [
