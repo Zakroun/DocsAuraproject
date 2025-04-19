@@ -5101,3 +5101,24 @@ const filesData = {
 };
 
 export default filesData;
+
+export const adminUsers = [
+  {
+    id: 1,
+    fullName: "Zakaryae Rouane",
+    email: "zakaryaerouane@gmail.com",
+    password: "zakaryaerouane123",
+    image: "admin.png",
+    Role: "admin",
+    createdAt: "2025-04-18T10:00:00Z",
+  },
+  {
+    id: 2,
+    fullName: "Abdlhamid Rachidi",
+    email: "abdlhamidrachidi@gmail.com",
+    password: "abdlhamidrachidi123",
+    image: "admin.png",
+    Role: "admin",
+    createdAt: "2025-04-18T10:05:00Z",
+  },
+];

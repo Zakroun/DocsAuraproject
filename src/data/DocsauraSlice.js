@@ -8,6 +8,7 @@ import {
 } from "./data";
 import { createSlice } from "@reduxjs/toolkit";
 import { conversations } from "./data";
+import { adminUsers } from "./data";
 export const DocsauraSlice = createSlice({
   name: "DocsAura",
   initialState: {
@@ -16,12 +17,13 @@ export const DocsauraSlice = createSlice({
     clinics: clinics,
     laboratories: laboratories,
     specializedDoctors: specializedDoctors,
-    profile : false,
+    profile : true,
     cities: cities,
     currentboard: "home",
     conversations: conversations,
     menu : false,
     currentpage : 'home',
+    adminUsers: adminUsers,
   },
   reducers: {
     changeboard: (state, action) => {

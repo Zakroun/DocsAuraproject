@@ -158,7 +158,7 @@ export default function Homeboard(props) {
           ) : (
             <p>Have a nice day at the hospital!</p>
           )}
-          {user.Role === "Patients" ? (
+          {(user.Role === "Patients" || user.Role === "admin")  ? (
             ""
           ) : (
             <div className="stars">{generateStars(user.rating)}</div>
@@ -174,7 +174,7 @@ export default function Homeboard(props) {
                 ? `../images/doctor.png`
                 : d.Role === "clinic"
                 ? `../images/hospital.png`
-                : `../images/research.png`
+                :d.Role === "admin"?`../images/admin.png`: `../images/research.png`
             }
             alt="Doctor imge"
           />
@@ -579,6 +579,10 @@ export default function Homeboard(props) {
             </table>
           </div>
         </>
+      ) : (user.Role === "admin") ? (
+        <div>
+          
+        </div>
       ) : (
         <Link to={"/pages/Activate"} state={{ object: d }}>
           <button className="verfier">Activate my account</button>
