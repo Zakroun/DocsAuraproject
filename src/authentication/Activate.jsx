@@ -1,10 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { RiCloseLargeLine } from "react-icons/ri";
 import { specializedDoctors } from "../data/data";
+import { Addrequest } from "../data/DocsauraSlice";
 // import { useNavigate } from "react-router-dom";
 // import { changecurrentpage } from "../data/DocsauraSlice";
-// import { useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 export default function Activate(props) {
   const [formData, setFormData] = useState({
     address: "",
@@ -23,9 +24,9 @@ export default function Activate(props) {
 
   const [valid, setValid] = useState(false);
   const [error, setError] = useState("");
-
+  const dispatch = useDispatch();
   const role = props.data.Role;
-
+  const navigate = useNavigate();
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
@@ -33,18 +34,71 @@ export default function Activate(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (Object.values(formData).some((value) => value === "")) {
+  
+    const requiredFields = ['address', 'email', 'specialty', 'medicalOrderNumber'];
+    const missingField = requiredFields.find((field) => formData[field] === "");
+  
+    if (missingField) {
       setValid(true);
-      setError("Please fill all the fields");
+      setError("Please fill all the required fields");
     } else if (!emailRegex.test(formData.email)) {
       setValid(true);
       setError("Please enter a valid email address");
     } else {
       setValid(false);
       setError("");
-      console.log("Activation Data:", formData);
+  
+      let requestData = {
+        id: props.data.id,
+        role: role,
+        status: "pending",
+      };
+      if (role === "doctor") {
+        requestData = {
+          ...requestData,
+          amoCode: formData.amoCode,
+          cnssCode: formData.cnssCode,
+          address: formData.address,
+          email: formData.email,
+          specialty: formData.specialty,
+          medicalOrderNumber: formData.medicalOrderNumber,
+        };
+      } else if (role === "clinic") {
+        requestData = {
+          ...requestData,
+          amoCode: formData.amoCode,
+          cnssCode: formData.cnssCode,
+          address: formData.address,
+          email: formData.email,
+          clinicId: formData.clinicId,
+          taxId: formData.taxId,
+        };
+      } else if (role === "laboratori") {
+        requestData = {
+          ...requestData,
+          amoCode: formData.amoCode,
+          cnssCode: formData.cnssCode,
+          address: formData.address,
+          email: formData.email,
+          taxId: formData.taxId,
+          patente: formData.patente,
+        };
+      } else if (role === "Patients") {
+        requestData = {
+          ...requestData,
+          amoCode: formData.amoCode,
+          cnssCode: formData.cnssCode,
+          address: formData.address,
+          email: formData.email,
+          patientId: formData.patientId,
+          emergencyContact: formData.emergencyContact,
+        };
+      }
+      dispatch(Addrequest(requestData));
+      navigate('/')
     }
-  };
+  };  
+  
   return (
     <div className="activate-form">
       <Link to={"/pages/Dashboard"}>

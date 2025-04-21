@@ -4622,3 +4622,182 @@ body.dark-mode {
 .upload-btn input {
   display: none;
 }
+/* dasboard of admin */
+.users {
+  padding: 30px;
+  background: #f9fbfd;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.users__title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.users__table__wrapper {
+  overflow-x: auto;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.users__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.users__table th,
+.users__table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.users__table th {
+  background-color: #f0f4f8;
+  font-weight: 600;
+  color: #333;
+}
+.users__table th input,
+.users__table th select {
+  width: 100%;
+  padding: 3px 5px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
+  margin-bottom: 5px;
+}
+
+.users__table th {
+  vertical-align: bottom;
+}
+
+.users__table tr:hover {
+  background-color: #f9f9f9;
+}
+.requests {
+  padding: 20px;
+}
+.requests__title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.requests__list__item {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+}
+.requests__list__item:hover {
+  background-color: #f0f0f0;
+}
+.request__details {
+  margin-top: 20px;
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+}
+.requests {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.requests__title {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.requests__table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.requests__table th, .requests__table td {
+  padding: 8px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.requests__table th {
+  background-color: #f4f4f4;
+}
+
+.requests__table td {
+  background-color: #fff;
+}
+
+.requests__table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.requests__table td button {
+  padding: 6px 12px;
+  margin: 5px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.btn-accept {
+  background-color: #007b79;
+  color: white;
+}
+
+.btn-reject {
+  background-color: #ff1a1a;
+  color: white;
+}
+
+.btn-accept:hover {
+  background-color: #00504e;
+}
+
+.btn-reject:hover {
+  background-color: #ff4d4d;
+}
+.table-blur {
+  filter: blur(5px);
+  pointer-events: none;
+}
+
+.confirmation-dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.confirmation-dialog__content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.confirmation-dialog__actions button {
+  margin: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.confirmation-dialog__actions button:first-child {
+  background-color: #007b79;
+  color: white;
+}
+
+.confirmation-dialog__actions button:last-child {
+  background-color: #ff1a1a;
+  color: white;
+}

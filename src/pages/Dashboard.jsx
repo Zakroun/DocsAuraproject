@@ -13,6 +13,10 @@ import { useNavigate } from "react-router-dom";
 import Messages from "../Dashboardcomponents/Messages/Messages";
 import HeaderBoard from "../Dashboardcomponents/headerboard";
 import Logout from "../Dashboardcomponents/Logout";
+import Userslist from "../Dashboardcomponents/Users";
+import Requests from "../Dashboardcomponents/Requests";
+import Controlpanel from "../Dashboardcomponents/Controlpanel";
+import Complaints from "../Dashboardcomponents/Complaints";
 export default function Dashboard() {
   const navigate = useNavigate();
   const locations = useLocation();
@@ -21,9 +25,9 @@ export default function Dashboard() {
   const dispatch = useDispatch();
   const conversations = useSelector((state) => state.Docsaura.conversations);
   const [Listconversations, setListconversations] = useState(conversations);
-  useEffect(()=>{
-    setListconversations(conversations)
-  },[conversations])
+  useEffect(() => {
+    setListconversations(conversations);
+  }, [conversations]);
 
   useEffect(() => {
     if (user) {
@@ -38,7 +42,7 @@ export default function Dashboard() {
     <div className="containerDashboard">
       <Part1Dashboard Use={Use} />
       <div className="part2dashboard">
-        <HeaderBoard Use={Use}/>
+        <HeaderBoard Use={Use} />
         {curboard === "home" ? (
           <Homeboard Use={Use} />
         ) : curboard === "calander" ? (
@@ -51,12 +55,26 @@ export default function Dashboard() {
           <Messages conversations={Listconversations} />
         ) : curboard === "Logout" ? (
           <Logout />
-        ) :  curboard === "files" ? (
+        ) : curboard === "files" ? (
           <FileManager />
+        ) : curboard === "users" ? (
+          <Userslist />
+        ) : curboard === "requests" ? (
+          <Requests />
+        ) : curboard === "complaints" ? (
+          <Complaints />
+        ) : curboard === "dashboard" ? (
+          <Controlpanel />
         ) : (
-          <div></div>
-        )
-      }
+          <div>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. At
+              perferendis dolore fugiat aliquid sint quisquam officia dolorem in
+              necessitatibus voluptatibus corrupti, temporibus quia nemo sequi
+              possimus autem repudiandae. Nulla, suscipit.
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

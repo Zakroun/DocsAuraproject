@@ -17,13 +17,44 @@ export const DocsauraSlice = createSlice({
     clinics: clinics,
     laboratories: laboratories,
     specializedDoctors: specializedDoctors,
-    profile : true,
+    profile: true,
     cities: cities,
     currentboard: "home",
     conversations: conversations,
-    menu : false,
-    currentpage : 'home',
+    menu: false,
+    currentpage: "home",
     adminUsers: adminUsers,
+    requests: [
+      {
+        id: 8,
+        role: "doctor",
+        status: "pending",
+        address: "N 2 hay saidia V N meknes",
+        amoCode: "7777777",
+        cnssCode: "",
+        email: "rouanezakaria052@gmail.com",
+        medicalOrderNumber: "999999",
+        specialty: "Gastroenterology",
+      },
+      {
+        id: 9,
+        role: "clinic",
+        status: "pending",
+        address: "10 Rue Al Qods, Rabat",
+        taxId: "456789",
+        clinicId: "CLN123",
+        email: "clinic@example.com",
+      },
+      {
+        id: 10,
+        role: "laboratory",
+        status: "pending",
+        address: "Zone Industrielle, Fès",
+        taxId: "LAB456",
+        patente: "PT98765",
+        email: "lab@example.com",
+      }
+    ],
   },
   reducers: {
     changeboard: (state, action) => {
@@ -79,8 +110,6 @@ export const DocsauraSlice = createSlice({
         console.error("Conversation not found");
         return;
       }
-
-      // Trouver le dernier idMessage et l'incrémenter
       const lastMessage =
         conversation.messages.length > 0
           ? conversation.messages[conversation.messages.length - 1]
@@ -89,7 +118,7 @@ export const DocsauraSlice = createSlice({
       const newIdMessage = lastMessage ? lastMessage.idMessage + 1 : 1;
 
       const newMessage = {
-        idMessage: newIdMessage, // Ajout de l'ID unique
+        idMessage: newIdMessage,
         type: type,
         content: content,
         sender: "You",
@@ -111,7 +140,7 @@ export const DocsauraSlice = createSlice({
     },
     deletemessage: (state, action) => {
       const { idconv, idmessage } = action.payload;
-      console.log(action.payload)
+      console.log(action.payload);
       console.log(state.conversations);
       const conversation = state.conversations.find(
         (conv) => conv.id === idconv
@@ -123,17 +152,42 @@ export const DocsauraSlice = createSlice({
         console.log("suucccccccccc");
       }
     },
-    Menu : (state, action) =>{
-      state.menu = !state.menu
+    Menu: (state, action) => {
+      state.menu = !state.menu;
     },
-    changecurrentpage : (state, action) => {
-      state.currentpage = action.payload
+    changecurrentpage: (state, action) => {
+      state.currentpage = action.payload;
     },
-    changeprofile : (state,action) => {
-      state.profile = action.payload
-    }
+    changeprofile: (state, action) => {
+      state.profile = action.payload;
+    },
+    Addrequest: (state, action) => {
+      console.log(action.payload);
+      state.requests.push(action.payload);
+    },
+    acceptRequest: (state, action) => {
+      const request = state.requests.find((req) => req.id === action.payload);
+      if (request) {
+        request.Verified = true;
+      }
+    },
+    rejectRequest: (state, action) => {
+      state.requests = state.requests.filter(
+        (req) => req.id !== action.payload
+      );
+    },
   },
 });
 
-export const {changecurrentpage, changeboard, changestatus, Sent, deletemessage ,Menu ,changeprofile} =
-  DocsauraSlice.actions;
+export const {
+  changecurrentpage,
+  changeboard,
+  changestatus,
+  Sent,
+  deletemessage,
+  Menu,
+  changeprofile,
+  Addrequest,
+  acceptRequest,
+  rejectRequest,
+} = DocsauraSlice.actions;
