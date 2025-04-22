@@ -9,6 +9,7 @@ import {
 import { createSlice } from "@reduxjs/toolkit";
 import { conversations } from "./data";
 import { adminUsers } from "./data";
+import { complaints } from "./data";
 export const DocsauraSlice = createSlice({
   name: "DocsAura",
   initialState: {
@@ -24,6 +25,7 @@ export const DocsauraSlice = createSlice({
     menu: false,
     currentpage: "home",
     adminUsers: adminUsers,
+    complaints: complaints,
     requests: [
       {
         id: 8,
@@ -53,7 +55,7 @@ export const DocsauraSlice = createSlice({
         taxId: "LAB456",
         patente: "PT98765",
         email: "lab@example.com",
-      }
+      },
     ],
   },
   reducers: {
@@ -166,15 +168,65 @@ export const DocsauraSlice = createSlice({
       state.requests.push(action.payload);
     },
     acceptRequest: (state, action) => {
-      const request = state.requests.find((req) => req.id === action.payload);
+      const request = state.requests.find((req) => req.id === action.payload.id);
       if (request) {
         request.Verified = true;
+        request.status = "accepted";
+      }
+      console.log(action.payload);
+      if (action.payload.role === "doctor") {
+        const doctor = state.doctors.find((doc) => doc.id === request.id);
+        if (doctor) {
+          doctor.Verified = true;
+        }
+      } else if (action.payload.role === "clinic") {
+        const clinic = state.clinics.find((doc) => doc.id === action.payload.id);
+        if (clinic) {
+          clinic.Verified = true;
+        }
+      } else if (action.payload.role === "laboratory") {
+        const laboratory = state.laboratories.find(
+          (doc) => doc.id === action.payload.id
+        );
+        if (laboratory) {
+          laboratory.Verified = true;
+        }
+      } else if (action.payload.role === "patient") {
+        const visitor = state.visitors.find((doc) => doc.id === action.payload.id);
+        if (visitor) {
+          visitor.Verified = true;
+        }
       }
     },
     rejectRequest: (state, action) => {
-      state.requests = state.requests.filter(
-        (req) => req.id !== action.payload
-      );
+      const request = state.requests.find((req) => req.id === action.payload.id);
+      if (request) {
+        request.Verified = false;
+        request.status = "rejected";
+      }
+      if (action.payload.role === "doctor") {
+        const doctor = state.doctors.find((doc) => doc.id === action.payload.id);
+        if (doctor) {
+          doctor.Verified = false;
+        }
+      } else if (action.payload.role === "clinic") {
+        const clinic = state.clinics.find((doc) => doc.id === action.payload.id);
+        if (clinic) {
+          clinic.Verified = false;
+        }
+      } else if (action.payload.role === "laboratory") {
+        const laboratory = state.laboratories.find(
+          (doc) => doc.id === action.payload.id
+        );
+        if (laboratory) {
+          laboratory.Verified = false;
+        }
+      } else if (action.payload.role === "patient") {
+        const visitor = state.visitors.find((doc) => doc.id === action.payload.id);
+        if (visitor) {
+          visitor.Verified = false;
+        }
+      }
     },
   },
 });

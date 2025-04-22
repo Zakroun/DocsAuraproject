@@ -4626,3 +4626,23 @@ export const adminUsers = [
     createdAt: "2025-04-18T10:05:00Z",
   },
 ];
+export const complaints = [
+  {
+    id: 1,
+    email: "user1@example.com",
+    message: "La clinique a été fermée sans avertissement.",
+    date: "2025-04-21",
+  },
+  {
+    id: 2,
+    email: "user2@example.com",
+    message: "Le laboratoire n’a pas envoyé mes résultats à temps.",
+    date: "2025-04-20",
+  },
+  {
+    id: 3,
+    email: "user3@example.com",
+    message: "Le docteur n’était pas présent à l’heure du rendez-vous.",
+    date: "2025-04-19",
+  },
+];

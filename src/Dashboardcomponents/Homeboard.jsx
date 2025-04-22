@@ -12,6 +12,7 @@ import {
   ResponsiveContainer,
   CartesianGrid,
 } from "recharts";
+import ControlPanel from "./Controlpanel";
 import { MdCancel } from "react-icons/md";
 import { FaHospitalUser } from "react-icons/fa";
 import { IoCallSharp } from "react-icons/io5";
@@ -581,7 +582,7 @@ export default function Homeboard(props) {
         </>
       ) : (user.Role === "admin") ? (
         <div>
-          
+          <ControlPanel/>
         </div>
       ) : (
         <Link to={"/pages/Activate"} state={{ object: d }}>

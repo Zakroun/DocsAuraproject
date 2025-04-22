@@ -14,8 +14,6 @@ import { Menu } from "../data/DocsauraSlice";
 import { FaUsers } from "react-icons/fa6";
 import { FaCodePullRequest } from "react-icons/fa6";
 import { MdOutlinePendingActions } from "react-icons/md";
-import { MdDashboard } from "react-icons/md";
-
 export default function Part1Dashboard(props) {
   const user = props.Use;
   const dispatch = useDispatch();
@@ -54,10 +52,6 @@ export default function Part1Dashboard(props) {
                 <MdOutlinePendingActions
                   className="icon enabled"
                   onClick={() => dispatch(changeboard("complaints"))}
-                />
-                <MdDashboard
-                  className="icon enabled"
-                  onClick={() => dispatch(changeboard("dashboard"))}
                 />
               </>
             ) : (
@@ -133,10 +127,6 @@ export default function Part1Dashboard(props) {
                 className="icon enabled"
                 onClick={() => dispatch(changeboard("complaints"))}
               />
-              <MdDashboard
-                  className="icon enabled"
-                  onClick={() => dispatch(changeboard("dashboard"))}
-                />
             </>
           ) : (
             <>
