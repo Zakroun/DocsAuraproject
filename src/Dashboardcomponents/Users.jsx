@@ -14,6 +14,7 @@ export default function Userslist() {
     rating: '',
     email: '',
     phone: '',
+    year: '', 
   });
 
   const handleFilterChange = (e, field) => {
@@ -23,10 +24,13 @@ export default function Userslist() {
   const filteredUsers = useMemo(() => {
     return allUsers.filter((user) => {
       const type = user.Role === 'doctor' ? 'Doctor' : user.Role === 'clinic' ? 'Clinic' : 'laboratory';
+      const userYear = new Date(user.create_at).getFullYear().toString(); // ✅ Extraire l'année
+
       return (
         (filters.type === '' || filters.type === type) &&
         (filters.verified === '' || (user.Verified ? 'Yes' : 'No') === filters.verified) &&
-        user.email.toLowerCase().includes(filters.email.toLowerCase())
+        user.email.toLowerCase().includes(filters.email.toLowerCase()) &&
+        (filters.year === '' || filters.year === userYear) // ✅ Vérification année
       );
     });
   }, [filters, allUsers]);
@@ -39,6 +43,7 @@ export default function Userslist() {
         <td>{type}</td>
         <td>{user.Verified ? 'Verified' : 'Unverified'}</td>
         <td>{user.email}</td>
+        <td>{new Date(user.create_at).getFullYear()}</td> {/* ✅ Affichage année */}
       </tr>
     );
   };
@@ -67,6 +72,14 @@ export default function Userslist() {
                 </select>
               </th>
               <th><input placeholder="Email" onChange={(e) => handleFilterChange(e, 'email')} /></th>
+              <th>
+                <select onChange={(e) => handleFilterChange(e, 'year')}> {/* ✅ Filtre année */}
+                  <option value="">All</option>
+                  <option value="2025">2025</option>
+                  <option value="2024">2024</option>
+                  <option value="2023">2023</option>
+                </select>
+              </th>
             </tr>
           </thead>
           <tbody>

@@ -35,6 +35,7 @@ export const visitors = [
       },
     ],
     notes: "Prefers morning appointments.",
+    create_at : '2024-01-01',
   },
   {
     id: 2,
@@ -72,6 +73,7 @@ export const visitors = [
       },
     ],
     notes: "Prefers morning appointments.",
+    create_at : '2024-01-01',
   },
   {
     id: 3,
@@ -109,6 +111,7 @@ export const visitors = [
       },
     ],
     notes: "Prefers morning appointments.",
+    create_at : '2024-01-01',
   },
   {
     id: 4,
@@ -146,6 +149,7 @@ export const visitors = [
       },
     ],
     notes: "Prefers morning appointments.",
+    create_at : '2024-01-01',
   },
   {
     id: 5,
@@ -183,6 +187,7 @@ export const visitors = [
       },
     ],
     notes: "Prefers morning appointments.",
+    create_at : '2024-01-01',
   },
   {
     id: 6,
@@ -220,6 +225,7 @@ export const visitors = [
       },
     ],
     notes: "Prefers morning appointments.",
+    create_at : '2024-01-01',
   },
   {
     id: 7,
@@ -257,6 +263,7 @@ export const visitors = [
       },
     ],
     notes: "Prefers morning appointments.",
+    create_at : '2024-01-01',
   },
   {
     id: 8,
@@ -294,6 +301,7 @@ export const visitors = [
       },
     ],
     notes: "Prefers morning appointments.",
+    create_at : '2024-01-01',
   },
   {
     id: 9,
@@ -331,6 +339,7 @@ export const visitors = [
       },
     ],
     notes: "Prefers morning appointments.",
+    create_at : '2024-01-01',
   },
   {
     id: 10,
@@ -368,6 +377,7 @@ export const visitors = [
       },
     ],
     notes: "Prefers morning appointments.",
+    create_at : '2024-01-01',
   },
   {
     id: 11,
@@ -405,6 +415,7 @@ export const visitors = [
       },
     ],
     notes: "Prefers morning appointments.",
+    create_at : '2025-01-01',
   },
   {
     id: 12,
@@ -442,6 +453,7 @@ export const visitors = [
       },
     ],
     notes: "Prefers morning appointments.",
+    create_at : '2025-01-01',
   },
 ];
 
@@ -713,6 +725,7 @@ export const doctors = [
         type: "Consultation at the patient's home",
       },
     ],
+    create_at : '2024-01-01',
   },
   {
     id: 2,
@@ -845,6 +858,7 @@ export const doctors = [
         image: "user.png",
       },
     ],
+    create_at : '2024-01-01',
   },
   {
     id: 3,
@@ -977,6 +991,7 @@ export const doctors = [
         image: "user.png",
       },
     ],
+    create_at : '2024-01-01',
   },
   {
     id: 4,
@@ -1109,6 +1124,7 @@ export const doctors = [
         image: "user.png",
       },
     ],
+    create_at : '2024-01-01',
   },
   {
     id: 5,
@@ -1241,6 +1257,7 @@ export const doctors = [
         image: "user.png",
       },
     ],
+    create_at : '2024-01-01',
   },
   {
     id: 6,
@@ -1300,6 +1317,7 @@ export const doctors = [
         date: "2024-04-05",
       },
     ],
+    create_at : '2024-01-01',
   },
   {
     id: 7,
@@ -1432,6 +1450,7 @@ export const doctors = [
         image: "user.png",
       },
     ],
+    create_at : '2025-01-01',
   },
   {
     id: 8,
@@ -1496,6 +1515,8 @@ export const doctors = [
       { type: "Consultation at the patient's home", price: 300 },
       { type: "Consultation at the doctor's office", price: 200 },
     ],
+    
+    create_at : '2025-01-01',
   },
   {
     id: 9,
@@ -1504,6 +1525,7 @@ export const doctors = [
     Verified: false,
     email: "irene9@example.com",
     password: "docpqr",
+    create_at : '2025-01-01',
   },
   {
     id: 10,
@@ -1512,6 +1534,7 @@ export const doctors = [
     Verified: false,
     email: "jack10@example.com",
     password: "docstu",
+    create_at : '2025-01-01',
   },
   {
     id: 11,
@@ -1520,6 +1543,7 @@ export const doctors = [
     Verified: false,
     email: "kelly11@example.com",
     password: "docvwx",
+    create_at : '2025-01-01',
   },
   {
     id: 12,
@@ -1528,6 +1552,7 @@ export const doctors = [
     Verified: false,
     email: "liam12@example.com",
     password: "docyz",
+    create_at : '2025-01-01',
   },
 ];
 
@@ -1655,6 +1680,7 @@ export const clinics = [
         image: "user.png",
       },
     ],
+    create_at : '2025-01-01',
   },
   {
     id: 2,
@@ -1779,6 +1805,7 @@ export const clinics = [
         image: "user.png",
       },
     ],
+    create_at : '2024-01-01',
   },
   {
     id: 3,
@@ -1903,6 +1930,7 @@ export const clinics = [
         image: "user.png",
       },
     ],
+    create_at : '2024-01-01',
   },
   {
     id: 4,
@@ -2027,6 +2055,7 @@ export const clinics = [
         image: "user.png",
       },
     ],
+    create_at : '2024-01-01',
   },
   {
     id: 5,
@@ -2151,6 +2180,7 @@ export const clinics = [
         image: "user.png",
       },
     ],
+    create_at : '2024-01-01',
   },
   {
     id: 6,
@@ -2275,6 +2305,7 @@ export const clinics = [
         image: "user.png",
       },
     ],
+    create_at : '2024-01-01',
   },
   {
     id: 7,
@@ -2399,6 +2430,7 @@ export const clinics = [
         image: "user.png",
       },
     ],
+    create_at : '2024-01-01',
   },
   {
     id: 8,
@@ -2523,6 +2555,7 @@ export const clinics = [
         image: "user.png",
       },
     ],
+    create_at : '2024-01-01',
   },
   {
     id: 9,
@@ -2647,6 +2680,7 @@ export const clinics = [
         image: "user.png",
       },
     ],
+    create_at : '2024-01-01',
   },
   {
     id: 10,
@@ -2771,6 +2805,7 @@ export const clinics = [
         image: "user.png",
       },
     ],
+    create_at : '2025-01-01',
   },
   {
     id: 11,
@@ -2895,6 +2930,7 @@ export const clinics = [
         image: "user.png",
       },
     ],
+    create_at : '2025-01-01',
   },
   {
     id: 12,
@@ -3019,6 +3055,7 @@ export const clinics = [
         image: "user.png",
       },
     ],
+    create_at : '2025-01-01',
   },
 ];
 
@@ -3142,6 +3179,7 @@ export const laboratories = [
         image: "user.png",
       },
     ],
+    create_at : '2025-01-01',
   },
   {
     id: 2,
@@ -3262,6 +3300,7 @@ export const laboratories = [
         image: "user.png",
       },
     ],
+    create_at : '2025-01-01',
   },
   {
     id: 3,
@@ -3314,6 +3353,7 @@ export const laboratories = [
         date: "2024-04-05",
       },
     ],
+    create_at : '2025-01-01',
     patientData: [
       { day: "Mon", thisWeek: 80, lastWeek: 70 },
       { day: "Tue", thisWeek: 120, lastWeek: 110 },
@@ -3502,6 +3542,7 @@ export const laboratories = [
         image: "user.png",
       },
     ],
+    create_at : '2025-01-01',
   },
   {
     id: 5,
@@ -3742,6 +3783,7 @@ export const laboratories = [
         image: "user.png",
       },
     ],
+    create_at : '2025-01-01',
   },
   {
     id: 7,
@@ -3862,6 +3904,7 @@ export const laboratories = [
         image: "user.png",
       },
     ],
+    create_at : '2024-01-01',
   },
   {
     id: 8,
@@ -3982,6 +4025,7 @@ export const laboratories = [
         image: "user.png",
       },
     ],
+    create_at : '2024-01-01',
   },
   {
     id: 9,
@@ -4102,6 +4146,7 @@ export const laboratories = [
         image: "user.png",
       },
     ],
+    create_at : '2024-01-01',
   },
   {
     id: 10,
@@ -4222,6 +4267,7 @@ export const laboratories = [
         image: "user.png",
       },
     ],
+    create_at : '2024-01-01',
   },
   {
     id: 11,
@@ -4342,6 +4388,7 @@ export const laboratories = [
         image: "user.png",
       },
     ],
+    create_at : '2024-01-01',
   },
   {
     id: 12,
@@ -4462,6 +4509,7 @@ export const laboratories = [
         image: "user.png",
       },
     ],
+    create_at : '2024-01-01',
   },
 ];
 

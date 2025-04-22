@@ -5532,3 +5532,99 @@ body.dark-mode {
   gap: 1rem;
   margin-bottom: 20px;
 }
+#divselect{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.complaint-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.complaint-popup__content {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  position: relative;
+  animation: popupFade 0.3s ease-in-out;
+}
+
+.complaint-popup__content h3 {
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+.complaint-popup__content span {
+  color: #008481;
+  font-weight: 600;
+}
+
+.complaint-popup__content p {
+  font-size: 16px;
+  margin-bottom: 20px;
+  white-space: pre-wrap;
+}
+
+.btn-close {
+  padding: 8px 16px;
+  background-color: #008481;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+.btn-close:hover {
+  background-color: #006c6b;
+}
+
+.truncate {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@keyframes popupFade {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.popup-btn-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn-delete {
+  background-color: #ff4d4d;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-delete:hover {
+  background-color: #cc0000;
+}

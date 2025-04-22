@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { MdVerified } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { useMemo } from "react";
 import {
   LineChart,
   BarChart,
@@ -101,6 +102,18 @@ export default function Homeboard(props) {
   const patientData = d.patientData;
   const appointments = filteredAppointments;
   const userDataYearly = useSelector(s=>s.Docsaura.userDataYearly);
+  const [selectedYear, setSelectedYear] = useState('2025');
+
+  // Extraire les années distinctes depuis les données
+  const availableYears = useMemo(() => {
+    const years = new Set(userDataYearly.map((d) => d.year));
+    return Array.from(years).sort((a, b) => b - a);
+  }, [userDataYearly]);
+
+  // Filtrer les données selon l'année sélectionnée
+  const filteredData = useMemo(() => {
+    return userDataYearly.filter((d) => d.year.toString() === selectedYear);
+  }, [userDataYearly, selectedYear]);
   return (
     <div className="homeboard">
       {/* <div className="searchadd">
@@ -585,28 +598,38 @@ export default function Homeboard(props) {
         </>
       ) : user.Role === "admin" ? (
         <div>
-          <div className="mt-6" id="divchart">
-            <h2 className="text-xl font-semibold mb-4">
-              User Statistics Over the Year
-            </h2><br />
-            <ResponsiveContainer width="95%" height={300}>
-              <LineChart data={userDataYearly}>
-                <XAxis dataKey="month" stroke="#555" />
-                <YAxis />
-                <CartesianGrid stroke="#ddd" strokeDasharray="5 5" />
-                <Tooltip />
-                <Line
-                  type="monotone"
-                  dataKey="users"
-                  stroke="#008481"
-                  strokeWidth={3}
-                  dot={{ r: 5 }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
+        <div className="mt-6" id="divchart">
+          <div className="mb-4" id="divselect">
+          <h2 className="text-xl font-semibold mb-4">User Statistics Over the Year</h2>
+            <select
+            id="year-select"
+              value={selectedYear}
+              onChange={(e) => setSelectedYear(e.target.value)}
+              className="border px-2 py-1 rounded"
+            >
+              {availableYears.map((year) => (
+                <option key={year} value={year}>{year}</option>
+              ))}
+            </select>
           </div>
-          <ControlPanel />
+          <ResponsiveContainer width="95%" height={300}>
+            <LineChart data={filteredData}>
+              <XAxis dataKey="month" stroke="#555" />
+              <YAxis />
+              <CartesianGrid stroke="#ddd" strokeDasharray="5 5" />
+              <Tooltip />
+              <Line
+                type="monotone"
+                dataKey="users"
+                stroke="#008481"
+                strokeWidth={3}
+                dot={{ r: 5 }}
+              />
+            </LineChart>
+          </ResponsiveContainer>
         </div>
+        <ControlPanel />
+      </div>
       ) : (
         <Link to={"/pages/Activate"} state={{ object: d }}>
           <button className="verfier">Activate my account</button>

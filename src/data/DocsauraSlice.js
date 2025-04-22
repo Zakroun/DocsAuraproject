@@ -233,6 +233,12 @@ export const DocsauraSlice = createSlice({
         }
       }
     },
+    Deletecomplaint: (state, action) => {
+      const complaintId = action.payload;
+      state.complaints = state.complaints.filter(
+        (complaint) => complaint.id !== complaintId
+      );
+    }
   },
 });
 
@@ -247,4 +253,5 @@ export const {
   Addrequest,
   acceptRequest,
   rejectRequest,
+  Deletecomplaint,
 } = DocsauraSlice.actions;

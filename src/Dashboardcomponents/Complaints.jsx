@@ -1,10 +1,14 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { Deletecomplaint } from "../data/DocsauraSlice";
 
 export default function Complaints() {
   const complaints = useSelector((state) => state.Docsaura.complaints);
   const [complaintList, setComplaintList] = useState([]);
   const [selectedYear, setSelectedYear] = useState("All");
+  const [viewedComplaint, setViewedComplaint] = useState(null);
+  const [selectedToDelete, setSelectedToDelete] = useState(null);
+  const dispatch = useDispatch();
 
   const availableYears = [
     ...new Set(complaints.map((c) => new Date(c.date).getFullYear())),
@@ -22,6 +26,11 @@ export default function Complaints() {
       );
     }
   }, [complaints, selectedYear]);
+
+  const confirmDelete = (id) => {
+    dispatch(Deletecomplaint(id));
+    setSelectedToDelete(null);
+  };
 
   return (
     <div className="complaints">
@@ -63,11 +72,21 @@ export default function Complaints() {
               complaintList.map((complaint, index) => (
                 <tr key={index}>
                   <td>{complaint.email}</td>
-                  <td>{complaint.message}</td>
+                  <td className="truncate">{complaint.message}</td>
                   <td>{new Date(complaint.date).toLocaleDateString()}</td>
                   <td>
-                    <button className="btn-view">View</button>
-                    <button className="btn-delete">Delete</button>
+                    <button
+                      className="btn-view"
+                      onClick={() => setViewedComplaint(complaint)}
+                    >
+                      View
+                    </button>
+                    <button
+                      className="btn-delete"
+                      onClick={() => setSelectedToDelete(complaint)}
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))
@@ -75,6 +94,50 @@ export default function Complaints() {
           </tbody>
         </table>
       </div>
+
+      {/* View Popup */}
+      {viewedComplaint && (
+        <div className="complaint-popup">
+          <div className="complaint-popup__content">
+            <h3>
+              Complaint from <span>{viewedComplaint.email}</span>
+            </h3>
+            <p>{viewedComplaint.message}</p>
+            <button
+              className="btn-close"
+              onClick={() => setViewedComplaint(null)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Popup */}
+      {selectedToDelete && (
+        <div className="complaint-popup">
+          <div className="complaint-popup__content">
+            <h3>
+              Confirm Delete for <span>{selectedToDelete.email}</span>?
+            </h3>
+            <p>Are you sure you want to delete this complaint?</p>
+            <div className="popup-btn-group">
+              <button
+                className="btn-delete"
+                onClick={() => confirmDelete(selectedToDelete.id)}
+              >
+                Yes, Delete
+              </button>
+              <button
+                className="btn-close"
+                onClick={() => setSelectedToDelete(null)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
