@@ -459,17 +459,15 @@ export default function AppointmentForm({ user, Use, onSubmitFeedback }) {
         ) : complete === "canceled" ? (
           <div className="cancelform">
             <h1>Appointment Canceled Form</h1>
+            <br />
             {!showConfirm ? (
               <div>
-                <label>Reason for cancellation</label>
-                <br />
                 <textarea
                   className="cancel-reason"
                   value={cancelReason}
                   onChange={(e) => setCancelReason(e.target.value)}
                   placeholder="Enter the reason for cancellation..."
                 />{" "}
-                <br />
                 <br />
                 <button onClick={handleCancel} className="cancel_reason">
                   Cancel Appointment

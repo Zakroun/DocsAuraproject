@@ -1814,6 +1814,14 @@ hr {
 .weeklyReports {
   padding: 25px;
 }
+/* .weeklypart1{
+  padding: 10px;
+  background-color: #fff;
+  margin-bottom: 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  margin-top: 20px;
+} */
 .weeklyReports__content {
   display: flex;
   flex-wrap: wrap;
@@ -1839,9 +1847,15 @@ hr {
   height: 130px;
 }
 .appointments-table {
-  width: 100%;
+  width: 95%;
   margin-bottom: 40px;
+  margin-left: .8%;
+  padding: 20px;
   overflow-x: auto;
+  background-color: #fff;
+  margin-bottom: 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
 }
 
 table {
@@ -1856,9 +1870,11 @@ th,
 td {
   padding: 10px;
   text-align: center;
+  border-bottom: 1px solid #ddd;
 }
 
 th {
+  color: white;
   background-color: #f4f4f4;
 }
 
@@ -1958,6 +1974,11 @@ tr.canceled {
 .chart-container {
   margin-top: 20px;
   margin-bottom: 40px;
+  padding: 20px;
+  background-color: #fff;
+  margin-bottom: 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
 }
 
 .add {
@@ -2186,7 +2207,7 @@ h1 {
   overflow-y: auto;
 }
 
-.search-input {
+.search-input-messages {
   width: 100%;
   padding: 8px;
   margin-bottom: 10px;
@@ -2194,7 +2215,7 @@ h1 {
   border-radius: 4px;
   outline: none;
 }
-.search-input:hover {
+.search-input-messages:hover {
   border: 1px solid #00504e;
 }
 .conversation-items {
@@ -2259,7 +2280,7 @@ h1 {
 }
 .chat_window {
   overflow-y: scroll;
-  height: 400px;
+  height: 450px;
   /* background-color: rgb(237, 237, 237); */
   background-image: url("/public/Images/cover.png");
   background-repeat: no-repeat;
@@ -2608,8 +2629,8 @@ h1 {
   color: white;
 }
 .cancel_reason {
-  padding: 10px 20px;
-  font-size: 16px;
+  padding: 7px 9px;
+  font-size: 15px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -2654,9 +2675,12 @@ h1 {
   display: flex;
   height: 80vh;
   margin-bottom: 30px;
-  background-color: #f9fafb;
   padding: 20px;
-  gap: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #fff;
+  margin-bottom: 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
 }
 
 /* Main Content */
@@ -3202,7 +3226,7 @@ h1 {
   .conversation-list h2 {
     font-size: 18px;
   }
-  .search-input {
+  .search-input-messages {
     width: 80%;
   }
   .conversation-item {
@@ -3966,8 +3990,10 @@ h1 {
   min-height: 100vh;
   margin: 0;
   padding: 20px;
-  background-color: #f9f9f9;
-  box-sizing: border-box;
+  background-color: #fff;
+  margin-bottom: 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
 }
 
 /* Tabs Styles */

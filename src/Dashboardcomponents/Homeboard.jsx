@@ -101,8 +101,8 @@ export default function Homeboard(props) {
   }
   const patientData = d.patientData;
   const appointments = filteredAppointments;
-  const userDataYearly = useSelector(s=>s.Docsaura.userDataYearly);
-  const [selectedYear, setSelectedYear] = useState('2025');
+  const userDataYearly = useSelector((s) => s.Docsaura.userDataYearly);
+  const [selectedYear, setSelectedYear] = useState("2025");
 
   // Extraire les années distinctes depuis les données
   const availableYears = useMemo(() => {
@@ -204,78 +204,80 @@ export default function Homeboard(props) {
       user.Verified === true ? (
         <>
           <div className="weeklyReports">
-            <div className="weeklyheader">
-              <h2>Weekly Reports</h2>
-              <select name="weeklyselect" id="weeklyselect">
-                <option value="last week">Last Week</option>
-                <option value="this week">This Week</option>
-                <option value="last month">Last Month</option>
-                <option value="this month">This Month</option>
-                <option value="last year">Last Year</option>
-                <option value="this year">This Year</option>
-              </select>
-            </div>
+            <div className="weeklypart1">
+              <div className="weeklyheader">
+                <h2>Weekly Reports</h2>
+                <select name="weeklyselect" id="weeklyselect">
+                  <option value="last week">Last Week</option>
+                  <option value="this week">This Week</option>
+                  <option value="last month">Last Month</option>
+                  <option value="this month">This Month</option>
+                  <option value="last year">Last Year</option>
+                  <option value="this year">This Year</option>
+                </select>
+              </div>
 
-            <div className="weeklyReports__content">
-              <div className="partweekly">
-                <div className="partweekly__header">
-                  <FaHospitalUser
-                    size={30}
-                    color="rgb(0, 0, 155)"
-                    style={{
-                      backgroundColor: "rgba(0, 0, 155, 0.38)",
-                      padding: 7,
-                      borderRadius: 10,
-                    }}
-                  />
+              <div className="weeklyReports__content">
+                <div className="partweekly">
+                  <div className="partweekly__header">
+                    <FaHospitalUser
+                      size={30}
+                      color="rgb(0, 0, 155)"
+                      style={{
+                        backgroundColor: "rgba(0, 0, 155, 0.38)",
+                        padding: 7,
+                        borderRadius: 10,
+                      }}
+                    />
+                  </div>
+                  <h3>Total Patients </h3>
+                  <h3 style={{ color: "rgb(0, 0, 155)" }}>200</h3>
                 </div>
-                <h3>Total Patients </h3>
-                <h3 style={{ color: "rgb(0, 0, 155)" }}>200</h3>
-              </div>
-              <div className="partweekly">
-                <div className="partweekly__header">
-                  <IoCallSharp
-                    size={30}
-                    color="rgb(195, 101, 0)"
-                    style={{
-                      backgroundColor: "rgba(236, 122, 0, 0.45)",
-                      padding: 7,
-                      borderRadius: 10,
-                    }}
-                  />
+                <div className="partweekly">
+                  <div className="partweekly__header">
+                    <IoCallSharp
+                      size={30}
+                      color="rgb(195, 101, 0)"
+                      style={{
+                        backgroundColor: "rgba(236, 122, 0, 0.45)",
+                        padding: 7,
+                        borderRadius: 10,
+                      }}
+                    />
+                  </div>
+                  <h3>Pending Appointments </h3>
+                  <h3 style={{ color: "rgb(195, 101, 0)" }}>20</h3>
                 </div>
-                <h3>Pending Appointments </h3>
-                <h3 style={{ color: "rgb(195, 101, 0)" }}>20</h3>
-              </div>
-              <div className="partweekly">
-                <div className="partweekly__header">
-                  <FaCalendarAlt
-                    size={30}
-                    color="rgb(153, 0, 0)"
-                    style={{
-                      backgroundColor: "rgba(219, 0, 0, 0.46)",
-                      padding: 7,
-                      borderRadius: 10,
-                    }}
-                  />
+                <div className="partweekly">
+                  <div className="partweekly__header">
+                    <FaCalendarAlt
+                      size={30}
+                      color="rgb(153, 0, 0)"
+                      style={{
+                        backgroundColor: "rgba(219, 0, 0, 0.46)",
+                        padding: 7,
+                        borderRadius: 10,
+                      }}
+                    />
+                  </div>
+                  <h3>Canceled Appointments </h3>
+                  <h3 style={{ color: "rgb(153, 0, 0)" }}>100</h3>
                 </div>
-                <h3>Canceled Appointments </h3>
-                <h3 style={{ color: "rgb(153, 0, 0)" }}>100</h3>
-              </div>
-              <div className="partweekly">
-                <div className="partweekly__header">
-                  <MdMarkEmailUnread
-                    size={30}
-                    color="rgb(0, 113, 128)"
-                    style={{
-                      backgroundColor: "rgba(0, 113, 128, 0.39)",
-                      padding: 7,
-                      borderRadius: 10,
-                    }}
-                  />
+                <div className="partweekly">
+                  <div className="partweekly__header">
+                    <MdMarkEmailUnread
+                      size={30}
+                      color="rgb(0, 113, 128)"
+                      style={{
+                        backgroundColor: "rgba(0, 113, 128, 0.39)",
+                        padding: 7,
+                        borderRadius: 10,
+                      }}
+                    />
+                  </div>
+                  <h3>Completed Appointments </h3>
+                  <h3 style={{ color: "rgb(0, 113, 128)" }}>10</h3>
                 </div>
-                <h3>Completed Appointments </h3>
-                <h3 style={{ color: "rgb(0, 113, 128)" }}>10</h3>
               </div>
             </div>
             <div className="chart-container">
@@ -360,7 +362,7 @@ export default function Homeboard(props) {
                 </select>
               </div>
             </div>
-            <table border={1}>
+            <table>
               <thead>
                 <tr>
                   <th>Profile</th>
@@ -598,38 +600,42 @@ export default function Homeboard(props) {
         </>
       ) : user.Role === "admin" ? (
         <div>
-        <div className="mt-6" id="divchart">
-          <div className="mb-4" id="divselect">
-          <h2 className="text-xl font-semibold mb-4">User Statistics Over the Year</h2>
-            <select
-            id="year-select"
-              value={selectedYear}
-              onChange={(e) => setSelectedYear(e.target.value)}
-              className="border px-2 py-1 rounded"
-            >
-              {availableYears.map((year) => (
-                <option key={year} value={year}>{year}</option>
-              ))}
-            </select>
+          <div className="mt-6" id="divchart">
+            <div className="mb-4" id="divselect">
+              <h2 className="text-xl font-semibold mb-4">
+                User Statistics Over the Year
+              </h2>
+              <select
+                id="year-select"
+                value={selectedYear}
+                onChange={(e) => setSelectedYear(e.target.value)}
+                className="border px-2 py-1 rounded"
+              >
+                {availableYears.map((year) => (
+                  <option key={year} value={year}>
+                    {year}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <ResponsiveContainer width="95%" height={300}>
+              <LineChart data={filteredData}>
+                <XAxis dataKey="month" stroke="#555" />
+                <YAxis />
+                <CartesianGrid stroke="#ddd" strokeDasharray="5 5" />
+                <Tooltip />
+                <Line
+                  type="monotone"
+                  dataKey="users"
+                  stroke="#008481"
+                  strokeWidth={3}
+                  dot={{ r: 5 }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
           </div>
-          <ResponsiveContainer width="95%" height={300}>
-            <LineChart data={filteredData}>
-              <XAxis dataKey="month" stroke="#555" />
-              <YAxis />
-              <CartesianGrid stroke="#ddd" strokeDasharray="5 5" />
-              <Tooltip />
-              <Line
-                type="monotone"
-                dataKey="users"
-                stroke="#008481"
-                strokeWidth={3}
-                dot={{ r: 5 }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
+          <ControlPanel />
         </div>
-        <ControlPanel />
-      </div>
       ) : (
         <Link to={"/pages/Activate"} state={{ object: d }}>
           <button className="verfier">Activate my account</button>

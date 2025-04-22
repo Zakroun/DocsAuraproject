@@ -52,7 +52,7 @@ export default function ChatApp({ conversations }) {
         <h2>Messages</h2>
         <input
           type="text"
-          className="search-input"
+          className="search-input-messages"
           placeholder="Search messages..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
