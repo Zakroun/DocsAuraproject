@@ -47,11 +47,12 @@ export default function Activate(props) {
     } else {
       setValid(false);
       setError("");
-  
+      const today = new Date().toISOString().split('T')[0];
       let requestData = {
         id: props.data.id,
         role: role,
         status: "pending",
+        date: today,
       };
       if (role === "doctor") {
         requestData = {

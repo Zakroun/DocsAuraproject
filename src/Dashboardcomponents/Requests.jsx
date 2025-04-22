@@ -20,37 +20,37 @@ export default function Requests() {
   const [actionType, setActionType] = useState(null);
   console.log(selectedRequest);
   const handleAccept = (id, role) => {
-    if(!id || !role) {
+    if (!id || !role) {
       setErrorMessage("Invalid request data.");
       return;
     }
     dispatch(acceptRequest({ id, role }));
     setSuccessMessage("Request accepted successfully.");
     setShowDialog(false);
-    setTimeout(()=>{
+    setTimeout(() => {
       setTimeout(() => {
         setSuccessMessage(null);
         setSelectedRequest(null);
         setActionType(null);
       }, 3000);
-    })
+    });
   };
 
   const handleReject = (id, role) => {
-    if(!id || !role) {
+    if (!id || !role) {
       setErrorMessage("Invalid request data.");
       return;
     }
     dispatch(rejectRequest({ id, role }));
     setSuccessMessage("Request rejected successfully.");
     setShowDialog(false);
-    setTimeout(()=>{
+    setTimeout(() => {
       setTimeout(() => {
         setSuccessMessage(null);
         setSelectedRequest(null);
         setActionType(null);
       }, 3000);
-    })
+    });
   };
 
   const getUserInfo = (role, id) => {
@@ -67,6 +67,21 @@ export default function Requests() {
         return null;
     }
   };
+  const [selectedYear, setSelectedYear] = useState("All");
+
+  // Extraire les années uniques des requêtes
+  const years = Array.from(
+    new Set(requests.map((req) => new Date(req.date).getFullYear()))
+  );
+  years.sort((a, b) => b - a); // Tri descendant
+
+  // Fonction de filtrage
+  const filteredRequests =
+    selectedYear === "All"
+      ? reqts
+      : reqts.filter(
+          (req) => new Date(req.date).getFullYear().toString() === selectedYear
+        );
 
   const showConfirmationDialog = (reqId, role, action) => {
     setSelectedRequest({
@@ -94,7 +109,23 @@ export default function Requests() {
         </div>
       )}
       <div className="requests">
+        <br />
+        <div className="requests__filters">
         <h2 className="requests__title">Activation Requests</h2>
+          <select
+          id="year-select"
+            value={selectedYear}
+            onChange={(e) => setSelectedYear(e.target.value)}
+          >
+            <option value="All">All</option>
+            {years.map((year) => (
+              <option key={year} value={year}>
+                {year}
+              </option>
+            ))}
+          </select>
+        </div>
+
         {showDialog && (
           <div className="confirmation-dialog">
             <div className="confirmation-dialog__content">
@@ -133,7 +164,7 @@ export default function Requests() {
               </tr>
             </thead>
             <tbody>
-              {reqts
+              {filteredRequests
                 .filter((req) => req && req.role && req.id) // filtre les valeurs invalides
                 .map((req) => {
                   const user = getUserInfo(req.role, req.id);

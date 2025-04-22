@@ -5,6 +5,7 @@ import {
   laboratories,
   specializedDoctors,
   cities,
+  userDataYearly,
 } from "./data";
 import { createSlice } from "@reduxjs/toolkit";
 import { conversations } from "./data";
@@ -26,6 +27,7 @@ export const DocsauraSlice = createSlice({
     currentpage: "home",
     adminUsers: adminUsers,
     complaints: complaints,
+    userDataYearly:userDataYearly,
     requests: [
       {
         id: 8,
@@ -37,6 +39,7 @@ export const DocsauraSlice = createSlice({
         email: "rouanezakaria052@gmail.com",
         medicalOrderNumber: "999999",
         specialty: "Gastroenterology",
+        date: "2023-03-25"
       },
       {
         id: 9,
@@ -46,6 +49,7 @@ export const DocsauraSlice = createSlice({
         taxId: "456789",
         clinicId: "CLN123",
         email: "clinic@example.com",
+        date: "2024-07-11"
       },
       {
         id: 10,
@@ -55,8 +59,9 @@ export const DocsauraSlice = createSlice({
         taxId: "LAB456",
         patente: "PT98765",
         email: "lab@example.com",
+        date: "2025-01-17"
       },
-    ],
+    ]
   },
   reducers: {
     changeboard: (state, action) => {

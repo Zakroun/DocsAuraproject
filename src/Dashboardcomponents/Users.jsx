@@ -45,7 +45,7 @@ export default function Userslist() {
 
   return (
     <div className="users">
-      <h2 className="users__title">Users List</h2>
+      <h2 className="users__title">Users List</h2><br />
       <div className="users__table__wrapper">
         <table className="users__table">
           <thead>

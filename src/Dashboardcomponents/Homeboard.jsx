@@ -100,6 +100,7 @@ export default function Homeboard(props) {
   }
   const patientData = d.patientData;
   const appointments = filteredAppointments;
+  const userDataYearly = useSelector(s=>s.Docsaura.userDataYearly);
   return (
     <div className="homeboard">
       {/* <div className="searchadd">
@@ -159,7 +160,7 @@ export default function Homeboard(props) {
           ) : (
             <p>Have a nice day at the hospital!</p>
           )}
-          {(user.Role === "Patients" || user.Role === "admin")  ? (
+          {user.Role === "Patients" || user.Role === "admin" ? (
             ""
           ) : (
             <div className="stars">{generateStars(user.rating)}</div>
@@ -175,7 +176,9 @@ export default function Homeboard(props) {
                 ? `../images/doctor.png`
                 : d.Role === "clinic"
                 ? `../images/hospital.png`
-                :d.Role === "admin"?`../images/admin.png`: `../images/research.png`
+                : d.Role === "admin"
+                ? `../images/admin.png`
+                : `../images/research.png`
             }
             alt="Doctor imge"
           />
@@ -401,7 +404,7 @@ export default function Homeboard(props) {
                             <button className="complet">Completed</button>
                           </Link>
                         </>
-                      ): (
+                      ) : (
                         ""
                       )}
                     </td>
@@ -411,7 +414,7 @@ export default function Homeboard(props) {
             </table>
           </div>{" "}
         </>
-      ) : (user.Role === "patient" && user.Verified === true) ? (
+      ) : user.Role === "patient" && user.Verified === true ? (
         <>
           <div className="weeklyReports">
             <div className="weeklyheader">
@@ -425,7 +428,7 @@ export default function Homeboard(props) {
                 <option value="this year">This Year</option>
               </select>
             </div>
-      
+
             <div className="weeklyReports__content">
               <div className="partweekly">
                 <div className="partweekly__header">
@@ -442,7 +445,7 @@ export default function Homeboard(props) {
                 <h3>Total Patients</h3>
                 <h3 style={{ color: "#008481" }}>200</h3>
               </div>
-      
+
               <div className="partweekly">
                 <div className="partweekly__header">
                   <IoCallSharp
@@ -458,7 +461,7 @@ export default function Homeboard(props) {
                 <h3>Phone Calls</h3>
                 <h3 style={{ color: "rgb(195, 101, 0)" }}>20</h3>
               </div>
-      
+
               <div className="partweekly">
                 <div className="partweekly__header">
                   <FaCalendarAlt
@@ -474,7 +477,7 @@ export default function Homeboard(props) {
                 <h3>Appointments</h3>
                 <h3 style={{ color: "rgb(153, 0, 0)" }}>100</h3>
               </div>
-      
+
               <div className="partweekly">
                 <div className="partweekly__header">
                   <MdMarkEmailUnread
@@ -570,7 +573,7 @@ export default function Homeboard(props) {
                             <button className="complet">Completed</button>
                           </Link>
                         </>
-                      ): (
+                      ) : (
                         ""
                       )}
                     </td>
@@ -580,16 +583,35 @@ export default function Homeboard(props) {
             </table>
           </div>
         </>
-      ) : (user.Role === "admin") ? (
+      ) : user.Role === "admin" ? (
         <div>
-          <ControlPanel/>
+          <div className="mt-6" id="divchart">
+            <h2 className="text-xl font-semibold mb-4">
+              User Statistics Over the Year
+            </h2><br />
+            <ResponsiveContainer width="95%" height={300}>
+              <LineChart data={userDataYearly}>
+                <XAxis dataKey="month" stroke="#555" />
+                <YAxis />
+                <CartesianGrid stroke="#ddd" strokeDasharray="5 5" />
+                <Tooltip />
+                <Line
+                  type="monotone"
+                  dataKey="users"
+                  stroke="#008481"
+                  strokeWidth={3}
+                  dot={{ r: 5 }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+          <ControlPanel />
         </div>
       ) : (
         <Link to={"/pages/Activate"} state={{ object: d }}>
           <button className="verfier">Activate my account</button>
         </Link>
-      )
-      }
+      )}
     </div>
   );
 }
