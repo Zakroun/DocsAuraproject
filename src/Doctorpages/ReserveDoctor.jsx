@@ -12,6 +12,7 @@ export default function DoctorReserve(props) {
   const [successMessage, setSuccessMessage] = useState("");
   const Ldoctor = useSelector((s) => s.Docsaura.doctors);
   const doctor = Ldoctor.find((a) => a.id === props.id);
+  const role = props.role;
   const [content1, setcontent1] = useState("block");
   const [content2, setcontent2] = useState("none");
   const [formData, setFormData] = useState({
@@ -19,10 +20,14 @@ export default function DoctorReserve(props) {
     email: "",
     phone: "",
     cin: "",
+    location: "",
+    status: "pending",
+    image: "user.png",
     date: "",
-    time: "",
-    description: "",
+    timeFrom: "",
+    timeTo: "",
     consultationType: "",
+    description: "",
     paymentMethod: "",
     cardNumber: "",
     expiryDate: "",
@@ -77,7 +82,7 @@ export default function DoctorReserve(props) {
       formData.phone === "" ||
       formData.cin === "" ||
       formData.date === "" ||
-      formData.time === "" ||
+      formData.timeFrom === "" ||
       formData.description === "" ||
       formData.consultationType === ""
     ) {
@@ -206,14 +211,66 @@ export default function DoctorReserve(props) {
                   type="time"
                   id="time"
                   name="time"
-                  value={formData.time}
+                  value={formData.timeFrom}
                   onChange={handleChange}
                 />{" "}
               </div>
             </div>
-            <button id="btn" type="button" onClick={Next}>
-              Next
-            </button>
+              <div className="inputdiv">
+                <select
+                  id="cities"
+                  name="cities"
+                  value={formData.location}
+                  onChange={(e) => handleChange(e.target.value)}
+                >
+                  <option value="">Choose a city in Morocco</option>
+                  <option value="casablanca">Casablanca</option>
+                  <option value="rabat">Rabat</option>
+                  <option value="marrakech">Marrakech</option>
+                  <option value="fes">Fès</option>
+                  <option value="meknes">Meknès</option>
+                  <option value="tangier">Tangier</option>
+                  <option value="agadir">Agadir</option>
+                  <option value="oujda">Oujda</option>
+                  <option value="tetouan">Tétouan</option>
+                  <option value="safi">Safi</option>
+                  <option value="el-jadida">El Jadida</option>
+                  <option value="nador">Nador</option>
+                  <option value="kenitra">Kénitra</option>
+                  <option value="temara">Témara</option>
+                  <option value="settat">Settat</option>
+                  <option value="berrechid">Berrechid</option>
+                  <option value="khemisset">Khémisset</option>
+                  <option value="beni-mellal">Beni Mellal</option>
+                  <option value="taroudant">Taroudant</option>
+                  <option value="errachidia">Errachidia</option>
+                  <option value="laayoune">Laâyoune</option>
+                  <option value="dakhla">Dakhla</option>
+                  <option value="ouarzazate">Ouarzazate</option>
+                  <option value="taza">Taza</option>
+                  <option value="guelmim">Guelmim</option>
+                  <option value="sidi-kacem">Sidi Kacem</option>
+                  <option value="sidi-slimane">Sidi Slimane</option>
+                  <option value="oualidia">Oualidia</option>
+                  <option value="zoumi">Zoumi</option>
+                  <option value="youssoufia">Youssoufia</option>
+                  <option value="chefchaouen">Chefchaouen</option>
+                  <option value="asfi">Asfi</option>
+                  <option value="al-hoceima">Al Hoceima</option>
+                  <option value="midelt">Midelt</option>
+                  <option value="azilal">Azilal</option>
+                  <option value="taourirt">Taourirt</option>
+                  <option value="ifran">Ifrane</option>
+                  <option value="tiznit">Tiznit</option>
+                  <option value="essaouira">Essaouira</option>
+                  <option value="tan-tan">Tan-Tan</option>
+                  <option value="chichaoua">Chichaoua</option>
+                  <option value="smara">Smara</option>
+                </select>
+              </div>
+              <button id="btn" type="button" onClick={Next}>
+                Next
+              </button>
           </form>
         </div>
       </div>
@@ -224,17 +281,18 @@ export default function DoctorReserve(props) {
         </div>
         <div className="content2" style={{ display: content2 }}>
           <form onSubmit={handleSubmit} className="booking-form">
-              <div className="inputdiv">
+            <div className="inputdiv">
               <select
-                  name="paymentMethod"
-                  id="paymentMethod"
-                  value={formData.paymentMethod}
-                  onChange={handleChange}>
-                  <option value="">Choose Payment Method</option>
-                  <option value="credit-card">Credit Card</option>
-                  <option value="cash">Cash on Arrival</option>
-                </select>
-              </div>
+                name="paymentMethod"
+                id="paymentMethod"
+                value={formData.paymentMethod}
+                onChange={handleChange}
+              >
+                <option value="">Choose Payment Method</option>
+                <option value="credit-card">Credit Card</option>
+                <option value="cash">Cash on Arrival</option>
+              </select>
+            </div>
             <br />
             {formData.paymentMethod === "credit-card" && (
               <>

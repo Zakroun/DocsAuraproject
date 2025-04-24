@@ -7,6 +7,7 @@ import {
   cities,
   userDataYearly,
 } from "./data";
+import filesData from "../data/data";
 import { createSlice } from "@reduxjs/toolkit";
 import { conversations } from "./data";
 import { adminUsers } from "./data";
@@ -27,7 +28,9 @@ export const DocsauraSlice = createSlice({
     currentpage: "home",
     adminUsers: adminUsers,
     complaints: complaints,
-    userDataYearly:userDataYearly,
+    userDataYearly: userDataYearly,
+    files: filesData.files,
+    activity: filesData.activity,
     requests: [
       {
         id: 8,
@@ -39,7 +42,7 @@ export const DocsauraSlice = createSlice({
         email: "rouanezakaria052@gmail.com",
         medicalOrderNumber: "999999",
         specialty: "Gastroenterology",
-        date: "2023-03-25"
+        date: "2023-03-25",
       },
       {
         id: 9,
@@ -49,7 +52,7 @@ export const DocsauraSlice = createSlice({
         taxId: "456789",
         clinicId: "CLN123",
         email: "clinic@example.com",
-        date: "2024-07-11"
+        date: "2024-07-11",
       },
       {
         id: 10,
@@ -59,9 +62,9 @@ export const DocsauraSlice = createSlice({
         taxId: "LAB456",
         patente: "PT98765",
         email: "lab@example.com",
-        date: "2025-01-17"
+        date: "2025-01-17",
       },
-    ]
+    ],
   },
   reducers: {
     changeboard: (state, action) => {
@@ -173,7 +176,9 @@ export const DocsauraSlice = createSlice({
       state.requests.push(action.payload);
     },
     acceptRequest: (state, action) => {
-      const request = state.requests.find((req) => req.id === action.payload.id);
+      const request = state.requests.find(
+        (req) => req.id === action.payload.id
+      );
       if (request) {
         request.Verified = true;
         request.status = "accepted";
@@ -185,7 +190,9 @@ export const DocsauraSlice = createSlice({
           doctor.Verified = true;
         }
       } else if (action.payload.role === "clinic") {
-        const clinic = state.clinics.find((doc) => doc.id === action.payload.id);
+        const clinic = state.clinics.find(
+          (doc) => doc.id === action.payload.id
+        );
         if (clinic) {
           clinic.Verified = true;
         }
@@ -197,25 +204,33 @@ export const DocsauraSlice = createSlice({
           laboratory.Verified = true;
         }
       } else if (action.payload.role === "patient") {
-        const visitor = state.visitors.find((doc) => doc.id === action.payload.id);
+        const visitor = state.visitors.find(
+          (doc) => doc.id === action.payload.id
+        );
         if (visitor) {
           visitor.Verified = true;
         }
       }
     },
     rejectRequest: (state, action) => {
-      const request = state.requests.find((req) => req.id === action.payload.id);
+      const request = state.requests.find(
+        (req) => req.id === action.payload.id
+      );
       if (request) {
         request.Verified = false;
         request.status = "rejected";
       }
       if (action.payload.role === "doctor") {
-        const doctor = state.doctors.find((doc) => doc.id === action.payload.id);
+        const doctor = state.doctors.find(
+          (doc) => doc.id === action.payload.id
+        );
         if (doctor) {
           doctor.Verified = false;
         }
       } else if (action.payload.role === "clinic") {
-        const clinic = state.clinics.find((doc) => doc.id === action.payload.id);
+        const clinic = state.clinics.find(
+          (doc) => doc.id === action.payload.id
+        );
         if (clinic) {
           clinic.Verified = false;
         }
@@ -227,7 +242,9 @@ export const DocsauraSlice = createSlice({
           laboratory.Verified = false;
         }
       } else if (action.payload.role === "patient") {
-        const visitor = state.visitors.find((doc) => doc.id === action.payload.id);
+        const visitor = state.visitors.find(
+          (doc) => doc.id === action.payload.id
+        );
         if (visitor) {
           visitor.Verified = false;
         }
@@ -238,7 +255,51 @@ export const DocsauraSlice = createSlice({
       state.complaints = state.complaints.filter(
         (complaint) => complaint.id !== complaintId
       );
-    }
+    },
+    AddAppointemnt: (state, action) => {
+      const { role, id, appointment } = action.payload;
+      let entity;
+      switch (role) {
+        case "doctor":
+          entity = state.doctors.find((doc) => doc.id === id);
+          break;
+        case "clinic":
+          entity = state.clinics.find((clinic) => clinic.id === id);
+          break;
+        case "laboratory":
+          entity = state.laboratories.find((lab) => lab.id === id);
+          break;
+        case "patient":
+          entity = state.visitors.find((visitor) => visitor.id === id);
+          break;
+        default:
+          console.error("Invalid role");
+          return;
+      }
+
+      if (!entity) {
+        console.error(`${role} not found with id ${id}`);
+        return;
+      }
+
+      if (!entity.appointments) {
+        entity.appointments = [];
+      }
+
+      entity.appointments.push(appointment);
+      // console.log(`Appointment added to ${role} with id ${id}:`, appointment);
+      // console.log("Updated appointments:", entity.appointments);
+    },
+    addFile: (state, action) => {
+      state.files.push(action.payload);
+      state.activity.push(`File "${action.payload.name}" uploaded`);
+    },
+    deleteFiles: (state, action) => {
+      state.files = state.files.filter(
+        (file) => !action.payload.includes(file.name)
+      );
+      state.activity.push(`Deleted ${action.payload.length} files`);
+    },
   },
 });
 
@@ -254,4 +315,7 @@ export const {
   acceptRequest,
   rejectRequest,
   Deletecomplaint,
+  AddAppointemnt,
+  addFile,
+  deleteFiles,
 } = DocsauraSlice.actions;

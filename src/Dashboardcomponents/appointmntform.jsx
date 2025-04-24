@@ -224,7 +224,7 @@ export default function AppointmentForm({ user, Use, onSubmitFeedback }) {
               />
               <h2 className="user-name">{User.fullName}</h2>
               <p className="user-location">{User.location}</p>
-              <p className="user-type-appointemnt">{User.type}</p>
+              <p className="user-type-appointemnt">{User.consultationType}</p>
               <p>
                 📅 Date: <span>{User.date}</span>
               </p>

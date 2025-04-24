@@ -46,7 +46,7 @@ export default function Dashboard() {
         {curboard === "home" ? (
           <Homeboard Use={Use} />
         ) : curboard === "calander" ? (
-          <Calendar appointments={Use.appointments} />
+          <Calendar appointments={Use.appointments} role={Use.Role} id={Use.id}/>
         ) : curboard === "appointmnt" ? (
           <Appointmntform user={user} Use={Use} />
         ) : curboard === "settings" ? (

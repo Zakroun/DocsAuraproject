@@ -27,6 +27,7 @@ export default function Routage() {
   const { d } = useParams();
   const Loc = useLocation();
   const id = Loc.state?.id;
+  const role = Loc.state?.role;
   const object = Loc.state?.object
   if (d === "Login") {
     return (
@@ -143,7 +144,7 @@ export default function Routage() {
     return (
       <>
         <Header></Header>
-        <DoctorReserve id={id}></DoctorReserve>
+        <DoctorReserve id={id} role={role}></DoctorReserve>
         <Footer></Footer>
       </>
     );
@@ -151,7 +152,7 @@ export default function Routage() {
     return (
       <>
         <Header></Header>
-        <ClinicReserve id={id}></ClinicReserve>
+        <ClinicReserve id={id} role={role}></ClinicReserve>
         <Footer></Footer>
       </>
     );
@@ -159,7 +160,7 @@ export default function Routage() {
     return (
       <>
         <Header></Header>
-        <LaboratoryReserve id={id}></LaboratoryReserve>
+        <LaboratoryReserve id={id} role={role}></LaboratoryReserve>
         <Footer></Footer>
       </>
     );

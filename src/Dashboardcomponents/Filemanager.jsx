@@ -1,5 +1,4 @@
-import filesData from "../data/data";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FaFilePdf,
   FaFileWord,
@@ -10,6 +9,8 @@ import {
   FaTasks,
   FaTrash,
 } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { addFile, deleteFiles } from "../data/DocsauraSlice";
 
 const fileIcons = {
   pdf: { icon: <FaFilePdf size={32} color="red" />, color: "#FF0000" },
@@ -23,22 +24,46 @@ const fileIcons = {
 };
 
 export default function FileManager() {
-  const [files, setFiles] = useState(filesData.files);
-  const [recentActivity, setRecentActivity] = useState(filesData.activity);
-  const [selectedFile, setSelectedFile] = useState("");
+  const dispatch = useDispatch();
+  const filesData = useSelector((s) => s.Docsaura.files);
+  const activityData = useSelector((s) => s.Docsaura.activity);
+
+  const [files, setFiles] = useState(filesData || []);
+  const [activity, setActivity] = useState(activityData || []);
+  const [selectedFile, setSelectedFile] = useState(null); // File selected for preview
+  const [previewFile, setPreviewFile] = useState(null);
+  const [selectedFilesToDelete, setSelectedFilesToDelete] = useState([]);
   const [AddFile, setAddFile] = useState(false);
   const [newFile, setNewFile] = useState({ name: "", type: "", size: "" });
-  const [selectedFilesToDelete, setSelectedFilesToDelete] = useState([]);
 
-  const Search = (e) => {
-    setSelectedFile(e);
-    setFiles(
-      filesData.files.filter((file) =>
-        file.name.toLowerCase().includes(e.toLowerCase())
-      )
-    );
-  };
+  useEffect(() => {
+    setFiles(filesData);
+    setActivity(activityData);
+  }, [filesData, activityData]);
 
+  // Handle preview of the selected file
+// Handle preview of the selected file
+const handleFilePreview = (file) => {
+  setSelectedFile(file);
+  const fileType = file.type.split("/")[0]; // Extracts the type (e.g., "application", "image", etc.)
+
+  if (fileType === "application" && file.type === "application/pdf") {
+    // If it's a PDF file, handle it correctly
+    setPreviewFile({ type: "pdf", url: URL.createObjectURL(file) });
+  } else if (fileType === "image") {
+    // If it's an image, handle it accordingly
+    setPreviewFile({ type: "img", url: URL.createObjectURL(file) });
+  } else if (fileType === "video") {
+    // If it's a video, handle it accordingly
+    setPreviewFile({ type: "video", url: URL.createObjectURL(file) });
+  } else {
+    // In case the file type is not supported, you can choose to show a message or error
+    console.error("Unsupported file type:", file.type);
+  }
+};
+
+
+  // Handle file upload change
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -51,23 +76,12 @@ export default function FileManager() {
     }
   };
 
-  const changetoaddfile = () => {
-    setAddFile(true);
-  };
-
-  const handleFileChange = (e) => {
-    const { name, value } = e.target;
-    setNewFile((prevFile) => ({
-      ...prevFile,
-      [name]: value,
-    }));
-  };
-
+  // Add file to the list
   const handleSubmit = (e) => {
     e.preventDefault();
     if (newFile.name && newFile.type && newFile.size) {
       setFiles((prevFiles) => [...prevFiles, newFile]);
-      setRecentActivity((prevActivity) => [
+      setActivity((prevActivity) => [
         ...prevActivity,
         `File "${newFile.name}" uploaded`,
       ]);
@@ -76,6 +90,7 @@ export default function FileManager() {
     }
   };
 
+  // Toggle file selection for deletion
   const toggleFileSelection = (fileName) => {
     setSelectedFilesToDelete((prevSelected) =>
       prevSelected.includes(fileName)
@@ -84,11 +99,12 @@ export default function FileManager() {
     );
   };
 
+  // Delete selected files
   const handleDeleteFiles = () => {
     setFiles((prevFiles) =>
       prevFiles.filter((file) => !selectedFilesToDelete.includes(file.name))
     );
-    setRecentActivity((prevActivity) => [
+    setActivity((prevActivity) => [
       ...prevActivity,
       `Deleted ${selectedFilesToDelete.length} files`,
     ]);
@@ -106,12 +122,17 @@ export default function FileManager() {
                 type="text"
                 className="file-manager-search"
                 placeholder="Search files"
-                value={selectedFile}
-                onChange={(e) => Search(e.target.value)}
+                onChange={(e) => {
+                  setFiles(
+                    filesData.filter((file) =>
+                      file.name.toLowerCase().includes(e.target.value.toLowerCase())
+                    )
+                  );
+                }}
               />
               <button
                 className="file-manager-add-button"
-                onClick={changetoaddfile}
+                onClick={() => setAddFile(true)}
               >
                 <FaPlus size={16} className="file-manager-icon" /> Add File
               </button>
@@ -125,6 +146,7 @@ export default function FileManager() {
                     key={index}
                     className="file-manager-card"
                     style={{ borderColor: fileIcons[fileType].color }}
+                    onClick={() => handleFilePreview(file)} // Click to preview
                   >
                     <input
                       type="checkbox"
@@ -159,13 +181,11 @@ export default function FileManager() {
           <aside className="file-manager-activity-panel">
             <h2 className="file-manager-activity-title">Recent Activity</h2>
             <ul className="file-manager-activity-list">
-              {recentActivity.map((activity, index) => (
+              {activity.map((act, index) => (
                 <li key={index} className="file-manager-activity-item">
                   <FaTasks size={18} className="file-manager-activity-icon" />
                   <span>
-                    {activity.length > 40
-                      ? activity.slice(0, 30) + "..."
-                      : activity}
+                    {act.length > 40 ? act.slice(0, 30) + "..." : act}
                   </span>
                 </li>
               ))}
@@ -182,7 +202,12 @@ export default function FileManager() {
                 type="text"
                 name="name"
                 value={newFile.name}
-                onChange={handleFileChange}
+                onChange={(e) =>
+                  setNewFile((prevFile) => ({
+                    ...prevFile,
+                    name: e.target.value,
+                  }))
+                }
                 required
               />
             </div>
@@ -191,7 +216,12 @@ export default function FileManager() {
               <select
                 name="type"
                 value={newFile.type}
-                onChange={handleFileChange}
+                onChange={(e) =>
+                  setNewFile((prevFile) => ({
+                    ...prevFile,
+                    type: e.target.value,
+                  }))
+                }
                 required
               >
                 <option value="">Select Type</option>
@@ -203,12 +233,32 @@ export default function FileManager() {
             </div>
             <div className="file-manager-form-group">
               <label>Upload File:</label>
-              <input type="file" name="file" onChange={handleFileUpload} required />
+              <input
+                type="file"
+                name="file"
+                onChange={handleFileUpload}
+                required
+              />
             </div>
             <button type="submit" className="file-manager-submit-button">
               Add File
             </button>
           </form>
+        </div>
+      )}
+
+      {previewFile && (
+        <div className="file-preview">
+          <h3>File Preview</h3>
+          {previewFile.type === "pdf" && (
+            <embed src={previewFile.url} width="100%" height="500px" />
+          )}
+          {previewFile.type === "img" && (
+            <img src={previewFile.url} alt="Preview" width="100%" />
+          )}
+          {previewFile.type === "video" && (
+            <video src={previewFile.url} controls width="100%" />
+          )}
         </div>
       )}
     </div>

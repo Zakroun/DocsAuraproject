@@ -6,6 +6,9 @@ import {
   faTimesCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import { AddAppointemnt } from "../data/DocsauraSlice";
+import { useDispatch } from "react-redux";
+
 // import { useNavigate } from "react-router-dom";
 export default function Calendar(props) {
   const [errorMessage, seterrorMessage] = useState("");
@@ -17,6 +20,7 @@ export default function Calendar(props) {
   const [selectedStatus, setSelectedStatus] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [formAdd, setFormAdd] = useState(true);
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -70,25 +74,49 @@ export default function Calendar(props) {
     } else {
       setappointments(appointments);
     }
-  }, [searchQuery, appointments]);
-
+  }, [searchQuery, appointments, Listeappointments]);
+  useEffect(() => {
+    setappointments(appointments);
+  }, [appointments]);
   const Add = () => {
     if (
       formData.fullName !== "" &&
       formData.date !== "" &&
       formData.time !== ""
     ) {
-      const obj = {
+      const newAppointment = {
+        id: Date.now(),
         fullName: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        cin: formData.cin,
         date: formData.date,
-        time: formData.time,
+        image: "user.png",
+        timeFrom: formData.time,
+        timeTo: new Date(
+          new Date(`1970-01-01T${formData.time}`).getTime() + 30 * 60000
+        )
+          .toTimeString()
+          .slice(0, 5),
         status: "pending",
+        createdAt: new Date().toISOString(),
+        createdBy: props.role,
       };
-      setSuccessMessage("Appointment Added sussessfully");
+
+      dispatch(
+        AddAppointemnt({
+          role: props.role,
+          id: props.id,
+          appointment: newAppointment,
+        })
+      );
+
+      setSuccessMessage("Appointment added successfully");
       setFormAdd(true);
     } else {
       seterrorMessage("Please fill all the fields");
     }
+
     setTimeout(() => {
       setSuccessMessage("");
       seterrorMessage("");
@@ -182,8 +210,8 @@ export default function Calendar(props) {
           </div>
 
           <div className="calendar-grid">
-            {daysInMonth.map((date) => (
-              <div key={date} className="calendar-day">
+            {daysInMonth.map((date,key) => (
+              <div key={key} className="calendar-day">
                 <h4 className="calendar-date">{date}</h4>
                 {groupedAppointments[date] &&
                 groupedAppointments[date].length > 0 ? (
@@ -242,63 +270,81 @@ export default function Calendar(props) {
         <div className="Form_Appointemnt">
           <h2 className="calendar-title">Form Appointemnt</h2>
           <form action="" method="post">
-            <input
-              style={{ marginRight: "20px" }}
-              type="text"
-              name="fullName"
-              id="fullname"
-              placeholder="Full Name"
-              value={formData.fullName}
-              onChange={handleChange}
-              required
-            />
-            <input
-              type="email"
-              id="email"
-              name="email"
-              placeholder="Email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-            <input
-              style={{ marginRight: "20px" }}
-              type="tel"
-              name="phone"
-              id="phone"
-              placeholder="Phone"
-              value={formData.phone}
-              onChange={handleChange}
-              required
-            />
-            <input
-              type="text"
-              name="cin"
-              id="cin"
-              placeholder="CIN"
-              value={formData.cin}
-              onChange={handleChange}
-              required
-            />
+            <div className="divinputs">
+              <div className="inputdiv">
+                <input
+                  style={{ marginRight: "20px" }}
+                  type="text"
+                  name="fullName"
+                  id="fullname"
+                  placeholder="Full Name"
+                  value={formData.fullName}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="inputdiv">
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="Email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
             <br />
-            <input
-              style={{ marginRight: "20px" }}
-              type="date"
-              id="date"
-              name="date"
-              value={formData.date}
-              onChange={handleChange}
-              required
-            />
-            <input
-              type="time"
-              id="time"
-              name="time"
-              value={formData.time}
-              onChange={handleChange}
-              required
-            />
+            <div className="divinputs">
+              <div className="inputdiv">
+                <input
+                  style={{ marginRight: "20px" }}
+                  type="tel"
+                  name="phone"
+                  id="phone"
+                  placeholder="Phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="inputdiv">
+                <input
+                  type="text"
+                  name="cin"
+                  id="cin"
+                  placeholder="CIN"
+                  value={formData.cin}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
             <br />
+            <div className="divinputs">
+              <div className="inputdiv">
+                <input
+                  style={{ marginRight: "20px" }}
+                  type="date"
+                  id="date"
+                  name="date"
+                  value={formData.date}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="inputdiv">
+                <input
+                  type="time"
+                  id="time"
+                  name="time"
+                  value={formData.time}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
             <button id="btn" type="button" onClick={Add}>
               Add
             </button>
