@@ -258,6 +258,7 @@ export const DocsauraSlice = createSlice({
     },
     AddAppointemnt: (state, action) => {
       const { role, id, appointment } = action.payload;
+      console.log(action.payload);
       let entity;
       switch (role) {
         case "doctor":

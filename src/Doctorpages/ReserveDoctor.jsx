@@ -4,6 +4,7 @@ import { PiVideoConferenceFill } from "react-icons/pi";
 import { MdOutlinePayment } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { changecurrentpage } from "../data/DocsauraSlice";
+import { AddAppointemnt } from "../data/DocsauraSlice";
 // import { useEffect } from "react";
 export default function DoctorReserve(props) {
   const navigate = useNavigate();
@@ -12,7 +13,6 @@ export default function DoctorReserve(props) {
   const [successMessage, setSuccessMessage] = useState("");
   const Ldoctor = useSelector((s) => s.Docsaura.doctors);
   const doctor = Ldoctor.find((a) => a.id === props.id);
-  const role = props.role;
   const [content1, setcontent1] = useState("block");
   const [content2, setcontent2] = useState("none");
   const [formData, setFormData] = useState({
@@ -35,8 +35,20 @@ export default function DoctorReserve(props) {
   });
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    let updatedForm = { ...formData, [name]: value };
+    if (name === "timeFrom") {
+      const [hours, minutes] = value.split(":").map(Number);
+      const date = new Date();
+      date.setHours(hours);
+      date.setMinutes(minutes + 15);
+      const newHours = String(date.getHours()).padStart(2, "0");
+      const newMinutes = String(date.getMinutes()).padStart(2, "0");
+      updatedForm.timeTo = `${newHours}:${newMinutes}`;
+    }
+    setFormData(updatedForm);
   };
+
   // useEffect(() => {
   //   if (formData.paymentMethod === "") {
   //     seterrorMessage("Please fill payment Method");
@@ -48,8 +60,9 @@ export default function DoctorReserve(props) {
   // }, [formData.paymentMethod]);
 
   const handleSubmit = (e) => {
-    console.log("paymentMethod : ", formData.paymentMethod);
     e.preventDefault();
+    console.log("paymentMethod : ", formData.paymentMethod);
+
     if (content2 === "block") {
       if (formData.paymentMethod === "credit-card") {
         if (
@@ -63,14 +76,40 @@ export default function DoctorReserve(props) {
           }, 3000);
           return;
         }
-      } else {
-        setSuccessMessage("Appointment successfully booked");
-        setTimeout(() => {
-          setSuccessMessage("");
-          navigate("/");
-          dispatch(changecurrentpage("home"));
-        }, 3000);
       }
+      const appointment = {
+        fullName: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        cin: formData.cin,
+        location: formData.location,
+        status: formData.status,
+        image: formData.image,
+        date: formData.date,
+        timeFrom: formData.timeFrom,
+        timeTo: formData.timeTo,
+        consultationType: formData.consultationType,
+        description: formData.description,
+        paymentMethod: formData.paymentMethod,
+        cardNumber: formData.cardNumber,
+        expiryDate: formData.expiryDate,
+        cvv: formData.cvv,
+        
+      };
+      dispatch(
+        AddAppointemnt({
+          role: props.role,
+          id: props.id,
+          appointment: appointment,
+        })
+      );
+
+      setSuccessMessage("Appointment successfully booked");
+      setTimeout(() => {
+        setSuccessMessage("");
+        navigate("/");
+        dispatch(changecurrentpage("home"));
+      }, 3000);
     }
   };
 
@@ -210,67 +249,67 @@ export default function DoctorReserve(props) {
                 <input
                   type="time"
                   id="time"
-                  name="time"
+                  name="timeFrom"
                   value={formData.timeFrom}
                   onChange={handleChange}
                 />{" "}
               </div>
             </div>
-              <div className="inputdiv">
-                <select
-                  id="cities"
-                  name="cities"
-                  value={formData.location}
-                  onChange={(e) => handleChange(e.target.value)}
-                >
-                  <option value="">Choose a city in Morocco</option>
-                  <option value="casablanca">Casablanca</option>
-                  <option value="rabat">Rabat</option>
-                  <option value="marrakech">Marrakech</option>
-                  <option value="fes">Fès</option>
-                  <option value="meknes">Meknès</option>
-                  <option value="tangier">Tangier</option>
-                  <option value="agadir">Agadir</option>
-                  <option value="oujda">Oujda</option>
-                  <option value="tetouan">Tétouan</option>
-                  <option value="safi">Safi</option>
-                  <option value="el-jadida">El Jadida</option>
-                  <option value="nador">Nador</option>
-                  <option value="kenitra">Kénitra</option>
-                  <option value="temara">Témara</option>
-                  <option value="settat">Settat</option>
-                  <option value="berrechid">Berrechid</option>
-                  <option value="khemisset">Khémisset</option>
-                  <option value="beni-mellal">Beni Mellal</option>
-                  <option value="taroudant">Taroudant</option>
-                  <option value="errachidia">Errachidia</option>
-                  <option value="laayoune">Laâyoune</option>
-                  <option value="dakhla">Dakhla</option>
-                  <option value="ouarzazate">Ouarzazate</option>
-                  <option value="taza">Taza</option>
-                  <option value="guelmim">Guelmim</option>
-                  <option value="sidi-kacem">Sidi Kacem</option>
-                  <option value="sidi-slimane">Sidi Slimane</option>
-                  <option value="oualidia">Oualidia</option>
-                  <option value="zoumi">Zoumi</option>
-                  <option value="youssoufia">Youssoufia</option>
-                  <option value="chefchaouen">Chefchaouen</option>
-                  <option value="asfi">Asfi</option>
-                  <option value="al-hoceima">Al Hoceima</option>
-                  <option value="midelt">Midelt</option>
-                  <option value="azilal">Azilal</option>
-                  <option value="taourirt">Taourirt</option>
-                  <option value="ifran">Ifrane</option>
-                  <option value="tiznit">Tiznit</option>
-                  <option value="essaouira">Essaouira</option>
-                  <option value="tan-tan">Tan-Tan</option>
-                  <option value="chichaoua">Chichaoua</option>
-                  <option value="smara">Smara</option>
-                </select>
-              </div>
-              <button id="btn" type="button" onClick={Next}>
-                Next
-              </button>
+            <div className="inputdiv">
+              <select
+                id="cities"
+                name="location"
+                value={formData.location}
+                onChange={handleChange}
+              >
+                <option value="">Choose a city in Morocco</option>
+                <option value="casablanca">Casablanca</option>
+                <option value="rabat">Rabat</option>
+                <option value="marrakech">Marrakech</option>
+                <option value="fes">Fès</option>
+                <option value="meknes">Meknès</option>
+                <option value="tangier">Tangier</option>
+                <option value="agadir">Agadir</option>
+                <option value="oujda">Oujda</option>
+                <option value="tetouan">Tétouan</option>
+                <option value="safi">Safi</option>
+                <option value="el-jadida">El Jadida</option>
+                <option value="nador">Nador</option>
+                <option value="kenitra">Kénitra</option>
+                <option value="temara">Témara</option>
+                <option value="settat">Settat</option>
+                <option value="berrechid">Berrechid</option>
+                <option value="khemisset">Khémisset</option>
+                <option value="beni-mellal">Beni Mellal</option>
+                <option value="taroudant">Taroudant</option>
+                <option value="errachidia">Errachidia</option>
+                <option value="laayoune">Laâyoune</option>
+                <option value="dakhla">Dakhla</option>
+                <option value="ouarzazate">Ouarzazate</option>
+                <option value="taza">Taza</option>
+                <option value="guelmim">Guelmim</option>
+                <option value="sidi-kacem">Sidi Kacem</option>
+                <option value="sidi-slimane">Sidi Slimane</option>
+                <option value="oualidia">Oualidia</option>
+                <option value="zoumi">Zoumi</option>
+                <option value="youssoufia">Youssoufia</option>
+                <option value="chefchaouen">Chefchaouen</option>
+                <option value="asfi">Asfi</option>
+                <option value="al-hoceima">Al Hoceima</option>
+                <option value="midelt">Midelt</option>
+                <option value="azilal">Azilal</option>
+                <option value="taourirt">Taourirt</option>
+                <option value="ifran">Ifrane</option>
+                <option value="tiznit">Tiznit</option>
+                <option value="essaouira">Essaouira</option>
+                <option value="tan-tan">Tan-Tan</option>
+                <option value="chichaoua">Chichaoua</option>
+                <option value="smara">Smara</option>
+              </select>
+            </div>
+            <button id="btn" type="button" onClick={Next}>
+              Next
+            </button>
           </form>
         </div>
       </div>

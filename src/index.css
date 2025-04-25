@@ -342,6 +342,22 @@ body {
 #btn:hover {
   background-color: #029896;
 }
+.cancelbtn{
+  cursor: pointer;
+  background-color: rgb(230, 230, 230);
+  border: none;
+  color: black;
+  width: 390px;
+  height: 35px;
+  font-size: 16px;
+  border-radius: 6px;
+  margin-bottom: 5px;
+  margin-right: 20px;
+  margin-top: 20px;
+}
+.cancelbtn:hover {
+  background-color: #c6c6c6;
+}
 #google {
   width: 19px;
   margin-right: 10px;
@@ -404,7 +420,7 @@ body {
   padding-left: 100px;
   padding-right: 150px;
 }
-#consultationType {
+#consultationType,#status {
   -webkit-user-select: auto;
   user-select: auto;
   width: 100%;
@@ -4430,14 +4446,14 @@ h1 {
   top: 0;
   left: 0;
   right: 0;
-  padding: 10px;
+  padding: 6px;
   z-index: 1000;
   display: flex;
   justify-content: center;
   animation: fadeInDown 0.5s ease-in-out;
 }
 .custom-notification {
-  padding: 15px 30px;
+  padding: 7px 10px;
   border-radius: 0 0 10px 10px;
   color: white;
   font-size: 16px;

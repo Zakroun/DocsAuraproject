@@ -62,7 +62,7 @@ export default function Laboratoryprofile(props) {
               </h1>
             </div>
             <div className="part2head">
-            <Link to={`/pages/reservelabo`} state={{id : laboratory.id}}>
+            <Link to={`/pages/reservelabo`} state={{id : laboratory.id , role : laboratory.Role}}>
             <button className="reserve">Reserve</button>
             </Link>
             </div>

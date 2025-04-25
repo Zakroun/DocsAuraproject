@@ -200,7 +200,7 @@ export default function Homeboard(props) {
 
       {(user.Role === "doctor" ||
         user.Role === "clinic" ||
-        user.Role === "laboratori") &&
+        user.Role === "laboratory") &&
       user.Verified === true ? (
         <>
           <div className="weeklyReports">

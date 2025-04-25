@@ -4,6 +4,7 @@ import { PiVideoConferenceFill } from "react-icons/pi";
 import { MdOutlinePayment } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { changecurrentpage } from "../data/DocsauraSlice";
+import { AddAppointemnt } from "../data/DocsauraSlice";
 export default function ClinicReserve(props) {
   const [errorMessage, seterrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -18,7 +19,11 @@ export default function ClinicReserve(props) {
     phone: "",
     date: "",
     cin: "",
-    time: "",
+    location: "",
+    image: "user.png",
+    timeFrom: "",
+    timeTo: "",
+    status: "pending",
     description: "",
     consultationType: "",
     paymentMethod: "",
@@ -28,11 +33,29 @@ export default function ClinicReserve(props) {
   });
   const navigate = useNavigate();
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+    const { name, value } = e.target;
+  
+    setFormData((prevData) => {
+      const updatedFormData = { ...prevData, [name]: value };
+  
+      // Si l'utilisateur change timeFrom, calcule automatiquement timeTo
+      if (name === "timeFrom") {
+        const [hours, minutes] = value.split(":").map(Number);
+        const startDate = new Date();
+        startDate.setHours(hours);
+        startDate.setMinutes(minutes + 30);
+  
+        const newTimeTo = startDate.toTimeString().slice(0, 5); // HH:MM format
+        updatedFormData.timeTo = newTimeTo;
+      }
+  
+      return updatedFormData;
+    });
+  };  
 
   const handleSubmit = (e) => {
     e.preventDefault();
+  
     if (content2 === "block") {
       if (formData.paymentMethod === "credit-card") {
         if (!formData.cardNumber || !formData.expiryDate || !formData.cvv) {
@@ -42,16 +65,26 @@ export default function ClinicReserve(props) {
           }, 4000);
           return;
         }
-      } else {
-        setSuccessMessage("Appointment successfully booked");
-        setTimeout(() => {
-          setSuccessMessage("");
-          navigate("/");
-          dispatch(changecurrentpage("home"));
-        }, 3000);
       }
+  
+      dispatch(
+        AddAppointemnt({
+          role: props.role,
+          id: props.id,
+          appointment: formData,
+        })
+      );
+      
+  
+      setSuccessMessage("Appointment successfully booked");
+      setTimeout(() => {
+        setSuccessMessage("");
+        navigate("/");
+        dispatch(changecurrentpage("home"));
+      }, 3000);
     }
   };
+    
 
   const Next = () => {
     if (
@@ -59,7 +92,7 @@ export default function ClinicReserve(props) {
       !formData.email ||
       !formData.phone ||
       !formData.date ||
-      !formData.time
+      !formData.timeFrom
     ) {
       seterrorMessage(
         "Please fill in all personal information fields before proceeding."
@@ -122,7 +155,6 @@ export default function ClinicReserve(props) {
                 />
               </div>
             </div>
-            <br />
             <div className="divinputs">
               <div className="inputdiv">
                 <input
@@ -146,7 +178,6 @@ export default function ClinicReserve(props) {
                 />
               </div>
             </div>
-            <br />
             <div className="divinputs">
               <div className="inputdiv">
                 <input
@@ -176,7 +207,6 @@ export default function ClinicReserve(props) {
                 </select>
               </div>
             </div>
-            <br />
             <div className="divinputs">
               <div className="inputdiv">
                 <input
@@ -192,11 +222,63 @@ export default function ClinicReserve(props) {
                 <input
                   type="time"
                   id="time"
-                  name="time"
-                  value={formData.time}
+                  name="timeFrom"
+                  value={formData.timeFrom}
                   onChange={handleChange}
                 />{" "}
               </div>
+            </div>
+            <div className="inputdiv">
+              <select
+                id="cities"
+                name="location"
+                value={formData.location}
+                onChange={handleChange}
+              >
+                <option value="">Choose a city in Morocco</option>
+                <option value="casablanca">Casablanca</option>
+                <option value="rabat">Rabat</option>
+                <option value="marrakech">Marrakech</option>
+                <option value="fes">Fès</option>
+                <option value="meknes">Meknès</option>
+                <option value="tangier">Tangier</option>
+                <option value="agadir">Agadir</option>
+                <option value="oujda">Oujda</option>
+                <option value="tetouan">Tétouan</option>
+                <option value="safi">Safi</option>
+                <option value="el-jadida">El Jadida</option>
+                <option value="nador">Nador</option>
+                <option value="kenitra">Kénitra</option>
+                <option value="temara">Témara</option>
+                <option value="settat">Settat</option>
+                <option value="berrechid">Berrechid</option>
+                <option value="khemisset">Khémisset</option>
+                <option value="beni-mellal">Beni Mellal</option>
+                <option value="taroudant">Taroudant</option>
+                <option value="errachidia">Errachidia</option>
+                <option value="laayoune">Laâyoune</option>
+                <option value="dakhla">Dakhla</option>
+                <option value="ouarzazate">Ouarzazate</option>
+                <option value="taza">Taza</option>
+                <option value="guelmim">Guelmim</option>
+                <option value="sidi-kacem">Sidi Kacem</option>
+                <option value="sidi-slimane">Sidi Slimane</option>
+                <option value="oualidia">Oualidia</option>
+                <option value="zoumi">Zoumi</option>
+                <option value="youssoufia">Youssoufia</option>
+                <option value="chefchaouen">Chefchaouen</option>
+                <option value="asfi">Asfi</option>
+                <option value="al-hoceima">Al Hoceima</option>
+                <option value="midelt">Midelt</option>
+                <option value="azilal">Azilal</option>
+                <option value="taourirt">Taourirt</option>
+                <option value="ifran">Ifrane</option>
+                <option value="tiznit">Tiznit</option>
+                <option value="essaouira">Essaouira</option>
+                <option value="tan-tan">Tan-Tan</option>
+                <option value="chichaoua">Chichaoua</option>
+                <option value="smara">Smara</option>
+              </select>
             </div>
             <button id="btn" type="button" onClick={Next}>
               Next

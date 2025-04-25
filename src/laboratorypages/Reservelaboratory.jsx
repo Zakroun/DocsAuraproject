@@ -4,6 +4,7 @@ import { PiVideoConferenceFill } from "react-icons/pi";
 import { MdOutlinePayment } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { changecurrentpage } from "../data/DocsauraSlice";
+import { AddAppointemnt } from "../data/DocsauraSlice";
 export default function LaboratoryReserve(props) {
   const [errorMessage, seterrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -18,17 +19,33 @@ export default function LaboratoryReserve(props) {
     phone: "",
     date: "",
     cin: "",
-    time: "",
+    timeFrom: "",
+    status: "pending",
+    image: "user.png",
+    timeTo: "",
     paymentMethod: "",
     cardNumber: "",
     expiryDate: "",
     cvv: "",
-    image: null,
+    imageP: null,
     imagePreview: null,
   });
   const navigate = useNavigate();
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    let updatedForm = { ...formData, [name]: value };
+    
+    if (name === "timeFrom") {
+      const [hours, minutes] = value.split(":").map(Number);
+      const date = new Date();
+      date.setHours(hours);
+      date.setMinutes(minutes + 15);
+      const newHours = String(date.getHours()).padStart(2, "0");
+      const newMinutes = String(date.getMinutes()).padStart(2, "0");
+      updatedForm.timeTo = `${newHours}:${newMinutes}`;
+    }
+    
+    setFormData(updatedForm);
   };
 
   const handleFileChange = (e) => {
@@ -40,7 +57,7 @@ export default function LaboratoryReserve(props) {
       reader.onloadend = () => {
         setFormData({
           ...formData,
-          image: file,
+          imageP: file,
           imagePreview: reader.result,
         });
       };
@@ -51,38 +68,56 @@ export default function LaboratoryReserve(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("paymentMethod : ", formData.paymentMethod);
 
     if (content2 === "block") {
       if (formData.paymentMethod === "credit-card") {
-        if (!formData.cardNumber || !formData.expiryDate || !formData.cvv) {
+        if (
+          formData.cardNumber === "" ||
+          formData.expiryDate === "" ||
+          formData.cvv === ""
+        ) {
           seterrorMessage("Please fill in all the credit card details");
           setTimeout(() => {
             seterrorMessage("");
-          }, 4000);
+          }, 10000);
           return;
         }
-      } else {
-        const submitData = new FormData();
-        submitData.append("fullName", formData.fullName);
-        submitData.append("email", formData.email);
-        submitData.append("phone", formData.phone);
-        submitData.append("date", formData.date);
-        submitData.append("time", formData.time);
-        submitData.append("paymentMethod", formData.paymentMethod);
-        submitData.append("cardNumber", formData.cardNumber);
-        submitData.append("expiryDate", formData.expiryDate);
-        submitData.append("cvv", formData.cvv);
-
-        if (formData.image) {
-          submitData.append("image", formData.image);
-        }
-        setSuccessMessage("Appointment successfully booked");
-        setTimeout(() => {
-          setSuccessMessage("");
-          navigate("/");
-          dispatch(changecurrentpage("home"));
-        }, 3000);
       }
+      const appointment = {
+        fullName: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        cin: formData.cin,
+        location: formData.location,
+        status: formData.status,
+        image: formData.image,
+        date: formData.date,
+        timeFrom: formData.timeFrom,
+        timeTo: formData.timeTo,
+        consultationType: formData.consultationType,
+        description: formData.description,
+        paymentMethod: formData.paymentMethod,
+        cardNumber: formData.cardNumber,
+        expiryDate: formData.expiryDate,
+        cvv: formData.cvv,
+        imageP: formData.imageP,
+        imagePreview: formData.imagePreview,
+      };
+      dispatch(
+        AddAppointemnt({
+          role: props.role,
+          id: props.id,
+          appointment: appointment,
+        })
+      );
+
+      setSuccessMessage("Appointment successfully booked");
+      setTimeout(() => {
+        setSuccessMessage("");
+        navigate("/");
+        dispatch(changecurrentpage("home"));
+      }, 3000);
     }
   };
 
@@ -93,7 +128,7 @@ export default function LaboratoryReserve(props) {
       !formData.phone ||
       !formData.cin ||
       !formData.date ||
-      !formData.time
+      !formData.timeFrom
     ) {
       seterrorMessage(
         "Please fill in all personal information fields before proceeding."
@@ -193,11 +228,63 @@ export default function LaboratoryReserve(props) {
                 <input
                   type="time"
                   id="time"
-                  name="time"
-                  value={formData.time}
+                  name="timeFrom"
+                  value={formData.timeFrom}
                   onChange={handleChange}
                 />
               </div>
+            </div>
+            <div className="inputdiv">
+              <select
+                id="cities"
+                name="location"
+                value={formData.location}
+                onChange={handleChange}
+              >
+                <option value="">Choose a city in Morocco</option>
+                <option value="casablanca">Casablanca</option>
+                <option value="rabat">Rabat</option>
+                <option value="marrakech">Marrakech</option>
+                <option value="fes">Fès</option>
+                <option value="meknes">Meknès</option>
+                <option value="tangier">Tangier</option>
+                <option value="agadir">Agadir</option>
+                <option value="oujda">Oujda</option>
+                <option value="tetouan">Tétouan</option>
+                <option value="safi">Safi</option>
+                <option value="el-jadida">El Jadida</option>
+                <option value="nador">Nador</option>
+                <option value="kenitra">Kénitra</option>
+                <option value="temara">Témara</option>
+                <option value="settat">Settat</option>
+                <option value="berrechid">Berrechid</option>
+                <option value="khemisset">Khémisset</option>
+                <option value="beni-mellal">Beni Mellal</option>
+                <option value="taroudant">Taroudant</option>
+                <option value="errachidia">Errachidia</option>
+                <option value="laayoune">Laâyoune</option>
+                <option value="dakhla">Dakhla</option>
+                <option value="ouarzazate">Ouarzazate</option>
+                <option value="taza">Taza</option>
+                <option value="guelmim">Guelmim</option>
+                <option value="sidi-kacem">Sidi Kacem</option>
+                <option value="sidi-slimane">Sidi Slimane</option>
+                <option value="oualidia">Oualidia</option>
+                <option value="zoumi">Zoumi</option>
+                <option value="youssoufia">Youssoufia</option>
+                <option value="chefchaouen">Chefchaouen</option>
+                <option value="asfi">Asfi</option>
+                <option value="al-hoceima">Al Hoceima</option>
+                <option value="midelt">Midelt</option>
+                <option value="azilal">Azilal</option>
+                <option value="taourirt">Taourirt</option>
+                <option value="ifran">Ifrane</option>
+                <option value="tiznit">Tiznit</option>
+                <option value="essaouira">Essaouira</option>
+                <option value="tan-tan">Tan-Tan</option>
+                <option value="chichaoua">Chichaoua</option>
+                <option value="smara">Smara</option>
+              </select>
             </div>
             <div
               className="image-upload-container"
@@ -206,7 +293,7 @@ export default function LaboratoryReserve(props) {
               <input
                 type="file"
                 id="image"
-                name="image"
+                name="imageP"
                 onChange={handleFileChange}
                 accept="image/*"
                 style={{ display: "none" }}

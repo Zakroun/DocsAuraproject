@@ -62,7 +62,7 @@ export default function Doctorprofile(props) {
               </h1>
             </div>
             <div className="part2head">
-              <Link to={`/pages/reservedoc`} state={{id : Doctor.id}}>
+              <Link to={`/pages/reservedoc`} state={{id : Doctor.id , role : Doctor.Role}}>
                 <button className="reserve">Reserve</button>
               </Link>
             </div>
