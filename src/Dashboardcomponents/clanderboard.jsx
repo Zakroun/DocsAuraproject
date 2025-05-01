@@ -4,6 +4,8 @@ import {
   faCheckCircle,
   faClock,
   faTimesCircle,
+  faChevronLeft,
+  faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { AddAppointemnt } from "../data/DocsauraSlice";
@@ -36,27 +38,54 @@ export default function Calendar(props) {
     notes: "",
   });
 
+  const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+
   const handleChange = (e) => {
     const { name, value } = e.target;
   
     setFormData((prevData) => {
       const updatedFormData = { ...prevData, [name]: value };
   
-      // Si l'utilisateur change timeFrom, on calcule automatiquement timeTo (+30 min)
       if (name === "timeFrom") {
         const [hours, minutes] = value.split(":").map(Number);
         const startDate = new Date();
         startDate.setHours(hours);
         startDate.setMinutes(minutes + 30);
   
-        const newTimeTo = startDate.toTimeString().slice(0, 5); // Format HH:MM
+        const newTimeTo = startDate.toTimeString().slice(0, 5);
         updatedFormData.timeTo = newTimeTo;
       }
   
       return updatedFormData;
     });
   };
-  
+
+  const handleMonthChange = (direction) => {
+    let newMonth = parseInt(selectedMonth);
+    let newYear = parseInt(selectedYear);
+
+    if (direction === "prev") {
+      if (newMonth === 1) {
+        newMonth = 12;
+        newYear--;
+      } else {
+        newMonth--;
+      }
+    } else {
+      if (newMonth === 12) {
+        newMonth = 1;
+        newYear++;
+      } else {
+        newMonth++;
+      }
+    }
+
+    setSelectedMonth(newMonth.toString().padStart(2, "0"));
+    setSelectedYear(newYear.toString());
+  };
 
   const groupedAppointments = Listeappointments.reduce((acc, appointment) => {
     const formattedDate = new Date(appointment.date)
@@ -80,15 +109,6 @@ export default function Calendar(props) {
   };
 
   const daysInMonth = generateDaysInMonth(selectedYear, selectedMonth);
-
-  const filterAppointmentsByStatus = (appointments) => {
-    if (selectedStatus === "all") {
-      return appointments;
-    }
-    return appointments.filter(
-      (appointment) => appointment.status === selectedStatus
-    );
-  };
 
   useEffect(() => {
     if (searchQuery !== "") {
@@ -148,7 +168,6 @@ export default function Calendar(props) {
 
       setSuccessMessage("Appointment added successfully");
       setFormAdd(true);
-      // Reset form
       setFormData({
         fullName: "",
         email: "",
@@ -202,17 +221,6 @@ export default function Calendar(props) {
             </select>
 
             <select
-              value={selectedMonth}
-              onChange={(e) => setSelectedMonth(e.target.value)}
-            >
-              <option value="01">January</option>
-              <option value="02">February</option>
-              <option value="03">March</option>
-              <option value="04">April</option>
-              <option value="05">May</option>
-            </select>
-
-            <select
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e.target.value)}
             >
@@ -239,24 +247,46 @@ export default function Calendar(props) {
             </button>
           </div>
 
-          <div className="legend">
-            <div>
-              <span className="status completed">
-                <FontAwesomeIcon icon={faCheckCircle} />
-              </span>{" "}
-              Completed
+          <div className="legend-and-navigation">
+            <div className="legend">
+              <div>
+                <span className="status completed">
+                  <FontAwesomeIcon icon={faCheckCircle} />
+                </span>{" "}
+                Completed
+              </div>
+              <div>
+                <span className="status pending">
+                  <FontAwesomeIcon icon={faClock} />
+                </span>{" "}
+                Pending
+              </div>
+              <div>
+                <span className="status canceled">
+                  <FontAwesomeIcon icon={faTimesCircle} />
+                </span>{" "}
+                Canceled
+              </div>
             </div>
-            <div>
-              <span className="status pending">
-                <FontAwesomeIcon icon={faClock} />
-              </span>{" "}
-              Pending
-            </div>
-            <div>
-              <span className="status canceled">
-                <FontAwesomeIcon icon={faTimesCircle} />
-              </span>{" "}
-              Canceled
+
+            <div className="month-navigation">
+              <button 
+                className="nav-button prev-button"
+                onClick={() => handleMonthChange("prev")}
+              >
+                <FontAwesomeIcon icon={faChevronLeft} />
+              </button>
+              
+              <div className="current-month">
+                {monthNames[parseInt(selectedMonth) - 1]} {selectedYear}
+              </div>
+              
+              <button 
+                className="nav-button next-button"
+                onClick={() => handleMonthChange("next")}
+              >
+                <FontAwesomeIcon icon={faChevronRight} />
+              </button>
             </div>
           </div>
 
