@@ -36,7 +36,7 @@ export default function Laboratoryprofile(props) {
       <div className="part1">
         <div className="imgprofile">
           <img
-            src={`/images/${laboratory.image}`}
+            src={`/images/laboratory/${laboratory.image}`}
             alt="imgprofile"
             id="imageprofile"
           />

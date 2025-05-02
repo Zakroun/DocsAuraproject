@@ -130,7 +130,7 @@ export default function ChatApp({ conversations }) {
             <MessageInput Conversationusers={selectedConversation.name} />
           </div>
         ) : (
-          <p>Select a conversation to view messages ...</p>
+          <p className="p-select-message">Select a conversation to view messages ...</p>
         )}
       </div>
     </div>

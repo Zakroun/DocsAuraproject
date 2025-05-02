@@ -93,14 +93,15 @@ export default function ListLabo() {
               >
                 <img
                   id="imgDocLabcli"
-                  src={`/images/${l.image}`}
+                  src={`/images/laboratory/${l.image}`}
                   alt={l.name}
                 />
                 <div className="informations">
-                  <h3>{l.fullName}</h3>
-                  <p>{l.address}</p>
-                  <div className="stars">{generateStars(l.rating)}</div>
-                  <button className="btnsee">See</button>
+                  <h3>{l.fullName.length > 20 ? l.fullName.substring(0, 20) + '...' : l.fullName}</h3>
+                  <div className="rating-button">
+                    <div className="stars">{generateStars(l.rating)}</div>
+                    {/* <button className="btnsee">Reserve</button> */}
+                  </div>
                 </div>
               </Link>
             </div>

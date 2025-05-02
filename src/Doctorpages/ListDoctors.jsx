@@ -103,31 +103,29 @@ export default function ListDoctors() {
         </button>
       </div>
       <div className="containerDoctors">
-        {
-          ListD.length !== 0 ? (
-            ListD.map((d) => (
-              <div key={d.id} className="doctor">
-                <Link to={`/pages/doctor`} state={{ id: d.id }} id="Linktoone">
-                  <img
-                    id="imgDocLabcli"
-                    src={`/images/${d.image}`}
-                    alt={d.fullName}
-                  />
-                  <div className="informations">
-                    <h3>{d.fullName}</h3>
-                    <p>{d.specialty}</p>
+        {ListD.length !== 0 ? (
+          ListD.map((d) => (
+            <div key={d.id} className="doctor">
+              <Link to={`/pages/doctor`} state={{ id: d.id }} id="Linktoone">
+                <img
+                  id="imgDocLabcli"
+                  src={`/images/doctors/${d.image}`}
+                  alt={d.fullName}
+                />
+                <div className="informations">
+                <h3>{d.fullName.length > 20 ? d.fullName.substring(0, 20) + '...' : d.fullName}</h3>
+                  <p className="pspecialty">{d.specialty}</p>
+                  <div className="rating-button">
                     <div className="stars">{generateStars(d.rating)}</div>
-                    <button className="btnsee">See</button>
+                    {/* <button className="btnsee">Reserve</button> */}
                   </div>
-                </Link>
-              </div>
-            ))
-          ) : (
-            <p style={{fontSize:'20px'}}>
-              This doctor not found
-            </p>
-          )
-        }
+                </div>
+              </Link>
+            </div>
+          ))
+        ) : (
+          <p style={{ fontSize: "20px" }}>This doctor not found</p>
+        )}
       </div>
     </div>
   );

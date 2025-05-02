@@ -478,7 +478,7 @@ export const doctors = [
       },
     },
     createdAt: "2024-01-01",
-    image: "doctor1.jpg",
+    image: "doctor1.jpeg",
     comments: [
       {
         id: 1,
@@ -875,7 +875,7 @@ export const doctors = [
       },
     },
     createdAt: "2024-01-02",
-    image: "doctor1.jpg",
+    image: "doctor2.jpeg",
     comments: [
       {
         id: 1,
@@ -1020,7 +1020,7 @@ export const doctors = [
       },
     },
     createdAt: "2024-01-03",
-    image: "doctor1.jpg",
+    image: "doctor3.jpeg",
     comments: [
       {
         id: 1,
@@ -1146,7 +1146,7 @@ export const doctors = [
       },
     },
     createdAt: "2024-01-04",
-    image: "doctor1.jpg",
+    image: "doctor4.jpeg",
     comments: [
       {
         id: 1,
@@ -1272,7 +1272,7 @@ export const doctors = [
       },
     },
     createdAt: "2024-01-05",
-    image: "doctor1.jpg",
+    image: "doctor1.jpeg",
     comments: [
       {
         id: 1,
@@ -1398,7 +1398,7 @@ export const doctors = [
       },
     },
     createdAt: "2024-01-06",
-    image: "doctor1.jpg",
+    image: "doctor2.jpeg",
     comments: [
       {
         id: 1,
@@ -1467,6 +1467,7 @@ export const doctors = [
     email: "Grace@example.com",
     password: "docmno",
     create_at: "2025-01-01",
+    image: "doctor3.jpeg",
   },
   {
     id: 8,
@@ -1476,6 +1477,7 @@ export const doctors = [
     email: "henry8@example.com",
     password: "docmno",
     create_at: "2025-01-01",
+    image: "doctor4.jpeg",
   },
   {
     id: 9,
@@ -1485,6 +1487,7 @@ export const doctors = [
     email: "irene9@example.com",
     password: "docpqr",
     create_at: "2025-01-01",
+    image: "doctor1.jpeg",
   },
   {
     id: 10,
@@ -1494,6 +1497,7 @@ export const doctors = [
     email: "jack10@example.com",
     password: "docstu",
     create_at: "2025-01-01",
+    image: "doctor2.jpeg",
   },
   {
     id: 11,
@@ -1503,6 +1507,7 @@ export const doctors = [
     email: "kelly11@example.com",
     password: "docvwx",
     create_at: "2025-01-01",
+    image: "doctor3.jpeg",
   },
   {
     id: 12,
@@ -1512,6 +1517,7 @@ export const doctors = [
     email: "liam12@example.com",
     password: "docyz",
     create_at: "2025-01-01",
+    image: "doctor4.jpeg",
   },
 ];
 
@@ -1529,7 +1535,7 @@ export const clinics = [
     description: "A multi-specialty clinic",
     services: ["General Consultation", "Surgery"],
     createdAt: "2024-01-01",
-    image: "clinic.jpg",
+    image: "clinic1.jpeg",
     comments: [
       {
         id: 1,
@@ -1647,7 +1653,7 @@ export const clinics = [
     description: "Emergency and outpatient services",
     services: ["Emergency Care", "Pediatrics"],
     createdAt: "2024-01-02",
-    image: "clinic.jpg",
+    image: "clinic2.jpeg",
     comments: [
       {
         id: 1,
@@ -1765,7 +1771,7 @@ export const clinics = [
     description: "Family healthcare and vaccinations",
     services: ["Family Medicine", "Vaccinations"],
     createdAt: "2024-01-03",
-    image: "clinic.jpg",
+    image: "clinic3.jpeg",
     comments: [
       {
         id: 1,
@@ -1883,7 +1889,7 @@ export const clinics = [
     description: "Specialized in dental treatments",
     services: ["Teeth Cleaning", "Orthodontics"],
     createdAt: "2024-01-04",
-    image: "clinic.jpg",
+    image: "clinic4.jpeg",
     comments: [
       {
         id: 1,
@@ -2001,7 +2007,7 @@ export const clinics = [
     description: "Women's health and maternity services",
     services: ["Gynecology", "Prenatal Care"],
     createdAt: "2024-01-05",
-    image: "clinic.jpg",
+    image: "clinic1.jpeg",
     comments: [
       {
         id: 1,
@@ -2119,7 +2125,7 @@ export const clinics = [
     description: "Orthopedic treatments and rehabilitation",
     services: ["Physical Therapy", "Orthopedic Surgery"],
     createdAt: "2024-01-06",
-    image: "clinic.jpg",
+    image: "clinic2.jpeg",
     comments: [
       {
         id: 1,
@@ -2232,6 +2238,7 @@ export const clinics = [
     email: "heartclinic@example.com",
     password: "clinicjkl",
     create_at: "2024-01-01",
+    image: "clinic3.jpeg",
   },
   {
     id: 8,
@@ -2241,6 +2248,7 @@ export const clinics = [
     email: "visionclinic@example.com",
     password: "clinicmno",
     create_at: "2024-01-01",
+    image: "clinic4.jpeg",
   },
   {
     id: 9,
@@ -2250,6 +2258,7 @@ export const clinics = [
     email: "brightclinic@example.com",
     password: "clinicpqr",
     create_at: "2024-01-01",
+    image: "clinic1.jpeg",
   },
   {
     id: 10,
@@ -2259,6 +2268,7 @@ export const clinics = [
     email: "summitclinic@example.com",
     password: "clinicstu",
     create_at: "2025-01-01",
+    image: "clinic2.jpeg",
   },
   {
     id: 11,
@@ -2268,6 +2278,7 @@ export const clinics = [
     email: "peakclinic@example.com",
     password: "clinicvwx",
     create_at: "2025-01-01",
+    image: "clinic4.jpeg",
   },
   {
     id: 12,
@@ -2277,6 +2288,7 @@ export const clinics = [
     email: "northsideclinic@example.com",
     password: "clinicyz",
     create_at: "2025-01-01",
+    image: "clinic1.jpeg",
   },
 ];
 
@@ -2294,7 +2306,7 @@ export const laboratories = [
     description: "Advanced medical testing",
     services: ["Blood Test", "MRI", "X-Ray"],
     createdAt: "2024-01-01",
-    image: "features.jpg",
+    image: "labo1.jpeg",
     comments: [
       {
         id: 1,
@@ -2408,7 +2420,7 @@ export const laboratories = [
     description: "Specialized in genetic testing",
     services: ["Genetic Testing", "DNA Analysis"],
     createdAt: "2024-01-02",
-    image: "features.jpg",
+    image: "labo2.jpeg",
     comments: [
       {
         id: 1,
@@ -2522,7 +2534,7 @@ export const laboratories = [
     description: "Comprehensive pathology services",
     services: ["Histopathology", "Toxicology"],
     createdAt: "2024-01-03",
-    image: "features.jpg",
+    image: "labo3.jpeg",
     comments: [
       {
         id: 1,
@@ -2636,7 +2648,7 @@ export const laboratories = [
     description: "Specialized eye health testing",
     services: ["Optical Coherence Tomography", "Visual Field Test"],
     createdAt: "2024-01-04",
-    image: "features.jpg",
+    image: "labo4.jpeg",
     comments: [
       {
         id: 1,
@@ -2750,7 +2762,7 @@ export const laboratories = [
     description: "Cardiac health diagnostics",
     services: ["ECG", "Echocardiogram"],
     createdAt: "2024-01-05",
-    image: "features.jpg",
+    image: "labo2.jpeg",
     comments: [
       {
         id: 1,
@@ -2859,6 +2871,7 @@ export const laboratories = [
     email: "neurolab@example.com",
     password: "labghi",
     create_at: "2025-01-01",
+    image: "labo3.jpeg",
   },
   {
     id: 7,
@@ -2868,6 +2881,7 @@ export const laboratories = [
     email: "womenslab@example.com",
     password: "labjkl",
     create_at: "2024-01-01",
+    image: "labo3.jpeg",
   },
   {
     id: 8,
@@ -2877,6 +2891,7 @@ export const laboratories = [
     email: "allergylab@example.com",
     password: "labmno",
     create_at: "2024-01-01",
+    image: "labo4.jpeg",
   },
   {
     id: 9,
@@ -2887,6 +2902,7 @@ export const laboratories = [
     password: "labpqr",
     address: "Kenitra",
     create_at: "2024-01-01",
+    image: "labo1.jpeg",
   },
   {
     id: 10,
@@ -2897,6 +2913,7 @@ export const laboratories = [
     password: "labstu",
     address: "Tetouan",
     create_at: "2024-01-01",
+    image: "labo2.jpeg",
   },
   {
     id: 11,
@@ -2907,6 +2924,7 @@ export const laboratories = [
     password: "labvwx",
     address: "El Jadida",
     create_at: "2024-01-01",
+    image: "labo3.jpeg",
   },
   {
     id: 12,
@@ -2917,6 +2935,7 @@ export const laboratories = [
     password: "labyz",
     address: "Essaouira",
     create_at: "2024-01-01",
+    image: "labo4.jpeg",
   },
 ];
 

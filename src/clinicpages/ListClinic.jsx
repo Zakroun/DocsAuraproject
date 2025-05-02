@@ -90,14 +90,16 @@ export default function ListClinic() {
               <Link to={`/pages/clinic`} state={{ id: c.id }} id="Linktoone">
                 <img
                   id="imgDocLabcli"
-                  src={`/images/${c.image}`}
+                  src={`/images/clinics/${c.image}`}
                   alt={c.name}
                 />
                 <div className="informations">
-                  <h3>{c.fullName}</h3>
-                  <p>{c.address}</p>
-                  <div className="stars">{generateStars(c.rating)}</div>
-                  <button className="btnsee">See</button>
+                <h3>{c.fullName.length > 20 ? c.fullName.substring(0, 20) + '...' : c.fullName}</h3>
+                  <p  className="paddress">{c.address}</p>
+                  <div className="rating-button">
+                    <div className="stars">{generateStars(c.rating)}</div>
+                    {/* <button className="btnsee">Reserve</button> */}
+                  </div>
                 </div>
               </Link>
             </div>

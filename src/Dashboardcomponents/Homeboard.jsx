@@ -2,6 +2,12 @@ import React, { useState, useEffect } from "react";
 import { MdVerified } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useMemo } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCheckCircle,
+  faClock,
+  faTimesCircle,
+} from "@fortawesome/free-solid-svg-icons";
 import {
   LineChart,
   BarChart,
@@ -372,7 +378,7 @@ export default function Homeboard(props) {
                   <th>Time From</th>
                   <th>Time To</th>
                   <th>Status</th>
-                  <th style={{ width: "200px" }}>Actions</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -401,11 +407,23 @@ export default function Homeboard(props) {
                     <td>{appt.timeTo}</td>
                     <td>
                       {appt.status === "completed" ? (
-                        <FaCircleCheck color="rgb(0, 88, 87)" size={25} />
+                        <div>
+                          <span className="status completed" style={{width:'78px',background:'none',color:'rgb(26, 225, 26)',fontSize:'15px'}}>
+                            <FontAwesomeIcon icon={faCheckCircle} />Completed
+                          </span>
+                        </div>
                       ) : appt.status === "canceled" ? (
-                        <MdCancel color="red" size={25} />
+                        <div>
+                          <span className="status canceled" style={{width:'78px',background:'none',color:'rgb(255, 64, 64)',fontSize:'15px'}}>
+                            <FontAwesomeIcon icon={faTimesCircle} />Canceled
+                          </span>
+                        </div>
                       ) : (
-                        <MdOutlineIncompleteCircle color="orange" size={25} />
+                        <div>
+                          <span className="status pending" style={{width:'78px',background:'none',color:'rgb(255, 182, 47)',fontSize:'15px'}}>
+                            <FontAwesomeIcon icon={faClock} />Pending
+                          </span>
+                        </div>
                       )}
                     </td>
                     <td className="actions">
@@ -413,10 +431,7 @@ export default function Homeboard(props) {
                       appt.status !== "canceled" ? (
                         <>
                           <Link to={`/pages/Dashboard`} state={{ user: appt }}>
-                            <button className="cancel">Cancel</button>
-                          </Link>
-                          <Link to={`/pages/Dashboard`} state={{ user: appt }}>
-                            <button className="complet">Completed</button>
+                            <button className="complet">Update</button>
                           </Link>
                         </>
                       ) : (
@@ -514,9 +529,9 @@ export default function Homeboard(props) {
             <div className="appointments_header">
               <h2>Upcoming Appointments</h2>
               <div className="appointment-day-filter">
-                <label htmlFor="day-select">Select Day:</label>
+                {/* <label htmlFor="day-select">Select Day:</label> */}
                 <select
-                  id="day-select"
+                  id="weeklyselect"
                   value={selectedDay}
                   onChange={handleDayChange}
                 >
@@ -531,7 +546,7 @@ export default function Homeboard(props) {
                 </select>
               </div>
             </div>
-            <table border={1}>
+            <table>
               <thead>
                 <tr>
                   <th>Profile</th>
@@ -541,7 +556,7 @@ export default function Homeboard(props) {
                   <th>Time From</th>
                   <th>Time To</th>
                   <th>Status</th>
-                  <th style={{ width: "200px" }}>Actions</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -570,11 +585,23 @@ export default function Homeboard(props) {
                     <td>{appt.timeTo}</td>
                     <td>
                       {appt.status === "completed" ? (
-                        <FaCircleCheck color="rgb(0, 88, 87)" size={25} />
+                        <div>
+                          <span className="status completed" style={{width:'78px',background:'none',color:'rgb(26, 225, 26)',fontSize:'15px'}}>
+                            <FontAwesomeIcon icon={faCheckCircle} />Completed
+                          </span>
+                        </div>
                       ) : appt.status === "canceled" ? (
-                        <MdCancel color="red" size={25} />
+                        <div>
+                          <span className="status canceled" style={{width:'78px',background:'none',color:'rgb(255, 64, 64)',fontSize:'15px'}}>
+                            <FontAwesomeIcon icon={faTimesCircle} />Canceled
+                          </span>
+                        </div>
                       ) : (
-                        <MdOutlineIncompleteCircle color="orange" size={25} />
+                        <div>
+                          <span className="status pending" style={{width:'78px',background:'none',color:'rgb(255, 182, 47)',fontSize:'15px'}}>
+                            <FontAwesomeIcon icon={faClock} />Pending
+                          </span>
+                        </div>
                       )}
                     </td>
                     <td className="actions">
@@ -582,10 +609,7 @@ export default function Homeboard(props) {
                       appt.status !== "canceled" ? (
                         <>
                           <Link to={`/pages/Dashboard`} state={{ user: appt }}>
-                            <button className="cancel">Cancel</button>
-                          </Link>
-                          <Link to={`/pages/Dashboard`} state={{ user: appt }}>
-                            <button className="complet">Completed</button>
+                            <button className="complet">Update</button>
                           </Link>
                         </>
                       ) : (

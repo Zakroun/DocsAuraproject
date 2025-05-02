@@ -73,7 +73,8 @@ export default function Header() {
           </button>
         </div>
         <div className="menu" id="menu" ref={menuRef}>
-          <h1>DocsAura</h1>
+          {/* <h1>DocsAura</h1> */}
+          <img src="\Images\Asset 10.png" alt="logo" className="logo-menu"/>
           <div className="linksmenu">
             <Link to="/" className="linksm">
               HOME
@@ -84,7 +85,7 @@ export default function Header() {
             <Link to="/pages/Doctors" className="linksm">
               DOCTORS
             </Link>
-            <Link to="/pages/Clinical" className="linksm">
+            <Link to="/pages/clinics" className="linksm">
               CLINICS
             </Link>
             <Link to="/pages/Laboratories" className="linksm">
@@ -136,9 +137,9 @@ export default function Header() {
             DOCTORS
           </Link>
           <Link
-            to="/pages/Clinical"
-            onClick={() => dispatch(changecurrentpage("Clinical"))}
-            className={`links ${pagestate === "Clinical" ? "active" : ""}`}
+            to="/pages/clinics"
+            onClick={() => dispatch(changecurrentpage("clinics"))}
+            className={`links ${pagestate === "clinics" ? "active" : ""}`}
           >
             CLINICS
           </Link>

@@ -38,14 +38,13 @@ export default function ListDocCliLAbo() {
             <Link to={`/pages/doctor`} state={{ id: d.id }} id="Linktoone">
               <img
                 id="imgDocLabcli"
-                src={`/images/${d.image}`}
+                src={`/images/doctors/${d.image}`}
                 alt={d.fullName}
               />
               <div className="informations">
-                <h3>{d.fullName}</h3>
-                <p>{d.specialty}</p>
+              <h3>{d.fullName.length > 20 ? d.fullName.substring(0, 20) + '...' : d.fullName}</h3>
+                <p className="pspecialty">{d.specialty}</p>
                 <div className="stars">{generateStars(d.rating)}</div>
-                <button className="btnsee">See</button>
               </div>
             </Link>
           </div>
@@ -62,14 +61,14 @@ export default function ListDocCliLAbo() {
             <Link to={`/pages/clinic`} state={{ id: c.id }} id="Linktoone">
               <img
                 id="imgDocLabcli"
-                src={`/images/${c.image}`}
+                src={`/images/clinics/${c.image}`}
                 alt={c.fullName}
               />
               <div className="informations">
-                <h3>{c.fullName}</h3>
-                <p>{c.address}</p>
+              <h3>{c.fullName.length > 20 ? c.fullName.substring(0, 20) + '...' : c.fullName}</h3>
+                <p className="paddress">{c.address}</p>
                 <div className="stars">{generateStars(c.rating)}</div>
-                <button className="btnsee">See</button>
+                {/* <button className="btnsee">See</button> */}
               </div>
             </Link>
           </div>
@@ -86,14 +85,14 @@ export default function ListDocCliLAbo() {
             <Link to={`/pages/laboratory`} state={{ id: l.id }} id="Linktoone">
               <img
                 id="imgDocLabcli"
-                src={`/images/${l.image}`}
+                src={`/images/laboratory/${l.image}`}
                 alt={l.fullName}
               />
               <div className="informations">
-                <h3>{l.fullName}</h3>
-                <p>{l.address}</p>
+              <h3>{l.fullName.length > 20 ? l.fullName.substring(0, 20) + '...' : l.fullName}</h3>
+                <p className="paddress">{l.address}</p>
                 <div className="stars">{generateStars(l.rating)}</div>
-                <button className="btnsee">See</button>
+                {/* <button className="btnsee">See</button> */}
               </div>
             </Link>
           </div>

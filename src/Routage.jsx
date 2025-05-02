@@ -88,7 +88,7 @@ export default function Routage() {
         <Footer />
       </>
     );
-  } else if (d === "Clinical") {
+  } else if (d === "clinics") {
     return (
       <>
         <Header />

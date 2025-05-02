@@ -531,50 +531,10 @@ export default function Calendar(props) {
                     onChange={handleChange}
                   >
                     <option value="">Choose Payment Method</option>
-                    <option value="credit-card">Credit Card</option>
                     <option value="cash">Cash on Arrival</option>
                   </select>
                 </div>
                 <br />
-                {formData.paymentMethod === "credit-card" && (
-                  <>
-                    <div className="divinputs">
-                      <div className="inputdiv">
-                        <input
-                          style={{ marginRight: "10px" }}
-                          type="text"
-                          name="cardNumber"
-                          id="cardNumber"
-                          placeholder="Card Number"
-                          value={formData.cardNumber}
-                          onChange={handleChange}
-                        />
-                      </div>
-                      <div className="inputdiv">
-                        <input
-                          style={{ marginRight: "10px" }}
-                          type="text"
-                          id="expiryDate"
-                          name="expiryDate"
-                          placeholder="Expiry Date (MM/YY)"
-                          value={formData.expiryDate}
-                          onChange={handleChange}
-                        />
-                      </div>
-                    </div>
-                    <div className="inputdiv">
-                      <input
-                        style={{ marginRight: "10px" }}
-                        type="text"
-                        name="cvv"
-                        id="cvv"
-                        placeholder="CVV"
-                        value={formData.cvv}
-                        onChange={handleChange}
-                      />
-                    </div>
-                  </>
-                )}
                 <button
                   disabled={formData.paymentMethod === ""}
                   id="btn"

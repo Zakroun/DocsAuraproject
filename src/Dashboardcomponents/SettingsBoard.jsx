@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { FaBell, FaBellSlash, FaSave, FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-const defaultProfileImage = "https://www.gravatar.com/avatar/default?s=200&d=mp";
-
 export default function SettingsBoard({ Use }) {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -11,7 +9,7 @@ export default function SettingsBoard({ Use }) {
   const [email, setEmail] = useState(Use.email);
   const [phoneNo, setPhoneNo] = useState(Use.phone);
   const [name, setName] = useState(Use.fullName);
-  const [profileImage, setProfileImage] = useState(defaultProfileImage);
+  const [profileImage, setProfileImage] = useState(Use.image);
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showRetypePassword, setShowRetypePassword] = useState(false);
@@ -172,7 +170,7 @@ export default function SettingsBoard({ Use }) {
     setEmail("");
     setPhoneNo("");
     setName("");
-    setProfileImage(defaultProfileImage);
+    setProfileImage(Use.image);
     setShowCurrentPassword(false);
     setShowNewPassword(false);
     setShowRetypePassword(false);
@@ -208,7 +206,7 @@ export default function SettingsBoard({ Use }) {
               <br />
               <div className="profile-picture">
                 <img 
-                  src={profileImage} 
+                  src={`/images${Use.Role === 'doctor'?'/doctors/':Use.Role === 'clinic'?'/clinics/':Use.Role === 'laboratory'?'/laboratory/':''}/${profileImage}`} 
                   alt="Profile" 
                   onClick={toggleFullImage}
                   style={{ cursor: 'pointer' }}
@@ -532,7 +530,7 @@ export default function SettingsBoard({ Use }) {
         <div className="full-image-modal" onClick={toggleFullImage}>
           <div className="full-image-content" onClick={(e) => e.stopPropagation()}>
             <img 
-              src={profileImage} 
+              src={`/images${Use.Role === 'doctor'?'/doctors/':Use.Role === 'clinic'?'/clinics/':Use.Role === 'laboratory'?'/laboratory/':''}/${profileImage}`} 
               alt="Profile Full Size" 
             />
             <button 
