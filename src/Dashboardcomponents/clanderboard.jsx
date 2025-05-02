@@ -6,9 +6,7 @@ import {
   faTimesCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import { AddAppointemnt } from "../data/DocsauraSlice";
-import { useDispatch } from "react-redux";
-
+// import { useNavigate } from "react-router-dom";
 export default function Calendar(props) {
   const [errorMessage, seterrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -20,51 +18,19 @@ export default function Calendar(props) {
   const [searchQuery, setSearchQuery] = useState("");
   const [formAdd, setFormAdd] = useState(true);
   const dispatch = useDispatch();
-  useEffect(() => {
-    const currentDate = new Date();
-    const year = currentDate.getFullYear();
-    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
-  
-    setSelectedYear(year);
-    setSelectedMonth(month);
-  }, []);
+
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
     phone: "",
     cin: "",
-    location: "",
     date: "",
-    timeFrom: "",
-    timeTo: "",
-    status: "pending",
-    image: "user.png",
-    consultationType: "Emergency Care",
-    notes: "",
+    time: "",
   });
-
   const handleChange = (e) => {
-    const { name, value } = e.target;
-  
-    setFormData((prevData) => {
-      const updatedFormData = { ...prevData, [name]: value };
-  
-      // Si l'utilisateur change timeFrom, on calcule automatiquement timeTo (+30 min)
-      if (name === "timeFrom") {
-        const [hours, minutes] = value.split(":").map(Number);
-        const startDate = new Date();
-        startDate.setHours(hours);
-        startDate.setMinutes(minutes + 30);
-  
-        const newTimeTo = startDate.toTimeString().slice(0, 5); // Format HH:MM
-        updatedFormData.timeTo = newTimeTo;
-      }
-  
-      return updatedFormData;
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  
-
+  // const navigate = useNavigate();
   const groupedAppointments = Listeappointments.reduce((acc, appointment) => {
     const formattedDate = new Date(appointment.date)
       .toISOString()
@@ -106,79 +72,30 @@ export default function Calendar(props) {
     } else {
       setappointments(appointments);
     }
-  }, [searchQuery, appointments, Listeappointments]);
-
-  useEffect(() => {
-    setappointments(appointments);
-  }, [appointments]);
+  }, [searchQuery, appointments]);
 
   const Add = () => {
     if (
       formData.fullName !== "" &&
-      formData.email !== "" &&
-      formData.phone !== "" &&
-      formData.cin !== "" &&
       formData.date !== "" &&
-      formData.timeFrom !== ""
+      formData.time !== ""
     ) {
-      const newAppointment = {
-        id: Date.now(),
+      const obj = {
         fullName: formData.fullName,
-        email: formData.email,
-        phone: formData.phone,
-        cin: formData.cin,
-        location: formData.location,
         date: formData.date,
-        image: "user.png",
-        timeFrom: formData.timeFrom,
-        timeTo:
-          formData.timeTo ||
-          new Date(
-            new Date(`1970-01-01T${formData.timeFrom}`).getTime() + 30 * 60000
-          )
-            .toTimeString()
-            .slice(0, 5),
-        status: formData.status,
-        consultationType: formData.consultationType,
-        notes: formData.notes,
-        createdAt: new Date().toISOString(),
-        createdBy: props.role,
-      };
-
-      dispatch(
-        AddAppointemnt({
-          role: props.role,
-          id: props.id,
-          appointment: newAppointment,
-        })
-      );
-
-      setSuccessMessage("Appointment added successfully");
-      setFormAdd(true);
-      // Reset form
-      setFormData({
-        fullName: "",
-        email: "",
-        phone: "",
-        cin: "",
-        location: "Rabat",
-        date: "",
-        timeFrom: "",
-        timeTo: "",
+        time: formData.time,
         status: "pending",
-        image: "user.png",
-        consultationType: "Emergency Care",
-      });
+      };
+      setSuccessMessage("Appointment Added sussessfully");
+      setFormAdd(true);
     } else {
-      seterrorMessage("Please fill all required fields");
+      seterrorMessage("Please fill all the fields");
     }
-
     setTimeout(() => {
       setSuccessMessage("");
       seterrorMessage("");
     }, 3000);
   };
-
   return (
     <div className="calendar-container">
       {successMessage && (
@@ -194,8 +111,7 @@ export default function Calendar(props) {
           <div className="notification error">{errorMessage}</div>
         </div>
       )}
-
-      {formAdd ? (
+      {formAdd === true ? (
         <>
           <h2 className="calendar-title">Medical Appointments</h2>
 
@@ -284,8 +200,8 @@ export default function Calendar(props) {
           </div>
 
           <div className="calendar-grid">
-            {daysInMonth.map((date, key) => (
-              <div key={key} className="calendar-day">
+            {daysInMonth.map((date) => (
+              <div key={date} className="calendar-day">
                 <h4 className="calendar-date">{date}</h4>
                 {groupedAppointments[date] &&
                 groupedAppointments[date].length > 0 ? (
@@ -344,207 +260,66 @@ export default function Calendar(props) {
         <div className="Form_Appointemnt">
           <h2 className="calendar-title">Form Appointemnt</h2>
           <form action="" method="post">
-            <div className="divinputs">
-              <div className="inputdiv">
-                <input
-                  type="text"
-                  name="fullName"
-                  id="fullname"
-                  placeholder="Full Name"
-                  value={formData.fullName}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className="inputdiv">
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  placeholder="Email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-            </div>
-            <div className="divinputs">
-              <div className="inputdiv">
-                <input
-                  type="tel"
-                  name="phone"
-                  id="phone"
-                  placeholder="Phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className="inputdiv">
-                <input
-                  type="text"
-                  name="cin"
-                  id="cin"
-                  placeholder="CIN"
-                  value={formData.cin}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-            </div>
-            <div className="divinputs">
-              <div className="inputdiv">
-                <select
-                  name="location"
-                  id="cities"
-                  value={formData.location}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="">Choose a city in Morocco</option>
-                  <option value="casablanca">Casablanca</option>
-                  <option value="rabat">Rabat</option>
-                  <option value="marrakech">Marrakech</option>
-                  <option value="fes">Fès</option>
-                  <option value="meknes">Meknès</option>
-                  <option value="tangier">Tangier</option>
-                  <option value="agadir">Agadir</option>
-                  <option value="oujda">Oujda</option>
-                  <option value="tetouan">Tétouan</option>
-                  <option value="safi">Safi</option>
-                  <option value="el-jadida">El Jadida</option>
-                  <option value="nador">Nador</option>
-                  <option value="kenitra">Kénitra</option>
-                  <option value="temara">Témara</option>
-                  <option value="settat">Settat</option>
-                  <option value="berrechid">Berrechid</option>
-                  <option value="khemisset">Khémisset</option>
-                  <option value="beni-mellal">Beni Mellal</option>
-                  <option value="taroudant">Taroudant</option>
-                  <option value="errachidia">Errachidia</option>
-                  <option value="laayoune">Laâyoune</option>
-                  <option value="dakhla">Dakhla</option>
-                  <option value="ouarzazate">Ouarzazate</option>
-                  <option value="taza">Taza</option>
-                  <option value="guelmim">Guelmim</option>
-                  <option value="sidi-kacem">Sidi Kacem</option>
-                  <option value="sidi-slimane">Sidi Slimane</option>
-                  <option value="oualidia">Oualidia</option>
-                  <option value="zoumi">Zoumi</option>
-                  <option value="youssoufia">Youssoufia</option>
-                  <option value="chefchaouen">Chefchaouen</option>
-                  <option value="asfi">Asfi</option>
-                  <option value="al-hoceima">Al Hoceima</option>
-                  <option value="midelt">Midelt</option>
-                  <option value="azilal">Azilal</option>
-                  <option value="taourirt">Taourirt</option>
-                  <option value="ifran">Ifrane</option>
-                  <option value="tiznit">Tiznit</option>
-                  <option value="essaouira">Essaouira</option>
-                  <option value="tan-tan">Tan-Tan</option>
-                  <option value="chichaoua">Chichaoua</option>
-                  <option value="smara">Smara</option>
-                </select>
-              </div>
-              <div className="inputdiv">
-                <select
-                  name="consultationType"
-                  id="consultationType"
-                  value={formData.consultationType}
-                  onChange={handleChange}
-                  required
-                >
-                  {props.role === "doctor" && (
-                    <>
-                      <option value="online Conversation, voice or video call">
-                        Online Consultation (250 DH)
-                      </option>
-                      <option value="Consultation at the patient's home">
-                        Home Visit (300 DH)
-                      </option>
-                      <option value="Consultation at the doctor's office">
-                        Doctor's Office (200 DH)
-                      </option>
-                    </>
-                  )}
-                  {props.role === "clinic" && (
-                    <>
-                      <option value="online Conversation, voice or video call">
-                        Online Consultation (250 DH)
-                      </option>
-                      <option value="Consultation at the clinic office">
-                        Clinic Visit (200 DH)
-                      </option>
-                    </>
-                  )}
-                  {props.role === "lab" && (
-                    <>
-                      <option value="Blood Test">Blood Test (150 DH)</option>
-                      <option value="Medical Imaging">
-                        Medical Imaging (300 DH)
-                      </option>
-                      <option value="Urine Analysis">
-                        Urine Analysis (100 DH)
-                      </option>
-                    </>
-                  )}
-                </select>
-              </div>
-            </div>
-            <div className="divinputs">
-              <div className="inputdiv">
-                <input
-                  type="date"
-                  id="date"
-                  name="date"
-                  value={formData.date}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className="inputdiv">
-                <input
-                  type="time"
-                  id="date"
-                  name="timeFrom"
-                  value={formData.timeFrom}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-            </div>
-            <div className="divinputs">
-              <div className="inputdiv">
-                <select
-                  name="status"
-                  id="status"
-                  value={formData.status}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="pending">Pending</option>
-                  <option value="completed">Completed</option>
-                  <option value="canceled">Canceled</option>
-                </select>
-              </div>
-            </div>
-            <div
-              style={{
-                display: "flex",
-              }}
-            >
-              <button
-                type="button"
-                className="cancelbtn"
-                onClick={() => setFormAdd(true)}
-              >
-                Cancel
-              </button>
-
-              <button id="btn" type="button" onClick={Add}>
-                Add
-              </button>
-            </div>
+            <input
+              style={{ marginRight: "20px" }}
+              type="text"
+              name="fullName"
+              id="fullname"
+              placeholder="Full Name"
+              value={formData.fullName}
+              onChange={handleChange}
+              required
+            />
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+            <input
+              style={{ marginRight: "20px" }}
+              type="tel"
+              name="phone"
+              id="phone"
+              placeholder="Phone"
+              value={formData.phone}
+              onChange={handleChange}
+              required
+            />
+            <input
+              type="text"
+              name="cin"
+              id="cin"
+              placeholder="CIN"
+              value={formData.cin}
+              onChange={handleChange}
+              required
+            />
+            <br />
+            <input
+              style={{ marginRight: "20px" }}
+              type="date"
+              id="date"
+              name="date"
+              value={formData.date}
+              onChange={handleChange}
+              required
+            />
+            <input
+              type="time"
+              id="time"
+              name="time"
+              value={formData.time}
+              onChange={handleChange}
+              required
+            />
+            <br />
+            <button id="btn" type="button" onClick={Add}>
+              Add
+            </button>
           </form>
         </div>
       )}
