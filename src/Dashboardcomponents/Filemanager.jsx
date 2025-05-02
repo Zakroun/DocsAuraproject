@@ -15,6 +15,7 @@ import {
   FaFlask,
   FaFileMedical
 } from "react-icons/fa";
+import { IoCheckmarkDoneCircleSharp } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { addFile, deleteFiles } from "../data/DocsauraSlice";
 
@@ -113,15 +114,6 @@ export default function FileManager() {
 
   return (
     <div className="file-manager-container">
-      {/* Header with weather info */}
-      <div className="file-manager-header">
-        <div className="weather-info">
-          <span>22°C Ensoleilé</span>
-          <span>S38 PM</span>
-          <span>S/1/2025</span>
-        </div>
-      </div>
-
       {/* Main content */}
       <div className="file-manager-content">
         {/* Sidebar */}
@@ -245,7 +237,7 @@ export default function FileManager() {
           <ul className="activity-list">
             {activity.slice(0, 8).map((act, index) => (
               <li key={index} className="activity-item">
-                <FaTasks className="activity-icon" />
+                <IoCheckmarkDoneCircleSharp className="activity-icon"/>
                 <span className="activity-text">{act}</span>
                 <span className="activity-time">Just now</span>
               </li>
