@@ -15,10 +15,13 @@ import { complaints } from "./data";
 export const DocsauraSlice = createSlice({
   name: "DocsAura",
   initialState: {
+    // Users
     visitors: visitors,
     doctors: doctors,
     clinics: clinics,
     laboratories: laboratories,
+    adminUsers: adminUsers,
+    //
     specializedDoctors: specializedDoctors,
     profile: true,
     cities: cities,
@@ -26,7 +29,6 @@ export const DocsauraSlice = createSlice({
     conversations: conversations,
     menu: false,
     currentpage: "home",
-    adminUsers: adminUsers,
     complaints: complaints,
     userDataYearly: userDataYearly,
     files: filesData.files,
@@ -81,7 +83,7 @@ export const DocsauraSlice = createSlice({
         case "clinic":
           entity = state.clinics.find((a) => a.id === doctorId);
           break;
-        case "laboratori":
+        case "laboratory":
           entity = state.laboratories.find((a) => a.id === doctorId);
           break;
         case "patient":

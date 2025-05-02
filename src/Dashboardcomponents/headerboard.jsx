@@ -17,6 +17,13 @@ export default function HeaderBoard({ Use }) {
     "files",
     "Logout",
   ];
+  const listsearchadmin = [
+    "home",
+    "Userslist",
+    "Requests",
+    "Complaints",
+    "Logout",
+  ]
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const Searchfn = (e) => {

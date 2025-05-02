@@ -11,22 +11,29 @@ export default function Messages({ selectedConversation, idconv }) {
 
   // Fonction pour parser l'heure correctement
   const parseTime = (timeString) => {
-    const timeRegex = /^(\d{1,2}):(\d{2}) ?(am|pm)?$/i;
-    const match = timeString.match(timeRegex);
-
-    if (!match) return 0;
-
-    let [_, hours, minutes, modifier] = match;
-    hours = Number(hours);
-    minutes = Number(minutes);
-
-    if (modifier) {
-      if (modifier.toLowerCase() === "pm" && hours !== 12) hours += 12;
-      if (modifier.toLowerCase() === "am" && hours === 12) hours = 0;
-    }
-
-    return hours * 60 + minutes;
+    if (!timeString) return 0;
+  
+    const date = new Date(`1970-01-01T${convertTo24HourFormat(timeString)}`);
+    return date.getTime();
   };
+  
+  const convertTo24HourFormat = (time) => {
+    let [hoursMinutes, modifier] = time.split(/(am|pm)/i);
+    let [hours, minutes] = hoursMinutes.trim().split(':');
+  
+    hours = parseInt(hours, 10);
+    minutes = parseInt(minutes, 10);
+  
+    if (modifier.toLowerCase() === 'pm' && hours !== 12) {
+      hours += 12;
+    }
+    if (modifier.toLowerCase() === 'am' && hours === 12) {
+      hours = 0;
+    }
+  
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:00`;
+  };
+  
 
   const truncateFileName = (fileName) => {
     const words = fileName.split(" ");
@@ -36,12 +43,11 @@ export default function Messages({ selectedConversation, idconv }) {
   // Mettre à jour sortedMessages quand selectedConversation.messages change
   useEffect(() => {
     if (selectedConversation?.messages) {
-      const sorted = [...selectedConversation.messages].sort(
-        (a, b) => parseTime(a.time) - parseTime(b.time)
-      );
+      const sorted = [...selectedConversation.messages]
+        .sort((a, b) => parseTime(a.time) - parseTime(b.time)) // <== ADD THIS
       setSortedMessages(sorted);
     }
-  }, [selectedConversation?.messages]); // Écoute les changements de messages
+  }, [selectedConversation?.messages]);  
 
   // Fonction pour supprimer un message
   const handleDeleteMessage = (idmessage) => {

@@ -60,7 +60,7 @@ export default function ListLabo() {
         <input
           type="text"
           name="name"
-          placeholder="Search your best laboratorie..."
+          placeholder="Search your best laboratory..."
           id="name"
           value={name}
           onChange={(e) => setname(e.target.value)}

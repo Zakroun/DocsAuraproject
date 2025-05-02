@@ -2160,6 +2160,9 @@ tr.canceled {
 .appointment-details {
   font-size: 0.9em;
 }
+.appointment-actions{
+  margin-left: 5px;
+}
 .cancel {
   background-color: orange;
   width: 80px;
@@ -2345,16 +2348,16 @@ h1 {
 }
 .chat_window {
   overflow-y: scroll;
-  height: 450px;
+  height: 420px;
   /* background-color: rgb(237, 237, 237); */
   background-image: url("/public/Images/cover.png");
   background-repeat: no-repeat;
   background-size: cover;
   margin-left: 0.4%;
 }
-.chat_window p {
+/* .chat_window p {
   text-align: center;
-}
+} */
 .messages2 {
   padding: 15px;
   margin: 15px 0;
@@ -2366,14 +2369,19 @@ h1 {
   flex-direction: column;
 }
 .message2 {
-  width: fit-content;
+  display: inline-block; /* <== add this */
+  width: auto; /* <== better than fit-content for your case */
+  max-width: 80%;
   padding: 1px 22px;
   margin: 15px 0;
   border-radius: 8px;
-  max-width: 80%;
   font-size: 12px;
   position: relative;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
+
 .sent2 {
   background: #00504e;
   color: white;
@@ -2528,7 +2536,7 @@ h1 {
 .message_input {
   display: flex;
   align-items: center;
-  background: #f5f5f5;
+  
   padding: 10px;
   border-radius: 10px;
 }
@@ -4763,8 +4771,8 @@ body.dark-mode {
 
 .users__table th {
   background-color: #f0f4f8;
-  font-weight: 600;
-  color: #333;
+  font-weight: bold;
+  color: black;
 }
 .users__table th input,
 .users__table th select {
@@ -4844,6 +4852,7 @@ body.dark-mode {
 
 .requests__table th {
   background-color: #f0f4f8;
+  color: black;
 }
 
 .requests__table td {
@@ -4958,7 +4967,7 @@ body.dark-mode {
 
 .complaints__table th {
   background-color: #f0f4f8;
-  font-weight: bold;
+  color: black;
 }
 
 .btn-view,
@@ -5072,7 +5081,6 @@ body.dark-mode {
   cursor: pointer;
   font-size: 0.9rem;
   font-weight: 500;
-  margin-top: -10px;
   display: flex;
   align-items: center;
   gap: 2rem;
@@ -5201,17 +5209,23 @@ body.dark-mode {
   font-weight: 500;
   margin-left: 0.3rem;
 }
-
+.statuspanel{
+  display: flex;
+  flex-direction: row;
+}
 .status.active {
   color: #018786;
+  margin-top: -8px;
 }
 
 .status.maintenance {
   color: #FFA500;
+  margin-top: -8px;
 }
 
 .status.inactive {
   color: #666666;
+  margin-top: -8px;
 }
 
 .panel-arrow {

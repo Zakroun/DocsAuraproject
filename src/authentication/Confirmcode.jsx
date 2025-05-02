@@ -1,38 +1,67 @@
-
-
 import { useState } from "react";
 import { RiCloseLargeLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
-import { changecurrentpage } from "../data/DocsauraSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { confirmCode,setAuthToken } from "../data/authslice"; // Import the action from authSlice
 import { GiConfirmed } from "react-icons/gi";
+
 export default function CodeConfirm() {
-  const [code, setCode] = useState("");
-  const [valid, setvalid] = useState(false);
-  const [error, seterror] = useState("");
-  const Submit = (e) => {
+  const [code, setCode] = useState(""); // State for the confirmation code
+  const [valid, setValid] = useState(false); // State to handle validation
+  const [error, setError] = useState(""); // State to show errors
+
+  const dispatch = useDispatch(); // To dispatch actions to Redux
+  const navigate = useNavigate(); // For navigation
+
+  // Getting the loading state and error from Redux
+  const { loading, error: reduxError } = useSelector((state) => state.auth);
+
+  // Function to handle form submission and dispatch the API call
+  const Submit = async (e) => {
     e.preventDefault();
+
+    // Check if the code is empty
     if (code === "") {
-      setvalid(true);
-      seterror("Please fill all the fields");
+      setValid(true);
+      setError("Please fill in the confirmation code.");
     } else {
-      setvalid(false);
-      seterror("");
-      window.location.href = "/";
+      setValid(false);
+      setError("");
+
+      // Dispatch the confirmCode action to call the API and handle token
+      try {
+        const resultAction = await dispatch(confirmCode(code)); // Dispatch async action
+
+        // If API call is successful and token is returned
+        if (confirmCode.fulfilled.match(resultAction)) {
+          const token = resultAction.payload;
+          dispatch(setAuthToken(token)); // Store the token in Redux
+          localStorage.setItem("authToken", token); // Optionally save token in localStorage
+          navigate("/"); // Redirect to home page
+        } else {
+          // If the code was invalid or API call failed
+          setError(resultAction.payload); // Show error from API response
+        }
+      } catch (err) {
+        // Catch any errors
+        setError("An error occurred. Please try again later.");
+      }
     }
   };
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+
+  // Function to handle redirect to home page
   const Movetohome = () => {
     navigate("/");
-    dispatch(changecurrentpage("home"));
   };
+
   return (
     <div className="CodeConfirm">
-      <button onClick={Movetohome} className="X_button"><RiCloseLargeLine size={25}/></button>
+      <button onClick={Movetohome} className="X_button">
+        <RiCloseLargeLine size={25} />
+      </button>
       <h2 id="h2code">Please enter confirmation code</h2>
       <form action="" method="post">
-      {valid && (
+        {valid && (
           <div className="error">
             <div className="error__icon">
               <svg
@@ -48,35 +77,24 @@ export default function CodeConfirm() {
                 ></path>
               </svg>
             </div>
-            <div className="error__title">{error}</div>
-            {/* <div className="error__close">
-              <svg
-                height="20"
-                viewBox="0 0 20 20"
-                width="20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="m15.8333 5.34166-1.175-1.175-4.6583 4.65834-4.65833-4.65834-1.175 1.175 4.65833 4.65834-4.65833 4.6583 1.175 1.175 4.65833-4.6583 4.6583 4.6583 1.175-1.175-4.6583-4.6583z"
-                  fill="#393a37"
-                ></path>
-              </svg>
-            </div> */}
+            <div className="error__title">{error || reduxError}</div>
           </div>
         )}
         <div className="inputdiv">
-        <GiConfirmed size={25} className="icondivinput" />
-        <input
-          type="text"
-          name="codeconfirmaccount"
-          placeholder="Confirmation code"
-          id="code"
-          value={code}
-          onChange={(e) => setCode(e.target.value)}
-        />
+          <GiConfirmed size={25} className="icondivinput" />
+          <input
+            type="text"
+            name="codeconfirmaccount"
+            placeholder="Confirmation code"
+            id="code"
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
+          />
         </div>
         <br />
-        <button id="btn" onClick={Submit}>confirm</button>
+        <button id="btn" onClick={Submit} disabled={loading}>
+          {loading ? "Verifying..." : "Confirm"}
+        </button>
       </form>
     </div>
   );

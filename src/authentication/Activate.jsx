@@ -74,7 +74,7 @@ export default function Activate(props) {
           clinicId: formData.clinicId,
           taxId: formData.taxId,
         };
-      } else if (role === "laboratori") {
+      } else if (role === "laboratory") {
         requestData = {
           ...requestData,
           amoCode: formData.amoCode,
@@ -248,7 +248,7 @@ export default function Activate(props) {
             <br />
           </>
         )}
-        {role === "laboratori" && (
+        {role === "laboratory" && (
           <>
             <div className="inputdiv">
               <input

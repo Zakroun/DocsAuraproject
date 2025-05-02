@@ -20,15 +20,10 @@ export default function AppointmentForm({ user, Use, onSubmitFeedback }) {
   const [callDuration, setCallDuration] = useState(0);
   const [localStream, setLocalStream] = useState(null);
   const videoRef = useRef(null);
-
   const toggleMute = () => setIsMuted((prev) => !prev);
   const toggleSpeaker = () => setSpeakerOn((prev) => !prev);
   const toggleCamera = () => setCameraOn((prev) => !prev);
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => setCallDuration((prev) => prev + 1), 1000);
-  //   return () => clearInterval(interval);
-  // }, []);
   useEffect(() => {
     const startStream = async () => {
       try {
@@ -126,7 +121,7 @@ export default function AppointmentForm({ user, Use, onSubmitFeedback }) {
       setErrorMessage("Veuillez entrer la raison d'annulation.");
       setTimeout(() => {
         setErrorMessage("");
-      }, 3000);
+      }, 10000);
       return;
     }
     setShowConfirm(true);
@@ -137,27 +132,36 @@ export default function AppointmentForm({ user, Use, onSubmitFeedback }) {
   };
 
   const confirmStatus = () => {
-    dispatch(
-      changestatus({
-        doctorId: Use.id,
-        appointmentId: User.id,
-        role: Use.Role,
-        status: complete.toLowerCase(),
-      })
-    );
-    setSuccessMessage(`Appointment ${complete} successfully.`);
-    setuser(null);
-    setTimeout(() => {
-      setSuccessMessage("");
-    }, 4000);
+    if (Use && Use.id && User && User.id && complete) {
+      dispatch(
+        changestatus({
+          doctorId: Use.id,
+          appointmentId: User.id,
+          role: Use.Role,
+          status: complete.toLowerCase(),
+        })
+      );
+      
+      setSuccessMessage(`Appointment ${complete} successfully`);
+      setTimeout(() => {
+        setSuccessMessage('');
+        setuser(null);
+      }, 3000);
+    } else {
+      setErrorMessage('Erreur: Les données nécessaires sont manquantes');
+      setTimeout(() => {
+        setErrorMessage('');
+      }, 3000);
+    }
   };
+  
 
   const handleSave = () => {
     if (formData.diagnosis && formData.prescription) {
       setIsSaved(true);
       setSuccessMessage("Details saved successfully!");
     } else {
-      setErrorMessage("Please fill in all fields.");
+      setErrorMessage("Please fill in all fields");
     }
     setTimeout(() => {
       setSuccessMessage("");
@@ -182,7 +186,7 @@ export default function AppointmentForm({ user, Use, onSubmitFeedback }) {
       setSuccessMessage("Results saved successfully!");
       setTimeout(() => setSuccessMessage(""), 3000);
     } else {
-      setErrorMessage("Please add results description and upload a PDF.");
+      setErrorMessage("Please add results description and upload a PDF");
       setTimeout(() => setErrorMessage(""), 3000);
     }
   };
@@ -190,6 +194,21 @@ export default function AppointmentForm({ user, Use, onSubmitFeedback }) {
   const handleConfirmAppointment = () => {
     setConfirmed(true);
   };
+  const handleCallTimer = (call, setCallDuration) => {
+    if (call) {
+      const interval = setInterval(() => {
+        setCallDuration((prev) => prev + 1);
+      }, 1000);
+  
+      return () => clearInterval(interval);
+    } else {
+      setCallDuration(0);
+    }
+  };
+  useEffect(() => {
+    const cleanup = handleCallTimer(call, setCallDuration);
+    return cleanup;
+  }, [call]);
   if (!User) {
     return (
       <div className="no-user">
@@ -251,10 +270,10 @@ export default function AppointmentForm({ user, Use, onSubmitFeedback }) {
               </span>
               <br />
               {User.status === "pending" &&
-                (Use.Role === "laboratori" ||
+                (Use.Role === "laboratory" ||
                   Use.Role === "doctor" ||
                   Use.Role === "clinic") && (
-                  <>
+                  <div className="appointment-actions">
                     <button
                       className="complet"
                       onClick={() => setcomplete("completed")}
@@ -273,9 +292,10 @@ export default function AppointmentForm({ user, Use, onSubmitFeedback }) {
                         Call
                       </button>
                     )}
-                  </>
+                  </div>
                 )}
               {User.status === "pending" && Use.Role === "patient" && (
+                
                 <button
                   className="cancel"
                   onClick={() => setcomplete("canceled")}
@@ -382,7 +402,7 @@ export default function AppointmentForm({ user, Use, onSubmitFeedback }) {
                   </>
                 )}
               </div>
-            ) : Use.Role === "laboratori" ? (
+            ) : Use.Role === "laboratory" ? (
               <div>
                 <textarea
                   name="resultsDescription"

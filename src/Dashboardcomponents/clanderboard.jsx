@@ -15,12 +15,19 @@ export default function Calendar(props) {
   const appointments = props.appointments || [];
   const [Listeappointments, setappointments] = useState(appointments);
   const [selectedYear, setSelectedYear] = useState("2025");
-  const [selectedMonth, setSelectedMonth] = useState("02");
+  const [selectedMonth, setSelectedMonth] = useState("04");
   const [selectedStatus, setSelectedStatus] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [formAdd, setFormAdd] = useState(true);
   const dispatch = useDispatch();
-
+  useEffect(() => {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+  
+    setSelectedYear(year);
+    setSelectedMonth(month);
+  }, []);
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -199,6 +206,15 @@ export default function Calendar(props) {
             >
               <option value="2025">2025</option>
               <option value="2026">2026</option>
+              <option value="2027">2027</option>
+              <option value="2028">2028</option>
+              <option value="2029">2029</option>
+              <option value="2030">2030</option>
+              <option value="2031">2031</option>
+              <option value="2032">2032</option>
+              <option value="2033">2033</option>
+              <option value="2034">2034</option>
+              <option value="2035">2035</option>
             </select>
 
             <select
@@ -210,6 +226,13 @@ export default function Calendar(props) {
               <option value="03">March</option>
               <option value="04">April</option>
               <option value="05">May</option>
+              <option value="06">June</option>
+              <option value="07">July</option>
+              <option value="08">August</option>
+              <option value="09">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
             </select>
 
             <select

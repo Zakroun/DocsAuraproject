@@ -11,6 +11,8 @@ import { MdOutlineLocationCity } from "react-icons/md";
 import { BsCalendarDateFill } from "react-icons/bs";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
+import { registerUser } from "../data/authslice";  // Assuming you have this action for registration
+
 export default function Register() {
   const [fullname, setfullname] = useState("");
   const [email, setemail] = useState("");
@@ -23,6 +25,9 @@ export default function Register() {
 
   const [valid, setvalid] = useState(false);
   const [error, seterror] = useState("");
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const Submit = (e) => {
     e.preventDefault();
@@ -55,15 +60,19 @@ export default function Register() {
     } else {
       setvalid(false);
       seterror("");
-      window.location.href = "/pages/codeconfirm";
+      // Dispatch the register action
+      dispatch(registerUser({ fullname, email, role, gender, cities, birthyear, password }));
+
+      // Redirect to confirmation page after registration success
+      navigate("/pages/codeconfirm");
     }
   };
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+
   const Movetohome = () => {
     navigate("/");
     dispatch(changecurrentpage("home"));
   };
+
   return (
     <div className="Register">
       <button onClick={Movetohome} className="X_button">
@@ -88,23 +97,10 @@ export default function Register() {
               </svg>
             </div>
             <div className="error__title">{error}</div>
-            {/* <div className="error__close">
-              <svg
-                height="20"
-                viewBox="0 0 20 20"
-                width="20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="m15.8333 5.34166-1.175-1.175-4.6583 4.65834-4.65833-4.65834-1.175 1.175 4.65833 4.65834-4.65833 4.6583 1.175 1.175 4.65833-4.6583 4.6583 4.6583 1.175-1.175-4.6583-4.6583z"
-                  fill="#393a37"
-                ></path>
-              </svg>
-            </div> */}
           </div>
         )}
         <div className="inputdiv">
-          <RiUser3Fill size={25} className="icondivinput"></RiUser3Fill>
+          <RiUser3Fill size={25} className="icondivinput" />
           <input
             type="text"
             name="fullname"
@@ -115,7 +111,7 @@ export default function Register() {
           />
         </div>
         <div className="inputdiv">
-          <MdEmail size={25} className="icondivinput"></MdEmail>
+          <MdEmail size={25} className="icondivinput" />
           <input
             type="email"
             name="email"
@@ -126,7 +122,7 @@ export default function Register() {
           />
         </div>
         <div className="inputdiv">
-          <FaUserPlus size={25} className="icondivinput"></FaUserPlus>
+          <FaUserPlus size={25} className="icondivinput" />
           <select
             name="Role"
             value={role}
@@ -135,32 +131,26 @@ export default function Register() {
           >
             <option value="">Choose your Role</option>
             <option value="Patient">Patient</option>
-            <option value="doctor">doctor</option>
-            <option value="pharmacy">pharmacy</option>
-            <option value="pharmacy">laboratory</option>
+            <option value="doctor">Doctor</option>
+            <option value="pharmacy">Pharmacy</option>
+            <option value="laboratory">Laboratory</option>
           </select>
         </div>
         <div className="inputdiv">
-          <PiGenderIntersexFill
-            size={25}
-            className="icondivinput"
-          ></PiGenderIntersexFill>
+          <PiGenderIntersexFill size={25} className="icondivinput" />
           <select
-            name="gender "
+            name="gender"
             value={gender}
             id="gender"
             onChange={(e) => setgender(e.target.value)}
           >
-            <option value="">Choose your gender </option>
-            <option value="Patient">Male</option>
-            <option value="doctor">Female</option>
+            <option value="">Choose your gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
           </select>
         </div>
         <div className="inputdiv">
-          <MdOutlineLocationCity
-            size={25}
-            className="icondivinput"
-          ></MdOutlineLocationCity>
+          <MdOutlineLocationCity size={25} className="icondivinput" />
           <select
             id="cities"
             name="cities"
@@ -212,53 +202,39 @@ export default function Register() {
             <option value="smara">Smara</option>
           </select>
         </div>
-        {/* <input type="radio" name="Patient" id="Patient" onChange={()=>setrole('Patient')}/><label htmlFor="Patient">Patient</label>
-            <input type="radio" name="doctor" id="doctor" onChange={()=>setrole('doctor')}/><label htmlFor="doctor">doctor</label>
-            <input type="radio" name="pharmacy" id="pharmacy" onChange={()=>setrole('pharmacy')}/><label htmlFor="pharmacy">pharmacy</label>
-            <input type="radio" name="laboratory" id="laboratory" onChange={()=>setrole('laboratory')}/><label htmlFor="laboratory">laboratory</label> */}
         <div className="inputdiv">
-          <BsCalendarDateFill
-            size={25}
-            className="icondivinput"
-          ></BsCalendarDateFill>
+          <BsCalendarDateFill size={25} className="icondivinput" />
           <input
             type="date"
             name="birthyear"
             id="birthyear"
-            placeholder="your Birth Year"
+            placeholder="Your Birth Year"
             value={birthyear}
             onChange={(e) => setbirthyear(e.target.value)}
           />
         </div>
         <div className="inputdiv">
-          <RiLockPasswordFill
-            size={25}
-            className="icondivinput"
-          ></RiLockPasswordFill>
+          <RiLockPasswordFill size={25} className="icondivinput" />
           <input
             type="password"
             name="password"
             id="password"
-            placeholder="Password Ex: Aabcd@1 (Upper + 4lower + @ + digit)"
+            placeholder="Password"
             value={password}
             onChange={(e) => setpassword(e.target.value)}
           />
         </div>
         <div className="inputdiv">
-          <RiLockPasswordFill
-            size={25}
-            className="icondivinput"
-          ></RiLockPasswordFill>
+          <RiLockPasswordFill size={25} className="icondivinput" />
           <input
             type="password"
             name="confirmpassword"
             id="confirmpassword"
-            placeholder="Confirm password Ex: Aabcd@1 (Upper + 4lower + @ + digit)"
+            placeholder="Confirm Password"
             value={confirmpassword}
             onChange={(e) => setconfirmpassword(e.target.value)}
           />
         </div>
-        <br />
         <button id="btnRegister" onClick={Submit}>
           Register
         </button>
