@@ -35,7 +35,7 @@ export default function CodeConfirm() {
       <button className="X_button">
         <RiCloseLargeLine size={25} />
       </button>
-      <h2>Please enter confirmation code</h2>
+      <h2 id="h2code">Please enter confirmation code</h2>
       <form>
         {valid && (
           <div className="error">
@@ -47,12 +47,13 @@ export default function CodeConfirm() {
           <input
             type="text"
             name="code"
+            id="code"
             placeholder="Confirmation code"
             value={code}
             onChange={(e) => setCode(e.target.value)}
           />
         </div>
-        <button onClick={submit}>Confirm</button>
+        <button id="btn" onClick={submit}>Confirm</button>
       </form>
     </div>
   );

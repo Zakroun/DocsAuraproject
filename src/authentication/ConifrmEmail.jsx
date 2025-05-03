@@ -41,7 +41,7 @@ export default function ConfirmEmail() {
         <button className="X_button">
           <RiCloseLargeLine size={25} />
         </button>
-        <h2>Please enter your Email to send confirmation code</h2>
+        <h2 id="h2code">Please enter your Email to send confirmation code</h2>
         {valid && (
           <div className="error">
             <div className="error__title">{error}</div>
@@ -52,12 +52,13 @@ export default function ConfirmEmail() {
           <input
             type="email"
             name="email"
+            id="email"
             placeholder="Your Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <button onClick={submit}>Send</button>
+        <button id="btn" onClick={submit}>Send</button>
       </form>
     </div>
   );

@@ -178,7 +178,7 @@ export default function FileManager() {
               className="upload-btn"
               onClick={() => setShowAddFile(true)}
             >
-              <FaCloudUploadAlt /> Upload File
+              <FaCloudUploadAlt /> Upload
             </button>
           </div>
 

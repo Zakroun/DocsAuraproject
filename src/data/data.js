@@ -875,7 +875,7 @@ export const doctors = [
       },
     },
     createdAt: "2024-01-02",
-    image: "doctor2.jpeg",
+    image: "doctor3.jpeg",
     comments: [
       {
         id: 1,
@@ -1020,7 +1020,7 @@ export const doctors = [
       },
     },
     createdAt: "2024-01-03",
-    image: "doctor3.jpeg",
+    image: "doctorf1.jpg",
     comments: [
       {
         id: 1,
@@ -1272,7 +1272,7 @@ export const doctors = [
       },
     },
     createdAt: "2024-01-05",
-    image: "doctor1.jpeg",
+    image: "doctorf2.jpg",
     comments: [
       {
         id: 1,
@@ -1487,7 +1487,7 @@ export const doctors = [
     email: "irene9@example.com",
     password: "docpqr",
     create_at: "2025-01-01",
-    image: "doctor1.jpeg",
+    image: "doctorf1.jpg",
   },
   {
     id: 10,
@@ -1507,7 +1507,7 @@ export const doctors = [
     email: "kelly11@example.com",
     password: "docvwx",
     create_at: "2025-01-01",
-    image: "doctor3.jpeg",
+    image: "doctorf2.jpg",
   },
   {
     id: 12,

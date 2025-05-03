@@ -6,12 +6,11 @@ import { RiCloseLargeLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { changecurrentpage } from "../data/DocsauraSlice";
 import { useDispatch } from "react-redux";
-
 export default function ContactForm() {
   const [state, handleSubmit] = useForm("mvgzaeyy");
   const [formData, setFormData] = useState({ email: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
-
+  const navigate = useNavigate();
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -21,11 +20,10 @@ export default function ContactForm() {
       setFormData({ email: "", message: "" });
       setSubmitted(true);
       setTimeout(() => {
-        window.location.href = "/";
-      }, 1000); // Redirect after 2 seconds
+        navigate('/')
+      }, 1000);
     }
-  }, [state.succeeded]);
-  const navigate = useNavigate();
+  }, [state.succeeded,navigate]);
   const dispatch = useDispatch();
   const Movetohome = () => {
     navigate("/");
@@ -62,7 +60,7 @@ export default function ContactForm() {
           />
           <ValidationError prefix="Message" field="message" errors={state.errors} />
           <button id="btn" type="submit" disabled={state.submitting}>
-            {state.submitting ? "Submitting..." : "Submit"}
+            {state.submitting ? "Sending..." : "Send"}
           </button>
         </form>
       )}

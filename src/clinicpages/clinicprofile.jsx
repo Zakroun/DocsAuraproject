@@ -1,109 +1,250 @@
 import { useSelector } from "react-redux";
-import { MdVerified } from "react-icons/md";
+import { MdVerified, MdStar, MdStarHalf, MdStarOutline } from "react-icons/md";
+import {
+  FaMapMarkerAlt,
+  FaEnvelope,
+  FaPhone,
+  FaHospital,
+  FaCalendarAlt,
+  FaUserMd
+} from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
-export default function Clinicprofile(props) {
-  const List = useSelector((s) => s.Docsaura.clinics);
-  const clinic = List.find((a) => a.id === props.id);
+import { useEffect, useState } from "react";
+
+export default function ClinicProfile({ id }) {
+  const clinicsList = useSelector((state) => state.Docsaura.clinics);
+  const clinic = clinicsList?.find((clinic) => clinic.id === id);
+  const [activeTab, setActiveTab] = useState("about");
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
-  function generateStars(rating) {
-    return Array.from({ length: 5 }, (_, i) => {
-      if (i < Math.floor(rating)) {
-        return (
-          <span key={i} className="star filled">
-            ★
-          </span>
-        );
-      } else if (i < rating) {
-        return (
-          <span key={i} className="star half">
-            ★
-          </span>
-        );
+
+  const renderRatingStars = (rating) => {
+    const stars = [];
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 >= 0.5;
+
+    for (let i = 1; i <= 5; i++) {
+      if (i <= fullStars) {
+        stars.push(<MdStar key={i} className="star filled" />);
+      } else if (i === fullStars + 1 && hasHalfStar) {
+        stars.push(<MdStarHalf key={i} className="star half" />);
       } else {
-        return (
-          <span key={i} className="star empty">
-            ☆
-          </span>
-        );
+        stars.push(<MdStarOutline key={i} className="star empty" />);
       }
-    });
+    }
+
+    return stars;
+  };
+
+  if (!clinic) {
+    return (
+      <div className="profile-container loading">Loading clinic profile...</div>
+    );
   }
+
   return (
-    <div className="profile">
-      <div className="part1">
-        <div className="imgprofile">
+    <div className="profile-container">
+      <div className="profile-header">
+        <div className="profile-image-container">
           <img
             src={`/images/clinics/${clinic.image}`}
-            alt="imgprofile"
-            id="imageprofile"
+            alt={`${clinic.fullName}`}
+            className="profile-image"
           />
-        </div>
-        <div className="stars">{generateStars(clinic.rating)}</div>
-        <div className="comments">
-          {clinic.comments.map((c) => {
-            return (
-              <div className="comment" key={c.id}>
-                {c.text}
-              </div>
-            );
-          })}
-        </div>
-      </div>
-      <div className="part2">
-        <div className="informationsclinic">
-          <div className="head">
-            <div className="part1head">
-              <h1>
-                {clinic.fullName}{" "}
-                {clinic.Verified ? <MdVerified className="verif" /> : ""}
-              </h1>
-            </div>
-            <div className="part2head">
-            <Link to={`/pages/reserveclinic`} state={{id : clinic.id , role : clinic.Role}}>
-            <button className="reserve">Reserve</button>
-            </Link>
-            </div>
+          <div className="rating-badge">
+            {clinic.rating.toFixed(1)}
+            <MdStar className="rating-icon" />
           </div>
-          <p>{clinic.addressLoc}</p>
-          <p>
-            Email : {clinic.email} / Phone : {clinic.phone}
-          </p>
-          <p className="specialty">{clinic.description}</p>
-          <p className="specialty">Services :</p>
-          <ul>
-          {
-            clinic.services.map((a,k)=>{
-                return <li key={k}>{a}</li>
-            })
-          }</ul>
-          <p className="specialty">Address Location : </p>
-          <iframe
-          title="Google Map Location - Alice H Johnson, MD"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3032.8241741085076!2d-85.7219484243674!3d38.21289738680233!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88690d94db47e13b%3A0x73357ab7faf3550b!2sAlice%20H%20Johnson%2C%20MD!5e1!3m2!1sen!2sma!4v1738597550212!5m2!1sen!2sma"
-            width="600"
-            height="250"
-            style={{
-              border: 0,
-              borderRadius: "10px",
-              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
-              width: "100%",
-              maxWidth: "600px",
-              height: "250px",
-            }}
-            // allowFullScreen
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-          ></iframe>
-          {/* <div className="part2head">
-                <button className="reserve">Reserve</button>
-                <button className="msg">Send Message</button>
-              </div> */}
+        </div>
+
+        <div className="profile-info">
+          <h1 className="clinic-name">
+            {clinic.fullName}
+            {clinic.Verified && <MdVerified className="verification-badge" />}
+          </h1>
+          
+          <div className="rating-container">
+            {renderRatingStars(clinic.rating)}
+            <span className="rating-text">{clinic.rating.toFixed(1)} ({clinic.comments.length} reviews)</span>
+          </div>
+
+          <Link 
+            to={`/pages/reserveclinic`} 
+            state={{ id: clinic.id, role: clinic.Role }}
+            className="appointment-button"
+          >
+            Book Appointment
+          </Link>
         </div>
       </div>
-      <div className="part3"></div>
+
+      <div className="profile-content">
+        <nav className="profile-tabs">
+          <button 
+            className={`tab-button ${activeTab === "about" ? "active" : ""}`}
+            onClick={() => setActiveTab("about")}
+          >
+            About
+          </button>
+          <button 
+            className={`tab-button ${activeTab === "services" ? "active" : ""}`}
+            onClick={() => setActiveTab("services")}
+          >
+            Services ({clinic.services.length})
+          </button>
+          <button 
+            className={`tab-button ${activeTab === "doctors" ? "active" : ""}`}
+            onClick={() => setActiveTab("doctors")}
+          >
+            Our Doctors
+          </button>
+          <button 
+            className={`tab-button ${activeTab === "reviews" ? "active" : ""}`}
+            onClick={() => setActiveTab("reviews")}
+          >
+            Reviews ({clinic.comments.length})
+          </button>
+          <button 
+            className={`tab-button ${activeTab === "location" ? "active" : ""}`}
+            onClick={() => setActiveTab("location")}
+          >
+            Location
+          </button>
+        </nav>
+
+        <div className="tab-content">
+          {activeTab === "about" && (
+            <div className="about-section">
+              <h3>About {clinic.fullName}</h3>
+              <div className="contact-info">
+            <p className="contact-item">
+              <FaMapMarkerAlt className="iconprofile" />
+              {clinic.addressLoc}
+            </p>
+            <p className="contact-item">
+              <FaEnvelope className="iconprofile" />
+              {clinic.email}
+            </p>
+            <p className="contact-item">
+              <FaPhone className="iconprofile" />
+              {clinic.phone}
+            </p>
+          </div>
+              <p>{clinic.description}</p>
+              
+              <div className="key-info">
+                <div className="info-card">
+                  
+                  <h4><FaHospital className="iconprofile" /> Facilities</h4>
+                  <p>State-of-the-art equipment</p>
+                </div>
+                <div className="info-card">
+                  
+                  <h4><FaCalendarAlt className="iconprofile" />Opening Hours</h4>
+                  <p>Mon-Sat: 8:00 AM - 8:00 PM</p>
+                </div>
+                <div className="info-card">
+                  
+                  <h4><FaUserMd className="iconprofile" />Specialists</h4>
+                  <p>20+ experienced doctors</p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === "services" && (
+            <div className="services-section">
+              <h3>Our Services</h3>
+              <div className="services-grid">
+                {clinic.services.map((service, index) => (
+                  <div key={index} className="service-card">
+                    <div className="service-icon-container">
+                      <FaHospital className="iconprofile" />
+                      <span>{service}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {activeTab === "doctors" && (
+            <div className="doctors-section">
+              <h3>Our Medical Team</h3>
+              <p>Meet our team of experienced healthcare professionals:</p>
+              
+              <div className="doctors-grid">
+                {/* Sample doctors - in a real app, this would come from your data */}
+                <div className="doctor-card">
+                  <div className="doctor-image"></div>
+                  <h4>Dr. Sarah Johnson</h4>
+                  <p>Cardiologist</p>
+                </div>
+                <div className="doctor-card">
+                  <div className="doctor-image"></div>
+                  <h4>Dr. Michael Chen</h4>
+                  <p>Pediatrician</p>
+                </div>
+                <div className="doctor-card">
+                  <div className="doctor-image"></div>
+                  <h4>Dr. Emily Wilson</h4>
+                  <p>Dermatologist</p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === "reviews" && (
+            <div className="reviews-section">
+              {clinic.comments.length > 0 ? (
+                clinic.comments.map((review) => (
+                  <div key={review.id} className="review-card">
+                    <div className="review-header">
+                      <span className="review-author">{review.patient || "Anonymous"}</span>
+                      <div className="review-rating">
+                        {renderRatingStars(review.rating || clinic.rating)}
+                      </div>
+                    </div>
+                    <p className="review-text">{review.text}</p>
+                    <span className="review-date">{review.date || "2 weeks ago"}</span>
+                  </div>
+                ))
+              ) : (
+                <p className="no-reviews">No reviews yet. Be the first to review!</p>
+              )}
+            </div>
+          )}
+
+          {activeTab === "location" && (
+            <div className="location-section">
+              <h3>Clinic Location</h3>
+              <p className="location-address">
+                <FaMapMarkerAlt className="iconprofile" />
+                {clinic.addressLoc}
+              </p>
+              <div className="map-container">
+                <iframe
+                  title={`Location of ${clinic.fullName}`}
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3032.8241741085076!2d-85.7219484243674!3d38.21289738680233!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88690d94db47e13b%3A0x73357ab7faf3550b!2sAlice%20H%20Johnson%2C%20MD!5e1!3m2!1sen!2sma!4v1738597550212!5m2!1sen!2sma"
+                  allowFullScreen=""
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                ></iframe>
+              </div>
+              <div className="office-hours">
+                <h4>Clinic Hours</h4>
+                <ul>
+                  <li>Monday - Friday: 8:00 AM - 8:00 PM</li>
+                  <li>Saturday: 9:00 AM - 5:00 PM</li>
+                  <li>Sunday: 10:00 AM - 2:00 PM</li>
+                </ul>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

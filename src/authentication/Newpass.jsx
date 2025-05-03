@@ -46,7 +46,7 @@ export default function NewPass() {
       <button className="X_button">
         <RiCloseLargeLine size={25} />
       </button>
-      <h2>Please enter the new Password</h2>
+      <h2 id="h2code">Please enter the new Password</h2>
       <form>
         {valid && (
           <div className="error">
@@ -57,6 +57,7 @@ export default function NewPass() {
           <RiLockPasswordFill size={25} className="icondivinput" />
           <input
             type="password"
+            id="password"
             placeholder="New Password"
             value={newPass}
             onChange={(e) => setNewPass(e.target.value)}
@@ -67,12 +68,13 @@ export default function NewPass() {
           <RiLockPasswordFill size={25} className="icondivinput" />
           <input
             type="password"
+            id="password"
             placeholder="Confirm Password"
             value={confirmPass}
             onChange={(e) => setConfirmPass(e.target.value)}
           />
         </div>
-        <button onClick={submit}>Confirm</button>
+        <button id="btn=" onClick={submit}>Confirm</button>
       </form>
     </div>
   );
