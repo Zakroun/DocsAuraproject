@@ -1398,7 +1398,7 @@ export const doctors = [
       },
     },
     createdAt: "2024-01-06",
-    image: "doctor2.jpeg",
+    image: "doctor1.jpeg",
     comments: [
       {
         id: 1,
@@ -1497,7 +1497,7 @@ export const doctors = [
     email: "jack10@example.com",
     password: "docstu",
     create_at: "2025-01-01",
-    image: "doctor2.jpeg",
+    image: "doctor1.jpeg",
   },
   {
     id: 11,

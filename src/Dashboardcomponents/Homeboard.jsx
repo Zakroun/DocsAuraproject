@@ -20,13 +20,10 @@ import {
   CartesianGrid,
 } from "recharts";
 import ControlPanel from "./Controlpanel";
-import { MdCancel } from "react-icons/md";
 import { FaHospitalUser } from "react-icons/fa";
 import { IoCallSharp } from "react-icons/io5";
 import { FaCalendarAlt } from "react-icons/fa";
 import { MdMarkEmailUnread } from "react-icons/md";
-import { MdOutlineIncompleteCircle } from "react-icons/md";
-import { FaCircleCheck } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 export default function Homeboard(props) {
   const d = props.Use;
@@ -199,7 +196,7 @@ export default function Homeboard(props) {
                 ? `../images/admin.png`
                 : `../images/research.png`
             }
-            alt="Doctor imge"
+            alt={`${d.Role} icon`}
           />
         </div>
       </div>
