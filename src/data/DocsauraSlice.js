@@ -6,6 +6,7 @@ import {
   specializedDoctors,
   cities,
   userDataYearly,
+  requests,
 } from "./data";
 import filesData from "../data/data";
 import { createSlice } from "@reduxjs/toolkit";
@@ -33,40 +34,7 @@ export const DocsauraSlice = createSlice({
     userDataYearly: userDataYearly,
     files: filesData.files,
     activity: filesData.activity,
-    requests: [
-      {
-        id: 8,
-        role: "doctor",
-        status: "pending",
-        address: "N 2 hay saidia V N meknes",
-        amoCode: "7777777",
-        cnssCode: "",
-        email: "rouanezakaria052@gmail.com",
-        medicalOrderNumber: "999999",
-        specialty: "Gastroenterology",
-        date: "2023-03-25",
-      },
-      {
-        id: 9,
-        role: "clinic",
-        status: "pending",
-        address: "10 Rue Al Qods, Rabat",
-        taxId: "456789",
-        clinicId: "CLN123",
-        email: "clinic@example.com",
-        date: "2024-07-11",
-      },
-      {
-        id: 10,
-        role: "laboratory",
-        status: "pending",
-        address: "Zone Industrielle, Fès",
-        taxId: "LAB456",
-        patente: "PT98765",
-        email: "lab@example.com",
-        date: "2025-01-17",
-      },
-    ],
+    requests : requests,
   },
   reducers: {
     changeboard: (state, action) => {
