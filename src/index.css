@@ -1854,6 +1854,8 @@ hr {
   margin-left: 40px;
 }
 .divreserve h1 {
+  text-align: center;
+  font-size: 25px;
   color: #016b69;
 }
 .part1serve {
@@ -1894,8 +1896,10 @@ hr {
   font-weight: bold;
 }
 .spancontent {
-  background-color: #c7e8e884;
-  border-radius: 10px;
+  background-color: #f6f6f6;
+  border-bottom: 1px solid rgb(40, 40, 40);
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
   padding: 10px;
   display: flex;
   justify-content: space-between;
