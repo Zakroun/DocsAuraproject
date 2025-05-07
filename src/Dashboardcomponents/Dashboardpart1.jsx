@@ -26,7 +26,7 @@ export default function Part1Dashboard(props) {
     setMenuOpen(curmenu);
   }, [curmenu]);
 
-  const isAdmin = user.Role === "doctor"; // <-- Check if admin
+  const isAdmin = user.Role === "admin"; // <-- Check if admin
 
   return (
     <>
