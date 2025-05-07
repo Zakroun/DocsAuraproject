@@ -1,22 +1,65 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-// 1. Register User Async Thunk
+import axios from "../data/axios"; // correct si `axios.js` est dans src/
+
+// Register User
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
-  async (userData, thunkAPI) => {
+  async (userData, { rejectWithValue }) => {
+    console.log(userData);
     try {
-      const response = await fetch("/api/register", {
-        // Replace with your actual API endpoint
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userData),
+      const response = await axios.post("/auth/register", {
+        fullName: userData.fullName, // Correction ici
+        email: userData.email,
+        role: userData.role,
+        gender: userData.gender,
+        city: userData.city, // Si tu veux garder 'cities', modifie aussi côté backend
+        birth_date: userData.birthyear,
+        password: userData.password,
       });
-      const data = await response.json();
-      return data; // Return the response data (user or success message)
+      return response.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue("Registration failed");
+      console.log("Laravel Error:", error.response?.data); // ← Ajoute ceci dans ton catch
+      return rejectWithValue(error.response?.data || "Registration failed");
+    }
+  }
+);
+
+export const verifyRegistrationCode = createAsyncThunk(
+  "auth/verifyRegistrationCode",
+  async ({ email, code }, { rejectWithValue }) => {
+    console.log('[DEBUG] Starting verification with:', { email, code });
+    
+    try {
+      const response = await axios.post('/auth/verify-registration', {
+        email,
+        code
+      });
+
+      console.log('[DEBUG] Verification response:', response.data);
+      
+      if (!response.data?.success) {
+        console.error('[DEBUG] Verification failed:', response.data);
+        throw new Error(response.data?.message || "Verification failed");
+      }
+      
+      return {
+        token: response.data.data.access_token,
+        user: response.data.data.user,
+        debug: response.data.debug // Contains debug info in development
+      };
+      
+    } catch (error) {
+      console.error('[DEBUG] Verification error:', {
+        message: error.message,
+        response: error.response?.data,
+        config: error.config
+      });
+      
+      return rejectWithValue({
+        message: error.response?.data?.message || "Verification failed",
+        error: error.message,
+        debug: error.response?.data?.debug || null
+      });
     }
   }
 );
@@ -41,22 +84,7 @@ export const loginUser = createAsyncThunk(
     }
   }
 );
-// Async thunk for confirming the code and getting the token
-export const confirmCode = createAsyncThunk(
-  "auth/confirmCode",
-  async (code, { rejectWithValue }) => {
-    try {
-      const response = await axios.post("/api/confirm-code", { code }); // Replace with actual endpoint
-      if (response.data.token) {
-        return response.data.token; // Return the token
-      } else {
-        return rejectWithValue("Invalid confirmation code.");
-      }
-    } catch (err) {
-      return rejectWithValue("An error occurred. Please try again later.");
-    }
-  }
-);
+
 // Async thunk to handle API call for sending confirmation code
 export const sendConfirmationCode = createAsyncThunk(
   "auth/sendConfirmationCode",
@@ -166,17 +194,22 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload || "Login failed";
       })
-      .addCase(confirmCode.pending, (state) => {
+      .addCase(verifyRegistrationCode.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(confirmCode.fulfilled, (state, action) => {
+      .addCase(verifyRegistrationCode.fulfilled, (state, action) => {
         state.loading = false;
-        state.token = action.payload; // Store token in state
+        state.token = action.payload.token;
+        state.user = action.payload.user;
+        state.isAuthenticated = true;
       })
-      .addCase(confirmCode.rejected, (state, action) => {
+      .addCase(verifyRegistrationCode.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload; // Set error message
+        state.error = action.payload.message;
+        if (action.payload.errors) {
+          state.validationErrors = action.payload.errors;
+        }
       })
       // Send confirmation code
       .addCase(sendConfirmationCode.pending, (state) => {
@@ -215,6 +248,5 @@ const authSlice = createSlice({
 });
 
 // 5. Export actions and the reducer
-export const { resetAuthState, logout, setAuthToken } = authSlice.actions;
-
+export const { resetAuthState, logout, setAuthToken,clearError } = authSlice.actions;
 export default authSlice;

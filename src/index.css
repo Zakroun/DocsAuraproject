@@ -128,7 +128,7 @@ body {
 }
 #password,
 #email,
-#fullname,
+#fullName,
 #address,
 #amoCode,
 #cnssCode,
@@ -445,7 +445,8 @@ body {
 #specialty,
 #paymentMethod,
 #gender,
-#cities {
+#role,
+#city {
   -webkit-user-select: auto;
   user-select: auto;
   width: 100%;

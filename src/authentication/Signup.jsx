@@ -1,76 +1,85 @@
 import { useState } from "react";
 import { RiCloseLargeLine } from "react-icons/ri";
-import { useNavigate } from "react-router-dom";
-import { changecurrentpage } from "../data/DocsauraSlice";
+import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { RiUser3Fill } from "react-icons/ri";
-import { MdEmail } from "react-icons/md";
+import { RiUser3Fill, RiLockPasswordFill } from "react-icons/ri";
+import { MdEmail, MdOutlineLocationCity } from "react-icons/md";
 import { FaUserPlus } from "react-icons/fa6";
 import { PiGenderIntersexFill } from "react-icons/pi";
-import { MdOutlineLocationCity } from "react-icons/md";
 import { BsCalendarDateFill } from "react-icons/bs";
-import { RiLockPasswordFill } from "react-icons/ri";
-import { Link } from "react-router-dom";
-import { registerUser } from "../data/authslice";  // Assuming you have this action for registration
+import { registerUser } from "../data/authslice";
 
 export default function Register() {
-  const [fullname, setfullname] = useState("");
-  const [email, setemail] = useState("");
-  const [role, setrole] = useState("");
-  const [gender, setgender] = useState("");
-  const [cities, setcities] = useState("");
-  const [birthyear, setbirthyear] = useState("");
-  const [password, setpassword] = useState("");
-  const [confirmpassword, setconfirmpassword] = useState("");
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    role: "",
+    gender: "",
+    city: "",
+    birthyear: "",
+    password: "",
+    confirmpassword: "",
+  });
 
-  const [valid, setvalid] = useState(false);
-  const [error, seterror] = useState("");
-
+  const [valid, setValid] = useState(false);
+  const [error, setError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const Submit = (e) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const passwordRegex = /^[A-Z][a-z]{4,}[@#$!%*?&][0-9]{1,}$/;
 
-    if (
-      fullname === "" ||
-      email === "" ||
-      role === "" ||
-      gender === "" ||
-      cities === "" ||
-      birthyear === "" ||
-      password === "" ||
-      confirmpassword === ""
-    ) {
-      setvalid(true);
-      seterror("Please fill all the fields");
-    } else if (!emailRegex.test(email)) {
-      setvalid(true);
-      seterror("Please enter a valid email address");
-    } else if (!passwordRegex.test(password)) {
-      setvalid(true);
-      seterror(
-        "Password must start with a capital letter, have 4+ lowercase letters, include a special character (e.g., @), a number, and be 8+ characters long"
-      );
-    } else if (password !== confirmpassword) {
-      setvalid(true);
-      seterror("Passwords do not match");
-    } else {
-      setvalid(false);
-      seterror("");
-      // Dispatch the register action
-      dispatch(registerUser({ fullname, email, role, gender, cities, birthyear, password }));
-
-      // Redirect to confirmation page after registration success
-      navigate("/pages/codeconfirm");
+    if (Object.values(formData).some((value) => value === "")) {
+      setValid(true);
+      setError("Please fill all the fields");
+      return;
     }
+
+    if (!emailRegex.test(formData.email)) {
+      setValid(true);
+      setError("Please enter a valid email address");
+      return;
+    }
+
+    if (!passwordRegex.test(formData.password)) {
+      setValid(true);
+      setError(
+        "Password must start with a capital letter, have 4+ lowercase letters, include a special character, and a number"
+      );
+      return;
+    }
+
+    if (formData.password !== formData.confirmpassword) {
+      setValid(true);
+      setError("Passwords do not match");
+      return;
+    }
+
+    setValid(false);
+    setError("");
+
+    dispatch(registerUser(formData))
+      .unwrap()
+      .then(() => {
+        navigate("/pages/codeconfirm", {
+          state: { email: formData.email },
+        });
+      })
+      .catch((err) => {
+        setValid(true);
+        setError(err.message || "Registration failed");
+      });
   };
 
   const Movetohome = () => {
     navigate("/");
-    dispatch(changecurrentpage("home"));
   };
 
   return (
@@ -79,21 +88,15 @@ export default function Register() {
         <RiCloseLargeLine size={25} />
       </button>
       <h1 id="h1">Create Account</h1>
-      <form action="" method="post">
+      <form onSubmit={handleSubmit} method="post">
         {valid && (
           <div className="error">
             <div className="error__icon">
-              <svg
-                fill="none"
-                height="24"
-                viewBox="0 0 24 24"
-                width="24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
+              <svg fill="none" height="24" width="24" viewBox="0 0 24 24">
                 <path
-                  d="m13 13h-2v-6h2zm0 4h-2v-2h2zm-1-15c-1.3132 0-2.61358.25866-3.82683.7612-1.21326.50255-2.31565 1.23915-3.24424 2.16773-1.87536 1.87537-2.92893 4.41891-2.92893 7.07107 0 2.6522 1.05357 5.1957 2.92893 7.0711.92859.9286 2.03098 1.6651 3.24424 2.1677 1.21325.5025 2.51363.7612 3.82683.7612 2.6522 0 5.1957-1.0536 7.0711-2.9289 1.8753-1.8754 2.9289-4.4189 2.9289-7.0711 0-1.3132-.2587-2.61358-.7612-3.82683-.5026-1.21326-1.2391-2.31565-2.1677-3.24424-.9286-.92858-2.031-1.66518-3.2443-2.16773-1.2132-.50254-2.5136-.7612-3.8268-.7612z"
+                  d="m13 13h-2v-6h2zm0 4h-2v-2h2zm-1-15c-1.31 0-2.61.26-3.83.76-1.21.5-2.31 1.24-3.24 2.17-1.87 1.87-2.93 4.42-2.93 7.07s1.06 5.2 2.93 7.07c.93.93 2.03 1.67 3.24 2.17 1.21.5 2.51.76 3.83.76 2.65 0 5.2-1.05 7.07-2.93s2.93-4.42 2.93-7.07c0-1.31-.26-2.61-.76-3.83-.5-1.21-1.24-2.31-2.17-3.24-.93-.93-2.03-1.67-3.24-2.17-1.21-.5-2.51-.76-3.83-.76z"
                   fill="#393a37"
-                ></path>
+                />
               </svg>
             </div>
             <div className="error__title">{error}</div>
@@ -103,31 +106,32 @@ export default function Register() {
           <RiUser3Fill size={25} className="icondivinput" />
           <input
             type="text"
-            name="fullname"
-            id="fullname"
-            value={fullname}
+            id="fullName"
+            name="fullName"
             placeholder="Full Name"
-            onChange={(e) => setfullname(e.target.value)}
+            value={formData.fullName}
+            onChange={handleChange}
           />
         </div>
         <div className="inputdiv">
           <MdEmail size={25} className="icondivinput" />
           <input
             type="email"
-            name="email"
             id="email"
-            value={email}
+            name="email"
             placeholder="Email"
-            onChange={(e) => setemail(e.target.value)}
+            autoComplete="email"
+            value={formData.email}
+            onChange={handleChange}
           />
         </div>
         <div className="inputdiv">
           <FaUserPlus size={25} className="icondivinput" />
           <select
-            name="Role"
-            value={role}
-            id="Role"
-            onChange={(e) => setrole(e.target.value)}
+            id="role"
+            name="role"
+            value={formData.role}
+            onChange={handleChange}
           >
             <option value="">Choose your Role</option>
             <option value="Patient">Patient</option>
@@ -139,12 +143,12 @@ export default function Register() {
         <div className="inputdiv">
           <PiGenderIntersexFill size={25} className="icondivinput" />
           <select
-            name="gender"
-            value={gender}
             id="gender"
-            onChange={(e) => setgender(e.target.value)}
+            name="gender"
+            value={formData.gender}
+            onChange={handleChange}
           >
-            <option value="">Choose your gender</option>
+            <option value="">Choose your Gender</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
           </select>
@@ -152,10 +156,10 @@ export default function Register() {
         <div className="inputdiv">
           <MdOutlineLocationCity size={25} className="icondivinput" />
           <select
-            id="cities"
-            name="cities"
-            value={cities}
-            onChange={(e) => setcities(e.target.value)}
+            id="city"
+            name="city"
+            value={formData.city}
+            onChange={handleChange}
           >
             <option value="">Choose a city in Morocco</option>
             <option value="casablanca">Casablanca</option>
@@ -206,36 +210,37 @@ export default function Register() {
           <BsCalendarDateFill size={25} className="icondivinput" />
           <input
             type="date"
-            name="birthyear"
             id="birthyear"
-            placeholder="Your Birth Year"
-            value={birthyear}
-            onChange={(e) => setbirthyear(e.target.value)}
+            name="birthyear"
+            value={formData.birthyear}
+            onChange={handleChange}
           />
         </div>
         <div className="inputdiv">
           <RiLockPasswordFill size={25} className="icondivinput" />
           <input
             type="password"
-            name="password"
             id="password"
+            name="password"
             placeholder="Password"
-            value={password}
-            onChange={(e) => setpassword(e.target.value)}
+            value={formData.password}
+            onChange={handleChange}
+            autoComplete="new-password"
           />
         </div>
         <div className="inputdiv">
           <RiLockPasswordFill size={25} className="icondivinput" />
           <input
             type="password"
-            name="confirmpassword"
             id="confirmpassword"
+            name="confirmpassword"
             placeholder="Confirm Password"
-            value={confirmpassword}
-            onChange={(e) => setconfirmpassword(e.target.value)}
+            value={formData.confirmpassword}
+            onChange={handleChange}
+            autoComplete="new-password"
           />
         </div>
-        <button id="btnRegister" onClick={Submit}>
+        <button id="btnRegister" type="submit">
           Register
         </button>
         <div className="login-redirect">

@@ -1,67 +1,71 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { RiCloseLargeLine } from "react-icons/ri";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { confirmCode,setAuthToken } from "../data/authslice"; // Import the action from authSlice
+import { verifyRegistrationCode, setAuthToken, clearError } from "../data/authslice";
 import { GiConfirmed } from "react-icons/gi";
 
 export default function CodeConfirm() {
-  const [code, setCode] = useState(""); // State for the confirmation code
-  const [valid, setValid] = useState(false); // State to handle validation
-  const [error, setError] = useState(""); // State to show errors
+  const [code, setCode] = useState("");
+  const [error, setError] = useState("");
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const dispatch = useDispatch(); // To dispatch actions to Redux
-  const navigate = useNavigate(); // For navigation
+  // Get email from location state or use empty string as fallback
+  const email = location.state?.email || '';
 
-  // Getting the loading state and error from Redux
-  const { loading, error: reduxError } = useSelector((state) => state.auth);
+  // Get auth state from Redux
+  const { loading, token } = useSelector((state) => state.auth);
 
-  // Function to handle form submission and dispatch the API call
-  const Submit = async (e) => {
+  // Clear any existing errors when component mounts
+  useEffect(() => {
+    dispatch(clearError());
+  }, [dispatch]);
+
+  // Redirect if token is received
+  useEffect(() => {
+    if (token) {
+      navigate("/");
+    }
+  }, [token, navigate]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Check if the code is empty
-    if (code === "") {
-      setValid(true);
-      setError("Please fill in the confirmation code.");
-    } else {
-      setValid(false);
-      setError("");
-
-      // Dispatch the confirmCode action to call the API and handle token
-      try {
-        const resultAction = await dispatch(confirmCode(code)); // Dispatch async action
-
-        // If API call is successful and token is returned
-        if (confirmCode.fulfilled.match(resultAction)) {
-          const token = resultAction.payload;
-          dispatch(setAuthToken(token)); // Store the token in Redux
-          localStorage.setItem("authToken", token); // Optionally save token in localStorage
-          navigate("/"); // Redirect to home page
-        } else {
-          // If the code was invalid or API call failed
-          setError(resultAction.payload); // Show error from API response
-        }
-      } catch (err) {
-        // Catch any errors
-        setError("An error occurred. Please try again later.");
+    
+    if (!code.trim()) {
+      setError("Please enter the verification code");
+      return;
+    }
+  
+    try {
+      const result = await dispatch(verifyRegistrationCode({ email, code }));
+      
+      if (verifyRegistrationCode.fulfilled.match(result)) {
+        navigate("/dashboard");
+      } else if (verifyRegistrationCode.rejected.match(result)) {
+        setError(result.payload.message || "Verification failed. Please try again.");
       }
+    } catch (err) {
+      setError("An unexpected error occurred");
+      console.error("Verification error:", err);
     }
   };
 
-  // Function to handle redirect to home page
-  const Movetohome = () => {
+  const handleClose = () => {
     navigate("/");
   };
 
   return (
     <div className="CodeConfirm">
-      <button onClick={Movetohome} className="X_button">
+      <button onClick={handleClose} className="X_button">
         <RiCloseLargeLine size={25} />
       </button>
       <h2 id="h2code">Please enter confirmation code</h2>
-      <form action="" method="post">
-        {valid && (
+      <p className="email-notice">Code sent to: {email}</p>
+      
+      <form onSubmit={handleSubmit}>
+        {error && (
           <div className="error">
             <div className="error__icon">
               <svg
@@ -77,9 +81,10 @@ export default function CodeConfirm() {
                 ></path>
               </svg>
             </div>
-            <div className="error__title">{error || reduxError}</div>
+            <div className="error__title">{error}</div>
           </div>
         )}
+        
         <div className="inputdiv">
           <GiConfirmed size={25} className="icondivinput" />
           <input
@@ -89,10 +94,18 @@ export default function CodeConfirm() {
             id="code"
             value={code}
             onChange={(e) => setCode(e.target.value)}
+            // autoComplete="one-time-code"
+            // inputMode="numeric"
+            // pattern="[0-9]*"
           />
         </div>
-        <br />
-        <button id="btn" onClick={Submit} disabled={loading}>
+        
+        <button 
+          type="submit" 
+          id="btn" 
+          disabled={loading}
+          aria-busy={loading}
+        >
           {loading ? "Verifying..." : "Confirm"}
         </button>
       </form>
