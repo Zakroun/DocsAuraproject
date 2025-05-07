@@ -23,7 +23,6 @@ export default function RequestsDashboard() {
     setFilteredRequests(requests);
   }, [requests]);
 
-  // Get available years from requests
   const availableYears = [
     "All",
     ...new Set(
@@ -34,14 +33,12 @@ export default function RequestsDashboard() {
   useEffect(() => {
     let result = [...requests];
     
-    // Filter by year
     if (selectedYear !== "All") {
       result = result.filter(
         (req) => new Date(req.date).getFullYear().toString() === selectedYear
       );
     }
     
-    // Filter by search query
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       result = result.filter(
@@ -92,10 +89,11 @@ export default function RequestsDashboard() {
     }
   };
 
-  const showConfirmationDialog = (reqId, role, action) => {
+  const showConfirmationDialog = (reqId, role, action, request) => {
     setSelectedRequest({
       reqid: reqId,
       role: role,
+      requestData: request
     });
     setActionType(action);
     setShowDialog(true);
@@ -103,7 +101,6 @@ export default function RequestsDashboard() {
 
   return (
     <div className="requests-dashboard">
-      {/* Notifications */}
       {successMessage && (
         <div className="request-notification success">
           <p>{successMessage}</p>
@@ -115,7 +112,6 @@ export default function RequestsDashboard() {
         </div>
       )}
 
-      {/* Header Section */}
       <div className="request-header">
         <h1 className="request-title">Activation Requests</h1>
         <p className="request-subtitle">
@@ -123,7 +119,6 @@ export default function RequestsDashboard() {
         </p>
       </div>
 
-      {/* Filters Section */}
       <div className="request-filters">
         <div className="filter-group">
           <label htmlFor="yearFilter" className="filter-label">
@@ -158,7 +153,6 @@ export default function RequestsDashboard() {
         </div>
       </div>
 
-      {/* Requests Table */}
       <div className={`request-table-container ${showDialog ? "table-blur" : ""}`}>
         {filteredRequests.length === 0 ? (
           <div className="no-requests">
@@ -170,9 +164,9 @@ export default function RequestsDashboard() {
             <thead>
               <tr>
                 <th className="name-col">Name</th>
-                <th className="role-col">Role</th>
+                <th className="date-col">Date</th>
                 <th className="email-col">Email</th>
-                <th className="info-col">Special Info</th>
+                <th className="role-col">Role</th>
                 <th className="status-col">Status</th>
                 <th className="actions-col">Actions</th>
               </tr>
@@ -186,50 +180,12 @@ export default function RequestsDashboard() {
                   return (
                     <tr key={req.id} className="request-row">
                       <td className="name-cell">{user?.fullName || "Unknown"}</td>
-                      <td className="role-cell">
-                        <span className={`role-badge ${req.role}`}>
-                          {req.role}
-                        </span>
-                      </td>
+                      <td className="date-cell">{new Date(req.date).toLocaleDateString()}</td>
                       <td className="email-cell">{req.email}</td>
-                      <td className="info-cell">
-                        <div className="info-details">
-                          {req.specialty && (
-                            <div>
-                              <strong>Specialty:</strong> {req.specialty}
-                            </div>
-                          )}
-                          {req.amoCode && (
-                            <div>
-                              <strong>AMO:</strong> {req.amoCode}
-                            </div>
-                          )}
-                          {req.cnssCode && (
-                            <div>
-                              <strong>CNSS:</strong> {req.cnssCode}
-                            </div>
-                          )}
-                          {req.taxId && (
-                            <div>
-                              <strong>Tax ID:</strong> {req.taxId}
-                            </div>
-                          )}
-                          {req.medicalOrderNumber && (
-                            <div>
-                              <strong>Medical Order:</strong> {req.medicalOrderNumber}
-                            </div>
-                          )}
-                          {req.clinicId && (
-                            <div>
-                              <strong>Clinic ID:</strong> {req.clinicId}
-                            </div>
-                          )}
-                          {req.patientId && (
-                            <div>
-                              <strong>Patient ID:</strong> {req.patientId}
-                            </div>
-                          )}
-                        </div>
+                      <td className="role-cell">
+                        <span className="role-text">
+                          {req.role.toUpperCase()}
+                        </span>
                       </td>
                       <td className="status-cell">
                         <span className={`status-badge ${req.status || "pending"}`}>
@@ -245,7 +201,8 @@ export default function RequestsDashboard() {
                                 showConfirmationDialog(
                                   req.id,
                                   req.role,
-                                  "accept"
+                                  "accept",
+                                  req
                                 )
                               }
                             >
@@ -257,7 +214,8 @@ export default function RequestsDashboard() {
                                 showConfirmationDialog(
                                   req.id,
                                   req.role,
-                                  "reject"
+                                  "reject",
+                                  req
                                 )
                               }
                             >
@@ -279,7 +237,6 @@ export default function RequestsDashboard() {
         )}
       </div>
 
-      {/* Confirmation Dialog */}
       {showDialog && (
         <div className="request-modal">
           <div className="modal-content">
@@ -293,10 +250,100 @@ export default function RequestsDashboard() {
               </button>
             </div>
             <div className="modal-body">
-              <p>
-                Are you sure you want to {actionType} this request from{" "}
-                <strong>{selectedRequest?.role}</strong>?
-              </p>
+              <p>Are you sure you want to {actionType} this {selectedRequest?.role.toLowerCase()} request?</p>
+              
+              <div className="request-details">
+                <h4>Request Details</h4>
+                <div className="detail-row">
+                  <span className="detail-label">Name:</span>
+                  <span className="detail-value">{getUserInfo(selectedRequest?.role, selectedRequest?.reqid)?.fullName || 'Unknown'}</span>
+                </div>
+                <div className="detail-row">
+                  <span className="detail-label">Email:</span>
+                  <span className="detail-value">{selectedRequest?.requestData?.email}</span>
+                </div>
+                <div className="detail-row">
+                  <span className="detail-label">Request Type:</span>
+                  <span className="detail-value">{selectedRequest?.role.toUpperCase()}</span>
+                </div>
+                <div className="detail-row">
+                  <span className="detail-label">Date:</span>
+                  <span className="detail-value">{new Date(selectedRequest?.requestData?.date).toLocaleDateString()}</span>
+                </div>
+                
+                {/* Doctor Specific Information */}
+                {selectedRequest?.role === 'doctor' && (
+                  <>
+                    {selectedRequest?.requestData?.specialty && (
+                      <div className="detail-row">
+                        <span className="detail-label">Specialty:</span>
+                        <span className="detail-value">{selectedRequest.requestData.specialty}</span>
+                      </div>
+                    )}
+                    {selectedRequest?.requestData?.licenseNumber && (
+                      <div className="detail-row">
+                        <span className="detail-label">License #:</span>
+                        <span className="detail-value">{selectedRequest.requestData.licenseNumber}</span>
+                      </div>
+                    )}
+                    {selectedRequest?.requestData?.qualifications && (
+                      <div className="detail-row">
+                        <span className="detail-label">Qualifications:</span>
+                        <span className="detail-value">{selectedRequest.requestData.qualifications}</span>
+                      </div>
+                    )}
+                  </>
+                )}
+                
+                {/* Clinic Specific Information */}
+                {selectedRequest?.role === 'clinic' && (
+                  <>
+                    {selectedRequest?.requestData?.clinicId && (
+                      <div className="detail-row">
+                        <span className="detail-label">Clinic ID:</span>
+                        <span className="detail-value">{selectedRequest.requestData.clinicId}</span>
+                      </div>
+                    )}
+                    {selectedRequest?.requestData?.address && (
+                      <div className="detail-row">
+                        <span className="detail-label">Address:</span>
+                        <span className="detail-value">{selectedRequest.requestData.address}</span>
+                      </div>
+                    )}
+                    {selectedRequest?.requestData?.phone && (
+                      <div className="detail-row">
+                        <span className="detail-label">Phone:</span>
+                        <span className="detail-value">{selectedRequest.requestData.phone}</span>
+                      </div>
+                    )}
+                  </>
+                )}
+                
+                {/* Laboratory Specific Information */}
+                {selectedRequest?.role === 'laboratory' && (
+                  <>
+                    {selectedRequest?.requestData?.labId && (
+                      <div className="detail-row">
+                        <span className="detail-label">Lab ID:</span>
+                        <span className="detail-value">{selectedRequest.requestData.labId}</span>
+                      </div>
+                    )}
+                    {selectedRequest?.requestData?.accreditation && (
+                      <div className="detail-row">
+                        <span className="detail-label">Accreditation:</span>
+                        <span className="detail-value">{selectedRequest.requestData.accreditation}</span>
+                      </div>
+                    )}
+                    {selectedRequest?.requestData?.services && (
+                      <div className="detail-row">
+                        <span className="detail-label">Services:</span>
+                        <span className="detail-value">{selectedRequest.requestData.services}</span>
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+
               <p className="warning-text">
                 This action cannot be undone.
               </p>
@@ -316,7 +363,7 @@ export default function RequestsDashboard() {
                     : handleReject(selectedRequest.reqid, selectedRequest.role)
                 }
               >
-                {actionType === "accept" ? "Accept Request" : "Reject Request"}
+                {actionType === "accept" ? "Confirm Acceptance" : "Reject Request"}
               </button>
             </div>
           </div>
