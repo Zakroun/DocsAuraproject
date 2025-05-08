@@ -27,38 +27,32 @@ export const registerUser = createAsyncThunk(
 export const verifyRegistrationCode = createAsyncThunk(
   "auth/verifyRegistrationCode",
   async ({ email, code }, { rejectWithValue }) => {
-    console.log('[DEBUG] Starting verification with:', { email, code });
-    
+    console.log("[DEBUG] Starting verification with:", { email, code });
     try {
-      const response = await axios.post('/auth/verify-registration', {
+      const response = await axios.post("/auth/verify-registration", {
         email,
-        code
+        code,
       });
-
-      console.log('[DEBUG] Verification response:', response.data);
-      
+      console.log("[DEBUG] Verification response:", response.data);
       if (!response.data?.success) {
-        console.error('[DEBUG] Verification failed:', response.data);
+        console.error("[DEBUG] Verification failed:", response.data);
         throw new Error(response.data?.message || "Verification failed");
       }
-      
       return {
         token: response.data.data.access_token,
         user: response.data.data.user,
-        debug: response.data.debug // Contains debug info in development
+        debug: response.data.debug, // Contains debug info in development
       };
-      
     } catch (error) {
-      console.error('[DEBUG] Verification error:', {
+      console.error("[DEBUG] Verification error:", {
         message: error.message,
         response: error.response?.data,
-        config: error.config
+        config: error.config,
       });
-      
       return rejectWithValue({
         message: error.response?.data?.message || "Verification failed",
         error: error.message,
-        debug: error.response?.data?.debug || null
+        debug: error.response?.data?.debug || null,
       });
     }
   }
@@ -67,65 +61,104 @@ export const verifyRegistrationCode = createAsyncThunk(
 // 2. Login User Async Thunk
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
-  async (credentials, thunkAPI) => {
+  async ({ email, password }, { rejectWithValue }) => {
     try {
-      const response = await fetch("/api/login", {
-        // Replace with your actual API endpoint
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(credentials),
+      const response = await axios.post("/auth/login", {
+        email,
+        password,
       });
-      const data = await response.json();
-      return data; // Return the response data (user and token)
+      if (!response.data?.success) {
+        throw new Error(response.data?.message || "Login failed");
+      }
+      return {
+        token: response.data.data.access_token,
+        user: response.data.data.user,
+      };
     } catch (error) {
-      return thunkAPI.rejectWithValue("Login failed");
+      return rejectWithValue({
+        message: error.response?.data?.message || "Login failed",
+      });
     }
   }
 );
-
 // Async thunk to handle API call for sending confirmation code
+// Send Confirmation Code (updated error handling)
 export const sendConfirmationCode = createAsyncThunk(
   "auth/sendConfirmationCode",
   async (email, { rejectWithValue }) => {
     try {
-      const response = await axios.post("/api/send-code", { email });
-      return response.data; // assuming the API returns a success message
+      const response = await axios.post("/auth/send-code", { email });
+      if (!response.data?.success) {
+        throw new Error(response.data?.message || "Failed to send code");
+      }
+      return response.data;
     } catch (error) {
-      return rejectWithValue(error.response.data); // return error message from the API
+      return rejectWithValue({
+        message: error.response?.data?.message || "Failed to send code",
+        errors: error.response?.data?.errors,
+      });
     }
   }
 );
 
-// Async thunk to handle API call for confirming the code
+// Confirm Code (updated error handling)
 export const confirmCodepass = createAsyncThunk(
-  "auth/confirmCode",
-  async ({ code, email }, { rejectWithValue }) => {
+  "auth/confirmCodepass",
+  async ({ email, code }, { rejectWithValue }) => {
+    console.log("this the email : ", email , "code : ", code);
     try {
-      const response = await axios.post("/api/confirm-code", { code, email });
-      return response.data; // assuming the API returns a success message
+      const response = await axios.post("/auth/confirm-code", {
+        email,
+        code,
+      });
+      if (!response.data?.success) {
+        throw new Error(response.data?.message || "Invalid code");
+      }
+      return response.data;
     } catch (error) {
-      return rejectWithValue(error.response.data); // return error message from the API
+      return rejectWithValue({
+        message: error.response?.data?.message || "Invalid code",
+        errors: error.response?.data?.errors,
+      });
     }
   }
 );
-
-// Async thunk to handle API call for updating the password
+// Update Password (updated error handling)
 export const updatePassword = createAsyncThunk(
   "auth/updatePassword",
-  async ({ newPassword, email }, { rejectWithValue }) => {
+  async ({ email, code, password }, { rejectWithValue }) => {
     try {
-      const response = await axios.post("/api/update-password", {
-        newPassword,
+      const response = await axios.post("/auth/update-password", {
         email,
+        code,
+        password,
       });
-      return response.data; // assuming the API returns a success message
+      if (!response.data?.success) {
+        throw new Error(response.data?.message || "Password update failed");
+      }
+      return response.data;
     } catch (error) {
-      return rejectWithValue(error.response.data); // return error message from the API
+      return rejectWithValue({
+        message: error.response?.data?.message || "Password update failed",
+        errors: error.response?.data?.errors,
+      });
     }
   }
 );
+
+// Logout (new thunk to match your route)
+export const logoutUser = createAsyncThunk(
+  "auth/logoutUser",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.post("/auth/logout");
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Logout failed");
+    }
+  }
+);
+
 
 // 3. Initial state
 const initialState = {
@@ -170,10 +203,30 @@ const authSlice = createSlice({
         state.successMessage = null;
       })
       .addCase(registerUser.fulfilled, (state, action) => {
+        // console.log(action.payload)
+        // console.log(action.payload.data.access_token)
+        // console.log(action.payload.data.user)
         state.loading = false;
-        state.user = action.payload.user; // Assuming response contains user data
+        state.user = action.payload.data.user; // Assuming response contains user data
         state.successMessage = "Registration successful!";
-        state.token = action.payload.token; // Assuming response contains token
+        state.token = action.payload.data.access_token; // Assuming response contains token
+
+        const expiresAt = new Date().getTime() + 24 * 60 * 60 * 1000; // 24h en millisecondes
+        localStorage.setItem(
+          "token",
+          JSON.stringify({
+            value: action.payload.data.access_token,
+            expiresAt,
+          })
+        );
+
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            value: action.payload.data.user,
+            expiresAt,
+          })
+        );
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
@@ -223,16 +276,16 @@ const authSlice = createSlice({
         state.error = action.payload;
       })
       // Confirm code
-    //   .addCase(confirmCodepass.pending, (state) => {
-    //     state.loading = true;
-    //   })
-    //   .addCase(confirmCodepass.fulfilled, (state) => {
-    //     state.loading = false;
-    //   })
-    //   .addCase(confirmCodepass.rejected, (state, action) => {
-    //     state.loading = false;
-    //     state.error = action.payload;
-    //   })
+      .addCase(confirmCodepass.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(confirmCodepass.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(confirmCodepass.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
       // Update password
       .addCase(updatePassword.pending, (state) => {
         state.loading = true;
@@ -248,5 +301,6 @@ const authSlice = createSlice({
 });
 
 // 5. Export actions and the reducer
-export const { resetAuthState, logout, setAuthToken,clearError } = authSlice.actions;
+export const { resetAuthState, logout, setAuthToken, clearError } =
+  authSlice.actions;
 export default authSlice;

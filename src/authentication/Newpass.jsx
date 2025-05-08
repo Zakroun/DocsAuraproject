@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { updatePassword } from "../data/authslice";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { RiCloseLargeLine } from "react-icons/ri";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function NewPass() {
   const [newPass, setNewPass] = useState("");
@@ -12,6 +12,9 @@ export default function NewPass() {
   const [error, setError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+  
+  const { email, code } = location.state || {};
 
   const submit = (e) => {
     e.preventDefault();
@@ -31,23 +34,24 @@ export default function NewPass() {
     } else {
       setValid(false);
       setError("");
-      dispatch(updatePassword({ newPassword: newPass, email: "userEmail@example.com" })) // Example email, replace with actual email
+      dispatch(updatePassword({ email, code, password: newPass }))
+        .unwrap()
         .then(() => {
-          navigate("/pages/Login"); // Navigate to login page after password update
+          navigate("/pages/Login");
         })
         .catch((err) => {
-          setError(err.message);
+          setError(err.message || "Password reset failed");
         });
     }
   };
 
   return (
     <div className="NewPass">
-      <button className="X_button">
+      <button className="X_button" type="button">
         <RiCloseLargeLine size={25} />
       </button>
       <h2 id="h2code">Please enter the new Password</h2>
-      <form>
+      <form onSubmit={submit}>
         {valid && (
           <div className="error">
             <div className="error__title">{error}</div>
@@ -61,6 +65,7 @@ export default function NewPass() {
             placeholder="New Password"
             value={newPass}
             onChange={(e) => setNewPass(e.target.value)}
+            required
           />
         </div>
         <br />
@@ -68,13 +73,14 @@ export default function NewPass() {
           <RiLockPasswordFill size={25} className="icondivinput" />
           <input
             type="password"
-            id="password"
+            id="confirmPassword"
             placeholder="Confirm Password"
             value={confirmPass}
             onChange={(e) => setConfirmPass(e.target.value)}
+            required
           />
         </div>
-        <button id="btn=" onClick={submit}>Confirm</button>
+        <button id="btn" type="submit">Confirm</button>
       </form>
     </div>
   );

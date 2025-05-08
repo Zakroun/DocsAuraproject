@@ -4,15 +4,38 @@ import { useRef, useEffect, useState } from "react";
 import { FaRegUserCircle } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { changecurrentpage } from "../data/DocsauraSlice";
+
 export default function Header() {
-  const p = useSelector((s) => s.Docsaura.profile);
-  const [profile, setprofile] = useState(p);
-  useEffect(() => {
-    setprofile(p);
-  }, [p]);
+  const [hasToken, setHasToken] = useState(false);
   const currentpage = useSelector((s) => s.Docsaura.currentpage);
   const [pagestate, setpage] = useState(currentpage);
   const menuRef = useRef(null);
+  
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // Check for token in localStorage when component mounts
+    const token = localStorage.getItem('token');
+    setHasToken(!!token);
+    
+    // Set up listener for storage changes
+    const handleStorageChange = () => {
+      const updatedToken = localStorage.getItem('token');
+      setHasToken(!!updatedToken);
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    setpage(currentpage);
+    console.log(currentpage);
+  }, [currentpage]);
+
   const toggleMenu = () => {
     if (menuRef.current) {
       if (menuRef.current.style.display === "block") {
@@ -22,10 +45,7 @@ export default function Header() {
       }
     }
   };
-  useEffect(() => {
-    setpage(currentpage);
-    console.log(currentpage);
-  }, [currentpage]);
+
   useEffect(() => {
     const handleScroll = () => {
       if (menuRef.current) {
@@ -37,7 +57,7 @@ export default function Header() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-  const dispatch = useDispatch();
+
   return (
     <div className="header">
       <div className="part1header">
@@ -73,7 +93,6 @@ export default function Header() {
           </button>
         </div>
         <div className="menu" id="menu" ref={menuRef}>
-          {/* <h1>DocsAura</h1> */}
           <img src="\Images\Asset 10.png" alt="logo" className="logo-menu"/>
           <div className="linksmenu">
             <Link to="/" className="linksm">
@@ -95,7 +114,7 @@ export default function Header() {
               CONTACT
             </Link>
           </div>
-          {profile === false ? (
+          {!hasToken ? (
             <div className="btnmenu">
               <Link to={"/pages/Login"}>
                 <button className="loginbtn2">LOGIN</button>
@@ -154,7 +173,7 @@ export default function Header() {
             CONTACT
           </Link>
         </div>
-        {profile === false ? (
+        {!hasToken ? (
           <div className="btnuser">
             <Link to={"/pages/Login"}>
               <button className="loginbtn">LOGIN</button>

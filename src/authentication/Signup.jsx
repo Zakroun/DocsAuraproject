@@ -2,7 +2,10 @@ import { useState } from "react";
 import { RiCloseLargeLine } from "react-icons/ri";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { RiUser3Fill, RiLockPasswordFill } from "react-icons/ri";
+import {
+  RiUser3Fill,
+  RiLockPasswordFill
+} from "react-icons/ri";
 import { MdEmail, MdOutlineLocationCity } from "react-icons/md";
 import { FaUserPlus } from "react-icons/fa6";
 import { PiGenderIntersexFill } from "react-icons/pi";
@@ -74,7 +77,7 @@ export default function Register() {
       })
       .catch((err) => {
         setValid(true);
-        setError(err.message || "Registration failed");
+        setError("Registration failed");
       });
   };
 
@@ -102,6 +105,7 @@ export default function Register() {
             <div className="error__title">{error}</div>
           </div>
         )}
+
         <div className="inputdiv">
           <RiUser3Fill size={25} className="icondivinput" />
           <input
@@ -113,6 +117,7 @@ export default function Register() {
             onChange={handleChange}
           />
         </div>
+
         <div className="inputdiv">
           <MdEmail size={25} className="icondivinput" />
           <input
@@ -125,6 +130,7 @@ export default function Register() {
             onChange={handleChange}
           />
         </div>
+
         <div className="inputdiv">
           <FaUserPlus size={25} className="icondivinput" />
           <select
@@ -140,6 +146,7 @@ export default function Register() {
             <option value="laboratory">Laboratory</option>
           </select>
         </div>
+
         <div className="inputdiv">
           <PiGenderIntersexFill size={25} className="icondivinput" />
           <select
@@ -153,6 +160,7 @@ export default function Register() {
             <option value="Female">Female</option>
           </select>
         </div>
+
         <div className="inputdiv">
           <MdOutlineLocationCity size={25} className="icondivinput" />
           <select
@@ -206,6 +214,7 @@ export default function Register() {
             <option value="smara">Smara</option>
           </select>
         </div>
+
         <div className="inputdiv">
           <BsCalendarDateFill size={25} className="icondivinput" />
           <input
@@ -216,6 +225,7 @@ export default function Register() {
             onChange={handleChange}
           />
         </div>
+
         <div className="inputdiv">
           <RiLockPasswordFill size={25} className="icondivinput" />
           <input
@@ -228,6 +238,7 @@ export default function Register() {
             autoComplete="new-password"
           />
         </div>
+
         <div className="inputdiv">
           <RiLockPasswordFill size={25} className="icondivinput" />
           <input
@@ -240,9 +251,11 @@ export default function Register() {
             autoComplete="new-password"
           />
         </div>
+
         <button id="btnRegister" type="submit">
           Register
         </button>
+
         <div className="login-redirect">
           <p>
             Already have an account?{" "}

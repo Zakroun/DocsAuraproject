@@ -2,16 +2,25 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { changeprofile } from "../data/DocsauraSlice";
+
 export default function Logout() {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const handleLogoutClick = () => {
     setShowConfirmation(true);
   };
 
   const handleConfirmLogout = () => {
+    // Clear authentication data from localStorage
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    
+    // Update Redux state
     dispatch(changeprofile(false));
+    
+    // Redirect to login page
     navigate("/pages/Login");
   };
 
@@ -21,7 +30,7 @@ export default function Logout() {
 
   return (
     <div className="logout-container">
-        <br /><br /><br />
+      <br /><br /><br />
       <h1>Are you sure you want to log out?</h1><br />
       <button className="logout-button" onClick={handleLogoutClick}>
         Logout

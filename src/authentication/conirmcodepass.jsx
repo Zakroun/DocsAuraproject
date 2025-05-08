@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { confirmCodepass } from "../data/authslice"; // Import the action
+import { useDispatch, useSelector } from "react-redux";
+import { confirmCodepass } from "../data/authslice";
 import { RiCloseLargeLine } from "react-icons/ri";
 import { GiConfirmed } from "react-icons/gi";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function CodeConfirm() {
   const [code, setCode] = useState("");
@@ -11,32 +11,45 @@ export default function CodeConfirm() {
   const [error, setError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
+  // Get email from navigation state or from wherever you're storing it
+  const email = location.state?.email || "";
+  console.log("this the email : ", email);
   const submit = (e) => {
     e.preventDefault();
     if (code === "") {
       setValid(true);
       setError("Please fill in the code");
+    } else if (code.length !== 6) {
+      setValid(true);
+      setError("Code must be 6 characters");
     } else {
       setValid(false);
       setError("");
-      dispatch(confirmCodepass({ code, email: "userEmail@example.com" })) // Example email, replace with actual email
+      dispatch(confirmCodepass({ email, code }))
+        .unwrap()
         .then(() => {
-          navigate("/pages/newpass"); // Navigate to password reset page
+          navigate("/pages/newpass", {
+            state: {
+              email,
+              code,
+            },
+          });
         })
         .catch((err) => {
-          setError(err.message);
+          setError(err.message || "Invalid reset code");
         });
     }
   };
 
   return (
     <div className="CodeConfirm">
-      <button className="X_button">
+      <button className="X_button" type="button">
         <RiCloseLargeLine size={25} />
       </button>
       <h2 id="h2code">Please enter confirmation code</h2>
-      <form>
+      <form onSubmit={submit} method="post">
         {valid && (
           <div className="error">
             <div className="error__title">{error}</div>
@@ -51,9 +64,13 @@ export default function CodeConfirm() {
             placeholder="Confirmation code"
             value={code}
             onChange={(e) => setCode(e.target.value)}
+            maxLength="6"
+            required
           />
         </div>
-        <button id="btn" onClick={submit}>Confirm</button>
+        <button id="btn" type="submit">
+          Confirm
+        </button>
       </form>
     </div>
   );

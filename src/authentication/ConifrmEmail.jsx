@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { sendConfirmationCode } from "../data/authslice"; // Import the action
+import { sendConfirmationCode } from "../data/authslice";
 import { RiCloseLargeLine } from "react-icons/ri";
 import { MdEmail } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
@@ -25,20 +25,21 @@ export default function ConfirmEmail() {
     } else {
       setValid(false);
       setError("");
-      dispatch(sendConfirmationCode(email)) // Dispatching the action
+      dispatch(sendConfirmationCode(email))
+        .unwrap()
         .then(() => {
-          navigate("/pages/codeconfirmforget"); // Navigate to the code confirmation page
+          navigate("/pages/codeconfirmforget", { state: { email } });
         })
         .catch((err) => {
-          setError(err.message);
+          setError(err.message || "Failed to send reset code");
         });
     }
   };
 
   return (
     <div className="ForgetPass">
-      <form action="" method="post">
-        <button className="X_button">
+      <form onSubmit={submit} method="post">
+        <button className="X_button" type="button">
           <RiCloseLargeLine size={25} />
         </button>
         <h2 id="h2code">Please enter your Email to send confirmation code</h2>
@@ -56,9 +57,10 @@ export default function ConfirmEmail() {
             placeholder="Your Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
         </div>
-        <button id="btn" onClick={submit}>Send</button>
+        <button id="btn" type="submit">Send</button>
       </form>
     </div>
   );

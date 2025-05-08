@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { verifyRegistrationCode, setAuthToken, clearError } from "../data/authslice";
 import { GiConfirmed } from "react-icons/gi";
-
+import { changeprofile } from "../data/DocsauraSlice";
 export default function CodeConfirm() {
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
@@ -24,11 +24,11 @@ export default function CodeConfirm() {
   }, [dispatch]);
 
   // Redirect if token is received
-  useEffect(() => {
-    if (token) {
-      navigate("/");
-    }
-  }, [token, navigate]);
+  // useEffect(() => {
+  //   if (token) {
+  //     navigate("/");
+  //   }
+  // }, [token, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,15 +40,15 @@ export default function CodeConfirm() {
   
     try {
       const result = await dispatch(verifyRegistrationCode({ email, code }));
-      
       if (verifyRegistrationCode.fulfilled.match(result)) {
-        navigate("/dashboard");
+        navigate("/");
+        dispatch(changeprofile(true));
       } else if (verifyRegistrationCode.rejected.match(result)) {
         setError(result.payload.message || "Verification failed. Please try again.");
       }
     } catch (err) {
       setError("An unexpected error occurred");
-      console.error("Verification error:", err);
+      console.error("Verification error");
     }
   };
 
@@ -64,7 +64,7 @@ export default function CodeConfirm() {
       <h2 id="h2code">Please enter confirmation code</h2>
       <p className="email-notice">Code sent to: {email}</p>
       
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} method="post">
         {error && (
           <div className="error">
             <div className="error__icon">

@@ -375,7 +375,7 @@ export default function Calendar(props) {
                       style={{ marginRight: "20px" }}
                       type="text"
                       name="fullName"
-                      id="fullname"
+                      id="fullName"
                       placeholder="Full Name"
                       value={formData.fullName}
                       onChange={handleChange}
@@ -460,7 +460,7 @@ export default function Calendar(props) {
                 </div>
                 <div className="inputdiv">
                   <select
-                    id="cities"
+                    id="city"
                     name="location"
                     value={formData.location}
                     onChange={handleChange}

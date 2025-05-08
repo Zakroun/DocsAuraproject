@@ -716,7 +716,7 @@ body {
   cursor: pointer;
 }
 .menu {
-  z-index: 3;
+  z-index: 99;
   display: none;
   padding-top: 50px;
   margin-top: 35px;
@@ -938,7 +938,7 @@ hr {
   }
 }
 .dots-container {
-  z-index: 99;
+  z-index: 3;
   position: absolute;
   margin-top: 380px;
   display: flex;
@@ -6649,7 +6649,7 @@ pre {
 .complaint-table th {
   background-color: #f1f5f9;
   padding: 1rem;
-  text-align: left;
+  text-align: center;
   font-weight: 600;
   color: #34495e;
   border-bottom: 2px solid #e2e8f0;
@@ -7014,7 +7014,7 @@ pre {
 .request-table th {
   background-color: #f1f5f9;
   padding: 1rem;
-  text-align: left;
+  text-align: center;
   font-weight: 600;
   color: #34495e;
   border-bottom: 2px solid #e2e8f0;
@@ -7461,7 +7461,7 @@ pre {
 .request-table th {
   background-color: #f1f5f9;
   padding: 1rem;
-  text-align: left;
+  text-align: center;
   font-weight: 600;
   color: #34495e;
   border-bottom: 2px solid #e2e8f0;
@@ -7925,15 +7925,6 @@ pre {
   font-size: 0.9rem;
 }
 
-.request-table th {
-  background-color: #f1f5f9;
-  padding: 1rem;
-  text-align: left;
-  font-weight: 600;
-  color: #34495e;
-  border-bottom: 2px solid #e2e8f0;
-}
-
 .request-table td {
   padding: 1rem;
   border-bottom: 1px solid #e2e8f0;
@@ -8365,7 +8356,7 @@ pre {
 .list-table th {
   background-color: #f1f5f9;
   padding: 1rem;
-  text-align: left;
+  text-align: center;
   font-weight: 600;
   color: #34495e;
   border-bottom: 2px solid #e2e8f0;

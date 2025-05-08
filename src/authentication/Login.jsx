@@ -11,30 +11,34 @@ export default function Login() {
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
   const [error, seterror] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { loading } = useSelector((state) => state.auth);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    seterror("");
 
-    if (email === "" || password === "") {
-      seterror("Please fill all the fields");
+    if (!email || !password) {
+      seterror("Email and password are required");
       return;
     }
 
-    seterror(""); // clear previous error
+    setIsLoading(true);
 
-    dispatch(loginUser({ email, password }))
-      .unwrap()
-      .then(() => {
-        dispatch(changeprofile(true));
-        navigate("/");
-      })
-      .catch((err) => {
-        seterror(err || "Login failed");
-      });
+    try {
+      const result = await dispatch(loginUser({ email, password })).unwrap();
+      localStorage.setItem('token', result.token);
+      localStorage.setItem('user', JSON.stringify(result.user));
+      dispatch(changeprofile(true));
+      navigate("/");
+    } catch (err) {
+      seterror("Login failed");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const moveToHome = () => {
@@ -49,7 +53,7 @@ export default function Login() {
       </button>
       <h1 id="h1">Welcome back!</h1>
       <h3 id="h3">Please enter your details</h3>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} method="post">
         {error && (
           <div className="error">
             <div className="error__icon">
@@ -72,6 +76,8 @@ export default function Login() {
             id="email"
             onChange={(e) => setemail(e.target.value)}
             placeholder="Email"
+            autoComplete="email"
+            required
           />
         </div>
         <br />
@@ -80,9 +86,11 @@ export default function Login() {
           <input
             type="password"
             value={password}
-            id="confirmpassword"
+            id="password"
+            autoComplete="current-password"
             onChange={(e) => setpassword(e.target.value)}
             placeholder="Password"
+            required
           />
         </div>
         <br />
@@ -93,8 +101,8 @@ export default function Login() {
         <Link to="/pages/forgetpass" id="link">
           Forget password?
         </Link>
-        <button id="btn" type="submit" disabled={loading}>
-          {loading ? "Logging in..." : "Log In"}
+        <button id="btn" type="submit" disabled={isLoading}>
+          {isLoading ? "Logging in..." : "Log In"}
         </button>
         <br />
         <button id="btn2" type="button">
