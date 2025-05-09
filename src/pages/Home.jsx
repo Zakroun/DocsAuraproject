@@ -9,7 +9,6 @@ import { SiChatbot } from "react-icons/si";
 import ListDocCliLAbo from "../static/ListDocCliLAbo";
 import CallToAction from "../static/CallToAction";
 import { useState, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
 import { FaUserAlt } from "react-icons/fa";
 
 export default function Home() {
@@ -18,9 +17,14 @@ export default function Home() {
   const [messages, setMessages] = useState([
     { text: "Hello! How can I assist you today?", sender: "bot" },
   ]);
-
-  const profile = useSelector((s) => s.Docsaura.profile);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const chatBodyRef = useRef(null);
+
+  useEffect(() => {
+    // Check for token on component mount
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    setIsAuthenticated(!!token);
+  }, []);
 
   useEffect(() => {
     if (chatBodyRef.current) {
@@ -38,11 +42,18 @@ export default function Home() {
     setMessage("");
 
     try {
+      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+      const headers = {
+        "Content-Type": "application/json",
+      };
+      
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
+
       const response = await fetch("http://localhost:8000/api/chat", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers,
         body: JSON.stringify({ message }),
       });
 
@@ -83,7 +94,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <Divimage2 profile={profile} />
+      <Divimage2 profile={isAuthenticated} />
       <DivService1 />
 
       {/* Chatbot Button */}
@@ -133,8 +144,8 @@ export default function Home() {
         <GoMoveToTop />
       </button>
 
-      {/* Conditional CTA */}
-      {!profile && <CallToAction />}
+      {/* Conditional CTA - only show if not authenticated */}
+      {!isAuthenticated && <CallToAction />}
 
       {/* Main Sections */}
       <Services />

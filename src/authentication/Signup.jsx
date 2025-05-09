@@ -142,7 +142,7 @@ export default function Register() {
             <option value="">Choose your Role</option>
             <option value="Patient">Patient</option>
             <option value="doctor">Doctor</option>
-            <option value="pharmacy">Pharmacy</option>
+            <option value="clinic">Clinic</option>
             <option value="laboratory">Laboratory</option>
           </select>
         </div>
@@ -158,6 +158,7 @@ export default function Register() {
             <option value="">Choose your Gender</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
+            <option value="n/a">N\A</option>
           </select>
         </div>
 

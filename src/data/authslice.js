@@ -181,6 +181,7 @@ export const resendConfirmationCode = createAsyncThunk(
 const initialState = {
   user: null, // Will hold the user info when logged in or registered
   token: null, // To store the authentication token
+  Login : false,
   loading: false, // To indicate loading state
   error: null, // To hold error message when login/registration fails
   successMessage: null, // To hold success message after registration
@@ -226,6 +227,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = action.payload.data.user; // Assuming response contains user data
         state.successMessage = "Registration successful!";
+        state.Login = true;
         state.token = action.payload.data.access_token; // Assuming response contains token
         const expiresAt = new Date().getTime() + 24 * 60 * 60 * 1000; // 24h en millisecondes
         localStorage.setItem(
@@ -270,6 +272,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = action.payload.user; // Assuming response contains user data
         state.token = action.payload.token; // Assuming response contains token
+        state.Login = true;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
