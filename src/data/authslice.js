@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "../data/axios"; // correct si `axios.js` est dans src/
+import axios from "../data/axios";
 
 // Register User
 export const registerUser = createAsyncThunk(
@@ -8,11 +8,11 @@ export const registerUser = createAsyncThunk(
     console.log(userData);
     try {
       const response = await axios.post("/auth/register", {
-        fullName: userData.fullName, // Correction ici
+        fullName: userData.fullName,
         email: userData.email,
         role: userData.role,
         gender: userData.gender,
-        city: userData.city, // Si tu veux garder 'cities', modifie aussi côté backend
+        city: userData.city,
         birth_date: userData.birthyear,
         password: userData.password,
       });
@@ -41,7 +41,7 @@ export const verifyRegistrationCode = createAsyncThunk(
       return {
         token: response.data.data.access_token,
         user: response.data.data.user,
-        debug: response.data.debug, // Contains debug info in development
+        debug: response.data.debug,
       };
     } catch (error) {
       console.error("[DEBUG] Verification error:", {
@@ -105,7 +105,7 @@ export const sendConfirmationCode = createAsyncThunk(
 export const confirmCodepass = createAsyncThunk(
   "auth/confirmCodepass",
   async ({ email, code }, { rejectWithValue }) => {
-    console.log("this the email : ", email , "code : ", code);
+    console.log("this the email : ", email, "code : ", code);
     try {
       const response = await axios.post("/auth/confirm-code", {
         email,
@@ -158,7 +158,24 @@ export const logoutUser = createAsyncThunk(
     }
   }
 );
-
+// Add this with your other async thunks
+export const resendConfirmationCode = createAsyncThunk(
+  "auth/resendConfirmationCode",
+  async (email, { rejectWithValue }) => {
+    try {
+      const response = await axios.post("/auth/resend-code", { email });
+      if (!response.data?.success) {
+        throw new Error(response.data?.message || "Failed to resend code");
+      }
+      return response.data;
+    } catch (error) {
+      return rejectWithValue({
+        message: error.response?.data?.message || "Failed to resend code",
+        errors: error.response?.data?.errors,
+      });
+    }
+  }
+);
 
 // 3. Initial state
 const initialState = {
@@ -210,7 +227,6 @@ const authSlice = createSlice({
         state.user = action.payload.data.user; // Assuming response contains user data
         state.successMessage = "Registration successful!";
         state.token = action.payload.data.access_token; // Assuming response contains token
-
         const expiresAt = new Date().getTime() + 24 * 60 * 60 * 1000; // 24h en millisecondes
         localStorage.setItem(
           "token",
@@ -232,6 +248,18 @@ const authSlice = createSlice({
         state.loading = false;
         state.error =
           action.payload || "Something went wrong during registration";
+      })
+      // Add this in your extraReducers builder
+      .addCase(resendConfirmationCode.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(resendConfirmationCode.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(resendConfirmationCode.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       })
       // Login User - Loading state
       .addCase(loginUser.pending, (state) => {

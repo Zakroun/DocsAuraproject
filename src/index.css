@@ -147,7 +147,7 @@ body {
 #descrption,
 #cardNumber,
 #expiryDate,
-#confirmpassword,
+#confirmPassword,
 #emailpass,
 #code,
 #newpass,
@@ -1125,15 +1125,31 @@ hr {
   cursor: pointer;
 }
 .bot {
+  height: fit-content;
+  display: flex;
   background-color: #c2fbff;
-  padding: 8px;
+  padding: 2px 10px;
   border-radius: 10px;
+  margin-bottom: 7px;
+}
+.bot p{
+  margin-top: 0px;
+}
+.user p{
+  margin-top: 2px;
 }
 .user {
+  display: flex;
+  height: fit-content;
   background-color: #008d8bc9;
-  padding: 8px;
+  padding: 2px 10px;
+  margin-bottom: 7px;
   border-radius: 10px;
   color: white;
+}
+.msgiconn{
+  vertical-align:bottom;
+  margin-right: 10px;
 }
 /* Services */
 .countainerservices {
@@ -8442,4 +8458,27 @@ pre {
   .list-table td {
     padding: 0.8rem;
   }
+}
+.resend-code {
+  margin-top: .7rem;
+  text-align: center;
+}
+
+.resend-btn {
+  padding: 7px;
+  background: transparent;
+  border: none;
+  color: black;
+  font-size: 13px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.resend-btn:hover {
+  text-decoration: none;
+}
+
+.resend-code p {
+  color: #666;
+  font-size: 0.9rem;
 }

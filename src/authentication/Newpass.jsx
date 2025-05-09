@@ -26,7 +26,7 @@ export default function NewPass() {
     } else if (!passwordRegex.test(newPass)) {
       setValid(true);
       setError(
-        "Password must start with a capital letter, have 4+ lowercase letters, include a special character (e.g., @), a number, and be 8+ characters long"
+        "Password must start with a capital letter, have 4+ lowercase letters, include a special character (e.g., @), and a number"
       );
     } else if (newPass !== confirmPass) {
       setValid(true);
@@ -34,13 +34,14 @@ export default function NewPass() {
     } else {
       setValid(false);
       setError("");
-      dispatch(updatePassword({ email, code, password: newPass }))
+      dispatch(updatePassword({ email, code, password: newPass })) // Only send password
         .unwrap()
         .then(() => {
           navigate("/pages/Login");
         })
         .catch((err) => {
           setError(err.message || "Password reset failed");
+          console.error("Error details:", err);
         });
     }
   };

@@ -2,39 +2,56 @@ import { useState, useEffect } from "react";
 import { RiCloseLargeLine } from "react-icons/ri";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { verifyRegistrationCode, setAuthToken, clearError } from "../data/authslice";
+import { 
+  verifyRegistrationCode, 
+  setAuthToken, 
+  clearError,
+  resendConfirmationCode 
+} from "../data/authslice";
 import { GiConfirmed } from "react-icons/gi";
 import { changeprofile } from "../data/DocsauraSlice";
+
 export default function CodeConfirm() {
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
+  const [countdown, setCountdown] = useState(60);
+  const [canResend, setCanResend] = useState(false);
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // Get email from location state or use empty string as fallback
+  // Get email from location state
   const email = location.state?.email || '';
-
-  // Get auth state from Redux
   const { loading, token } = useSelector((state) => state.auth);
 
-  // Clear any existing errors when component mounts
+  // Countdown timer for resend button
+  useEffect(() => {
+    const timer = countdown > 0 && setInterval(() => {
+      setCountdown(countdown - 1);
+    }, 500);
+    
+    if (countdown === 0) {
+      setCanResend(true);
+    }
+    
+    return () => clearInterval(timer);
+  }, [countdown]);
+
+  // Clear errors on mount
   useEffect(() => {
     dispatch(clearError());
   }, [dispatch]);
-
-  // Redirect if token is received
-  // useEffect(() => {
-  //   if (token) {
-  //     navigate("/");
-  //   }
-  // }, [token, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (!code.trim()) {
       setError("Please enter the verification code");
+      return;
+    }
+
+    if (code.length !== 6) {
+      setError("Code must be 6 characters");
       return;
     }
   
@@ -48,7 +65,20 @@ export default function CodeConfirm() {
       }
     } catch (err) {
       setError("An unexpected error occurred");
-      console.error("Verification error");
+      console.error("Verification error:", err);
+    }
+  };
+
+  const handleResendCode = async () => {
+    if (!canResend) return;
+    
+    try {
+      await dispatch(resendConfirmationCode(email)).unwrap();
+      setCountdown(60);
+      setCanResend(false);
+      setError(""); // Clear any previous errors
+    } catch (err) {
+      setError(err.message || "Failed to resend code");
     }
   };
 
@@ -94,9 +124,8 @@ export default function CodeConfirm() {
             id="code"
             value={code}
             onChange={(e) => setCode(e.target.value)}
-            // autoComplete="one-time-code"
-            // inputMode="numeric"
-            // pattern="[0-9]*"
+            maxLength={6}
+            autoComplete="one-time-code"
           />
         </div>
         
@@ -108,6 +137,23 @@ export default function CodeConfirm() {
         >
           {loading ? "Verifying..." : "Confirm"}
         </button>
+
+        <div className="resend-code-container">
+          {canResend ? (
+            <button 
+              type="button" 
+              className="resend-btn"
+              onClick={handleResendCode}
+              disabled={loading}
+            >
+              Resend Code
+            </button>
+          ) : (
+            <p className="resend-timer">
+              Resend code in {countdown} seconds
+            </p>
+          )}
+        </div>
       </form>
     </div>
   );

@@ -8,68 +8,135 @@ import Faq from "../static/Faq";
 import { SiChatbot } from "react-icons/si";
 import ListDocCliLAbo from "../static/ListDocCliLAbo";
 import CallToAction from "../static/CallToAction";
-import { useState,useEffect ,useRef} from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
+import { FaUserAlt } from "react-icons/fa";
+
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
-  const [message, setmessge] = useState("");
-  const [Messgaes, setmessges] = useState([
+  const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState([
     { text: "Hello! How can I assist you today?", sender: "bot" },
   ]);
-  const profile = useSelector(s=>s.Docsaura.profile)
+
+  const profile = useSelector((s) => s.Docsaura.profile);
   const chatBodyRef = useRef(null);
+
   useEffect(() => {
     if (chatBodyRef.current) {
       chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
     }
-  }, [Messgaes, isOpen]);
-  const SendMsg = () => {
-    if (message.trim() !== "") {
-      setmessges([...Messgaes, { text: message, sender: "user" }]);
-      setmessge("");
+  }, [messages, isOpen]);
+
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  const sendMessage = async () => {
+    if (message.trim() === "") return;
+
+    const newMessages = [...messages, { text: message, sender: "user" }];
+    setMessages(newMessages);
+    setMessage("");
+
+    try {
+      const response = await fetch("http://localhost:8000/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.reply) {
+        setMessages((prev) => [...prev, { text: data.reply, sender: "bot" }]);
+      } else {
+        console.error("API error:", data);
+        if (response.status === 429) {
+          setMessages((prev) => [
+            ...prev,
+            {
+              text: "You have exceeded your request quota. Please try again later.",
+              sender: "bot",
+            },
+          ]);
+          await delay(60000);
+        } else {
+          setMessages((prev) => [
+            ...prev,
+            {
+              text: "Error: could not get a response from the bot.",
+              sender: "bot",
+            },
+          ]);
+        }
+      }
+    } catch (error) {
+      console.error("Network or server error:", error);
+      setMessages((prev) => [
+        ...prev,
+        { text: "Server error. Please try again later.", sender: "bot" },
+      ]);
     }
   };
+
   return (
     <>
       <Header />
-      <Divimage2 profile={profile}/>
+      <Divimage2 profile={profile} />
       <DivService1 />
+
+      {/* Chatbot Button */}
       <button className="chatbot" onClick={() => setIsOpen(!isOpen)}>
         <SiChatbot />
       </button>
+
+      {/* Chat Window */}
       {isOpen && (
         <div className="chat-window">
           <div className="chat-header">
-            <h3>Chatbot <SiChatbot /></h3>
+            <h3>
+              Chatbot <SiChatbot />
+            </h3>
             <button onClick={() => setIsOpen(false)}>✖</button>
           </div>
           <div className="chat-body" ref={chatBodyRef}>
-            {Messgaes?.map((message, index) => {
-              return (
-                <p key={index} className={message.sender}>
-                  {message.text}
-                </p>
-              );
-            })}
+            {messages.map((msg, index) => (
+              <div key={index} className={msg.sender}>
+                <div className="message-icon">
+                  {msg.sender === "bot" ? <SiChatbot className="msgiconn"/> : <FaUserAlt className="msgiconn"/>}
+                </div>
+                <div>
+                  <p>{msg.text}</p>
+                </div>
+              </div>
+            ))}
           </div>
           <div className="chat-footer">
             <input
               type="text"
               value={message}
               placeholder="Type a message..."
-              onChange={(e) => setmessge(e.target.value)}
+              onChange={(e) => setMessage(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && sendMessage()}
             />
-            <button onClick={SendMsg}>Send</button>
+            <button onClick={sendMessage}>Send</button>
           </div>
         </div>
       )}
+
+      {/* Scroll to Top */}
       <button
         className="moveToTop"
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       >
         <GoMoveToTop />
       </button>
-      {!profile ? <CallToAction /> : ''}
+
+      {/* Conditional CTA */}
+      {!profile && <CallToAction />}
+
+      {/* Main Sections */}
       <Services />
       <ListDocCliLAbo />
       <Faq />
