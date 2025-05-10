@@ -10,7 +10,7 @@ import ListDocCliLAbo from "../static/ListDocCliLAbo";
 import CallToAction from "../static/CallToAction";
 import { useState, useEffect, useRef } from "react";
 import { FaUserAlt } from "react-icons/fa";
-
+//import { useSelector } from "react-redux";
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState("");
@@ -20,9 +20,14 @@ export default function Home() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const chatBodyRef = useRef(null);
 
+  // const userData = localStorage.getItem('user');
+  // const parsedUser = JSON.parse(userData);
+  // console.log(parsedUser)
+
   useEffect(() => {
     // Check for token on component mount
-    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    const token =
+      localStorage.getItem("token") || sessionStorage.getItem("token");
     setIsAuthenticated(!!token);
   }, []);
 
@@ -42,11 +47,12 @@ export default function Home() {
     setMessage("");
 
     try {
-      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+      const token =
+        localStorage.getItem("token") || sessionStorage.getItem("token");
       const headers = {
         "Content-Type": "application/json",
       };
-      
+
       if (token) {
         headers["Authorization"] = `Bearer ${token}`;
       }
@@ -115,7 +121,11 @@ export default function Home() {
             {messages.map((msg, index) => (
               <div key={index} className={msg.sender}>
                 <div className="message-icon">
-                  {msg.sender === "bot" ? <SiChatbot className="msgiconn"/> : <FaUserAlt className="msgiconn"/>}
+                  {msg.sender === "bot" ? (
+                    <SiChatbot className="msgiconn" />
+                  ) : (
+                    <FaUserAlt className="msgiconn" />
+                  )}
                 </div>
                 <div>
                   <p>{msg.text}</p>

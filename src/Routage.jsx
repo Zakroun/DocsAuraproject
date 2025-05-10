@@ -23,6 +23,7 @@ import ClinicReserve from "./clinicpages/ClinicReserve";
 import LaboratoryReserve from "./laboratorypages/Reservelaboratory";
 import Dashboard from "./pages/Dashboard";
 import Activate from "./authentication/Activate";
+
 export default function Routage() {
   const { d } = useParams();
   const Loc = useLocation();

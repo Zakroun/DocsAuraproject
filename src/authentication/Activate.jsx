@@ -25,7 +25,7 @@ export default function Activate(props) {
   const [valid, setValid] = useState(false);
   const [error, setError] = useState("");
   const dispatch = useDispatch();
-  const role = props.data.Role;
+  const role = props.data.role;
   const navigate = useNavigate();
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -84,7 +84,7 @@ export default function Activate(props) {
           taxId: formData.taxId,
           patente: formData.patente,
         };
-      } else if (role === "Patients") {
+      } else if (role === "Patient") {
         requestData = {
           ...requestData,
           amoCode: formData.amoCode,
@@ -304,7 +304,7 @@ export default function Activate(props) {
             <br />
           </>
         )}
-        {role === "Patients" && (
+        {role === "Patient" && (
           <>
             <div className="inputdiv">
               <input

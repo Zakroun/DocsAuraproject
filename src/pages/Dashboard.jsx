@@ -17,6 +17,7 @@ import Userslist from "../Dashboardcomponents/Users";
 import Requests from "../Dashboardcomponents/Requests";
 import Controlpanel from "../Dashboardcomponents/Controlpanel";
 import Complaints from "../Dashboardcomponents/Complaints";
+
 export default function Dashboard() {
   const navigate = useNavigate();
   const locations = useLocation();
@@ -37,7 +38,10 @@ export default function Dashboard() {
   }, [Use, dispatch, navigate]);
 
   // const Users = useSelector((s) => s.Docsaura.doctors);
-  const {user} = useSelector((state) => state.auth);
+  const userData = localStorage.getItem('user');
+  const user = JSON.parse(userData);
+  console.log(user)
+  
   console.log('curent user ' , user)
   return (
     <div className="containerDashboard">

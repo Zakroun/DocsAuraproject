@@ -171,12 +171,12 @@ export default function Homeboard(props) {
               {user.Verified ? <MdVerified className="verif" /> : ""}{" "}
             </span>
           </h1>
-          {user.role === "Patients" ? (
+          {user.role === "Patient" ? (
             <p>Have a nice day!</p>
           ) : (
             <p>Have a nice day at the hospital!</p>
           )}
-          {user.role === "Patients" || user.role === "admin" ? (
+          {user.role === "Patient" || user.role === "admin" ? (
             ""
           ) : (
             <div className="stars">{generateStars(user.rating)}</div>
@@ -186,7 +186,7 @@ export default function Homeboard(props) {
         <div className="homeboard__header__image">
           <img
             src={
-              user.role === "patient"
+              user.role === "Patient"
                 ? `../Images/examination.png`
                 : d.role === "doctor"
                 ? `../images/doctor.png`

@@ -14,19 +14,23 @@ import { Menu } from "../data/DocsauraSlice";
 import { FaUsers } from "react-icons/fa6";
 import { FaCodePullRequest } from "react-icons/fa6";
 import { MdOutlinePendingActions } from "react-icons/md";
+
 export default function Part1Dashboard(props) {
   const user = props.Use;
   const dispatch = useDispatch();
   const curmenu = useSelector((s) => s.Docsaura.menu);
   const [menuOpen, setMenuOpen] = useState(curmenu);
+  
   const toggleMenu = () => {
     dispatch(Menu());
   };
+  
   useEffect(() => {
     setMenuOpen(curmenu);
   }, [curmenu]);
 
-  const isAdmin = user.role === "admin"; // <-- Check if admin
+  const isAdmin = user?.role === "admin";
+  const isVerified = user?.verified === 1; // Changed to check for 1 instead of boolean
 
   return (
     <>
@@ -37,7 +41,7 @@ export default function Part1Dashboard(props) {
 
             {isAdmin ? (
               <>
-              <IoMdHome
+                <IoMdHome
                   className="icon enabled"
                   onClick={() => dispatch(changeboard("home"))}
                 />
@@ -61,28 +65,20 @@ export default function Part1Dashboard(props) {
                   onClick={() => dispatch(changeboard("home"))}
                 />
                 <FaCalendarAlt
-                  className={`icon ${user.Verified === false ? "disabled" : "enabled"}`}
-                  onClick={
-                    user.Verified === false ? null : () => dispatch(changeboard("calander"))
-                  }
+                  className={`icon ${isVerified ? "enabled" : "disabled"}`}
+                  onClick={isVerified ? () => dispatch(changeboard("calander")) : null}
                 />
                 <BiSolidMessageSquareDetail
-                  className={`icon ${user.Verified === false ? "disabled" : "enabled"}`}
-                  onClick={
-                    user.Verified === false ? null : () => dispatch(changeboard("messages"))
-                  }
+                  className={`icon ${isVerified ? "enabled" : "disabled"}`}
+                  onClick={isVerified ? () => dispatch(changeboard("messages")) : null}
                 />
                 <IoMdSettings
-                  className={`icon ${user.Verified === false ? "disabled" : "enabled"}`}
-                  onClick={
-                    user.Verified === false ? null : () => dispatch(changeboard("settings"))
-                  }
+                  className={`icon ${isVerified ? "enabled" : "disabled"}`}
+                  onClick={isVerified ? () => dispatch(changeboard("settings")) : null}
                 />
                 <GoFileSubmodule
-                  className={`icon ${user.Verified === false ? "disabled" : "enabled"}`}
-                  onClick={
-                    user.Verified === false ? null : () => dispatch(changeboard("files"))
-                  }
+                  className={`icon ${isVerified ? "enabled" : "disabled"}`}
+                  onClick={isVerified ? () => dispatch(changeboard("files")) : null}
                 />
               </>
             )}
@@ -112,9 +108,9 @@ export default function Part1Dashboard(props) {
           {isAdmin ? (
             <>
               <IoMdHome
-                  className="icon enabled"
-                  onClick={() => dispatch(changeboard("home"))}
-                />
+                className="icon enabled"
+                onClick={() => dispatch(changeboard("home"))}
+              />
               <FaUsers
                 className="icon enabled"
                 onClick={() => dispatch(changeboard("users"))}
@@ -135,28 +131,20 @@ export default function Part1Dashboard(props) {
                 onClick={() => dispatch(changeboard("home"))}
               />
               <FaCalendarAlt
-                className={`icon ${user.Verified === false ? "disabled" : "enabled"}`}
-                onClick={
-                  user.Verified === false ? null : () => dispatch(changeboard("calander"))
-                }
+                className={`icon ${isVerified ? "enabled" : "disabled"}`}
+                onClick={isVerified ? () => dispatch(changeboard("calander")) : null}
               />
               <BiSolidMessageSquareDetail
-                className={`icon ${user.Verified === false ? "disabled" : "enabled"}`}
-                onClick={
-                  user.Verified === false ? null : () => dispatch(changeboard("messages"))
-                }
+                className={`icon ${isVerified ? "enabled" : "disabled"}`}
+                onClick={isVerified ? () => dispatch(changeboard("messages")) : null}
               />
               <IoMdSettings
-                className={`icon ${user.Verified === false ? "disabled" : "enabled"}`}
-                onClick={
-                  user.Verified === false ? null : () => dispatch(changeboard("settings"))
-                }
+                className={`icon ${isVerified ? "enabled" : "disabled"}`}
+                onClick={isVerified ? () => dispatch(changeboard("settings")) : null}
               />
               <GoFileSubmodule
-                className={`icon ${user.Verified === false ? "disabled" : "enabled"}`}
-                onClick={
-                  user.Verified === false ? null : () => dispatch(changeboard("files"))
-                }
+                className={`icon ${isVerified ? "enabled" : "disabled"}`}
+                onClick={isVerified ? () => dispatch(changeboard("files")) : null}
               />
             </>
           )}

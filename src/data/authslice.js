@@ -177,23 +177,23 @@ export const resendConfirmationCode = createAsyncThunk(
   }
 );
 // Get user by ID from localStorage
-export const fetchUserById = createAsyncThunk(
-  "auth/fetchUserById",
-  async (userId, { rejectWithValue }) => {
-    try {
-      const response = await axios.get(`/auth/user/${userId}`);
+// export const fetchUserById = createAsyncThunk(
+//   "auth/fetchUserById",
+//   async (userId, { rejectWithValue }) => {
+//     try {
+//       const response = await axios.get(`/auth/user/${userId}`);
       
-      // Check if data exists in the expected structure
-      if (!response.data.success || !response.data.data?.user) {
-        throw new Error('Invalid response structure');
-      }
+//       // Check if data exists in the expected structure
+//       if (!response.data.success || !response.data.data?.user) {
+//         throw new Error('Invalid response structure');
+//       }
       
-      return response.data.data.user;  // Return just the user object
-    } catch (error) {
-      return rejectWithValue(error.response?.data?.message || error.message);
-    }
-  }
-);
+//       return response.data.data.user;  // Return just the user object
+//     } catch (error) {
+//       return rejectWithValue(error.response?.data?.message || error.message);
+//     }
+//   }
+// );
 // 3. Initial state
 const initialState = {
   user: null, // Will hold the user info when logged in or registered
@@ -346,20 +346,20 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      .addCase(fetchUserById.pending, (state) => {
-      state.loading = true;
-      state.error = null;
-    })
-    .addCase(fetchUserById.fulfilled, (state, action) => {
-      state.loading = false;
-      state.user = action.payload;  // Directly store the user object
-      state.isAuthenticated = true;
-    })
-    .addCase(fetchUserById.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.payload;
-      state.user = null;
-    });
+    //   .addCase(fetchUserById.pending, (state) => {
+    //   state.loading = true;
+    //   state.error = null;
+    // })
+    // .addCase(fetchUserById.fulfilled, (state, action) => {
+    //   state.loading = false;
+    //   state.user = action.payload;  // Directly store the user object
+    //   state.isAuthenticated = true;
+    // })
+    // .addCase(fetchUserById.rejected, (state, action) => {
+    //   state.loading = false;
+    //   state.error = action.payload;
+    //   state.user = null;
+    // });
   },
 });
 
