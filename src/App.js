@@ -3,6 +3,7 @@ import Loader from "./static/Loader";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Routage from "./Routage";
+import UserProfile from "./userpages/user";
 function App() {
   const [displayLoder, setdis] = useState(true);
   const [disppages, setdisppages] = useState(false);
@@ -19,8 +20,16 @@ function App() {
       {disppages && (
         <>
           <Routes>
-            <Route path="/" element={<><Home></Home></>}></Route>
+            <Route
+              path="/"
+              element={
+                <>
+                  <Home></Home>
+                </>
+              }
+            ></Route>
             <Route path="/pages/:d" element={<Routage></Routage>}></Route>
+            <Route path="/user" element={<UserProfile />}></Route>
           </Routes>
         </>
       )}

@@ -206,7 +206,7 @@ export default function SettingsBoard({ Use }) {
               <br />
               <div className="profile-picture">
                 <img 
-                  src={`/images${Use.Role === 'doctor'?'/doctors/':Use.Role === 'clinic'?'/clinics/':Use.Role === 'laboratory'?'/laboratory/':''}/${profileImage}`} 
+                  src={`/images${Use.role === 'doctor'?'/doctors/':Use.role === 'clinic'?'/clinics/':Use.role === 'laboratory'?'/laboratory/':''}/${profileImage}`} 
                   alt="Profile" 
                   onClick={toggleFullImage}
                   style={{ cursor: 'pointer' }}
@@ -530,7 +530,7 @@ export default function SettingsBoard({ Use }) {
         <div className="full-image-modal" onClick={toggleFullImage}>
           <div className="full-image-content" onClick={(e) => e.stopPropagation()}>
             <img 
-              src={`/images${Use.Role === 'doctor'?'/doctors/':Use.Role === 'clinic'?'/clinics/':Use.Role === 'laboratory'?'/laboratory/':''}/${profileImage}`} 
+              src={`/images${Use.role === 'doctor'?'/doctors/':Use.role === 'clinic'?'/clinics/':Use.role === 'laboratory'?'/laboratory/':''}/${profileImage}`} 
               alt="Profile Full Size" 
             />
             <button 

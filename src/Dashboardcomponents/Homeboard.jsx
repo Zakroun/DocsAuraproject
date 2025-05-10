@@ -28,7 +28,7 @@ import { useSelector } from "react-redux";
 export default function Homeboard(props) {
   const d = props.Use;
   const [user, setUser] = useState(d);
-  const role = d.Role;
+  const role = d.role;
   const doctors = useSelector((s) => s.Docsaura.doctors);
   const clinics = useSelector((s) => s.Docsaura.clinics);
   const laboratories = useSelector((s) => s.Docsaura.laboratories);
@@ -171,12 +171,12 @@ export default function Homeboard(props) {
               {user.Verified ? <MdVerified className="verif" /> : ""}{" "}
             </span>
           </h1>
-          {user.Role === "Patients" ? (
+          {user.role === "Patients" ? (
             <p>Have a nice day!</p>
           ) : (
             <p>Have a nice day at the hospital!</p>
           )}
-          {user.Role === "Patients" || user.Role === "admin" ? (
+          {user.role === "Patients" || user.role === "admin" ? (
             ""
           ) : (
             <div className="stars">{generateStars(user.rating)}</div>
@@ -186,24 +186,24 @@ export default function Homeboard(props) {
         <div className="homeboard__header__image">
           <img
             src={
-              user.Role === "patient"
+              user.role === "patient"
                 ? `../Images/examination.png`
-                : d.Role === "doctor"
+                : d.role === "doctor"
                 ? `../images/doctor.png`
-                : d.Role === "clinic"
+                : d.role === "clinic"
                 ? `../images/hospital.png`
-                : d.Role === "admin"
+                : d.role === "admin"
                 ? `../images/admin.png`
                 : `../images/research.png`
             }
-            alt={`${d.Role} icon`}
+            alt={`${d.role} icon`}
           />
         </div>
       </div>
 
-      {(user.Role === "doctor" ||
-        user.Role === "clinic" ||
-        user.Role === "laboratory") &&
+      {(user.role === "doctor" ||
+        user.role === "clinic" ||
+        user.role === "laboratory") &&
       user.Verified === true ? (
         <>
           <div className="weeklyReports">
@@ -441,7 +441,7 @@ export default function Homeboard(props) {
             </table>
           </div>{" "}
         </>
-      ) : user.Role === "patient" && user.Verified === true ? (
+      ) : user.role === "patient" && user.Verified === true ? (
         <>
           <div className="weeklyReports">
             <div className="weeklyheader">
@@ -619,7 +619,7 @@ export default function Homeboard(props) {
             </table>
           </div>
         </>
-      ) : user.Role === "admin" ? (
+      ) : user.role === "admin" ? (
         <div>
           <div className="mt-6" id="divchart">
             <div className="mb-4" id="divselect">

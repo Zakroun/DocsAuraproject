@@ -176,12 +176,29 @@ export const resendConfirmationCode = createAsyncThunk(
     }
   }
 );
-
+// Get user by ID from localStorage
+export const fetchUserById = createAsyncThunk(
+  "auth/fetchUserById",
+  async (userId, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`/auth/user/${userId}`);
+      
+      // Check if data exists in the expected structure
+      if (!response.data.success || !response.data.data?.user) {
+        throw new Error('Invalid response structure');
+      }
+      
+      return response.data.data.user;  // Return just the user object
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
 // 3. Initial state
 const initialState = {
   user: null, // Will hold the user info when logged in or registered
   token: null, // To store the authentication token
-  Login : false,
+  Login: false,
   loading: false, // To indicate loading state
   error: null, // To hold error message when login/registration fails
   successMessage: null, // To hold success message after registration
@@ -271,6 +288,7 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload.user; // Assuming response contains user data
+
         state.token = action.payload.token; // Assuming response contains token
         state.Login = true;
       })
@@ -327,7 +345,21 @@ const authSlice = createSlice({
       .addCase(updatePassword.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      });
+      })
+      .addCase(fetchUserById.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(fetchUserById.fulfilled, (state, action) => {
+      state.loading = false;
+      state.user = action.payload;  // Directly store the user object
+      state.isAuthenticated = true;
+    })
+    .addCase(fetchUserById.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+      state.user = null;
+    });
   },
 });
 

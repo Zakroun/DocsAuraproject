@@ -166,7 +166,7 @@ export default function RequestsDashboard() {
                 <th className="name-col">Name</th>
                 <th className="date-col">Date</th>
                 <th className="email-col">Email</th>
-                <th className="role-col">Role</th>
+                <th className="role-col">role</th>
                 <th className="status-col">Status</th>
                 <th className="actions-col">Actions</th>
               </tr>

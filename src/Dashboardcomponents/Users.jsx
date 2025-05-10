@@ -21,7 +21,7 @@ export default function UsersList() {
 
   const filteredUsers = useMemo(() => {
     return allUsers.filter((user) => {
-      const type = user.Role === 'doctor' ? 'Doctor' : user.Role === 'clinic' ? 'Clinic' : 'Laboratory';
+      const type = user.role === 'doctor' ? 'Doctor' : user.role === 'clinic' ? 'Clinic' : 'Laboratory';
       const userYear = new Date(user.create_at).getFullYear().toString();
 
       return (
@@ -34,7 +34,7 @@ export default function UsersList() {
   }, [filters, allUsers]);
 
   const renderRow = (user) => {
-    const type = user.Role === 'doctor' ? 'Doctor' : user.Role === 'clinic' ? 'Clinic' : 'Laboratory';
+    const type = user.role === 'doctor' ? 'Doctor' : user.role === 'clinic' ? 'Clinic' : 'Laboratory';
     return (
       <tr key={`${type}-${user.id}`}>
         <td className="name-cell">{user.fullName}</td>

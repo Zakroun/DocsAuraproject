@@ -137,7 +137,7 @@ export default function AppointmentForm({ user, Use, onSubmitFeedback }) {
         changestatus({
           doctorId: Use.id,
           appointmentId: User.id,
-          role: Use.Role,
+          role: Use.role,
           status: complete.toLowerCase(),
         })
       );
@@ -270,9 +270,9 @@ export default function AppointmentForm({ user, Use, onSubmitFeedback }) {
               </span>
               <br />
               {User.status === "pending" &&
-                (Use.Role === "laboratory" ||
-                  Use.Role === "doctor" ||
-                  Use.Role === "clinic") && (
+                (Use.role === "laboratory" ||
+                  Use.role === "doctor" ||
+                  Use.role === "clinic") && (
                   <div className="appointment-actions">
                     <button
                       className="complet"
@@ -294,7 +294,7 @@ export default function AppointmentForm({ user, Use, onSubmitFeedback }) {
                     )}
                   </div>
                 )}
-              {User.status === "pending" && Use.Role === "patient" && (
+              {User.status === "pending" && Use.role === "patient" && (
                 
                 <button
                   className="cancel"
@@ -303,7 +303,7 @@ export default function AppointmentForm({ user, Use, onSubmitFeedback }) {
                   Cancel
                 </button>
               )}
-              {User.status === "completed" && Use.Role === "patient" && (
+              {User.status === "completed" && Use.role === "patient" && (
                 <button className="confirm" onClick={handleConfirmAppointment}>
                   Confirmer
                 </button>
@@ -365,7 +365,7 @@ export default function AppointmentForm({ user, Use, onSubmitFeedback }) {
         {complete === "completed" ? (
           <div className="completform">
             <h1>Appointment Completed Form</h1>
-            {Use.Role === "doctor" || Use.Role === "clinic" ? (
+            {Use.role === "doctor" || Use.role === "clinic" ? (
               <div>
                 {/* <label>Diagnosis : </label> */}
                 <textarea
@@ -402,7 +402,7 @@ export default function AppointmentForm({ user, Use, onSubmitFeedback }) {
                   </>
                 )}
               </div>
-            ) : Use.Role === "laboratory" ? (
+            ) : Use.role === "laboratory" ? (
               <div>
                 <textarea
                   name="resultsDescription"
@@ -434,7 +434,7 @@ export default function AppointmentForm({ user, Use, onSubmitFeedback }) {
                   </button>
                 )}
               </div>
-            ) : Use.Role === "patient" ? (
+            ) : Use.role === "patient" ? (
               <div>
                 <h4>Confirm Appointment & Leave Feedback</h4>
                 <button onClick={confirmStatus} className="Confirm">
@@ -506,7 +506,7 @@ export default function AppointmentForm({ user, Use, onSubmitFeedback }) {
               </div>
             )}
           </div>
-        ) : confirmed && Use.Role === "patient" ? (
+        ) : confirmed && Use.role === "patient" ? (
           <div className="complet_Review">
             <h1>Appointment Review</h1>
             <label>Doctor's Rating</label>

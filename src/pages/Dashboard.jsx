@@ -20,7 +20,7 @@ import Complaints from "../Dashboardcomponents/Complaints";
 export default function Dashboard() {
   const navigate = useNavigate();
   const locations = useLocation();
-  const user = locations.state?.user || null;
+  const Use = locations.state?.user || null;
   const curboard = useSelector((state) => state.Docsaura.currentboard);
   const dispatch = useDispatch();
   const conversations = useSelector((state) => state.Docsaura.conversations);
@@ -30,27 +30,28 @@ export default function Dashboard() {
   }, [conversations]);
 
   useEffect(() => {
-    if (user) {
+    if (Use) {
       dispatch(changeboard("appointmnt"));
       navigate(".", { replace: true, state: {} });
     }
-  }, [user, dispatch, navigate]);
+  }, [Use, dispatch, navigate]);
 
-  const Users = useSelector((s) => s.Docsaura.doctors);
-  const Use = Users.find((a) => a.id === 1);
+  // const Users = useSelector((s) => s.Docsaura.doctors);
+  const {user} = useSelector((state) => state.auth);
+  console.log('curent user ' , user)
   return (
     <div className="containerDashboard">
-      <Part1Dashboard Use={Use} />
+      <Part1Dashboard Use={user} />
       <div className="part2dashboard">
-        <HeaderBoard Use={Use} />
+        <HeaderBoard Use={user} />
         {curboard === "home" ? (
-          <Homeboard Use={Use} />
+          <Homeboard Use={user} />
         ) : curboard === "calander" ? (
-          <Calendar appointments={Use.appointments} role={Use.Role} id={Use.id}/>
+          <Calendar appointments={user.appointments} role={user.Role} id={user.id}/>
         ) : curboard === "appointmnt" ? (
-          <Appointmntform user={user} Use={Use} />
+          <Appointmntform user={Use} Use={user} />
         ) : curboard === "settings" ? (
-          <SettingsBoard Use={Use} />
+          <SettingsBoard Use={user} />
         ) : curboard === "messages" ? (
           <Messages conversations={Listconversations} />
         ) : curboard === "Logout" ? (
