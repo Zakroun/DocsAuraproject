@@ -6,17 +6,27 @@ import {
   FaPhone,
   FaBriefcaseMedical,
 } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 export default function DoctorProfile({ id }) {
+  const navigate = useNavigate();
   const doctorsList = useSelector((state) => state.Docsaura.doctors);
   const doctor = doctorsList?.find((doc) => doc.id === id);
   const [activeTab, setActiveTab] = useState("about");
-
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
+
+  const handleAppointmentClick = (e) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      e.preventDefault();
+      navigate('/pages/Login', { 
+        state: { message: "Veuillez vous connecter pour prendre rendez-vous" } 
+      });
+    }
+  };
 
   const renderRatingStars = (rating) => {
     const stars = [];
@@ -65,11 +75,13 @@ export default function DoctorProfile({ id }) {
           <div className="rating-container">
             {renderRatingStars(doctor.rating)}
             <span className="rating-text">{doctor.rating.toFixed(1)} (125 reviews)</span>
-          </div><br />
+          </div>
+          <br />
           <Link
-            to={`/pages/reservedoc`}
+            to={localStorage.getItem('token') ? `/pages/reservedoc` : '#'}
             state={{ id: doctor.id, role: doctor.Role }}
             className="appointment-button"
+            onClick={handleAppointmentClick}
           >
             Book Appointment
           </Link>

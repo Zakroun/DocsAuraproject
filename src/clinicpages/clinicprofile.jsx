@@ -10,11 +10,24 @@ import {
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 export default function ClinicProfile({ id }) {
+  const navigate = useNavigate();
   const clinicsList = useSelector((state) => state.Docsaura.clinics);
   const clinic = clinicsList?.find((clinic) => clinic.id === id);
   const [activeTab, setActiveTab] = useState("about");
+
+  const handleBookAppointment = (e) => {
+    if (!localStorage.getItem('token')) {
+      e.preventDefault();
+      navigate('/pages/Login', {
+        state: {
+          from: `/clinic/${id}`,
+          message: "Please login to book an appointment"
+        }
+      });
+    }
+  };
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -71,12 +84,13 @@ export default function ClinicProfile({ id }) {
           </div>
 
           <Link 
-            to={`/pages/reserveclinic`} 
-            state={{ id: clinic.id, role: clinic.Role }}
-            className="appointment-button"
-          >
-            Book Appointment
-          </Link>
+          to={localStorage.getItem('token') ? `/pages/reserveclinic` : '#'}
+          state={{ id: clinic.id, role: clinic.Role }}
+          className="appointment-button"
+          onClick={handleBookAppointment}
+        >
+          Book Appointment
+        </Link>
         </div>
       </div>
 

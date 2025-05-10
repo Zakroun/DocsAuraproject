@@ -9,11 +9,24 @@ import {
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 export default function LaboratoryProfile({ id }) {
+  const navigate = useNavigate();
   const laboratoriesList = useSelector((state) => state.Docsaura.laboratories);
   const laboratory = laboratoriesList?.find((lab) => lab.id === id);
   const [activeTab, setActiveTab] = useState("about");
+
+  const handleBookTest = (e) => {
+    if (!localStorage.getItem('token')) {
+      e.preventDefault();
+      navigate('/pages/Login', {
+        state: {
+          from: `/laboratory/${id}`,
+          message: "Please login to book a test"
+        }
+      });
+    }
+  };
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -77,9 +90,10 @@ export default function LaboratoryProfile({ id }) {
           </div>
 
           <Link
-            to={`/pages/reservelabo`}
+            to={localStorage.getItem('token') ? `/pages/reservelabo` : '#'}
             state={{ id: laboratory.id, role: laboratory.Role }}
             className="appointment-button"
+            onClick={handleBookTest}
           >
             Book Test
           </Link>
