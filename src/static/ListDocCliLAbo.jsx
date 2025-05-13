@@ -39,7 +39,7 @@ export default function ListDocCliLAbo() {
               <Link to={`/pages/doctor`} state={{ id: d.id }} id="Linktoone">
                 <img
                   id="imgDocLabcli"
-                  src={`/images/doctors/${d.image}`}
+                  src={d.image ? `http://localhost:8000/storage/${d.image}` : '/images/doctors/doctor3.jpeg'}
                   alt={d.fullName}
                 />
                 <div className="informations">
@@ -68,7 +68,7 @@ export default function ListDocCliLAbo() {
               <Link to={`/pages/clinic`} state={{ id: c.id }} id="Linktoone">
                 <img
                   id="imgDocLabcli"
-                  src={`/images/clinics/${c.image}`}
+                  src={c.image ? `http://localhost:8000/storage/${c.image}` : '/images/clinics/clinic2.jpeg'}
                   alt={c.fullName}
                 />
                 <div className="informations">
@@ -102,7 +102,7 @@ export default function ListDocCliLAbo() {
               >
                 <img
                   id="imgDocLabcli"
-                  src={`/images/laboratory/${l.image}`}
+                  src={l.image ? `http://localhost:8000/storage/${l.image}` : '/images/laboratory/labo3.jpeg'}
                   alt={l.fullName}
                 />
                 <div className="informations">

@@ -181,12 +181,12 @@ export const resendConfirmationCode = createAsyncThunk(
 //   async (userId, { rejectWithValue }) => {
 //     try {
 //       const response = await axios.get(`/auth/user/${userId}`);
-      
+
 //       // Check if data exists in the expected structure
 //       if (!response.data.success || !response.data.data?.user) {
 //         throw new Error('Invalid response structure');
 //       }
-      
+
 //       return response.data.data.user;  // Return just the user object
 //     } catch (error) {
 //       return rejectWithValue(error.response?.data?.message || error.message);
@@ -245,19 +245,22 @@ const authSlice = createSlice({
         state.successMessage = "Registration successful!";
         state.Login = true;
         state.token = action.payload.data.access_token; // Assuming response contains token
-        const expiresAt = new Date().getTime() + 24 * 60 * 60 * 1000; // 24h en millisecondes
+        const expiresAt = new Date().getTime() + 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+
+        // Store token data
         localStorage.setItem(
           "token",
           JSON.stringify({
-            value: action.payload.data.access_token,
+            token: action.payload.data.access_token, // Store token directly
             expiresAt,
           })
         );
 
+        // Store user data
         localStorage.setItem(
           "user",
           JSON.stringify({
-            value: action.payload.data.user,
+            ...action.payload.data.user, // Spread user object properties
             expiresAt,
           })
         );
@@ -344,7 +347,7 @@ const authSlice = createSlice({
       .addCase(updatePassword.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      })
+      });
     //   .addCase(fetchUserById.pending, (state) => {
     //   state.loading = true;
     //   state.error = null;

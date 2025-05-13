@@ -28,7 +28,7 @@ export default function ListDoctors() {
         ? doctor.specialty.toLowerCase().includes(specialty.toLowerCase())
         : true;
       const matchesCity = city
-        ? doctor.addressLoc.toLowerCase().includes(city.toLowerCase())
+        ? doctor.city.toLowerCase().includes(city.toLowerCase())
         : true;
 
       return matchesName && matchesSpecialty && matchesCity;
@@ -109,7 +109,7 @@ export default function ListDoctors() {
               <Link to={`/pages/doctor`} state={{ id: d.id }} id="Linktoone">
                 <img
                   id="imgDocLabcli"
-                  src={`/images/doctors/${d.image}`}
+                  src={d.image ? `http://localhost:8000/storage/${d.image}` : '/images/doctors/doctor3.jpeg'}
                   alt={d.fullName}
                 />
                 <div className="informations">

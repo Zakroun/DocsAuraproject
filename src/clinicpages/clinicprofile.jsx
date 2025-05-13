@@ -62,12 +62,12 @@ export default function ClinicProfile({ id }) {
       <div className="profile-header">
         <div className="profile-image-container">
           <img
-            src={`/images/clinics/${clinic.image}`}
+            src={clinic.image ? `http://localhost:8000/storage/${clinic.image}` : '/images/clinics/clinic2.jpeg'}
             alt={`${clinic.fullName}`}
             className="profile-image"
           />
           <div className="rating-badge">
-            {clinic.rating.toFixed(1)}
+            {/* {clinic.rating.toFixed(1)} */}
             <MdStar className="rating-icon" />
           </div>
         </div>
@@ -80,7 +80,9 @@ export default function ClinicProfile({ id }) {
           
           <div className="rating-container">
             {renderRatingStars(clinic.rating)}
-            <span className="rating-text">{clinic.rating.toFixed(1)} ({clinic.comments.length} reviews)</span>
+            <span className="rating-text">
+               {/* ({clinic.comments.length}  */}
+               reviews</span>
           </div>
 
           <Link 
@@ -106,7 +108,8 @@ export default function ClinicProfile({ id }) {
             className={`tab-button ${activeTab === "services" ? "active" : ""}`}
             onClick={() => setActiveTab("services")}
           >
-            Services ({clinic.services.length})
+            Services 
+            {/* ({clinic.services.length}) */}
           </button>
           <button 
             className={`tab-button ${activeTab === "doctors" ? "active" : ""}`}
@@ -118,7 +121,8 @@ export default function ClinicProfile({ id }) {
             className={`tab-button ${activeTab === "reviews" ? "active" : ""}`}
             onClick={() => setActiveTab("reviews")}
           >
-            Reviews ({clinic.comments.length})
+            Reviews 
+            {/* ({clinic.comments.length}) */}
           </button>
           <button 
             className={`tab-button ${activeTab === "location" ? "active" : ""}`}
@@ -212,7 +216,7 @@ export default function ClinicProfile({ id }) {
 
           {activeTab === "reviews" && (
             <div className="reviews-section">
-              {clinic.comments.length > 0 ? (
+              {/* {clinic.comments.length > 0 ? (
                 clinic.comments.map((review) => (
                   <div key={review.id} className="review-card">
                     <div className="review-header">
@@ -227,7 +231,7 @@ export default function ClinicProfile({ id }) {
                 ))
               ) : (
                 <p className="no-reviews">No reviews yet. Be the first to review!</p>
-              )}
+              )} */}
             </div>
           )}
 

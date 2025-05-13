@@ -22,7 +22,7 @@ export default function ListLabo() {
         ? l.fullName.toLowerCase().includes(name.toLowerCase())
         : true;
       const matchesCity = city
-        ? l.address.toLowerCase().includes(city.toLowerCase())
+        ? l.city.toLowerCase().includes(city.toLowerCase())
         : true;
       return matchesName && matchesCity;
     });
@@ -93,7 +93,7 @@ export default function ListLabo() {
               >
                 <img
                   id="imgDocLabcli"
-                  src={`/images/laboratory/${l.image}`}
+                  src={l.image ? `http://localhost:8000/storage/${l.image}` : '/images/laboratory/labo3.jpeg'}
                   alt={l.name}
                 />
                 <div className="informations">
@@ -107,7 +107,7 @@ export default function ListLabo() {
             </div>
           ))
         ) : (
-          <p style={{ fontSize: "20px" }}>This doctor not found</p>
+          <p style={{ fontSize: "20px" }}>This laboratory not found</p>
         )}
       </div>
     </div>

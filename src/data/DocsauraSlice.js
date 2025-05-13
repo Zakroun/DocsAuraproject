@@ -1,8 +1,8 @@
 import {
-  visitors,
-  doctors,
-  clinics,
-  laboratories,
+  // visitors,
+  // doctors,
+  // clinics,
+  // laboratories,
   specializedDoctors,
   cities,
   userDataYearly,
@@ -11,17 +11,74 @@ import {
 import filesData from "../data/data";
 import { createSlice } from "@reduxjs/toolkit";
 import { conversations } from "./data";
-import { adminUsers } from "./data";
+// import { adminUsers } from "./data";
 import { complaints } from "./data";
+import axios from 'axios';
+import { createAsyncThunk } from "@reduxjs/toolkit";
+// Async thunks for fetching users
+// Add this at the top of your autslice.js file
+const API_BASE_URL = 'http://localhost:8000/api/v1';
+export const fetchVisitors = createAsyncThunk(
+  'users/fetchVisitors',
+  async () => {
+    const response = await axios.get(`${API_BASE_URL}/users/patient`);
+    return response.data;
+  }
+);
+
+export const fetchDoctors = createAsyncThunk(
+  'users/fetchDoctors',
+  async () => {
+    const response = await axios.get(`${API_BASE_URL}/users/doctor`);
+    return response.data;
+  }
+);
+
+export const fetchClinics = createAsyncThunk(
+  'users/fetchClinics',
+  async () => {
+    const response = await axios.get(`${API_BASE_URL}/users/clinic`);
+    return response.data;
+  }
+);
+
+export const fetchLaboratories = createAsyncThunk(
+  'users/fetchLaboratories',
+  async () => {
+    const response = await axios.get(`${API_BASE_URL}/users/laboratory`);
+    return response.data;
+  }
+);
+
+export const fetchAdminUsers = createAsyncThunk(
+  'users/fetchAdminUsers',
+  async () => {
+    const response = await axios.get(`${API_BASE_URL}/admin-users`);
+    return response.data;
+  }
+);
+
+export const fetchAllUsers = createAsyncThunk(
+  'users/fetchAll',
+  async (_, { dispatch }) => {
+    await dispatch(fetchVisitors());
+    await dispatch(fetchDoctors());
+    await dispatch(fetchClinics());
+    await dispatch(fetchLaboratories());
+    await dispatch(fetchAdminUsers());
+    return true;
+  }
+);
+
 export const DocsauraSlice = createSlice({
   name: "DocsAura",
   initialState: {
     // Users
-    visitors: visitors,
-    doctors: doctors,
-    clinics: clinics,
-    laboratories: laboratories,
-    adminUsers: adminUsers,
+    visitors: [],
+    doctors: [],
+    clinics: [],
+    laboratories: [],
+    adminUsers: [],
     // states
     specializedDoctors: specializedDoctors,
     profile: false,
@@ -271,16 +328,83 @@ export const DocsauraSlice = createSlice({
       );
       state.activity.push(`Deleted ${action.payload.length} files`);
     },
-  },
+  },extraReducers: (builder) => {
+    builder
+      // Visitors
+      .addCase(fetchVisitors.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchVisitors.fulfilled, (state, action) => {
+        state.visitors = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchVisitors.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.loading = false;
+      })
+      
+      // Doctors
+      .addCase(fetchDoctors.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchDoctors.fulfilled, (state, action) => {
+        state.doctors = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchDoctors.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.loading = false;
+      })
+      
+      // Clinics
+      .addCase(fetchClinics.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchClinics.fulfilled, (state, action) => {
+        state.clinics = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchClinics.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.loading = false;
+      })
+      
+      // Laboratories
+      .addCase(fetchLaboratories.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchLaboratories.fulfilled, (state, action) => {
+        state.laboratories = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchLaboratories.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.loading = false;
+      })
+      
+      // Admin Users
+      .addCase(fetchAdminUsers.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchAdminUsers.fulfilled, (state, action) => {
+        state.adminUsers = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchAdminUsers.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.loading = false;
+      });
+  }
 });
 
+// Export all your actions
 export const {
-  changecurrentpage,
   changeboard,
   changestatus,
   Sent,
   deletemessage,
   Menu,
+  changecurrentpage,
   changeprofile,
   Addrequest,
   acceptRequest,
@@ -290,3 +414,6 @@ export const {
   addFile,
   deleteFiles,
 } = DocsauraSlice.actions;
+
+// Export the reducer
+export default DocsauraSlice;

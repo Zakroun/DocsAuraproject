@@ -10,8 +10,14 @@ import ListDocCliLAbo from "../static/ListDocCliLAbo";
 import CallToAction from "../static/CallToAction";
 import { useState, useEffect, useRef } from "react";
 import { FaUserAlt } from "react-icons/fa";
+import { useSelector } from "react-redux";
 //import { useSelector } from "react-redux";
 export default function Home() {
+  const doctors = useSelector(state => state.Docsaura.doctors);
+  const clinics = useSelector(state => state.Docsaura.clinics);
+  
+  console.log('Doctors:', doctors);
+  console.log('Clinics:', clinics);
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([

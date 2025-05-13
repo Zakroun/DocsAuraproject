@@ -63,12 +63,12 @@ export default function LaboratoryProfile({ id }) {
       <div className="profile-header">
         <div className="profile-image-container">
           <img
-            src={`/images/laboratory/${laboratory.image}`}
+            src={laboratory.image ? `http://localhost:8000/storage/${laboratory.image}` : '/images/laboratory/labo3.jpeg'}
             alt={`${laboratory.fullName}`}
             className="profile-image"
           />
           <div className="rating-badge">
-            {laboratory.rating.toFixed(1)}
+            {/* {laboratory.rating.toFixed(1)} */}
             <MdStar className="rating-icon" />
           </div>
         </div>
@@ -84,8 +84,9 @@ export default function LaboratoryProfile({ id }) {
           <div className="rating-container">
             {renderRatingStars(laboratory.rating)}
             <span className="rating-text">
-              {laboratory.rating.toFixed(1)} ({laboratory.comments.length}{" "}
-              reviews)
+              {/* {laboratory.rating.toFixed(1)} */}
+               {/* ({laboratory.comments.length}{" "} */}
+              reviews
             </span>
           </div>
 
@@ -112,13 +113,13 @@ export default function LaboratoryProfile({ id }) {
             className={`tab-button ${activeTab === "services" ? "active" : ""}`}
             onClick={() => setActiveTab("services")}
           >
-            Services ({laboratory.services.length})
+            {/* Services ({laboratory.services.length}) */}
           </button>
           <button
             className={`tab-button ${activeTab === "reviews" ? "active" : ""}`}
             onClick={() => setActiveTab("reviews")}
           >
-            Reviews ({laboratory.comments.length})
+            {/* Reviews ({laboratory.comments.length}) */}
           </button>
           <button
             className={`tab-button ${activeTab === "location" ? "active" : ""}`}
@@ -178,7 +179,7 @@ export default function LaboratoryProfile({ id }) {
 
           {activeTab === "reviews" && (
             <div className="reviews-section">
-              {laboratory.comments.length > 0 ? (
+              {/* {laboratory.comments.length > 0 ? (
                 laboratory.comments.map((review) => (
                   <div key={review.id} className="review-card">
                     <div className="review-header">
@@ -199,7 +200,7 @@ export default function LaboratoryProfile({ id }) {
                 <p className="no-reviews">
                   No reviews yet. Be the first to review!
                 </p>
-              )}
+              )} */}
             </div>
           )}
 

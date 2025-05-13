@@ -26,29 +26,32 @@ import { FaCalendarAlt } from "react-icons/fa";
 import { MdMarkEmailUnread } from "react-icons/md";
 import { useSelector } from "react-redux";
 export default function Homeboard(props) {
+  
   const d = props.Use;
+  console.log('curent user ' , d)
   const [user, setUser] = useState(d);
+  console.log(user)
   const role = d.role;
   const doctors = useSelector((s) => s.Docsaura.doctors);
   const clinics = useSelector((s) => s.Docsaura.clinics);
   const laboratories = useSelector((s) => s.Docsaura.laboratories);
 
-  useEffect(() => {
-    let data = [];
+  // useEffect(() => {
+  //   let data = [];
 
-    if (role === "doctor") {
-      data = doctors;
-    } else if (role === "clinic") {
-      data = clinics;
-    } else if (role === "laboratory") {
-      data = laboratories;
-    }
+  //   if (role === "doctor") {
+  //     data = doctors;
+  //   } else if (role === "clinic") {
+  //     data = clinics;
+  //   } else if (role === "laboratory") {
+  //     data = laboratories;
+  //   }
 
-    const foundUser = data.find((a) => a.id === user.id);
-    if (foundUser) {
-      setUser(foundUser);
-    }
-  }, [doctors, clinics, laboratories, role, user.id]);
+  //   const foundUser = data.find((a) => a.id === user.id);
+  //   if (foundUser) {
+  //     setUser(foundUser);
+  //   }
+  // }, [doctors, clinics, laboratories, role, user.id]);
 
   const patientDatamonth = d.patientDatamonth;
   const [greeting, setGreeting] = useState("");
@@ -112,7 +115,7 @@ export default function Homeboard(props) {
     const years = new Set(userDataYearly.map((d) => d.year));
     return Array.from(years).sort((a, b) => b - a);
   }, [userDataYearly]);
-
+  console.log('username : ' , user.fullName)
   // Filtrer les données selon l'année sélectionnée
   const filteredData = useMemo(() => {
     return userDataYearly.filter((d) => d.year.toString() === selectedYear);
@@ -167,7 +170,7 @@ export default function Homeboard(props) {
             {greeting} <br />{" "}
             <span>
               {" "}
-              {user.fullName}{" "}
+              {user.fullName }{" "}
               {user.Verified ? <MdVerified className="verif" /> : ""}{" "}
             </span>
           </h1>

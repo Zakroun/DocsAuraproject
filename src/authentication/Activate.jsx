@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { RiCloseLargeLine } from "react-icons/ri";
 import { specializedDoctors } from "../data/data";
 import { Addrequest } from "../data/DocsauraSlice";
@@ -20,14 +20,26 @@ export default function Activate(props) {
     patente: "",
     patientId: "",
     emergencyContact: "",
+    image: null,
   });
 
   const [valid, setValid] = useState(false);
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const fileInputRef = useRef(null);
   const dispatch = useDispatch();
   const role = props.data.role;
   const navigate = useNavigate();
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFormData(prev => ({
+        ...prev,
+        image: file
+      }));
+    }
+  };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -41,21 +53,15 @@ export default function Activate(props) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phoneRegex = /^[0-9]{10,15}$/;
 
-    // Common required fields for all roles
     const requiredFields = ["address", "email", "phoneNumber"];
-    
-    // Role-specific required fields
     const roleSpecificFields = {
       doctor: ["specialty", "medicalOrderNumber"],
       clinic: ["taxId"],
       laboratory: ["taxId", "patente"],
-      Patient: ["patientId", "emergencyContact"]
+      Patient: ["patientId", "emergencyContact"],
     };
 
-    // Combine common and role-specific required fields
     const allRequiredFields = [...requiredFields, ...(roleSpecificFields[role] || [])];
-    
-    // Check for missing fields
     const missingField = allRequiredFields.find(field => !formData[field]?.trim());
 
     if (missingField) {
@@ -70,6 +76,11 @@ export default function Activate(props) {
 
     if (!phoneRegex.test(formData.phoneNumber)) {
       setError("Please enter a valid phone number (10-15 digits)");
+      return false;
+    }
+
+    if (!formData.image) {
+      setError("Please upload a profile image");
       return false;
     }
 
@@ -89,32 +100,29 @@ export default function Activate(props) {
     setIsSubmitting(true);
 
     try {
-      const payload = {
-        user_id: props.data.id,
-        role: role,
-        address: formData.address,
-        email: formData.email,
-        phoneNumber: formData.phoneNumber,
-        amoCode: formData.amoCode,
-        cnssCode: formData.cnssCode,
-        specialty: formData.specialty,
-        medicalOrderNumber: formData.medicalOrderNumber,
-        taxId: formData.taxId,
-        patente: formData.patente,
-        patientId: formData.patientId,
-        emergencyContact: formData.emergencyContact,
-        date: new Date().toISOString().split("T")[0],
-        status: "pending"
-      };
-
-      // Remove empty values
-      Object.keys(payload).forEach(key => {
-        if (payload[key] === "" || payload[key] == null) {
-          delete payload[key];
+      const formDataToSend = new FormData();
+      
+      // Append all form data
+      Object.keys(formData).forEach(key => {
+        if (formData[key] !== null && formData[key] !== "") {
+          if (key === 'image') {
+            formDataToSend.append('image', formData.image);
+          } else {
+            formDataToSend.append(key, formData[key]);
+          }
         }
       });
 
-      const response = await axios.post("/requests", payload);
+      formDataToSend.append('user_id', props.data.id);
+      formDataToSend.append('role', role);
+      formDataToSend.append('date', new Date().toISOString().split("T")[0]);
+      formDataToSend.append('status', 'pending');
+
+      const response = await axios.post("/requests", formDataToSend, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
 
       if (response.status >= 200 && response.status < 300) {
         dispatch(Addrequest(response.data.request));
@@ -125,7 +133,6 @@ export default function Activate(props) {
     } catch (error) {
       setValid(true);
       if (error.response) {
-        // Handle backend validation errors
         if (error.response.data?.errors) {
           const errors = Object.values(error.response.data.errors).flat();
           setError(errors.join(', '));
@@ -139,9 +146,6 @@ export default function Activate(props) {
       setIsSubmitting(false);
     }
   };
-
-  // Rest of your component (showRoleSpecificFields and return) remains exactly the same
-  // Only the handling functions above have been updated
 
   const showRoleSpecificFields = () => {
     switch (role) {
@@ -165,7 +169,6 @@ export default function Activate(props) {
                 ))}
               </select>
             </div>
-            <br />
             <div className="inputdiv">
               <input
                 style={{ height: "25px" }}
@@ -178,7 +181,6 @@ export default function Activate(props) {
                 required
               />
             </div>
-            <br />
           </>
         );
       case "laboratory":
@@ -196,7 +198,6 @@ export default function Activate(props) {
                 required
               />
             </div>
-            <br />
             <div className="inputdiv">
               <input
                 style={{ height: "25px" }}
@@ -209,7 +210,6 @@ export default function Activate(props) {
                 required
               />
             </div>
-            <br />
           </>
         );
       case "clinic":
@@ -227,7 +227,6 @@ export default function Activate(props) {
                 required
               />
             </div>
-            <br />
             <div className="inputdiv">
               <input
                 style={{ height: "25px" }}
@@ -239,7 +238,6 @@ export default function Activate(props) {
                 placeholder="Clinic ID"
               />
             </div>
-            <br />
           </>
         );
       case "Patient":
@@ -257,7 +255,6 @@ export default function Activate(props) {
                 required
               />
             </div>
-            <br />
             <div className="inputdiv">
               <input
                 style={{ height: "25px" }}
@@ -285,7 +282,6 @@ export default function Activate(props) {
         </button>
       </Link>
       <h1>Activate Your Account</h1>
-      <br />
       {valid && (
         <div className="error">
           <div className="error__title">{error}</div>
@@ -305,7 +301,6 @@ export default function Activate(props) {
             required
           />
         </div>
-        <br />
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <label>Type of Assurance:</label>
           <div className="radio-group" style={{ display: "flex", gap: "10px" }}>
@@ -334,7 +329,6 @@ export default function Activate(props) {
               CNSS
             </label>
           </div>
-          <br />
         </div>
         {formData.insuranceType === "AMO" && (
           <div className="inputdiv">
@@ -362,7 +356,6 @@ export default function Activate(props) {
             />
           </div>
         )}
-        <br />
         <div className="inputdiv">
           <input
             style={{ height: "25px" }}
@@ -375,7 +368,6 @@ export default function Activate(props) {
             required
           />
         </div>
-        <br />
         <div className="inputdiv">
           <input
             style={{ height: "25px" }}
@@ -388,7 +380,20 @@ export default function Activate(props) {
             required
           />
         </div>
-        <br />
+        
+        {/* Simple file input without preview */}
+        <div className="inputdiv">
+          <label>
+            Profile Image (required)
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              required
+              style={{ display: 'block', marginTop: '5px' }}
+            />
+          </label>
+        </div>
 
         {showRoleSpecificFields()}
 

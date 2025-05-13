@@ -40,9 +40,6 @@ export default function Dashboard() {
   // const Users = useSelector((s) => s.Docsaura.doctors);
   const userData = localStorage.getItem('user');
   const user = JSON.parse(userData);
-  console.log(user)
-  
-  console.log('curent user ' , user)
   return (
     <div className="containerDashboard">
       <Part1Dashboard Use={user} />

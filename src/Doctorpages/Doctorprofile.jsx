@@ -11,8 +11,10 @@ import { useEffect, useState } from "react";
 
 export default function DoctorProfile({ id }) {
   const navigate = useNavigate();
+  console.log(id)
   const doctorsList = useSelector((state) => state.Docsaura.doctors);
   const doctor = doctorsList?.find((doc) => doc.id === id);
+  console.log('doctor : ',doctor)
   const [activeTab, setActiveTab] = useState("about");
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -57,12 +59,12 @@ export default function DoctorProfile({ id }) {
       <div className="profile-header">
         <div className="profile-image-container">
           <img
-            src={`/images/doctors/${doctor.image}`}
+            src={doctor.image ? `http://localhost:8000/storage/${doctor.image}` : '/images/doctors/doctor3.jpeg'}
             alt={`${doctor.fullName}`}
             className="profile-image"
           />
           <div className="rating-badge">
-            {doctor.rating.toFixed(1)}
+            {/* {doctor.rating.toFixed(1)} */}
             <MdStar className="rating-icon" />
           </div>
         </div>
@@ -74,7 +76,7 @@ export default function DoctorProfile({ id }) {
           </h1>
           <div className="rating-container">
             {renderRatingStars(doctor.rating)}
-            <span className="rating-text">{doctor.rating.toFixed(1)} (125 reviews)</span>
+            {/* <span className="rating-text">{doctor.rating.toFixed(1)} (125 reviews)</span> */}
           </div>
           <br />
           <Link
@@ -100,7 +102,7 @@ export default function DoctorProfile({ id }) {
             className={`tab-button ${activeTab === "reviews" ? "active" : ""}`}
             onClick={() => setActiveTab("reviews")}
           >
-            Reviews ({doctor.comments.length})
+            {/* Reviews ({doctor.comments.length}) */}
           </button>
           <button
             className={`tab-button ${activeTab === "location" ? "active" : ""}`}
@@ -121,11 +123,11 @@ export default function DoctorProfile({ id }) {
               <div className="contact-info">
                 <p className="contact-item">
                   <FaMapMarkerAlt className="iconprofile" />
-                  {doctor.addressLoc}
+                  {doctor.address}
                 </p>
                 <p className="contact-item">
                   <FaEnvelope className="iconprofile" />
-                  {doctor.emailLoc}
+                  {doctor.email}
                 </p>
                 <p className="contact-item">
                   <FaPhone className="iconprofile" />
@@ -137,7 +139,7 @@ export default function DoctorProfile({ id }) {
                 with over 10 years of experience.{" "}
                 {doctor.fullName.split(" ")[0]} completed medical training at
                 Harvard Medical School and has been practicing in{" "}
-                {doctor.addressLoc.split(",")[1]?.trim() || doctor.addressLoc}
+                {/* {doctor.address.split(",")[1]?.trim() || doctor.address} */}
                 since 2015.
               </p>
               <h4>Education</h4>
@@ -184,7 +186,7 @@ export default function DoctorProfile({ id }) {
               <h3>Office Location</h3>
               <p className="location-address">
                 <FaMapMarkerAlt className="iconprofile" />
-                {doctor.addressLoc}
+                {doctor.address}
               </p>
               <div className="map-container">
                 <iframe

@@ -22,7 +22,7 @@ export default function ListClinic() {
         ? l.fullName.toLowerCase().includes(name.toLowerCase())
         : true;
       const matchesCity = city
-        ? l.address.toLowerCase().includes(city.toLowerCase())
+        ? l.city.toLowerCase().includes(city.toLowerCase())
         : true;
 
       return matchesName && matchesCity;
@@ -90,7 +90,7 @@ export default function ListClinic() {
               <Link to={`/pages/clinic`} state={{ id: c.id }} id="Linktoone">
                 <img
                   id="imgDocLabcli"
-                  src={`/images/clinics/${c.image}`}
+                  src={c.image ? `http://localhost:8000/storage/${c.image}` : '/images/clinics/clinic2.jpeg'}
                   alt={c.name}
                 />
                 <div className="informations">
@@ -105,7 +105,7 @@ export default function ListClinic() {
             </div>
           ))
         ) : (
-          <p style={{ fontSize: "20px" }}>This doctor not found</p>
+          <p style={{ fontSize: "20px" }}>This clinic not found</p>
         )}
       </div>
     </div>
