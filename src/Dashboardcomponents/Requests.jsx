@@ -45,7 +45,7 @@ export default function RequestsDashboard() {
       setFilteredRequests(requestsData);
     } catch (err) {
       console.error("Failed to fetch requests:", err);
-      setErrorMessage(err.response?.data?.message || "Failed to load requests");
+      //setErrorMessage(err.response?.data?.message || "Failed to load requests");
       setFilteredRequests([]);
     } finally {
       setLoading(false);

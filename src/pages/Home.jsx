@@ -15,9 +15,10 @@ import { useSelector } from "react-redux";
 export default function Home() {
   const doctors = useSelector(state => state.Docsaura.doctors);
   const clinics = useSelector(state => state.Docsaura.clinics);
-  
+  const laboratories = useSelector(state => state.Docsaura.laboratories);
   console.log('Doctors:', doctors);
   console.log('Clinics:', clinics);
+  console.log('laboratories:', laboratories);
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([
