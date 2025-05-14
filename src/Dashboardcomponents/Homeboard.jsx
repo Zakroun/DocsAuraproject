@@ -30,11 +30,11 @@ export default function Homeboard(props) {
   const d = props.Use;
   console.log('curent user ' , d)
   const [user, setUser] = useState(d);
-  console.log(user)
-  const role = d.role;
-  const doctors = useSelector((s) => s.Docsaura.doctors);
-  const clinics = useSelector((s) => s.Docsaura.clinics);
-  const laboratories = useSelector((s) => s.Docsaura.laboratories);
+  //console.log(user)
+  //const role = d.role;
+  //const doctors = useSelector((s) => s.Docsaura.doctors);
+  //const clinics = useSelector((s) => s.Docsaura.clinics);
+  //const laboratories = useSelector((s) => s.Docsaura.laboratories);
 
   // useEffect(() => {
   //   let data = [];
@@ -56,9 +56,8 @@ export default function Homeboard(props) {
   const patientDatamonth = d.patientDatamonth;
   const [greeting, setGreeting] = useState("");
   const [selectedDay, setSelectedDay] = useState("All");
-  const [filteredAppointments, setFilteredAppointments] = useState(
-    user.appointments
-  );
+  const appointmentsbeforefilter = user.appointments || [];
+  const [filteredAppointments, setFilteredAppointments] = useState(appointmentsbeforefilter);
 
   useEffect(() => {
     const currentHour = new Date().getHours();
@@ -72,16 +71,17 @@ export default function Homeboard(props) {
   }, []);
 
   const handleDayChange = (e) => {
-    const selected = e.target.value;
-    setSelectedDay(selected);
-    if (selected === "All") {
-      setFilteredAppointments(d.appointments);
-    } else {
-      setFilteredAppointments(
-        d.appointments.filter((appt) => appt.date === selected)
-      );
-    }
-  };
+  const selected = e.target.value;
+  setSelectedDay(selected);
+  if (selected === "All") {
+    setFilteredAppointments(d.appointments || []);
+  } else {
+    setFilteredAppointments(
+      (d.appointments || []).filter((appt) => appt.date === selected)
+    );
+  }
+};
+
   function generateStars(rating) {
     return Array.from({ length: 5 }, (_, i) => {
       if (i < Math.floor(rating)) {
@@ -109,61 +109,23 @@ export default function Homeboard(props) {
   const appointments = filteredAppointments;
   const userDataYearly = useSelector((s) => s.Docsaura.userDataYearly);
   const [selectedYear, setSelectedYear] = useState("2025");
-
+  // if(user.verified){
+  //   console.log('hahahahha')
+  // }else{
+  //   console.log('hhhhhhhhh')
+  // }
   // Extraire les années distinctes depuis les données
   const availableYears = useMemo(() => {
     const years = new Set(userDataYearly.map((d) => d.year));
     return Array.from(years).sort((a, b) => b - a);
   }, [userDataYearly]);
-  console.log('username : ' , user.fullName)
+  //console.log('username : ' , user.fullName)
   // Filtrer les données selon l'année sélectionnée
   const filteredData = useMemo(() => {
     return userDataYearly.filter((d) => d.year.toString() === selectedYear);
   }, [userDataYearly, selectedYear]);
   return (
     <div className="homeboard">
-      {/* <div className="searchadd">
-        <div className="searchdiv">
-          <input type="text" placeholder="Search ..." className="inputsearch" />
-          <button className="searchbtn">
-            <LuSearch className="iconsearch" size={15} />
-          </button>
-        </div>
-        <div className="add">
-          <button className="addbtn">+ Add Patients</button>
-          <div className="notification-container">
-            <div
-              className="icon-wrapper"
-              onClick={() => setShowNotifications(!showNotifications)}
-            >
-              <IoNotificationsSharp
-                size={24}
-                color="#008481"
-                className="notification-icon"
-              />
-              {notifications.length > 0 && (
-                <span className="notification-badge">
-                  {notifications.length}
-                </span>
-              )}
-            </div>
-            {showNotifications && (
-              <div className="notification-dropdown">
-                {notifications.length > 0 ? (
-                  notifications.map((notif) => (
-                    <div key={notif.id} className="notification-item">
-                      {notif.message}
-                      <span className="time">{notif.time}</span>
-                    </div>
-                  ))
-                ) : (
-                  <p>No notifications for now</p>
-                )}
-              </div>
-            )}
-          </div>
-        </div>
-      </div> */}
       <div className="homeboard__header">
         <div className="homeboard__header__title">
           <h1>
@@ -171,7 +133,7 @@ export default function Homeboard(props) {
             <span>
               {" "}
               {user.fullName }{" "}
-              {user.Verified ? <MdVerified className="verif" /> : ""}{" "}
+              {user.verified ? <MdVerified className="verif" /> : ""}{" "}
             </span>
           </h1>
           {user.role === "Patient" ? (
@@ -207,7 +169,7 @@ export default function Homeboard(props) {
       {(user.role === "doctor" ||
         user.role === "clinic" ||
         user.role === "laboratory") &&
-      user.Verified === true ? (
+        user.verified ? (
         <>
           <div className="weeklyReports">
             <div className="weeklypart1">
@@ -237,7 +199,7 @@ export default function Homeboard(props) {
                     />
                   </div>
                   <h3>Total Patients </h3>
-                  <h3 style={{ color: "rgb(0, 0, 155)" }}>200</h3>
+                  <h3 style={{ color: "rgb(0, 0, 155)" }}>0</h3>
                 </div>
                 <div className="partweekly">
                   <div className="partweekly__header">
@@ -252,7 +214,7 @@ export default function Homeboard(props) {
                     />
                   </div>
                   <h3>Pending Appointments </h3>
-                  <h3 style={{ color: "rgb(195, 101, 0)" }}>20</h3>
+                  <h3 style={{ color: "rgb(195, 101, 0)" }}>0</h3>
                 </div>
                 <div className="partweekly">
                   <div className="partweekly__header">
@@ -267,7 +229,7 @@ export default function Homeboard(props) {
                     />
                   </div>
                   <h3>Canceled Appointments </h3>
-                  <h3 style={{ color: "rgb(153, 0, 0)" }}>100</h3>
+                  <h3 style={{ color: "rgb(153, 0, 0)" }}>0</h3>
                 </div>
                 <div className="partweekly">
                   <div className="partweekly__header">
@@ -282,7 +244,7 @@ export default function Homeboard(props) {
                     />
                   </div>
                   <h3>Completed Appointments </h3>
-                  <h3 style={{ color: "rgb(0, 113, 128)" }}>10</h3>
+                  <h3 style={{ color: "rgb(0, 113, 128)" }}>0</h3>
                 </div>
               </div>
             </div>
@@ -358,13 +320,13 @@ export default function Homeboard(props) {
                   onChange={handleDayChange}
                 >
                   <option value="All">All</option>
-                  {appointments
+                  {/* {appointments
                     .map((appt) => appt.date)
                     .map((day, k) => (
                       <option key={k} value={day}>
                         {day}
                       </option>
-                    ))}
+                    ))} */}
                 </select>
               </div>
             </div>
@@ -381,7 +343,8 @@ export default function Homeboard(props) {
                   <th>Actions</th>
                 </tr>
               </thead>
-              <tbody>
+              {appointments.length > 0 ?
+              (<tbody>
                 {appointments.map((appt) => (
                   <tr
                     key={appt.id}
@@ -440,11 +403,11 @@ export default function Homeboard(props) {
                     </td>
                   </tr>
                 ))}
-              </tbody>
+              </tbody>):''}
             </table>
           </div>{" "}
         </>
-      ) : user.role === "patient" && user.Verified === true ? (
+      ) : user.role === "Patient" && user.verified ? (
         <>
           <div className="weeklyReports">
             <div className="weeklyheader">
@@ -473,7 +436,7 @@ export default function Homeboard(props) {
                   />
                 </div>
                 <h3>Total Patients</h3>
-                <h3 style={{ color: "#008481" }}>200</h3>
+                <h3 style={{ color: "#008481" }}>0</h3>
               </div>
 
               <div className="partweekly">
@@ -489,7 +452,7 @@ export default function Homeboard(props) {
                   />
                 </div>
                 <h3>Phone Calls</h3>
-                <h3 style={{ color: "rgb(195, 101, 0)" }}>20</h3>
+                <h3 style={{ color: "rgb(195, 101, 0)" }}>0</h3>
               </div>
 
               <div className="partweekly">
@@ -505,7 +468,7 @@ export default function Homeboard(props) {
                   />
                 </div>
                 <h3>Appointments</h3>
-                <h3 style={{ color: "rgb(153, 0, 0)" }}>100</h3>
+                <h3 style={{ color: "rgb(153, 0, 0)" }}>0</h3>
               </div>
 
               <div className="partweekly">
@@ -521,7 +484,7 @@ export default function Homeboard(props) {
                   />
                 </div>
                 <h3>Unread Messages</h3>
-                <h3 style={{ color: "rgb(0, 0, 155)" }}>10</h3>
+                <h3 style={{ color: "rgb(0, 0, 155)" }}>0</h3>
               </div>
             </div>
           </div>
@@ -536,13 +499,13 @@ export default function Homeboard(props) {
                   onChange={handleDayChange}
                 >
                   <option value="All">All</option>
-                  {appointments
+                  {/* {appointments
                     .map((appt) => appt.date)
                     .map((day, k) => (
                       <option key={k} value={day}>
                         {day}
                       </option>
-                    ))}
+                    ))} */}
                 </select>
               </div>
             </div>

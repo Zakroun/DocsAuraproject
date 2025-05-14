@@ -113,7 +113,7 @@ export default function ListDoctors() {
                   alt={d.fullName}
                 />
                 <div className="informations">
-                <h3>{d.fullName.length > 20 ? d.fullName.substring(0, 20) + '...' : d.fullName}</h3>
+                <h3>Dr. {d.fullName.length > 20 ? d.fullName.substring(0, 20) + '...' : d.fullName}</h3>
                   <p className="pspecialty">{d.specialty}</p>
                   <div className="rating-button">
                     <div className="stars">{generateStars(d.rating)}</div>

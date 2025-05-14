@@ -33,7 +33,7 @@ export default function Header() {
 
   useEffect(() => {
     setpage(currentpage);
-    console.log(currentpage);
+    //console.log(currentpage);
   }, [currentpage]);
 
   const toggleMenu = () => {

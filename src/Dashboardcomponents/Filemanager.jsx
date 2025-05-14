@@ -16,10 +16,10 @@ import {
   FaFileMedical,
   FaFileAlt,
   FaDownload,
-  FaPlay
+  FaPlay,
 } from "react-icons/fa";
 import { IoCheckmarkDoneCircleSharp } from "react-icons/io5";
-import ReactPlayer from 'react-player'; // For video playback
+import ReactPlayer from "react-player"; // For video playback
 import { useDispatch, useSelector } from "react-redux";
 import { addFile, deleteFiles } from "../data/DocsauraSlice";
 
@@ -28,7 +28,7 @@ const sampleMedicalImages = [
   "https://example.com/xray.jpg",
   "https://example.com/ultrasound.jpg",
   "https://example.com/mri-scan.jpg",
-  "https://example.com/ct-scan.jpg"
+  "https://example.com/ct-scan.jpg",
 ];
 
 // Sample medical videos (placeholder URLs)
@@ -36,46 +36,72 @@ const sampleMedicalVideos = [
   "https://example.com/ecg-recording.mp4",
   "https://example.com/ultrasound-scan.mp4",
   "https://example.com/endoscopy.mp4",
-  "https://example.com/echocardiogram.mp4"
+  "https://example.com/echocardiogram.mp4",
 ];
 
 // Function to generate realistic medical file content
 const generateMedicalContent = (fileType, fileName) => {
-  const doctors = ["Dr. Smith", "Dr. Johnson", "Dr. Williams", "Dr. Brown", "Dr. Davis"];
-  const facilities = ["City General Hospital", "Metro Health Center", "University Medical", "Parkview Clinic", "Sunrise Healthcare"];
+  const doctors = [
+    "Dr. Smith",
+    "Dr. Johnson",
+    "Dr. Williams",
+    "Dr. Brown",
+    "Dr. Davis",
+  ];
+  const facilities = [
+    "City General Hospital",
+    "Metro Health Center",
+    "University Medical",
+    "Parkview Clinic",
+    "Sunrise Healthcare",
+  ];
   const randomDoctor = doctors[Math.floor(Math.random() * doctors.length)];
-  const randomFacility = facilities[Math.floor(Math.random() * facilities.length)];
+  const randomFacility =
+    facilities[Math.floor(Math.random() * facilities.length)];
   const date = new Date().toLocaleDateString();
 
   if (fileType === "pdf") {
     const reportTypes = {
       "Annual Checkup": `COMPREHENSIVE ANNUAL EXAMINATION REPORT\n\nPatient: [Patient Name]\nDate: ${date}\nFacility: ${randomFacility}\nAttending Physician: ${randomDoctor}\n\nFINDINGS:\n- Vital signs within normal limits\n- No abnormalities detected in physical examination\n- Blood pressure: 120/80 mmHg\n- Heart rate: 72 bpm\n- BMI: 24.5 (normal range)\n\nRECOMMENDATIONS:\n- Continue current healthy lifestyle\n- Follow up in one year\n- Routine blood work recommended`,
       "Blood Test": `LABORATORY REPORT - BLOOD ANALYSIS\n\nPatient: [Patient Name]\nDate: ${date}\nFacility: ${randomFacility}\nOrdering Physician: ${randomDoctor}\n\nRESULTS:\n- WBC: 6.5 K/μL (Normal)\n- RBC: 4.7 M/μL (Normal)\n- Hemoglobin: 14.2 g/dL (Normal)\n- Platelets: 250 K/μL (Normal)\n- Glucose: 92 mg/dL (Normal)\n\nINTERPRETATION:\nAll values within normal reference ranges. No abnormalities detected.`,
-      "MRI Scan": `RADIOLOGY REPORT - MRI SCAN\n\nPatient: [Patient Name]\nDate: ${date}\nFacility: ${randomFacility}\nRadiologist: ${randomDoctor}\n\nIMPRESSION:\n- No evidence of acute intracranial abnormality\n- Normal brain parenchyma\n- No mass lesions or hemorrhage\n- Ventricular system normal in size and configuration\n\nRECOMMENDATION:\nNo follow-up needed unless clinically indicated.`
+      "MRI Scan": `RADIOLOGY REPORT - MRI SCAN\n\nPatient: [Patient Name]\nDate: ${date}\nFacility: ${randomFacility}\nRadiologist: ${randomDoctor}\n\nIMPRESSION:\n- No evidence of acute intracranial abnormality\n- Normal brain parenchyma\n- No mass lesions or hemorrhage\n- Ventricular system normal in size and configuration\n\nRECOMMENDATION:\nNo follow-up needed unless clinically indicated.`,
     };
 
-    const reportType = fileName.includes("Checkup") ? "Annual Checkup" : 
-                     fileName.includes("Blood") ? "Blood Test" : 
-                     fileName.includes("MRI") ? "MRI Scan" : 
-                     "Medical Report";
-    
-    return reportTypes[reportType] || `MEDICAL REPORT\n\nThis document contains important health information about your recent ${reportType.toLowerCase()}.\n\nDate: ${date}\nFacility: ${randomFacility}\nPhysician: ${randomDoctor}\n\nPlease consult with your healthcare provider for detailed interpretation.`;
-  }
-  else if (fileType === "docx") {
-    return `PRESCRIPTION\n\nPatient: [Patient Name]\nDate: ${date}\nPrescribing Physician: ${randomDoctor}\n\nMEDICATIONS:\n1. Ibuprofen 400mg - Take 1 tablet every 6 hours as needed for pain\n2. Amoxicillin 500mg - Take 1 capsule every 12 hours for 7 days\n3. Loratadine 10mg - Take 1 tablet daily for allergies\n\nREFILLS: 1\n\nPHARMACY INSTRUCTIONS:\nMay substitute with generic equivalent\n\n${randomDoctor}\nLicense #: ${Math.floor(100000 + Math.random() * 900000)}\n${randomFacility}`;
-  }
-  else if (fileType === "img") {
-    const randomImage = sampleMedicalImages[Math.floor(Math.random() * sampleMedicalImages.length)];
+    const reportType = fileName.includes("Checkup")
+      ? "Annual Checkup"
+      : fileName.includes("Blood")
+      ? "Blood Test"
+      : fileName.includes("MRI")
+      ? "MRI Scan"
+      : "Medical Report";
+
+    return (
+      reportTypes[reportType] ||
+      `MEDICAL REPORT\n\nThis document contains important health information about your recent ${reportType.toLowerCase()}.\n\nDate: ${date}\nFacility: ${randomFacility}\nPhysician: ${randomDoctor}\n\nPlease consult with your healthcare provider for detailed interpretation.`
+    );
+  } else if (fileType === "docx") {
+    return `PRESCRIPTION\n\nPatient: [Patient Name]\nDate: ${date}\nPrescribing Physician: ${randomDoctor}\n\nMEDICATIONS:\n1. Ibuprofen 400mg - Take 1 tablet every 6 hours as needed for pain\n2. Amoxicillin 500mg - Take 1 capsule every 12 hours for 7 days\n3. Loratadine 10mg - Take 1 tablet daily for allergies\n\nREFILLS: 1\n\nPHARMACY INSTRUCTIONS:\nMay substitute with generic equivalent\n\n${randomDoctor}\nLicense #: ${Math.floor(
+      100000 + Math.random() * 900000
+    )}\n${randomFacility}`;
+  } else if (fileType === "img") {
+    const randomImage =
+      sampleMedicalImages[
+        Math.floor(Math.random() * sampleMedicalImages.length)
+      ];
     return {
       url: randomImage,
-      report: `MEDICAL IMAGE REPORT\n\n${fileName}\n\nDate: ${date}\nFacility: ${randomFacility}\nRadiologist: ${randomDoctor}\n\nFINDINGS:\n- No acute findings\n- Normal anatomical structures\n- No evidence of pathology\n\nIMPRESSION:\nUnremarkable study. No follow-up needed unless clinically indicated.`
+      report: `MEDICAL IMAGE REPORT\n\n${fileName}\n\nDate: ${date}\nFacility: ${randomFacility}\nRadiologist: ${randomDoctor}\n\nFINDINGS:\n- No acute findings\n- Normal anatomical structures\n- No evidence of pathology\n\nIMPRESSION:\nUnremarkable study. No follow-up needed unless clinically indicated.`,
     };
-  }
-  else if (fileType === "video") {
-    const randomVideo = sampleMedicalVideos[Math.floor(Math.random() * sampleMedicalVideos.length)];
+  } else if (fileType === "video") {
+    const randomVideo =
+      sampleMedicalVideos[
+        Math.floor(Math.random() * sampleMedicalVideos.length)
+      ];
     return {
       url: randomVideo,
-      report: `MEDICAL VIDEO REPORT\n\n${fileName}\n\nDate: ${date}\nFacility: ${randomFacility}\nTechnician: ${randomDoctor}\n\nPROCEDURE NOTES:\nThe recording shows normal physiological activity. No arrhythmias detected. Waveforms appear within normal limits.\n\nDURATION: ${Math.floor(1 + Math.random() * 5)} minutes\n\nINTERPRETATION:\nNormal study.`
+      report: `MEDICAL VIDEO REPORT\n\n${fileName}\n\nDate: ${date}\nFacility: ${randomFacility}\nTechnician: ${randomDoctor}\n\nPROCEDURE NOTES:\nThe recording shows normal physiological activity. No arrhythmias detected. Waveforms appear within normal limits.\n\nDURATION: ${Math.floor(
+        1 + Math.random() * 5
+      )} minutes\n\nINTERPRETATION:\nNormal study.`,
     };
   }
   return `This is a ${fileType} file containing medical information about your recent visit to ${randomFacility}.`;
@@ -83,28 +109,69 @@ const generateMedicalContent = (fileType, fileName) => {
 
 // Generate sample medical files with realistic content
 const generateSampleFiles = () => {
-  const fileTypes = ["pdf", "pdf", "pdf", "docx", "img", "img", "video", "video"];
-  const categories = ["medical", "medical", "lab", "medical", "medical", "lab", "medical", "medical"];
-  const prefixes = ["Annual Checkup", "Blood Test", "MRI Scan", "Prescription", "X-Ray", "Ultrasound", "ECG", "Endoscopy"];
-  
+  const fileTypes = [
+    "pdf",
+    "pdf",
+    "pdf",
+    "docx",
+    "img",
+    "img",
+    "video",
+    "video",
+  ];
+  const categories = [
+    "medical",
+    "medical",
+    "lab",
+    "medical",
+    "medical",
+    "lab",
+    "medical",
+    "medical",
+  ];
+  const prefixes = [
+    "Annual Checkup",
+    "Blood Test",
+    "MRI Scan",
+    "Prescription",
+    "X-Ray",
+    "Ultrasound",
+    "ECG",
+    "Endoscopy",
+  ];
+
   return Array.from({ length: 8 }, (_, i) => {
     const type = fileTypes[i];
     const prefix = prefixes[i];
-    const name = `${prefix} ${type === "img" ? (prefix.includes("X-Ray") ? "Image" : "Scan") : type === "video" ? "Recording" : "Report"}.${type}`;
+    const name = `${prefix} ${
+      type === "img"
+        ? prefix.includes("X-Ray")
+          ? "Image"
+          : "Scan"
+        : type === "video"
+        ? "Recording"
+        : "Report"
+    }.${type}`;
     const content = generateMedicalContent(type, name);
-    
+
     return {
       id: i + 1,
       name,
       type,
-      size: type === "pdf" ? `${(1.5 + Math.random() * 3).toFixed(1)} MB` : 
-            type === "docx" ? `${(0.2 + Math.random() * 0.5).toFixed(1)} MB` : 
-            type === "img" ? `${(2 + Math.random() * 4).toFixed(1)} MB` : 
-            `${(5 + Math.random() * 10).toFixed(1)} MB`,
+      size:
+        type === "pdf"
+          ? `${(1.5 + Math.random() * 3).toFixed(1)} MB`
+          : type === "docx"
+          ? `${(0.2 + Math.random() * 0.5).toFixed(1)} MB`
+          : type === "img"
+          ? `${(2 + Math.random() * 4).toFixed(1)} MB`
+          : `${(5 + Math.random() * 10).toFixed(1)} MB`,
       category: categories[i],
-      date: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toLocaleDateString(),
+      date: new Date(
+        Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000
+      ).toLocaleDateString(),
       content: type === "img" || type === "video" ? content.report : content,
-      mediaUrl: type === "img" || type === "video" ? content.url : null
+      mediaUrl: type === "img" || type === "video" ? content.url : null,
     };
   });
 };
@@ -116,7 +183,10 @@ const fileIcons = {
   docx: { icon: <FaFileWord size={24} color="blue" />, color: "#2563EB" },
   img: { icon: <FaFileImage size={24} color="green" />, color: "#008000" },
   video: { icon: <FaFileVideo size={24} color="purple" />, color: "#800080" },
-  medical: { icon: <FaFileMedical size={24} color="#E67E22" />, color: "#E67E22" },
+  medical: {
+    icon: <FaFileMedical size={24} color="#E67E22" />,
+    color: "#E67E22",
+  },
   lab: { icon: <FaFlask size={24} color="#9B59B6" />, color: "#9B59B6" },
   default: {
     icon: <FaFile size={24} color="#007180" />,
@@ -132,7 +202,7 @@ export default function FileManager() {
     "Lab updated Blood Test Results",
     "You downloaded Prescription",
     "You viewed X-Ray Scan",
-    "Dr. Johnson added Consultation Notes"
+    "Dr. Johnson added Consultation Notes",
   ];
 
   const [files, setFiles] = useState(filesData);
@@ -141,7 +211,12 @@ export default function FileManager() {
   const [previewFile, setPreviewFile] = useState(null);
   const [selectedFilesToDelete, setSelectedFilesToDelete] = useState([]);
   const [showAddFile, setShowAddFile] = useState(false);
-  const [newFile, setNewFile] = useState({ name: "", type: "", size: "", category: "medical" });
+  const [newFile, setNewFile] = useState({
+    name: "",
+    type: "",
+    size: "",
+    category: "medical",
+  });
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState("all");
   const [fileContent, setFileContent] = useState("");
@@ -152,54 +227,64 @@ export default function FileManager() {
     setActivity(activityData);
   }, [filesData, activityData]);
 
-  const filteredFiles = files.filter(file => {
-    const matchesSearch = file.name.toLowerCase().includes(searchQuery.toLowerCase());
+  const filteredFiles = files.filter((file) => {
+    const matchesSearch = file.name
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
     if (activeTab === "all") return matchesSearch;
-    if (activeTab === "medical") return matchesSearch && file.category === "medical";
+    if (activeTab === "medical")
+      return matchesSearch && file.category === "medical";
     if (activeTab === "lab") return matchesSearch && file.category === "lab";
-    if (activeTab === "personal") return matchesSearch && file.category === "personal";
+    if (activeTab === "personal")
+      return matchesSearch && file.category === "personal";
     return matchesSearch;
   });
 
   const handleFilePreview = (file) => {
     setSelectedFile(file);
-    setFileContent(file.content || generateMedicalContent(file.type, file.name));
+    setFileContent(
+      file.content || generateMedicalContent(file.type, file.name)
+    );
     setPlayingVideo(false);
-    
+
     if (file.type === "pdf") {
       setPreviewFile({ type: "pdf", content: file.content });
     } else if (file.type === "img") {
-      setPreviewFile({ 
-        type: "img", 
+      setPreviewFile({
+        type: "img",
         url: file.mediaUrl || sampleMedicalImages[0],
-        content: file.content
+        content: file.content,
       });
     } else if (file.type === "video") {
-      setPreviewFile({ 
-        type: "video", 
+      setPreviewFile({
+        type: "video",
         url: file.mediaUrl || sampleMedicalVideos[0],
-        content: file.content
+        content: file.content,
       });
     } else {
       setPreviewFile({ type: "text", content: file.content });
     }
-    
+
     setActivity([`You viewed ${file.name}`, ...activity.slice(0, 9)]);
   };
 
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const fileType = file.name.split('.').pop();
+      const fileType = file.name.split(".").pop();
       const content = generateMedicalContent(fileType, file.name);
-      
+
       setNewFile({
         name: file.name,
         type: fileType,
         size: `${(file.size / 1024 / 1024).toFixed(2)} MB`,
         category: "medical",
-        content: fileType === "img" || fileType === "video" ? content.report : content,
-        mediaUrl: fileType === "img" || fileType === "video" ? URL.createObjectURL(file) : null
+        content:
+          fileType === "img" || fileType === "video" ? content.report : content,
+        mediaUrl:
+          fileType === "img" || fileType === "video"
+            ? URL.createObjectURL(file)
+            : null,
       });
     }
   };
@@ -209,10 +294,10 @@ export default function FileManager() {
     if (newFile.name && newFile.type && newFile.size) {
       const newFileWithId = {
         ...newFile,
-        id: Math.max(...files.map(f => f.id)) + 1,
-        date: new Date().toLocaleDateString()
+        id: Math.max(...files.map((f) => f.id)) + 1,
+        date: new Date().toLocaleDateString(),
       };
-      
+
       dispatch(addFile(newFileWithId));
       setFiles([newFileWithId, ...files]);
       setActivity([`You uploaded "${newFile.name}"`, ...activity.slice(0, 9)]);
@@ -231,20 +316,23 @@ export default function FileManager() {
 
   const handleDeleteFiles = () => {
     dispatch(deleteFiles(selectedFilesToDelete));
-    setFiles(files.filter(file => !selectedFilesToDelete.includes(file.id)));
-    setActivity([`You deleted ${selectedFilesToDelete.length} files`, ...activity.slice(0, 9)]);
+    setFiles(files.filter((file) => !selectedFilesToDelete.includes(file.id)));
+    setActivity([
+      `You deleted ${selectedFilesToDelete.length} files`,
+      ...activity.slice(0, 9),
+    ]);
     setSelectedFilesToDelete([]);
   };
 
   const handleDownload = (file) => {
     const element = document.createElement("a");
-    const textFile = new Blob([file.content], {type: 'text/plain'});
+    const textFile = new Blob([file.content], { type: "text/plain" });
     element.href = URL.createObjectURL(textFile);
     element.download = file.name;
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
-    
+
     setActivity([`You downloaded ${file.name}`, ...activity.slice(0, 9)]);
   };
 
@@ -257,25 +345,25 @@ export default function FileManager() {
           <div className="sidebar-section">
             <h3>Categories</h3>
             <ul>
-              <li 
+              <li
                 className={activeTab === "all" ? "active" : ""}
                 onClick={() => setActiveTab("all")}
               >
                 <FaFile /> All Files
               </li>
-              <li 
+              <li
                 className={activeTab === "medical" ? "active" : ""}
                 onClick={() => setActiveTab("medical")}
               >
                 <FaFileMedical /> Medical Reports
               </li>
-              <li 
+              <li
                 className={activeTab === "lab" ? "active" : ""}
                 onClick={() => setActiveTab("lab")}
               >
                 <FaFlask /> Lab Results
               </li>
-              <li 
+              <li
                 className={activeTab === "personal" ? "active" : ""}
                 onClick={() => setActiveTab("personal")}
               >
@@ -288,13 +376,20 @@ export default function FileManager() {
             <h3>My Files</h3>
             <div className="my-files-stats">
               <div className="file-stat">
-                <FaFileMedical /> <span>Medical Reports</span> <span>{files.filter(f => f.category === "medical").length} files</span>
+                <FaFileMedical /> <span>Medical Reports</span>{" "}
+                <span>
+                  {files.filter((f) => f.category === "medical").length} files
+                </span>
               </div>
               <div className="file-stat">
-                <FaFlask /> <span>Lab Results</span> <span>{files.filter(f => f.category === "lab").length} files</span>
+                <FaFlask /> <span>Lab Results</span>{" "}
+                <span>
+                  {files.filter((f) => f.category === "lab").length} files
+                </span>
               </div>
               <div className="file-stat">
-                <FaFileAlt /> <span>Total Files</span> <span>{files.length} files</span>
+                <FaFileAlt /> <span>Total Files</span>{" "}
+                <span>{files.length} files</span>
               </div>
             </div>
           </div>
@@ -314,7 +409,7 @@ export default function FileManager() {
               />
             </div>
             <div className="action-buttons">
-              <button 
+              <button
                 className="upload-btn"
                 onClick={() => setShowAddFile(true)}
               >
@@ -336,8 +431,12 @@ export default function FileManager() {
                 return (
                   <div
                     key={file.id}
-                    className={`file-card ${selectedFilesToDelete.includes(file.id) ? "selected" : ""}`}
-                    style={{ borderLeft: `4px solid ${fileIcons[fileType].color}` }}
+                    className={`file-card ${
+                      selectedFilesToDelete.includes(file.id) ? "selected" : ""
+                    }`}
+                    style={{
+                      borderLeft: `4px solid ${fileIcons[fileType].color}`,
+                    }}
                   >
                     <input
                       type="checkbox"
@@ -345,7 +444,7 @@ export default function FileManager() {
                       onChange={() => toggleFileSelection(file.id)}
                       className="file-checkbox"
                     />
-                    <div 
+                    <div
                       className="file-content"
                       onClick={() => handleFilePreview(file)}
                     >
@@ -358,7 +457,7 @@ export default function FileManager() {
                         <p className="file-date">Uploaded: {file.date}</p>
                       </div>
                     </div>
-                    <button 
+                    <button
                       className="download-file-btn"
                       onClick={(e) => {
                         e.stopPropagation();
@@ -374,7 +473,7 @@ export default function FileManager() {
               <div className="no-files">
                 <FaFile size={48} color="#ccc" />
                 <p>No files found</p>
-                <button 
+                <button
                   className="upload-btn"
                   onClick={() => setShowAddFile(true)}
                 >
@@ -391,7 +490,7 @@ export default function FileManager() {
           <ul className="activity-list">
             {activity.map((act, index) => (
               <li key={index} className="activity-item">
-                <IoCheckmarkDoneCircleSharp className="activity-icon"/>
+                <IoCheckmarkDoneCircleSharp className="activity-icon" />
                 <span className="activity-text">{act}</span>
                 <span className="activity-time">Just now</span>
               </li>
@@ -416,7 +515,9 @@ export default function FileManager() {
                 <input
                   type="text"
                   value={newFile.name}
-                  onChange={(e) => setNewFile({...newFile, name: e.target.value})}
+                  onChange={(e) =>
+                    setNewFile({ ...newFile, name: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -424,7 +525,9 @@ export default function FileManager() {
                 <label>File Type</label>
                 <select
                   value={newFile.type}
-                  onChange={(e) => setNewFile({...newFile, type: e.target.value})}
+                  onChange={(e) =>
+                    setNewFile({ ...newFile, type: e.target.value })
+                  }
                   required
                 >
                   <option value="">Select Type</option>
@@ -438,7 +541,9 @@ export default function FileManager() {
                 <label>Category</label>
                 <select
                   value={newFile.category}
-                  onChange={(e) => setNewFile({...newFile, category: e.target.value})}
+                  onChange={(e) =>
+                    setNewFile({ ...newFile, category: e.target.value })
+                  }
                 >
                   <option value="medical">Medical Report</option>
                   <option value="lab">Lab Results</option>
@@ -455,7 +560,9 @@ export default function FileManager() {
                     hidden
                   />
                 </label>
-                {newFile.name && <span className="file-name">{newFile.name}</span>}
+                {newFile.name && (
+                  <span className="file-name">{newFile.name}</span>
+                )}
               </div>
               <div className="form-actions">
                 <button type="button" onClick={() => setShowAddFile(false)}>
@@ -489,12 +596,13 @@ export default function FileManager() {
               {previewFile.type === "img" && (
                 <div className="image-preview">
                   <div className="image-container">
-                    <img 
-                      src={previewFile.url} 
-                      alt="Medical scan" 
+                    <img
+                      src={previewFile.url}
+                      alt="Medical scan"
                       onError={(e) => {
-                        e.target.onerror = null; 
-                        e.target.src = "https://via.placeholder.com/400x300?text=Medical+Image";
+                        e.target.onerror = null;
+                        e.target.src =
+                          "https://via.placeholder.com/400x300?text=Medical+Image";
                       }}
                     />
                   </div>
@@ -516,7 +624,7 @@ export default function FileManager() {
                       onPause={() => setPlayingVideo(false)}
                     />
                     {!playingVideo && (
-                      <button 
+                      <button
                         className="play-button"
                         onClick={() => setPlayingVideo(true)}
                       >
@@ -538,13 +646,16 @@ export default function FileManager() {
               )}
             </div>
             <div className="preview-footer">
-              <button 
+              <button
                 className="download-btn"
                 onClick={() => handleDownload(selectedFile)}
               >
                 <FaDownload /> Download
               </button>
-              <button className="close-btn" onClick={() => setPreviewFile(null)}>
+              <button
+                className="close-btn"
+                onClick={() => setPreviewFile(null)}
+              >
                 Close
               </button>
             </div>

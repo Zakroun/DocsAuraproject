@@ -4,15 +4,17 @@ import { PiVideoConferenceFill } from "react-icons/pi";
 import { MdOutlinePayment } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { changecurrentpage } from "../data/DocsauraSlice";
-import { AddAppointemnt } from "../data/DocsauraSlice";
+import { addAppointment } from "../data/DocsauraSlice";
+import { useLocation } from "react-router-dom";
 // import { useEffect } from "react";
 export default function DoctorReserve(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [errorMessage, seterrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const Ldoctor = useSelector((s) => s.Docsaura.doctors);
-  const doctor = Ldoctor.find((a) => a.id === props.id);
+  const Loc = useLocation();
+  const doctor = Loc.state?.doctor;
+  //console.log(doctor.id)
   const [content1, setcontent1] = useState("block");
   const [content2, setcontent2] = useState("none");
   const [formData, setFormData] = useState({
@@ -21,8 +23,6 @@ export default function DoctorReserve(props) {
     phone: "",
     cin: "",
     location: "",
-    status: "pending",
-    image: "user.png",
     date: "",
     timeFrom: "",
     timeTo: "",
@@ -59,62 +59,110 @@ export default function DoctorReserve(props) {
   //   }
   // }, [formData.paymentMethod]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("paymentMethod : ", formData.paymentMethod);
+  const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    if (content2 === "block") {
-      if (formData.paymentMethod === "credit-card") {
-        if (
-          formData.cardNumber === "" ||
-          formData.expiryDate === "" ||
-          formData.cvv === ""
-        ) {
-          seterrorMessage("Please fill in all the credit card details");
-          setTimeout(() => {
-            seterrorMessage("");
-          }, 3000);
-          return;
-        }
+  if (content2 === "block") {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user?.id) {
+      seterrorMessage("Please login to book an appointment");
+      setTimeout(() => seterrorMessage(""), 3000);
+      return;
+    }
+
+    // Validate required fields
+    const requiredFields = {
+      fullName: formData.fullName,
+      email: formData.email,
+      phone: formData.phone,
+      cin: formData.cin,
+      location: formData.location,
+      date: formData.date,
+      timeFrom: formData.timeFrom,
+      timeTo: formData.timeTo,
+      paymentMethod: formData.paymentMethod
+    };
+
+    const missingFields = Object.entries(requiredFields)
+      .filter(([_, value]) => !value)
+      .map(([key]) => key);
+
+    if (missingFields.length > 0) {
+      seterrorMessage(`Missing required fields: ${missingFields.join(', ')}`);
+      setTimeout(() => seterrorMessage(""), 5000);
+      return;
+    }
+
+    // Validate credit card details if payment method is credit-card
+    if (formData.paymentMethod === "credit-card") {
+      if (!formData.cardNumber || !formData.expiryDate || !formData.cvv) {
+        seterrorMessage("Please fill in all credit card details");
+        setTimeout(() => seterrorMessage(""), 3000);
+        return;
       }
+    }
+
+    try {
       const appointment = {
+        // Personal information
         fullName: formData.fullName,
         email: formData.email,
         phone: formData.phone,
         cin: formData.cin,
         location: formData.location,
-        status: formData.status,
-        image: formData.image,
+
+        // Appointment details
         date: formData.date,
         timeFrom: formData.timeFrom,
         timeTo: formData.timeTo,
-        consultationType: formData.consultationType,
-        description: formData.description,
-        paymentMethod: formData.paymentMethod,
-        cardNumber: formData.cardNumber,
-        expiryDate: formData.expiryDate,
-        cvv: formData.cvv,
-        
-      };
-      dispatch(
-        AddAppointemnt({
-          role: props.role,
-          id: props.id,
-          appointment: appointment,
-        })
-      );
+        consultationType: formData.consultationType || null,
+        description: formData.description || null,
 
-      setSuccessMessage("Appointment successfully booked");
-      setTimeout(() => {
-        setSuccessMessage("");
-        navigate("/");
-        dispatch(changecurrentpage("home"));
-      }, 3000);
+        // Payment information
+        paymentMethod: formData.paymentMethod,
+        ...(formData.paymentMethod === "credit-card" ? {
+          cardNumber: formData.cardNumber,
+          expiryDate: formData.expiryDate,
+          cvv: formData.cvv
+        } : {
+          cardNumber: null,
+          expiryDate: null,
+          cvv: null
+        }),
+
+        // System fields
+        status: "pending",
+        id_visiteur: user.id,
+        id_doctor: doctor.id,
+        doctorAppointment: true,
+        clinicAppointment: false,
+        laboAppointment: false,
+        id_clinic: null,
+        id_labo: null,
+        imageP: null
+      };
+
+      //console.log("Final appointment payload:", appointment); // Debug log
+
+      const resultAction = await dispatch(addAppointment(appointment));
+      
+      if (addAppointment.fulfilled.match(resultAction)) {
+        setSuccessMessage("Appointment booked successfully!");
+        setTimeout(() => {
+          navigate("/");
+          dispatch(changecurrentpage("home"));
+        }, 3000);
+      }
+    } catch (error) {
+      console.error("Appointment error:", error);
+      seterrorMessage("Failed to book appointment. Please check all fields.");
+      setTimeout(() => seterrorMessage(""), 5000);
     }
-  };
+  }
+};
 
   const Next = () => {
-    console.log(formData);
+    //console.log(formData);
     if (
       formData.fullName === "" ||
       formData.email === "" ||
@@ -151,7 +199,7 @@ export default function DoctorReserve(props) {
           </div>
         )}
       </div>
-      <h1>Book a consultation with , {doctor.fullName}</h1>
+      <h1>Book a consultation with , Dr. {doctor.fullName}</h1>
       <div className="part1serve">
         <div className="spancontent">
           <span className="spanserve">1 | Personal Information</span>

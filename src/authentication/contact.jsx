@@ -8,7 +8,6 @@ import { changecurrentpage } from "../data/DocsauraSlice";
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({ email: "", message: "" });
-  const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -27,10 +26,9 @@ export default function ContactForm() {
       const response = await axios.post("/contact", formData);
       
       if (response.data.success) {
-        setSubmitted(true);
-        setTimeout(() => {
-          navigate('/');
-        }, 1000);
+        // Immediately navigate to home after successful submission
+        navigate('/');
+        dispatch(changecurrentpage("home"));
       }
     } catch (err) {
       console.error('Submission error:', err.response);
@@ -56,41 +54,35 @@ export default function ContactForm() {
       
       {error && <div className="error-message">{error}</div>}
       
-      {submitted ? (
-        <div className="success-message">
-          Thanks for your message! Redirecting...
-        </div>
-      ) : (
-        <form onSubmit={handleSubmit}>
-          <h2 id="h2email">Contact us</h2>
-          <div className="inputdiv">
-            <MdEmail size={30} className="icondivinput" />
-            <input
-              placeholder="Your email address"
-              id="email"
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              disabled={loading}
-            />
-          </div>
-          <br />
-          <textarea
-            placeholder="Your message..."
-            id="message"
-            name="message"
-            value={formData.message}
+      <form onSubmit={handleSubmit}>
+        <h2 id="h2email">Contact us</h2>
+        <div className="inputdiv">
+          <MdEmail size={30} className="icondivinput" />
+          <input
+            placeholder="Your email address"
+            id="email"
+            type="email"
+            name="email"
+            value={formData.email}
             onChange={handleChange}
             required
             disabled={loading}
           />
-          <button id="btn" type="submit" disabled={loading}>
-            {loading ? "Sending..." : "Send"}
-          </button>
-        </form>
-      )}
+        </div>
+        <br />
+        <textarea
+          placeholder="Your message..."
+          id="message"
+          name="message"
+          value={formData.message}
+          onChange={handleChange}
+          required
+          disabled={loading}
+        />
+        <button id="btn" type="submit" disabled={loading}>
+          {loading ? "Sending..." : "Send"}
+        </button>
+      </form>
     </div>
   );
 }

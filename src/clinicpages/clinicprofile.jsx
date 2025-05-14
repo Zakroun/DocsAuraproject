@@ -75,7 +75,7 @@ export default function ClinicProfile({ id }) {
         <div className="profile-info">
           <h1 className="clinic-name">
             {clinic.fullName}
-            {clinic.Verified && <MdVerified className="verification-badge" />}
+            {clinic.verified && <MdVerified className="verification-badge" />}
           </h1>
           
           <div className="rating-container">
@@ -87,7 +87,7 @@ export default function ClinicProfile({ id }) {
 
           <Link 
           to={localStorage.getItem('token') ? `/pages/reserveclinic` : '#'}
-          state={{ id: clinic.id, role: clinic.Role }}
+          state={{ clinic:clinic}}
           className="appointment-button"
           onClick={handleBookAppointment}
         >

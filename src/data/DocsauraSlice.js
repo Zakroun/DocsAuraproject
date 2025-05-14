@@ -13,37 +13,32 @@ import { createSlice } from "@reduxjs/toolkit";
 import { conversations } from "./data";
 // import { adminUsers } from "./data";
 import { complaints } from "./data";
-import axios from 'axios';
+import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 // Async thunks for fetching users
 // Add this at the top of your autslice.js file
-const API_BASE_URL = 'http://localhost:8000/api/v1';
+const API_BASE_URL = "http://localhost:8000/api/v1";
+const API_BASE_URL2 = "http://localhost:8000/api";
 export const fetchVisitors = createAsyncThunk(
-  'users/fetchVisitors',
+  "users/fetchVisitors",
   async () => {
     const response = await axios.get(`${API_BASE_URL}/users/patient`);
     return response.data;
   }
 );
 
-export const fetchDoctors = createAsyncThunk(
-  'users/fetchDoctors',
-  async () => {
-    const response = await axios.get(`${API_BASE_URL}/users/doctor`);
-    return response.data;
-  }
-);
+export const fetchDoctors = createAsyncThunk("users/fetchDoctors", async () => {
+  const response = await axios.get(`${API_BASE_URL}/users/doctor`);
+  return response.data;
+});
 
-export const fetchClinics = createAsyncThunk(
-  'users/fetchClinics',
-  async () => {
-    const response = await axios.get(`${API_BASE_URL}/users/clinic`);
-    return response.data;
-  }
-);
+export const fetchClinics = createAsyncThunk("users/fetchClinics", async () => {
+  const response = await axios.get(`${API_BASE_URL}/users/clinic`);
+  return response.data;
+});
 
 export const fetchLaboratories = createAsyncThunk(
-  'users/fetchLaboratories',
+  "users/fetchLaboratories",
   async () => {
     const response = await axios.get(`${API_BASE_URL}/users/laboratory`);
     return response.data;
@@ -51,7 +46,7 @@ export const fetchLaboratories = createAsyncThunk(
 );
 
 export const fetchAdminUsers = createAsyncThunk(
-  'users/fetchAdminUsers',
+  "users/fetchAdminUsers",
   async () => {
     const response = await axios.get(`${API_BASE_URL}/admin-users`);
     return response.data;
@@ -59,7 +54,7 @@ export const fetchAdminUsers = createAsyncThunk(
 );
 
 export const fetchAllUsers = createAsyncThunk(
-  'users/fetchAll',
+  "users/fetchAll",
   async (_, { dispatch }) => {
     await dispatch(fetchVisitors());
     await dispatch(fetchDoctors());
@@ -67,6 +62,61 @@ export const fetchAllUsers = createAsyncThunk(
     await dispatch(fetchLaboratories());
     await dispatch(fetchAdminUsers());
     return true;
+  }
+);
+// addAppointment slice api
+export const addAppointment = createAsyncThunk(
+  "appointments/add",
+  async (appointment, { rejectWithValue }) => {
+    console.log(appointment);
+    try {
+      // Only modify imageP if not a lab appointment
+      const requestData = {
+        ...appointment,
+        imageP: appointment.id_labo ? appointment.imageP : null,
+      };
+
+      const response = await axios.post(
+        `${API_BASE_URL2}/appointments`,
+        requestData
+      );
+      return response.data;
+    } catch (error) {
+      // Detailed error logging
+      // console.group('Appointment Creation Failed');
+      // console.error('Full error object:', error);
+
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        console.error("Response status:", error.response.status);
+        console.error("Response headers:", error.response.headers);
+        console.error("Response data:", error.response.data);
+
+        // Special handling for 422 validation errors
+        if (error.response.status === 422) {
+          console.error("Validation errors:", error.response.data.errors);
+        }
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error("No response received:", error.request);
+      } else {
+        // Something happened in setting up the request
+        console.error("Request setup error:", error.message);
+      }
+
+      console.groupEnd();
+
+      // return rejectWithValue({
+      //   message: error.response?.data?.message || 'Appointment creation failed',
+      //   errors: error.response?.data?.errors || {},
+      //   status: error.response?.status,
+      //   originalError: { // Include original error details for debugging
+      //     config: error.config,
+      //     request: error.request,
+      //     response: error.response
+      //   }
+      // });
+    }
   }
 );
 
@@ -91,7 +141,7 @@ export const DocsauraSlice = createSlice({
     userDataYearly: userDataYearly,
     files: filesData.files,
     activity: filesData.activity,
-    requests : requests,
+    requests: requests,
   },
   reducers: {
     changeboard: (state, action) => {
@@ -283,41 +333,41 @@ export const DocsauraSlice = createSlice({
         (complaint) => complaint.id !== complaintId
       );
     },
-    AddAppointemnt: (state, action) => {
-      const { role, id, appointment } = action.payload;
-      console.log(action.payload);
-      let entity;
-      switch (role) {
-        case "doctor":
-          entity = state.doctors.find((doc) => doc.id === id);
-          break;
-        case "clinic":
-          entity = state.clinics.find((clinic) => clinic.id === id);
-          break;
-        case "laboratory":
-          entity = state.laboratories.find((lab) => lab.id === id);
-          break;
-        case "patient":
-          entity = state.visitors.find((visitor) => visitor.id === id);
-          break;
-        default:
-          console.error("Invalid role");
-          return;
-      }
+    // AddAppointemnt: (state, action) => {
+    //   const { role, id, appointment } = action.payload;
+    //   console.log(action.payload);
+    //   let entity;
+    //   switch (role) {
+    //     case "doctor":
+    //       entity = state.doctors.find((doc) => doc.id === id);
+    //       break;
+    //     case "clinic":
+    //       entity = state.clinics.find((clinic) => clinic.id === id);
+    //       break;
+    //     case "laboratory":
+    //       entity = state.laboratories.find((lab) => lab.id === id);
+    //       break;
+    //     case "patient":
+    //       entity = state.visitors.find((visitor) => visitor.id === id);
+    //       break;
+    //     default:
+    //       console.error("Invalid role");
+    //       return;
+    //   }
 
-      if (!entity) {
-        console.error(`${role} not found with id ${id}`);
-        return;
-      }
+    //   if (!entity) {
+    //     console.error(`${role} not found with id ${id}`);
+    //     return;
+    //   }
 
-      if (!entity.appointments) {
-        entity.appointments = [];
-      }
+    //   if (!entity.appointments) {
+    //     entity.appointments = [];
+    //   }
 
-      entity.appointments.push(appointment);
-      // console.log(`Appointment added to ${role} with id ${id}:`, appointment);
-      // console.log("Updated appointments:", entity.appointments);
-    },
+    //   entity.appointments.push(appointment);
+    //   // console.log(`Appointment added to ${role} with id ${id}:`, appointment);
+    //   // console.log("Updated appointments:", entity.appointments);
+    // },
     addFile: (state, action) => {
       state.files.push(action.payload);
       state.activity.push(`File "${action.payload.name}" uploaded`);
@@ -328,7 +378,8 @@ export const DocsauraSlice = createSlice({
       );
       state.activity.push(`Deleted ${action.payload.length} files`);
     },
-  },extraReducers: (builder) => {
+  },
+  extraReducers: (builder) => {
     builder
       // Visitors
       .addCase(fetchVisitors.pending, (state) => {
@@ -342,7 +393,7 @@ export const DocsauraSlice = createSlice({
         state.error = action.error.message;
         state.loading = false;
       })
-      
+
       // Doctors
       .addCase(fetchDoctors.pending, (state) => {
         state.loading = true;
@@ -355,7 +406,7 @@ export const DocsauraSlice = createSlice({
         state.error = action.error.message;
         state.loading = false;
       })
-      
+
       // Clinics
       .addCase(fetchClinics.pending, (state) => {
         state.loading = true;
@@ -368,7 +419,7 @@ export const DocsauraSlice = createSlice({
         state.error = action.error.message;
         state.loading = false;
       })
-      
+
       // Laboratories
       .addCase(fetchLaboratories.pending, (state) => {
         state.loading = true;
@@ -381,7 +432,7 @@ export const DocsauraSlice = createSlice({
         state.error = action.error.message;
         state.loading = false;
       })
-      
+
       // Admin Users
       .addCase(fetchAdminUsers.pending, (state) => {
         state.loading = true;
@@ -393,8 +444,48 @@ export const DocsauraSlice = createSlice({
       .addCase(fetchAdminUsers.rejected, (state, action) => {
         state.error = action.error.message;
         state.loading = false;
+      })
+      // addAppointment Case builder
+      .addCase(addAppointment.fulfilled, (state, action) => {
+        const appointment = action.payload.data; // The created appointment from API
+
+        // Determine which entity this appointment belongs to
+        if (appointment.id_doctor) {
+          const doctor = state.doctors.find(
+            (doc) => doc.id === appointment.id_doctor
+          );
+          if (doctor) {
+            if (!doctor.appointments) doctor.appointments = [];
+            doctor.appointments.push(appointment);
+          }
+        } else if (appointment.id_clinic) {
+          const clinic = state.clinics.find(
+            (cli) => cli.id === appointment.id_clinic
+          );
+          if (clinic) {
+            if (!clinic.appointments) clinic.appointments = [];
+            clinic.appointments.push(appointment);
+          }
+        } else if (appointment.id_labo) {
+          const lab = state.laboratories.find(
+            (lab) => lab.id === appointment.id_labo
+          );
+          if (lab) {
+            if (!lab.appointments) lab.appointments = [];
+            lab.appointments.push(appointment);
+          }
+        } else {
+          // console.error(
+          //   "Appointment doesn't belong to any entity:",
+          //   appointment
+          // );
+        }
+      })
+      .addCase(addAppointment.rejected, (state, action) => {
+        state.error = action.payload?.message || "Failed to create appointment";
+        state.validationErrors = action.payload?.errors || {}; // Store validation errors
       });
-  }
+  },
 });
 
 // Export all your actions
@@ -410,7 +501,7 @@ export const {
   acceptRequest,
   rejectRequest,
   Deletecomplaint,
-  AddAppointemnt,
+  //AddAppointemnt,
   addFile,
   deleteFiles,
 } = DocsauraSlice.actions;

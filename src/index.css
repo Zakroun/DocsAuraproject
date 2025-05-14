@@ -508,6 +508,7 @@ body {
   font-weight: 700;
   color: #555555;
 }
+
 .countainer {
   height: 100%;
   top: 0;
@@ -3220,10 +3221,14 @@ h1 {
 }
 
 .search-box input {
-  width: 100%;
+  width: 87%;
   padding: 10px 15px 10px 35px;
   border: 1px solid #ddd;
-  border-radius: 20px;
+  /* border-radius: 20px; */
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
   outline: none;
   transition: all 0.3s;
   font-size: 14px;
@@ -3246,7 +3251,9 @@ h1 {
   display: flex;
   gap: 10px;
 }
-
+.upload-btn{
+  z-index: 3;
+}
 .upload-btn, .delete-btn {
   background: #007180;
   color: white;

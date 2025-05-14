@@ -4,13 +4,15 @@ import { PiVideoConferenceFill } from "react-icons/pi";
 import { MdOutlinePayment } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { changecurrentpage } from "../data/DocsauraSlice";
-import { AddAppointemnt } from "../data/DocsauraSlice";
+import { addAppointment } from "../data/DocsauraSlice";
+import { useLocation } from "react-router-dom";
 export default function ClinicReserve(props) {
   const [errorMessage, seterrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const dispatch = useDispatch();
-  const Lclinic = useSelector((s) => s.Docsaura.clinics);
-  const clinic = Lclinic.find((a) => a.id === props.id);
+  const Loc = useLocation();
+  const clinic = Loc.state?.clinic;
+  //console.log(clinic)
   const [content1, setcontent1] = useState("block");
   const [content2, setcontent2] = useState("none");
   const [formData, setFormData] = useState({
@@ -20,10 +22,8 @@ export default function ClinicReserve(props) {
     date: "",
     cin: "",
     location: "",
-    image: "user.png",
     timeFrom: "",
     timeTo: "",
-    status: "pending",
     description: "",
     consultationType: "",
     paymentMethod: "",
@@ -34,57 +34,107 @@ export default function ClinicReserve(props) {
   const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
-  
+
     setFormData((prevData) => {
       const updatedFormData = { ...prevData, [name]: value };
-  
+
       // Si l'utilisateur change timeFrom, calcule automatiquement timeTo
       if (name === "timeFrom") {
         const [hours, minutes] = value.split(":").map(Number);
         const startDate = new Date();
         startDate.setHours(hours);
         startDate.setMinutes(minutes + 30);
-  
+
         const newTimeTo = startDate.toTimeString().slice(0, 5); // HH:MM format
         updatedFormData.timeTo = newTimeTo;
       }
-  
+
       return updatedFormData;
     });
-  };  
+  };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (content2 === "block") {
+      // Get authenticated user from localStorage
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (!user?.id) {
+        seterrorMessage("Please login to book an appointment");
+        setTimeout(() => seterrorMessage(""), 3000);
+        return;
+      }
+
+      // Validate credit card details if payment method is credit-card
       if (formData.paymentMethod === "credit-card") {
         if (!formData.cardNumber || !formData.expiryDate || !formData.cvv) {
-          seterrorMessage("Please fill in all the credit card details");
-          setTimeout(() => {
-            seterrorMessage("");
-          }, 4000);
+          seterrorMessage("Please fill in all credit card details");
+          setTimeout(() => seterrorMessage(""), 3000);
           return;
         }
       }
-  
-      dispatch(
-        AddAppointemnt({
-          role: props.role,
-          id: props.id,
-          appointment: formData,
-        })
-      );
-      
-  
-      setSuccessMessage("Appointment successfully booked");
-      setTimeout(() => {
-        setSuccessMessage("");
-        navigate("/");
-        dispatch(changecurrentpage("home"));
-      }, 3000);
+
+      try {
+        const appointment = {
+          // Personal information
+          fullName: formData.fullName,
+          email: formData.email,
+          phone: formData.phone,
+          cin: formData.cin,
+          location: formData.location,
+
+          // Appointment details
+          date: formData.date,
+          timeFrom: formData.timeFrom,
+          timeTo: formData.timeTo,
+          consultationType: formData.consultationType,
+          description: formData.description,
+
+          // Payment information
+          paymentMethod: formData.paymentMethod,
+          ...(formData.paymentMethod === "credit-card"
+            ? {
+                cardNumber: formData.cardNumber,
+                expiryDate: formData.expiryDate,
+                cvv: formData.cvv,
+              }
+            : {
+                cardNumber: null,
+                expiryDate: null,
+                cvv: null,
+              }),
+
+          // System fields
+          status: "pending",
+          id_visiteur: user.id,
+          id_clinic: clinic.id, // Using clinic.id from location state
+          clinicAppointment: true,
+          doctorAppointment: false,
+          laboAppointment: false,
+          id_doctor: null,
+          id_labo: null,
+          imageP: null,
+        };
+
+        const result = await dispatch(addAppointment(appointment));
+
+        if (result.error) {
+          throw new Error(result.error.message);
+        }
+
+        setSuccessMessage("Clinic appointment booked successfully!");
+        setTimeout(() => {
+          setSuccessMessage("");
+          navigate("/");
+          dispatch(changecurrentpage("home"));
+        }, 3000);
+      } catch (error) {
+        console.error("Appointment error:", error);
+        seterrorMessage(error.message || "Failed to book clinic appointment");
+        setTimeout(() => seterrorMessage(""), 5000);
+      }
     }
   };
-    
 
   const Next = () => {
     if (

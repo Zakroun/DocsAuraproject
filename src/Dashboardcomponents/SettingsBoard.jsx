@@ -3,6 +3,8 @@ import { FaBell, FaBellSlash, FaSave, FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 export default function SettingsBoard({ Use }) {
+  console.log('image',Use.image)
+  console.log(Use)
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [retypePassword, setRetypePassword] = useState("");
@@ -34,7 +36,7 @@ export default function SettingsBoard({ Use }) {
       personalInfo: "Personal Information",
       name: "Name",
       email: "Email",
-      phoneNo: "Phone No",
+      phoneNo: "Phone",
       security: "Security",
       currentPassword: "Current Password",
       newPassword: "New Password",
@@ -206,7 +208,8 @@ export default function SettingsBoard({ Use }) {
               <br />
               <div className="profile-picture">
                 <img 
-                  src={`/images${Use.role === 'doctor'?'/doctors/':Use.role === 'clinic'?'/clinics/':Use.role === 'laboratory'?'/laboratory/':''}/${profileImage}`} 
+                  src={Use.image ? `http://localhost:8000/storage/${Use.image}` : `/images/${Use.role === 'clinic'?'clinics/clinic2.jpeg':Use.role === 'laboratory'?'laboratory/labo2.jpeg':Use.role === 'doctor'?'doctors/doctor2.jpeg':'user.png'}`}
+                  //src={`/images${Use.role === 'doctor'?'/doctors/':Use.role === 'clinic'?'/clinics/':Use.role === 'laboratory'?'/laboratory/':''}/${profileImage}`} 
                   alt="Profile" 
                   onClick={toggleFullImage}
                   style={{ cursor: 'pointer' }}
@@ -530,7 +533,7 @@ export default function SettingsBoard({ Use }) {
         <div className="full-image-modal" onClick={toggleFullImage}>
           <div className="full-image-content" onClick={(e) => e.stopPropagation()}>
             <img 
-              src={`/images${Use.role === 'doctor'?'/doctors/':Use.role === 'clinic'?'/clinics/':Use.role === 'laboratory'?'/laboratory/':''}/${profileImage}`} 
+              src={Use.image ? `http://localhost:8000/storage/${Use.image}` : `/images/${Use.role === 'clinic'?'clinics/clinic2.jpeg':Use.role === 'laboratory'?'laboratory/labo2.jpeg':Use.role === 'doctor'?'doctors/doctor2.jpeg':'user.png'}`}
               alt="Profile Full Size" 
             />
             <button 

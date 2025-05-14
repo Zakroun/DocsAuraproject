@@ -11,10 +11,10 @@ import { useEffect, useState } from "react";
 
 export default function DoctorProfile({ id }) {
   const navigate = useNavigate();
-  console.log(id)
+  //console.log(id)
   const doctorsList = useSelector((state) => state.Docsaura.doctors);
   const doctor = doctorsList?.find((doc) => doc.id === id);
-  console.log('doctor : ',doctor)
+  //console.log('doctor : ',doctor)
   const [activeTab, setActiveTab] = useState("about");
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -72,7 +72,7 @@ export default function DoctorProfile({ id }) {
         <div className="profile-info">
           <h1 className="doctor-name">
             Dr. {doctor.fullName}
-            {doctor.Verified && <MdVerified className="verification-badge" />}
+            {doctor.verified && <MdVerified className="verification-badge" />}
           </h1>
           <div className="rating-container">
             {renderRatingStars(doctor.rating)}
@@ -81,7 +81,7 @@ export default function DoctorProfile({ id }) {
           <br />
           <Link
             to={localStorage.getItem('token') ? `/pages/reservedoc` : '#'}
-            state={{ id: doctor.id, role: doctor.Role }}
+            state={{ doctor : doctor}}
             className="appointment-button"
             onClick={handleAppointmentClick}
           >

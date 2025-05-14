@@ -76,7 +76,7 @@ export default function LaboratoryProfile({ id }) {
         <div className="profile-info">
           <h1 className="laboratory-name">
             {laboratory.fullName}
-            {laboratory.Verified && (
+            {laboratory.verified && (
               <MdVerified className="verification-badge" />
             )}
           </h1>
@@ -92,7 +92,7 @@ export default function LaboratoryProfile({ id }) {
 
           <Link
             to={localStorage.getItem('token') ? `/pages/reservelabo` : '#'}
-            state={{ id: laboratory.id, role: laboratory.Role }}
+            state={{ laboratory:laboratory }}
             className="appointment-button"
             onClick={handleBookTest}
           >

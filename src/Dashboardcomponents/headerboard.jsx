@@ -7,7 +7,7 @@ import { Menu } from "../data/DocsauraSlice";
 // import { changeboard } from "../data/DocsauraSlice";
 import { IoMenu } from "react-icons/io5";
 export default function HeaderBoard({ Use }) {
-  const Verified = Use.Verified;
+  const verified = Use.verified;
   const dispatch = useDispatch();
   const tableSearch = [
     "home",
@@ -17,13 +17,13 @@ export default function HeaderBoard({ Use }) {
     "files",
     "Logout",
   ];
-  const listsearchadmin = [
-    "home",
-    "Userslist",
-    "Requests",
-    "Complaints",
-    "Logout",
-  ]
+  // const listsearchadmin = [
+  //   "home",
+  //   "Userslist",
+  //   "Requests",
+  //   "Complaints",
+  //   "Logout",
+  // ]
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const Searchfn = (e) => {
@@ -98,7 +98,7 @@ export default function HeaderBoard({ Use }) {
               <LuSearch className="iconsearch" size={15} />
             </button>
           </div>
-          {Verified === true ? (
+          {verified ? (
             <div className="serachresult">
               {searchResult.map((a, k) => {
                 return (

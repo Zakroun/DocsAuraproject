@@ -7,7 +7,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { AddAppointemnt } from "../data/DocsauraSlice";
+import { addAppointment } from "../data/DocsauraSlice";
 import { PiVideoConferenceFill } from "react-icons/pi";
 import { MdOutlinePayment } from "react-icons/md";
 
@@ -164,7 +164,7 @@ export default function Calendar(props) {
       };
 
       dispatch(
-        AddAppointemnt({
+        addAppointment({
           role: "doctor", // or whatever role is appropriate
           id: props.id, // assuming you have doctor's id in props
           appointment: appointment,

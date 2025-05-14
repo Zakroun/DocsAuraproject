@@ -4,13 +4,15 @@ import { PiVideoConferenceFill } from "react-icons/pi";
 import { MdOutlinePayment } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { changecurrentpage } from "../data/DocsauraSlice";
-import { AddAppointemnt } from "../data/DocsauraSlice";
+import { addAppointment } from "../data/DocsauraSlice";
+import { useLocation } from "react-router-dom";
 export default function LaboratoryReserve(props) {
   const [errorMessage, seterrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const dispatch = useDispatch();
-  const Llabo = useSelector((s) => s.Docsaura.laboratories);
-  const labo = Llabo.find((a) => a.id === props.id);
+  const Loc = useLocation();
+  const laboratory = Loc.state?.laboratory;
+  //console.log(laboratory)
   const [content1, setcontent1] = useState("block");
   const [content2, setcontent2] = useState("none");
   const [formData, setFormData] = useState({
@@ -21,7 +23,6 @@ export default function LaboratoryReserve(props) {
     cin: "",
     timeFrom: "",
     status: "pending",
-    image: "user.png",
     timeTo: "",
     paymentMethod: "",
     cardNumber: "",
@@ -34,7 +35,7 @@ export default function LaboratoryReserve(props) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     let updatedForm = { ...formData, [name]: value };
-    
+
     if (name === "timeFrom") {
       const [hours, minutes] = value.split(":").map(Number);
       const date = new Date();
@@ -44,80 +45,103 @@ export default function LaboratoryReserve(props) {
       const newMinutes = String(date.getMinutes()).padStart(2, "0");
       updatedForm.timeTo = `${newHours}:${newMinutes}`;
     }
-    
+
     setFormData(updatedForm);
   };
 
   const handleFileChange = (e) => {
-    const file = e.target.files[0];
+  const file = e.target.files[0];
+  if (file) {
+    // Create a URL for the file
+    const imageUrl = URL.createObjectURL(file);
+    setFormData({
+      ...formData,
+      imageP: imageUrl, // Store just the URL
+    });
+  }
+};
 
-    if (file) {
-      const reader = new FileReader();
-
-      reader.onloadend = () => {
-        setFormData({
-          ...formData,
-          imageP: file,
-          imagePreview: reader.result,
-        });
-      };
-
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("paymentMethod : ", formData.paymentMethod);
 
     if (content2 === "block") {
+      // Get authenticated user from localStorage
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (!user?.id) {
+        seterrorMessage("Please login to book an appointment");
+        setTimeout(() => seterrorMessage(""), 3000);
+        return;
+      }
+
+      // Validate required fields for laboratory
+      if (!formData.imageP) {
+        seterrorMessage("Please upload your medical document");
+        setTimeout(() => seterrorMessage(""), 10000);
+        return;
+      }
+
+      // Validate credit card details if payment method is credit-card
       if (formData.paymentMethod === "credit-card") {
-        if (
-          formData.cardNumber === "" ||
-          formData.expiryDate === "" ||
-          formData.cvv === ""
-        ) {
-          seterrorMessage("Please fill in all the credit card details");
-          setTimeout(() => {
-            seterrorMessage("");
-          }, 10000);
+        if (!formData.cardNumber || !formData.expiryDate || !formData.cvv) {
+          seterrorMessage("Please fill in all credit card details");
+          setTimeout(() => seterrorMessage(""), 3000);
           return;
         }
       }
-      const appointment = {
-        fullName: formData.fullName,
-        email: formData.email,
-        phone: formData.phone,
-        cin: formData.cin,
-        location: formData.location,
-        status: formData.status,
-        image: formData.image,
-        date: formData.date,
-        timeFrom: formData.timeFrom,
-        timeTo: formData.timeTo,
-        consultationType: formData.consultationType,
-        description: formData.description,
-        paymentMethod: formData.paymentMethod,
-        cardNumber: formData.cardNumber,
-        expiryDate: formData.expiryDate,
-        cvv: formData.cvv,
-        imageP: formData.imageP,
-        imagePreview: formData.imagePreview,
-      };
-      dispatch(
-        AddAppointemnt({
-          role: props.role,
-          id: props.id,
-          appointment: appointment,
-        })
-      );
 
-      setSuccessMessage("Appointment successfully booked");
-      setTimeout(() => {
-        setSuccessMessage("");
-        navigate("/");
-        dispatch(changecurrentpage("home"));
-      }, 3000);
+      try {
+        const appointment = {
+          // Personal information
+          fullName: formData.fullName,
+          email: formData.email,
+          phone: formData.phone,
+          cin: formData.cin,
+          location: formData.location,
+
+          // Appointment details
+          date: formData.date,
+          timeFrom: formData.timeFrom,
+          timeTo: formData.timeTo,
+          status: "pending",
+
+          // Payment information
+          paymentMethod: formData.paymentMethod,
+          ...(formData.paymentMethod === "credit-card" && {
+            cardNumber: formData.cardNumber,
+            expiryDate: formData.expiryDate,
+            cvv: formData.cvv,
+          }),
+
+          // Laboratory-specific fields
+          imageP: formData.imageP, // File object will be handled by axios
+          id_visiteur: user.id,
+          id_labo: laboratory.id, // From location state
+          laboAppointment: true,
+          doctorAppointment: false,
+          clinicAppointment: false,
+          id_doctor: null,
+          id_clinic: null,
+        };
+
+        const result = await dispatch(addAppointment(appointment));
+
+        if (result.error) {
+          throw new Error(result.error.message);
+        }
+
+        setSuccessMessage("Laboratory appointment booked successfully!");
+        setTimeout(() => {
+          setSuccessMessage("");
+          navigate("/");
+          dispatch(changecurrentpage("home"));
+        }, 3000);
+      } catch (error) {
+        console.error("Appointment error:", error);
+        seterrorMessage(
+          error.message || "Failed to book laboratory appointment"
+        );
+        setTimeout(() => seterrorMessage(""), 5000);
+      }
     }
   };
 
@@ -156,7 +180,7 @@ export default function LaboratoryReserve(props) {
           <div className="custom-notification error">{errorMessage}</div>
         </div>
       )}
-      <h1>Book a consultation with , {labo.fullName}</h1>
+      <h1>Book a consultation with , {laboratory.fullName}</h1>
       <div className="part1serve">
         <div className="spancontent">
           <span className="spanserve">1 | Personal Information</span>

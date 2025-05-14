@@ -43,8 +43,7 @@ export default function ListDocCliLAbo() {
                   alt={d.fullName}
                 />
                 <div className="informations">
-                  <h3>
-                    {d.fullName.length > 20
+                  <h3> Dr. {d.fullName.length > 20
                       ? d.fullName.substring(0, 20) + "..."
                       : d.fullName}
                   </h3>
@@ -106,7 +105,7 @@ export default function ListDocCliLAbo() {
                   alt={l.fullName}
                 />
                 <div className="informations">
-                  <h3>
+                  <h3> 
                     {l.fullName.length > 20
                       ? l.fullName.substring(0, 20) + "..."
                       : l.fullName}
