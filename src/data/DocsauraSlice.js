@@ -119,7 +119,20 @@ export const addAppointment = createAsyncThunk(
     }
   }
 );
-
+// Add this with your other async thunks
+export const fetchUserAppointments = createAsyncThunk(
+  "appointments/fetchUserAppointments",
+  async ({ id, role }, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `${API_BASE_URL2}/appointments/${id}/${role}`
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 export const DocsauraSlice = createSlice({
   name: "DocsAura",
   initialState: {
@@ -129,6 +142,9 @@ export const DocsauraSlice = createSlice({
     clinics: [],
     laboratories: [],
     adminUsers: [],
+    appointments: [],
+    appointmentsLoading: false,
+    appointmentsError: null,
     // states
     specializedDoctors: specializedDoctors,
     profile: false,
@@ -484,6 +500,19 @@ export const DocsauraSlice = createSlice({
       .addCase(addAppointment.rejected, (state, action) => {
         state.error = action.payload?.message || "Failed to create appointment";
         state.validationErrors = action.payload?.errors || {}; // Store validation errors
+      })
+      // appointemnt get
+      .addCase(fetchUserAppointments.pending, (state) => {
+        state.appointmentsLoading = true;
+        state.appointmentsError = null;
+      })
+      .addCase(fetchUserAppointments.fulfilled, (state, action) => {
+        state.appointments = action.payload.data;
+        state.appointmentsLoading = false;
+      })
+      .addCase(fetchUserAppointments.rejected, (state, action) => {
+        state.appointmentsError = action.payload;
+        state.appointmentsLoading = false;
       });
   },
 });

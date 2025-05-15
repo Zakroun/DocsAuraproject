@@ -5,20 +5,23 @@ import {
   faClock,
   faTimesCircle,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addAppointment } from "../data/DocsauraSlice";
 import { PiVideoConferenceFill } from "react-icons/pi";
 import { MdOutlinePayment } from "react-icons/md";
-
-export default function Calendar(props) {
+import { useSelector } from "react-redux";
+export default function Calendar() {
+  const appointemntsuser = useSelector(s=>s.Docsaura.appointments) 
+  console.log(appointemntsuser)
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [errorMessage, seterrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const appointments = props.appointments || [];
-  const [Listeappointments, setappointments] = useState(appointments);
+  //const appointments = props.appointments || [];
+  const [Listeappointments, setappointments] = useState(appointemntsuser || []);
   const [selectedYear, setSelectedYear] = useState("2025");
-  const [selectedMonth, setSelectedMonth] = useState("04");
+  const [selectedMonth, setSelectedMonth] = useState("05");
   const [selectedStatus, setSelectedStatus] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [formAdd, setFormAdd] = useState(true);
@@ -100,9 +103,9 @@ export default function Calendar(props) {
       );
       setappointments(filteredAppointments);
     } else {
-      setappointments(appointments);
+      setappointments(appointemntsuser);
     }
-  }, [searchQuery, appointments]);
+  }, [searchQuery]);
 
   const Next = () => {
     if (
@@ -126,79 +129,127 @@ export default function Calendar(props) {
     setcontent2("block");
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    if (content2 === "block") {
-      if (formData.paymentMethod === "credit-card") {
-        if (
-          formData.cardNumber === "" ||
-          formData.expiryDate === "" ||
-          formData.cvv === ""
-        ) {
-          seterrorMessage("Please fill in all the credit card details");
-          setTimeout(() => {
-            seterrorMessage("");
-          }, 3000);
-          return;
-        }
+  if (content2 === "block") {
+    const user = JSON.parse(localStorage.getItem("user"));
+    console.log(user)
+    // Check if user is logged in
+    if (!user) {
+      seterrorMessage("Please login to book an appointment");
+      setTimeout(() => seterrorMessage(""), 3000);
+      return;
+    }
+
+    // Validate required fields
+    const requiredFields = {
+      fullName: formData.fullName,
+      email: formData.email,
+      phone: formData.phone,
+      cin: formData.cin,
+      location: formData.location,
+      date: formData.date,
+      timeFrom: formData.timeFrom,
+      timeTo: formData.timeTo,
+      paymentMethod: formData.paymentMethod
+    };
+
+    const missingFields = Object.entries(requiredFields)
+      .filter(([_, value]) => !value)
+      .map(([key]) => key);
+
+    if (missingFields.length > 0) {
+      seterrorMessage(`Missing required fields: ${missingFields.join(', ')}`);
+      setTimeout(() => seterrorMessage(""), 5000);
+      return;
+    }
+
+    // Validate credit card details if payment method is credit-card
+    if (formData.paymentMethod === "credit-card") {
+      if (!formData.cardNumber || !formData.expiryDate || !formData.cvv) {
+        seterrorMessage("Please fill in all credit card details");
+        setTimeout(() => seterrorMessage(""), 3000);
+        return;
       }
+    }
+
+    try {
+      // Determine the appointment type based on user role
+      let appointmentType = {
+        doctorAppointment: false,
+        clinicAppointment: false,
+        laboAppointment: false,
+        id_doctor: null,
+        id_clinic: null,
+        id_labo: null,
+        id_visiteur: null
+      };
+
+      // Set the appropriate IDs based on user role
+      if (user.role === "doctor") {
+        appointmentType.doctorAppointment = true;
+        appointmentType.id_doctor = user.id_doctor;
+      } else if (user.role === "clinic") {
+        appointmentType.clinicAppointment = true;
+        appointmentType.id_clinic = user.id_clinic;
+      } else if (user.role === "laboratory") {
+        appointmentType.laboAppointment = true;
+        appointmentType.id_labo = user.id_labo;
+      }
+      // Note: Removed the else block for regular users
 
       const appointment = {
+        // Personal information
         fullName: formData.fullName,
         email: formData.email,
         phone: formData.phone,
         cin: formData.cin,
         location: formData.location,
-        status: formData.status,
-        image: formData.image,
+
+        // Appointment details
         date: formData.date,
         timeFrom: formData.timeFrom,
         timeTo: formData.timeTo,
-        consultationType: formData.consultationType,
-        description: formData.description,
+        consultationType: formData.consultationType || null,
+        description: formData.description || null,
+
+        // Payment information
         paymentMethod: formData.paymentMethod,
-        cardNumber: formData.cardNumber,
-        expiryDate: formData.expiryDate,
-        cvv: formData.cvv,
+        ...(formData.paymentMethod === "credit-card" ? {
+          cardNumber: formData.cardNumber,
+          expiryDate: formData.expiryDate,
+          cvv: formData.cvv
+        } : {
+          cardNumber: null,
+          expiryDate: null,
+          cvv: null
+        }),
+
+        // System fields
+        status: "pending",
+        ...appointmentType,
+        imageP: null
       };
 
-      dispatch(
-        addAppointment({
-          role: "doctor", // or whatever role is appropriate
-          id: props.id, // assuming you have doctor's id in props
-          appointment: appointment,
-        })
-      );
-
-      setSuccessMessage("Appointment successfully booked");
-      setTimeout(() => {
-        setSuccessMessage("");
-        setFormAdd(true);
-        setcontent1("block");
-        setcontent2("none");
-        // Reset form
-        setFormData({
-          fullName: "",
-          email: "",
-          phone: "",
-          cin: "",
-          location: "",
-          status: "pending",
-          image: "user.png",
-          date: "",
-          timeFrom: "",
-          timeTo: "",
-          consultationType: "General Consultation - 200 MAD",
-          description: "",
-          paymentMethod: "",
-          cardNumber: "",
-          expiryDate: "",
-          cvv: "",
-        });
-      }, 3000);
+      const resultAction = await dispatch(addAppointment(appointment));
+      
+      if (addAppointment.fulfilled.match(resultAction)) {
+        setSuccessMessage("Appointment booked successfully!");
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+      } else if (addAppointment.rejected.match(resultAction)) {
+        seterrorMessage(resultAction.payload || "Failed to book appointment");
+        setTimeout(() => seterrorMessage(""), 5000);
+      }
+    } catch (error) {
+      console.error("Appointment error:", error);
+      seterrorMessage("Failed to book appointment. Please try again.");
+      setTimeout(() => seterrorMessage(""), 5000);
     }
-  };
+  }
+};
 
   return (
     <div className="calendar-container">
@@ -303,8 +354,8 @@ export default function Calendar(props) {
           </div>
 
           <div className="calendar-grid">
-            {daysInMonth.map((date) => (
-              <div key={date} className="calendar-day">
+            {daysInMonth.map((date,k) => (
+              <div key={k} className="calendar-day">
                 <h4 className="calendar-date">{date}</h4>
                 {groupedAppointments[date] &&
                 groupedAppointments[date].length > 0 ? (

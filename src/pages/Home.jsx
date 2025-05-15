@@ -86,6 +86,11 @@ export default function Home() {
           ]);
           await delay(60000);
         } else {
+          console.error("Full error response:", {
+            status: response.status,
+            statusText: response.statusText,
+            responseData: data,
+          });
           setMessages((prev) => [
             ...prev,
             {

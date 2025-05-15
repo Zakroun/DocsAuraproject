@@ -237,7 +237,8 @@ export default function AppointmentForm({ user, Use, onSubmitFeedback }) {
           <div className="appointment_card">
             <div className="user-info">
               <img
-                src={`../images/${User.image}`}
+                //src={`../images/${User.image}`}
+                src={`../images/user.png`}
                 alt={User.fullName}
                 className="user-image"
               />

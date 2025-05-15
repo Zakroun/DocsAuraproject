@@ -1,10 +1,14 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { clinics } from "../data/data";
 
 export default function ListDocCliLAbo() {
   const Doc = useSelector((state) => state.Docsaura.doctors);
   const Clinic = useSelector((state) => state.Docsaura.clinics);
   const Labo = useSelector((state) => state.Docsaura.laboratories);
+  // console.log('Doctors:', Doc);
+  // console.log('Clinics:', Clinic);
+  // console.log('laboratories:', Labo);
   function generateStars(rating) {
     return Array.from({ length: 5 }, (_, i) => {
       if (i < Math.floor(rating)) {

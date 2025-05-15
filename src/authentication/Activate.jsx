@@ -117,13 +117,13 @@ export default function Activate(props) {
       formDataToSend.append('role', role);
       formDataToSend.append('date', new Date().toISOString().split("T")[0]);
       formDataToSend.append('status', 'pending');
-
+      //console.log(formData)
       const response = await axios.post("/requests", formDataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
-
+      console.log(formData)
       if (response.status >= 200 && response.status < 300) {
         dispatch(Addrequest(response.data.request));
         navigate("/");

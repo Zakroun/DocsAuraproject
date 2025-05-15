@@ -26,9 +26,10 @@ import { FaCalendarAlt } from "react-icons/fa";
 import { MdMarkEmailUnread } from "react-icons/md";
 import { useSelector } from "react-redux";
 export default function Homeboard(props) {
-  
+  const appointemntsuser = useSelector((s) => s.Docsaura.appointments);
+  //console.log(appointemntsuser)
   const d = props.Use;
-  console.log('curent user ' , d)
+  //console.log('curent user ' , d)
   const [user, setUser] = useState(d);
   //console.log(user)
   //const role = d.role;
@@ -56,9 +57,13 @@ export default function Homeboard(props) {
   const patientDatamonth = d.patientDatamonth;
   const [greeting, setGreeting] = useState("");
   const [selectedDay, setSelectedDay] = useState("All");
-  const appointmentsbeforefilter = user.appointments || [];
-  const [filteredAppointments, setFilteredAppointments] = useState(appointmentsbeforefilter);
-
+  console.log(appointemntsuser);
+  const [filteredAppointments, setFilteredAppointments] =
+    useState(appointemntsuser);
+  console.log("filteredAppointments", filteredAppointments);
+  useEffect(() => {
+    setFilteredAppointments(appointemntsuser);
+  }, [appointemntsuser]);
   useEffect(() => {
     const currentHour = new Date().getHours();
     if (currentHour < 12) {
@@ -71,16 +76,16 @@ export default function Homeboard(props) {
   }, []);
 
   const handleDayChange = (e) => {
-  const selected = e.target.value;
-  setSelectedDay(selected);
-  if (selected === "All") {
-    setFilteredAppointments(d.appointments || []);
-  } else {
-    setFilteredAppointments(
-      (d.appointments || []).filter((appt) => appt.date === selected)
-    );
-  }
-};
+    const selected = e.target.value;
+    setSelectedDay(selected);
+    if (selected === "All") {
+      setFilteredAppointments(appointemntsuser || []);
+    } else {
+      setFilteredAppointments(
+        (appointemntsuser || []).filter((appt) => appt.date === selected)
+      );
+    }
+  };
 
   function generateStars(rating) {
     return Array.from({ length: 5 }, (_, i) => {
@@ -107,6 +112,7 @@ export default function Homeboard(props) {
   }
   const patientData = d.patientData;
   const appointments = filteredAppointments;
+  console.log(appointments);
   const userDataYearly = useSelector((s) => s.Docsaura.userDataYearly);
   const [selectedYear, setSelectedYear] = useState("2025");
   // if(user.verified){
@@ -132,7 +138,7 @@ export default function Homeboard(props) {
             {greeting} <br />{" "}
             <span>
               {" "}
-              {user.fullName }{" "}
+              {user.fullName}{" "}
               {user.verified ? <MdVerified className="verif" /> : ""}{" "}
             </span>
           </h1>
@@ -169,7 +175,7 @@ export default function Homeboard(props) {
       {(user.role === "doctor" ||
         user.role === "clinic" ||
         user.role === "laboratory") &&
-        user.verified ? (
+      user.verified ? (
         <>
           <div className="weeklyReports">
             <div className="weeklypart1">
@@ -320,6 +326,7 @@ export default function Homeboard(props) {
                   onChange={handleDayChange}
                 >
                   <option value="All">All</option>
+                  
                   {/* {appointments
                     .map((appt) => appt.date)
                     .map((day, k) => (
@@ -343,67 +350,101 @@ export default function Homeboard(props) {
                   <th>Actions</th>
                 </tr>
               </thead>
-              {appointments.length > 0 ?
-              (<tbody>
-                {appointments.map((appt) => (
-                  <tr
-                    key={appt.id}
-                    className={
-                      appt.status === "completed"
-                        ? "completed"
-                        : appt.status === "canceled"
-                        ? "canceled"
-                        : ""
-                    }
-                  >
-                    <td>
-                      <img
-                        src={`/images/${appt.image}`}
-                        alt="profile"
-                        className="profile-img"
-                      />
-                    </td>
-                    <td>{appt.fullName}</td>
-                    <td>{appt.location}</td>
-                    <td>{appt.date}</td>
-                    <td>{appt.timeFrom}</td>
-                    <td>{appt.timeTo}</td>
-                    <td>
-                      {appt.status === "completed" ? (
-                        <div>
-                          <span className="status completed" style={{width:'78px',background:'none',color:'rgb(26, 225, 26)',fontSize:'15px'}}>
-                            <FontAwesomeIcon icon={faCheckCircle} />Completed
-                          </span>
-                        </div>
-                      ) : appt.status === "canceled" ? (
-                        <div>
-                          <span className="status canceled" style={{width:'78px',background:'none',color:'rgb(255, 64, 64)',fontSize:'15px'}}>
-                            <FontAwesomeIcon icon={faTimesCircle} />Canceled
-                          </span>
-                        </div>
-                      ) : (
-                        <div>
-                          <span className="status pending" style={{width:'78px',background:'none',color:'rgb(255, 182, 47)',fontSize:'15px'}}>
-                            <FontAwesomeIcon icon={faClock} />Pending
-                          </span>
-                        </div>
-                      )}
-                    </td>
-                    <td className="actions">
-                      {appt.status !== "completed" &&
-                      appt.status !== "canceled" ? (
-                        <>
-                          <Link to={`/pages/Dashboard`} state={{ user: appt }}>
-                            <button className="complet">Update</button>
-                          </Link>
-                        </>
-                      ) : (
-                        ""
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>):''}
+              {appointments.length > 0 ? (
+                <tbody>
+                  {appointments.map((appt) => (
+                    <tr
+                      key={appt.id}
+                      className={
+                        appt.status === "completed"
+                          ? "completed"
+                          : appt.status === "canceled"
+                          ? "canceled"
+                          : ""
+                      }
+                    >
+                      <td>
+                        <img
+                          //src={`/images/${appt.image}`}
+                          src={`/images/user.png`}
+                          alt="profile"
+                          className="profile-img"
+                        />
+                      </td>
+                      <td>{appt.fullName}</td>
+                      <td>{appt.location}</td>
+                      <td>{appt.date}</td>
+                      <td>{appt.timeFrom}</td>
+                      <td>{appt.timeTo}</td>
+                      <td>
+                        {appt.status === "completed" ? (
+                          <div>
+                            <span
+                              className="status completed"
+                              style={{
+                                width: "78px",
+                                background: "none",
+                                color: "rgb(26, 225, 26)",
+                                fontSize: "15px",
+                              }}
+                            >
+                              <FontAwesomeIcon icon={faCheckCircle} />
+                              Completed
+                            </span>
+                          </div>
+                        ) : appt.status === "canceled" ? (
+                          <div>
+                            <span
+                              className="status canceled"
+                              style={{
+                                width: "78px",
+                                background: "none",
+                                color: "rgb(255, 64, 64)",
+                                fontSize: "15px",
+                              }}
+                            >
+                              <FontAwesomeIcon icon={faTimesCircle} />
+                              Canceled
+                            </span>
+                          </div>
+                        ) : (
+                          <div>
+                            <span
+                              className="status pending"
+                              style={{
+                                width: "78px",
+                                background: "none",
+                                color: "rgb(255, 182, 47)",
+                                fontSize: "15px",
+                              }}
+                            >
+                              <FontAwesomeIcon icon={faClock} />
+                              Pending
+                            </span>
+                          </div>
+                        )}
+                      </td>
+                      <td className="actions">
+                        {appt.status !== "completed" &&
+                        appt.status !== "canceled" ? (
+                          <>
+                            <Link
+                              to={`/pages/Dashboard`}
+                              state={{ user: appt }}
+                            >
+                              <button className="complet">Update</button>
+                            </Link>
+                          </>
+                        ) : (
+                          ""
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              ) : (
+                ""
+              )}
             </table>
           </div>{" "}
         </>
@@ -549,20 +590,47 @@ export default function Homeboard(props) {
                     <td>
                       {appt.status === "completed" ? (
                         <div>
-                          <span className="status completed" style={{width:'78px',background:'none',color:'rgb(26, 225, 26)',fontSize:'15px'}}>
-                            <FontAwesomeIcon icon={faCheckCircle} />Completed
+                          <span
+                            className="status completed"
+                            style={{
+                              width: "78px",
+                              background: "none",
+                              color: "rgb(26, 225, 26)",
+                              fontSize: "15px",
+                            }}
+                          >
+                            <FontAwesomeIcon icon={faCheckCircle} />
+                            Completed
                           </span>
                         </div>
                       ) : appt.status === "canceled" ? (
                         <div>
-                          <span className="status canceled" style={{width:'78px',background:'none',color:'rgb(255, 64, 64)',fontSize:'15px'}}>
-                            <FontAwesomeIcon icon={faTimesCircle} />Canceled
+                          <span
+                            className="status canceled"
+                            style={{
+                              width: "78px",
+                              background: "none",
+                              color: "rgb(255, 64, 64)",
+                              fontSize: "15px",
+                            }}
+                          >
+                            <FontAwesomeIcon icon={faTimesCircle} />
+                            Canceled
                           </span>
                         </div>
                       ) : (
                         <div>
-                          <span className="status pending" style={{width:'78px',background:'none',color:'rgb(255, 182, 47)',fontSize:'15px'}}>
-                            <FontAwesomeIcon icon={faClock} />Pending
+                          <span
+                            className="status pending"
+                            style={{
+                              width: "78px",
+                              background: "none",
+                              color: "rgb(255, 182, 47)",
+                              fontSize: "15px",
+                            }}
+                          >
+                            <FontAwesomeIcon icon={faClock} />
+                            Pending
                           </span>
                         </div>
                       )}
