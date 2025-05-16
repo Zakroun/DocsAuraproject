@@ -27,16 +27,36 @@ import { MdMarkEmailUnread } from "react-icons/md";
 import { useSelector } from "react-redux";
 export default function Homeboard(props) {
   const appointemntsuser = useSelector((s) => s.Docsaura.appointments);
+
+  // Total appointments (just the length of the array)
+  const totalappointemnt = appointemntsuser.length;
+
+  // Completed appointments (status === 'completed')
+  const completappointemnt = appointemntsuser.reduce(
+    (count, appointment) =>
+      appointment.status === "completed" ? count + 1 : count,
+    0
+  );
+
+  // Pending appointments (status === 'pending')
+  const pendingappointemnt = appointemntsuser.reduce(
+    (count, appointment) =>
+      appointment.status === "pending" ? count + 1 : count,
+    0
+  );
+
+  // Canceled appointments (status === 'canceled')
+  const canxeldappointemnt = appointemntsuser.reduce(
+    (count, appointment) =>
+      appointment.status === "canceled" ? count + 1 : count,
+    0
+  );
   //console.log(appointemntsuser)
   const d = props.Use;
   //console.log('curent user ' , d)
   const [user, setUser] = useState(d);
   //console.log(user)
   //const role = d.role;
-  //const doctors = useSelector((s) => s.Docsaura.doctors);
-  //const clinics = useSelector((s) => s.Docsaura.clinics);
-  //const laboratories = useSelector((s) => s.Docsaura.laboratories);
-
   // useEffect(() => {
   //   let data = [];
 
@@ -57,10 +77,10 @@ export default function Homeboard(props) {
   const patientDatamonth = d.patientDatamonth;
   const [greeting, setGreeting] = useState("");
   const [selectedDay, setSelectedDay] = useState("All");
-  console.log(appointemntsuser);
+  //console.log(appointemntsuser);
   const [filteredAppointments, setFilteredAppointments] =
     useState(appointemntsuser);
-  console.log("filteredAppointments", filteredAppointments);
+  //console.log("filteredAppointments", filteredAppointments);
   useEffect(() => {
     setFilteredAppointments(appointemntsuser);
   }, [appointemntsuser]);
@@ -112,7 +132,7 @@ export default function Homeboard(props) {
   }
   const patientData = d.patientData;
   const appointments = filteredAppointments;
-  console.log(appointments);
+  //console.log(appointments);
   const userDataYearly = useSelector((s) => s.Docsaura.userDataYearly);
   const [selectedYear, setSelectedYear] = useState("2025");
   // if(user.verified){
@@ -204,8 +224,10 @@ export default function Homeboard(props) {
                       }}
                     />
                   </div>
-                  <h3>Total Patients </h3>
-                  <h3 style={{ color: "rgb(0, 0, 155)" }}>0</h3>
+                  <h3>Total Appointments </h3>
+                  <h3 style={{ color: "rgb(0, 0, 155)" }}>
+                    {totalappointemnt}
+                  </h3>
                 </div>
                 <div className="partweekly">
                   <div className="partweekly__header">
@@ -220,22 +242,9 @@ export default function Homeboard(props) {
                     />
                   </div>
                   <h3>Pending Appointments </h3>
-                  <h3 style={{ color: "rgb(195, 101, 0)" }}>0</h3>
-                </div>
-                <div className="partweekly">
-                  <div className="partweekly__header">
-                    <FaCalendarAlt
-                      size={30}
-                      color="rgb(153, 0, 0)"
-                      style={{
-                        backgroundColor: "rgba(219, 0, 0, 0.46)",
-                        padding: 7,
-                        borderRadius: 10,
-                      }}
-                    />
-                  </div>
-                  <h3>Canceled Appointments </h3>
-                  <h3 style={{ color: "rgb(153, 0, 0)" }}>0</h3>
+                  <h3 style={{ color: "rgb(195, 101, 0)" }}>
+                    {pendingappointemnt}
+                  </h3>
                 </div>
                 <div className="partweekly">
                   <div className="partweekly__header">
@@ -250,7 +259,26 @@ export default function Homeboard(props) {
                     />
                   </div>
                   <h3>Completed Appointments </h3>
-                  <h3 style={{ color: "rgb(0, 113, 128)" }}>0</h3>
+                  <h3 style={{ color: "rgb(0, 113, 128)" }}>
+                    {completappointemnt}
+                  </h3>
+                </div>
+                <div className="partweekly">
+                  <div className="partweekly__header">
+                    <FaCalendarAlt
+                      size={30}
+                      color="rgb(153, 0, 0)"
+                      style={{
+                        backgroundColor: "rgba(219, 0, 0, 0.46)",
+                        padding: 7,
+                        borderRadius: 10,
+                      }}
+                    />
+                  </div>
+                  <h3>Canceled Appointments </h3>
+                  <h3 style={{ color: "rgb(153, 0, 0)" }}>
+                    {canxeldappointemnt}
+                  </h3>
                 </div>
               </div>
             </div>
@@ -326,7 +354,7 @@ export default function Homeboard(props) {
                   onChange={handleDayChange}
                 >
                   <option value="All">All</option>
-                  
+
                   {/* {appointments
                     .map((appt) => appt.date)
                     .map((day, k) => (
@@ -430,7 +458,7 @@ export default function Homeboard(props) {
                           <>
                             <Link
                               to={`/pages/Dashboard`}
-                              state={{ user: appt }}
+                              state={{ appointment: appt }}
                             >
                               <button className="complet">Update</button>
                             </Link>
@@ -468,18 +496,17 @@ export default function Homeboard(props) {
                 <div className="partweekly__header">
                   <FaHospitalUser
                     size={30}
-                    color="#008481"
+                    color="rgb(0, 0, 155)"
                     style={{
-                      backgroundColor: "#00848276",
+                      backgroundColor: "rgba(0, 0, 155, 0.38)",
                       padding: 7,
                       borderRadius: 10,
                     }}
                   />
                 </div>
-                <h3>Total Patients</h3>
-                <h3 style={{ color: "#008481" }}>0</h3>
+                <h3>Total Appointments </h3>
+                <h3 style={{ color: "rgb(0, 0, 155)" }}>{totalappointemnt}</h3>
               </div>
-
               <div className="partweekly">
                 <div className="partweekly__header">
                   <IoCallSharp
@@ -492,10 +519,28 @@ export default function Homeboard(props) {
                     }}
                   />
                 </div>
-                <h3>Phone Calls</h3>
-                <h3 style={{ color: "rgb(195, 101, 0)" }}>0</h3>
+                <h3>Pending Appointments </h3>
+                <h3 style={{ color: "rgb(195, 101, 0)" }}>
+                  {pendingappointemnt}
+                </h3>
               </div>
-
+              <div className="partweekly">
+                <div className="partweekly__header">
+                  <MdMarkEmailUnread
+                    size={30}
+                    color="rgb(0, 113, 128)"
+                    style={{
+                      backgroundColor: "rgba(0, 113, 128, 0.39)",
+                      padding: 7,
+                      borderRadius: 10,
+                    }}
+                  />
+                </div>
+                <h3>Completed Appointments </h3>
+                <h3 style={{ color: "rgb(0, 113, 128)" }}>
+                  {completappointemnt}
+                </h3>
+              </div>
               <div className="partweekly">
                 <div className="partweekly__header">
                   <FaCalendarAlt
@@ -508,24 +553,10 @@ export default function Homeboard(props) {
                     }}
                   />
                 </div>
-                <h3>Appointments</h3>
-                <h3 style={{ color: "rgb(153, 0, 0)" }}>0</h3>
-              </div>
-
-              <div className="partweekly">
-                <div className="partweekly__header">
-                  <MdMarkEmailUnread
-                    size={30}
-                    color="rgb(0, 0, 155)"
-                    style={{
-                      backgroundColor: "rgba(0, 0, 155, 0.44)",
-                      padding: 7,
-                      borderRadius: 10,
-                    }}
-                  />
-                </div>
-                <h3>Unread Messages</h3>
-                <h3 style={{ color: "rgb(0, 0, 155)" }}>0</h3>
+                <h3>Canceled Appointments </h3>
+                <h3 style={{ color: "rgb(153, 0, 0)" }}>
+                  {canxeldappointemnt}
+                </h3>
               </div>
             </div>
           </div>
@@ -577,7 +608,7 @@ export default function Homeboard(props) {
                   >
                     <td>
                       <img
-                        src={`/images/${appt.image}`}
+                        src={`/images/user.png`}
                         alt="profile"
                         className="profile-img"
                       />
@@ -639,7 +670,7 @@ export default function Homeboard(props) {
                       {appt.status !== "completed" &&
                       appt.status !== "canceled" ? (
                         <>
-                          <Link to={`/pages/Dashboard`} state={{ user: appt }}>
+                          <Link to={`/pages/Dashboard`} state={{ appointment: appt }}>
                             <button className="complet">Update</button>
                           </Link>
                         </>

@@ -10,9 +10,15 @@ import ListDocCliLAbo from "../static/ListDocCliLAbo";
 import CallToAction from "../static/CallToAction";
 import { useState, useEffect, useRef } from "react";
 import { FaUserAlt } from "react-icons/fa";
-//import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 //import { useSelector } from "react-redux";
 export default function Home() {
+  // const doctors = useSelector((s) => s.Docsaura.doctors);
+  // const clinics = useSelector((s) => s.Docsaura.clinics);
+  // const laboratories = useSelector((s) => s.Docsaura.laboratories);
+  // console.log(doctors)
+  // console.log(clinics)
+  // console.log(laboratories)
   //const doctors = useSelector(state => state.Docsaura.doctors);
   //const clinics = useSelector(state => state.Docsaura.clinics);
   //const laboratories = useSelector(state => state.Docsaura.laboratories);

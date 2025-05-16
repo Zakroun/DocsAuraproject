@@ -24,7 +24,6 @@ export default function ListClinic() {
       const matchesCity = city
         ? l.city.toLowerCase().includes(city.toLowerCase())
         : true;
-
       return matchesName && matchesCity;
     });
 

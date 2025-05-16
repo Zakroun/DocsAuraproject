@@ -139,7 +139,7 @@ export default function ClinicProfile({ id }) {
               <div className="contact-info">
             <p className="contact-item">
               <FaMapMarkerAlt className="iconprofile" />
-              {clinic.addressLoc}
+              {clinic.address}
             </p>
             <p className="contact-item">
               <FaEnvelope className="iconprofile" />

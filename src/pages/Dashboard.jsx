@@ -21,7 +21,7 @@ import Complaints from "../Dashboardcomponents/Complaints";
 export default function Dashboard() {
   const navigate = useNavigate();
   const locations = useLocation();
-  const Use = locations.state?.user || null;
+  const appointment = locations.state?.appointment || null;
   const curboard = useSelector((state) => state.Docsaura.currentboard);
   const dispatch = useDispatch();
   const conversations = useSelector((state) => state.Docsaura.conversations);
@@ -31,11 +31,11 @@ export default function Dashboard() {
   }, [conversations]);
 
   useEffect(() => {
-    if (Use) {
+    if (appointment) {
       dispatch(changeboard("appointmnt"));
       navigate(".", { replace: true, state: {} });
     }
-  }, [Use, dispatch, navigate]);
+  }, [appointment, dispatch, navigate]);
 
   // const Users = useSelector((s) => s.Docsaura.doctors);
   const userData = localStorage.getItem('user');
@@ -50,7 +50,7 @@ export default function Dashboard() {
         ) : curboard === "calander" ? (
           <Calendar appointments={user.appointments} role={user.Role} id={user.id}/>
         ) : curboard === "appointmnt" ? (
-          <Appointmntform user={Use} Use={user} />
+          <Appointmntform appointment={appointment} Use={user} />
         ) : curboard === "settings" ? (
           <SettingsBoard Use={user} />
         ) : curboard === "messages" ? (

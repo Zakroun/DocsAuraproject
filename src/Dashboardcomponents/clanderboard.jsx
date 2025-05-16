@@ -134,7 +134,7 @@ export default function Calendar() {
 
   if (content2 === "block") {
     const user = JSON.parse(localStorage.getItem("user"));
-    console.log(user)
+    //console.log(user)
     // Check if user is logged in
     if (!user) {
       seterrorMessage("Please login to book an appointment");
@@ -244,7 +244,7 @@ export default function Calendar() {
         setTimeout(() => seterrorMessage(""), 5000);
       }
     } catch (error) {
-      console.error("Appointment error:", error);
+      //console.error("Appointment error:", error);
       seterrorMessage("Failed to book appointment. Please try again.");
       setTimeout(() => seterrorMessage(""), 5000);
     }
@@ -375,7 +375,7 @@ export default function Calendar() {
                         key={appointment.id}
                         className="Link"
                         to={`/pages/Dashboard`}
-                        state={{ user: appointment }}
+                        state={{ appointment: appointment }}
                       >
                         <div
                           className={`appointment-card ${appointment.status}`}

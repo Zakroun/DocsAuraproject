@@ -41,7 +41,7 @@ function App() {
           break;
         default:
           id = user.id;
-          role = 'visiteur';
+          role = 'Patient';
       }
       
       dispatch(fetchUserAppointments({ id, role }));
