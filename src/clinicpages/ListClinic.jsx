@@ -52,6 +52,12 @@ export default function ListClinic() {
       }
     });
   }
+  function calculateAverageRating(reviews) {
+    if (!reviews || reviews.length === 0) return 0;
+    const total = reviews.reduce((acc, review) => acc + review.rating, 0);
+    return total / reviews.length;
+  }
+
   return (
     <div className="Parent">
       <h1>List Clinics</h1>
@@ -89,14 +95,22 @@ export default function ListClinic() {
               <Link to={`/pages/clinic`} state={{ id: c.id }} id="Linktoone">
                 <img
                   id="imgDocLabcli"
-                  src={c.image ? `http://localhost:8000/storage/${c.image}` : '/images/clinics/clinic2.jpeg'}
+                  src={
+                    c.image
+                      ? `http://localhost:8000/storage/${c.image}`
+                      : "/images/clinics/clinic2.jpeg"
+                  }
                   alt={c.name}
                 />
                 <div className="informations">
-                <h3>{c.fullName.length > 20 ? c.fullName.substring(0, 20) + '...' : c.fullName}</h3>
-                  <p  className="paddress">{c.address}</p>
+                  <h3>
+                    {c.fullName.length > 20
+                      ? c.fullName.substring(0, 20) + "..."
+                      : c.fullName}
+                  </h3>
+                  <p className="paddress">{c.address}</p>
                   <div className="rating-button">
-                    <div className="stars">{generateStars(c.rating)}</div>
+                    <div className="stars">{generateStars(calculateAverageRating(c.reviews))}</div>
                     {/* <button className="btnsee">Reserve</button> */}
                   </div>
                 </div>

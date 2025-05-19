@@ -74,8 +74,18 @@ export const loginUser = createAsyncThunk(
         user: response.data.data.user,
       };
     } catch (error) {
+      if (error.response?.status === 500) {
+        return rejectWithValue({
+          message: "Server error. Please try again later.",
+          serverError: error.response.data?.error || true,
+        });
+      }
+
+      // Other errors
       return rejectWithValue({
-        message: error.response?.data?.message || "Login failed",
+        message:
+          error.response?.data?.message || error.message || "Login failed",
+        status: error.response?.status,
       });
     }
   }

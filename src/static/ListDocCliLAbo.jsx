@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { clinics } from "../data/data";
+//import { clinics } from "../data/data";
 
 export default function ListDocCliLAbo() {
   const Doc = useSelector((state) => state.Docsaura.doctors);
@@ -32,6 +32,12 @@ export default function ListDocCliLAbo() {
       }
     });
   }
+  function calculateAverageRating(reviews) {
+  if (!reviews || reviews.length === 0) return 0;
+  const total = reviews.reduce((acc, review) => acc + review.rating, 0);
+  return total / reviews.length;
+}
+
   return (
     <div className="ListDocCliLAbo">
       <h1>Doctors</h1>
@@ -52,7 +58,7 @@ export default function ListDocCliLAbo() {
                       : d.fullName}
                   </h3>
                   <p className="pspecialty">{d.specialty}</p>
-                  <div className="stars">{generateStars(d.rating)}</div>
+                  <div className="stars">{generateStars(calculateAverageRating(d.reviews))}</div>
                 </div>
               </Link>
             </div>
@@ -81,7 +87,7 @@ export default function ListDocCliLAbo() {
                       : c.fullName}
                   </h3>
                   <p className="paddress">{c.address}</p>
-                  <div className="stars">{generateStars(c.rating)}</div>
+                  <div className="stars">{generateStars(calculateAverageRating(c.reviews))}</div>
                   {/* <button className="btnsee">See</button> */}
                 </div>
               </Link>
@@ -115,7 +121,7 @@ export default function ListDocCliLAbo() {
                       : l.fullName}
                   </h3>
                   <p className="paddress">{l.address}</p>
-                  <div className="stars">{generateStars(l.rating)}</div>
+                  <div className="stars">{generateStars(calculateAverageRating(l.reviews))}</div>
                   {/* <button className="btnsee">See</button> */}
                 </div>
               </Link>

@@ -52,6 +52,12 @@ export default function ListLabo() {
       }
     });
   }
+  function calculateAverageRating(reviews) {
+    if (!reviews || reviews.length === 0) return 0;
+    const total = reviews.reduce((acc, review) => acc + review.rating, 0);
+    return total / reviews.length;
+  }
+
   return (
     <div className="Parent">
       <h1>List Laboratories</h1>
@@ -93,13 +99,21 @@ export default function ListLabo() {
               >
                 <img
                   id="imgDocLabcli"
-                  src={l.image ? `http://localhost:8000/storage/${l.image}` : '/images/laboratory/labo3.jpeg'}
+                  src={
+                    l.image
+                      ? `http://localhost:8000/storage/${l.image}`
+                      : "/images/laboratory/labo3.jpeg"
+                  }
                   alt={l.name}
                 />
                 <div className="informations">
-                  <h3>{l.fullName.length > 20 ? l.fullName.substring(0, 20) + '...' : l.fullName}</h3>
+                  <h3>
+                    {l.fullName.length > 20
+                      ? l.fullName.substring(0, 20) + "..."
+                      : l.fullName}
+                  </h3>
                   <div className="rating-button">
-                    <div className="stars">{generateStars(l.rating)}</div>
+                    <div className="stars">{generateStars(calculateAverageRating(l.reviews))}</div>
                     {/* <button className="btnsee">Reserve</button> */}
                   </div>
                 </div>

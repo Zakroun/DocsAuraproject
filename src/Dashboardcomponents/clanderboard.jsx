@@ -388,7 +388,7 @@ export default function Calendar() {
                               {appointment.timeFrom} - {appointment.timeTo}
                             </p>
                             <span className={`status ${appointment.status}`}>
-                              {appointment.status === "completed" && (
+                              {(appointment.status === "confirmed" || appointment.status === "completed") && (
                                 <FontAwesomeIcon icon={faCheckCircle} />
                               )}
                               {appointment.status === "pending" && (

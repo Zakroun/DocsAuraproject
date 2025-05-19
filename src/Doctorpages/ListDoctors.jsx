@@ -59,6 +59,12 @@ export default function ListDoctors() {
       }
     });
   }
+  function calculateAverageRating(reviews) {
+    if (!reviews || reviews.length === 0) return 0;
+    const total = reviews.reduce((acc, review) => acc + review.rating, 0);
+    return total / reviews.length;
+  }
+
   return (
     <div className="Parent">
       <h1>List Doctors</h1>
@@ -109,14 +115,23 @@ export default function ListDoctors() {
               <Link to={`/pages/doctor`} state={{ id: d.id }} id="Linktoone">
                 <img
                   id="imgDocLabcli"
-                  src={d.image ? `http://localhost:8000/storage/${d.image}` : '/images/doctors/doctor3.jpeg'}
+                  src={
+                    d.image
+                      ? `http://localhost:8000/storage/${d.image}`
+                      : "/images/doctors/doctor3.jpeg"
+                  }
                   alt={d.fullName}
                 />
                 <div className="informations">
-                <h3>Dr. {d.fullName.length > 20 ? d.fullName.substring(0, 20) + '...' : d.fullName}</h3>
+                  <h3>
+                    Dr.{" "}
+                    {d.fullName.length > 20
+                      ? d.fullName.substring(0, 20) + "..."
+                      : d.fullName}
+                  </h3>
                   <p className="pspecialty">{d.specialty}</p>
                   <div className="rating-button">
-                    <div className="stars">{generateStars(d.rating)}</div>
+                    <div className="stars">{generateStars(calculateAverageRating(d.reviews))}</div>
                     {/* <button className="btnsee">Reserve</button> */}
                   </div>
                 </div>

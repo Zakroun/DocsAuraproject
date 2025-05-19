@@ -6,25 +6,34 @@ import {
   FaPhone,
   FaHospital,
   FaCalendarAlt,
-  FaUserMd
+  FaUserMd,
 } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+
 export default function ClinicProfile({ id }) {
   const navigate = useNavigate();
   const clinicsList = useSelector((state) => state.Docsaura.clinics);
   const clinic = clinicsList?.find((clinic) => clinic.id === id);
   const [activeTab, setActiveTab] = useState("about");
 
+  const calculateAverageRating = (reviews) => {
+    if (!reviews || reviews.length === 0) return 0;
+    const sum = reviews.reduce(
+      (total, comment) => total + (comment.rating || 0),
+      0
+    );
+    return sum / reviews.length;
+  };
+
   const handleBookAppointment = (e) => {
-    if (!localStorage.getItem('token')) {
+    if (!localStorage.getItem("token")) {
       e.preventDefault();
-      navigate('/pages/Login', {
+      navigate("/pages/Login", {
         state: {
           from: `/clinic/${id}`,
-          message: "Please login to book an appointment"
-        }
+          message: "Please login to book an appointment",
+        },
       });
     }
   };
@@ -57,19 +66,26 @@ export default function ClinicProfile({ id }) {
     );
   }
 
+  const averageRating = calculateAverageRating(clinic.reviews);
+
   return (
     <div className="profile-container">
       <div className="profile-header">
         <div className="profile-image-container">
           <img
-            src={clinic.image ? `http://localhost:8000/storage/${clinic.image}` : '/images/clinics/clinic2.jpeg'}
-            alt={`${clinic.fullName}`}
+            src={
+              clinic.image
+                ? `http://localhost:8000/storage/${clinic.image}`
+                : "/images/clinics/clinic2.jpeg"
+            }
+            alt={clinic.fullName}
             className="profile-image"
           />
-          <div className="rating-badge">
-            {/* {clinic.rating.toFixed(1)} */}
-            <MdStar className="rating-icon" />
-          </div>
+          {clinic.reviews?.length > 0 && (
+            <div className="rating-badge">
+              {averageRating.toFixed(1)} <MdStar className="rating-icon" />
+            </div>
+          )}
         </div>
 
         <div className="profile-info">
@@ -77,54 +93,58 @@ export default function ClinicProfile({ id }) {
             {clinic.fullName}
             {clinic.verified && <MdVerified className="verification-badge" />}
           </h1>
-          
-          <div className="rating-container">
-            {renderRatingStars(clinic.rating)}
-            <span className="rating-text">
-               {/* ({clinic.comments.length}  */}
-               reviews</span>
-          </div>
 
-          <Link 
-          to={localStorage.getItem('token') ? `/pages/reserveclinic` : '#'}
-          state={{ clinic:clinic}}
-          className="appointment-button"
-          onClick={handleBookAppointment}
-        >
-          Book Appointment
-        </Link>
+          <div className="rating-container">
+            {clinic.reviews?.length > 0 ? (
+              <>
+                {renderRatingStars(averageRating)}
+                <span className="rating-text">
+                  {averageRating.toFixed(1)} ({clinic.reviews.length} reviews)
+                </span>
+              </>
+            ) : (
+              <span className="rating-text">No reviews yet</span>
+            )}
+          </div>
+          <br />
+          <Link
+            to={localStorage.getItem("token") ? "/pages/reserveclinic" : "#"}
+            state={{ clinic }}
+            className="appointment-button"
+            onClick={handleBookAppointment}
+          >
+            Book Appointment
+          </Link>
         </div>
       </div>
 
       <div className="profile-content">
         <nav className="profile-tabs">
-          <button 
+          <button
             className={`tab-button ${activeTab === "about" ? "active" : ""}`}
             onClick={() => setActiveTab("about")}
           >
             About
           </button>
-          <button 
+          <button
             className={`tab-button ${activeTab === "services" ? "active" : ""}`}
             onClick={() => setActiveTab("services")}
           >
-            Services 
-            {/* ({clinic.services.length}) */}
+            Services {clinic.services && `(${clinic.services.length})`}
           </button>
-          <button 
+          <button
             className={`tab-button ${activeTab === "doctors" ? "active" : ""}`}
             onClick={() => setActiveTab("doctors")}
           >
             Our Doctors
           </button>
-          <button 
+          <button
             className={`tab-button ${activeTab === "reviews" ? "active" : ""}`}
             onClick={() => setActiveTab("reviews")}
           >
-            Reviews 
-            {/* ({clinic.comments.length}) */}
+            Reviews {clinic.reviews && `(${clinic.reviews.length})`}
           </button>
-          <button 
+          <button
             className={`tab-button ${activeTab === "location" ? "active" : ""}`}
             onClick={() => setActiveTab("location")}
           >
@@ -136,36 +156,38 @@ export default function ClinicProfile({ id }) {
           {activeTab === "about" && (
             <div className="about-section">
               <h3>About {clinic.fullName}</h3>
-              <div className="contact-info">
-            <p className="contact-item">
-              <FaMapMarkerAlt className="iconprofile" />
-              {clinic.address}
-            </p>
-            <p className="contact-item">
-              <FaEnvelope className="iconprofile" />
-              {clinic.email}
-            </p>
-            <p className="contact-item">
-              <FaPhone className="iconprofile" />
-              {clinic.phone}
-            </p>
-          </div>
               <p>{clinic.description}</p>
-              
+              <div className="contact-info">
+                <p className="contact-item">
+                  <FaMapMarkerAlt className="iconprofile" />
+                  {clinic.address}
+                </p>
+                <p className="contact-item">
+                  <FaEnvelope className="iconprofile" />
+                  {clinic.email}
+                </p>
+                <p className="contact-item">
+                  <FaPhone className="iconprofile" />
+                  {clinic.phone}
+                </p>
+              </div>
               <div className="key-info">
                 <div className="info-card">
-                  
-                  <h4><FaHospital className="iconprofile" /> Facilities</h4>
+                  <h4>
+                    <FaHospital className="iconprofile" /> Facilities
+                  </h4>
                   <p>State-of-the-art equipment</p>
                 </div>
                 <div className="info-card">
-                  
-                  <h4><FaCalendarAlt className="iconprofile" />Opening Hours</h4>
+                  <h4>
+                    <FaCalendarAlt className="iconprofile" /> Opening Hours
+                  </h4>
                   <p>Mon-Sat: 8:00 AM - 8:00 PM</p>
                 </div>
                 <div className="info-card">
-                  
-                  <h4><FaUserMd className="iconprofile" />Specialists</h4>
+                  <h4>
+                    <FaUserMd className="iconprofile" /> Specialists
+                  </h4>
                   <p>20+ experienced doctors</p>
                 </div>
               </div>
@@ -176,12 +198,10 @@ export default function ClinicProfile({ id }) {
             <div className="services-section">
               <h3>Our Services</h3>
               <div className="services-grid">
-                {clinic.services.map((service, index) => (
+                {clinic.services?.map((service, index) => (
                   <div key={index} className="service-card">
-                    <div className="service-icon-container">
-                      <FaHospital className="iconprofile" />
-                      <span>{service}</span>
-                    </div>
+                    <FaHospital className="iconprofile" />
+                    <span>{service}</span>
                   </div>
                 ))}
               </div>
@@ -191,10 +211,7 @@ export default function ClinicProfile({ id }) {
           {activeTab === "doctors" && (
             <div className="doctors-section">
               <h3>Our Medical Team</h3>
-              <p>Meet our team of experienced healthcare professionals:</p>
-              
               <div className="doctors-grid">
-                {/* Sample doctors - in a real app, this would come from your data */}
                 <div className="doctor-card">
                   <div className="doctor-image"></div>
                   <h4>Dr. Sarah Johnson</h4>
@@ -216,22 +233,45 @@ export default function ClinicProfile({ id }) {
 
           {activeTab === "reviews" && (
             <div className="reviews-section">
-              {/* {clinic.comments.length > 0 ? (
-                clinic.comments.map((review) => (
+              {clinic.reviews && clinic.reviews.length > 0 ? (
+                clinic.reviews.map((review) => (
                   <div key={review.id} className="review-card">
                     <div className="review-header">
-                      <span className="review-author">{review.patient || "Anonymous"}</span>
-                      <div className="review-rating">
-                        {renderRatingStars(review.rating || clinic.rating)}
+                      <div className="reviewer-info">
+                        <img
+                          src={
+                            review.visitor?.image
+                              ? `http://localhost:8000/storage/${review.visitor.image}`
+                              : "/images/default-user.png"
+                          }
+                          alt={review.visitor?.fullName || "Anonymous"}
+                          className="reviewer-avatar"
+                        />
+                        <span className="review-author">
+                          {review.visitor?.fullName || "Anonymous"}
+                        </span>
+                      </div>
+                      <div className="review-meta">
+                        <div className="review-rating">
+                          {renderRatingStars(review.rating)}
+                        </div>
+                        <span className="review-date">
+                          {new Date(review.date).toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          })}
+                        </span>
                       </div>
                     </div>
                     <p className="review-text">{review.text}</p>
-                    <span className="review-date">{review.date || "2 weeks ago"}</span>
                   </div>
                 ))
               ) : (
-                <p className="no-reviews">No reviews yet. Be the first to review!</p>
-              )} */}
+                <p className="no-reviews">
+                  No reviews yet. Be the first to review!
+                </p>
+              )}
             </div>
           )}
 
@@ -240,7 +280,7 @@ export default function ClinicProfile({ id }) {
               <h3>Clinic Location</h3>
               <p className="location-address">
                 <FaMapMarkerAlt className="iconprofile" />
-                {clinic.addressLoc}
+                {clinic.address}
               </p>
               <div className="map-container">
                 <iframe
@@ -252,11 +292,10 @@ export default function ClinicProfile({ id }) {
                 ></iframe>
               </div>
               <div className="office-hours">
-                <h4>Clinic Hours</h4>
+                <h4>Operating Hours</h4>
                 <ul>
-                  <li>Monday - Friday: 8:00 AM - 8:00 PM</li>
-                  <li>Saturday: 9:00 AM - 5:00 PM</li>
-                  <li>Sunday: 10:00 AM - 2:00 PM</li>
+                  <li>Monday - Saturday: 8:00 AM - 8:00 PM</li>
+                  <li>Sunday: Closed</li>
                 </ul>
               </div>
             </div>

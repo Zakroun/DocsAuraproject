@@ -1,22 +1,21 @@
 import { FiSend, FiMic } from "react-icons/fi";
 import { RiStickyNoteAddFill } from "react-icons/ri";
-import { useDispatch } from "react-redux";
 import { useState, useRef } from "react";
-import { Sent } from "../../data/DocsauraSlice";
 
-export default function MessageInput({ Conversationusers }) {
+export default function MessageInput({ Conversationusers, onSendMessage, isSending }) {
   const [message, setMessage] = useState("");
   const [isRecording, setIsRecording] = useState(false);
   const [audioBlob, setAudioBlob] = useState(null);
   const [file, setFile] = useState(null);
   const mediaRecorderRef = useRef(null);
-  const dispatch = useDispatch();
 
-  const SentMessage = () => {
+  const handleSendMessage = () => {
     if (message.trim() !== "") {
-      dispatch(
-        Sent({ type: "text", content: message, name: Conversationusers })
-      );
+      onSendMessage({
+        type: "text",
+        content: message,
+        fileName: null
+      });
       setMessage("");
     }
   };
@@ -54,13 +53,12 @@ export default function MessageInput({ Conversationusers }) {
 
   const sendAudio = () => {
     if (audioBlob) {
-      dispatch(
-        Sent({
-          type: "audio",
-          content: URL.createObjectURL(audioBlob),
-          name: Conversationusers,
-        })
-      );
+      const audioUrl = URL.createObjectURL(audioBlob);
+      onSendMessage({
+        type: "audio",
+        content: audioUrl,
+        fileName: "audio_message.mp3"
+      });
       setAudioBlob(null);
     }
   };
@@ -74,14 +72,12 @@ export default function MessageInput({ Conversationusers }) {
 
   const sendFile = () => {
     if (file) {
-      dispatch(
-        Sent({
-          type: "document",
-          content: URL.createObjectURL(file),
-          name: Conversationusers,
-          fileName: file.name,
-        })
-      );
+      const fileUrl = URL.createObjectURL(file);
+      onSendMessage({
+        type: "document",
+        content: fileUrl,
+        fileName: file.name
+      });
       setFile(null);
     }
   };
@@ -93,12 +89,14 @@ export default function MessageInput({ Conversationusers }) {
         placeholder="Type a message..."
         value={message}
         onChange={(e) => setMessage(e.target.value)}
+        onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
       />
       <div className="icons">
         <FiSend
           className="icon_input send-icon"
           size={30}
-          onClick={SentMessage}
+          onClick={handleSendMessage}
+          disabled={isSending}
         />
 
         {isRecording ? (
@@ -111,11 +109,16 @@ export default function MessageInput({ Conversationusers }) {
             />
           </div>
         ) : (
-          <FiMic className="icon_input icon_input2" size={30} onClick={startRecording} />
+          <FiMic 
+            className="icon_input icon_input2" 
+            size={30} 
+            onClick={startRecording} 
+            disabled={isSending}
+          />
         )}
 
         {audioBlob && (
-          <button className="send-button" onClick={sendAudio}>
+          <button className="send-button" onClick={sendAudio} disabled={isSending}>
             Send Audio
           </button>
         )}
@@ -126,15 +129,17 @@ export default function MessageInput({ Conversationusers }) {
           hidden
           accept="image/*, application/pdf"
           onChange={handleFileUpload}
+          disabled={isSending}
         />
         <RiStickyNoteAddFill
           className="icon_input icon_input2"
           size={30}
           onClick={() => document.getElementById("fileInput").click()}
+          disabled={isSending}
         />
 
         {file && (
-          <button className="send-button" onClick={sendFile}>
+          <button className="send-button" onClick={sendFile} disabled={isSending}>
             Send File
           </button>
         )}

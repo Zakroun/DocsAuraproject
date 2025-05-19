@@ -498,7 +498,7 @@ export default function Appointmentform({
                     )}
                   </div>
                 )}
-              {User.status === "pending" && Use.role === "patient" && (
+              {User.status === "pending" && Use.role === "Patient" && (
                 <button
                   className="cancel"
                   onClick={() => setcomplete("canceled")}

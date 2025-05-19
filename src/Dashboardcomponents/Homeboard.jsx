@@ -34,7 +34,7 @@ export default function Homeboard(props) {
   // Completed appointments (status === 'completed')
   const completappointemnt = appointemntsuser.reduce(
     (count, appointment) =>
-      appointment.status === "completed" ? count + 1 : count,
+      appointment.status === "confirmed" ? count + 1 : count,
     0
   );
 
@@ -150,6 +150,12 @@ export default function Homeboard(props) {
   const filteredData = useMemo(() => {
     return userDataYearly.filter((d) => d.year.toString() === selectedYear);
   }, [userDataYearly, selectedYear]);
+  function calculateAverageRating(reviews) {
+    if (!reviews || reviews.length === 0) return 0;
+    const total = reviews.reduce((acc, review) => acc + review.rating, 0);
+    return total / reviews.length;
+  }
+
   return (
     <div className="homeboard">
       <div className="homeboard__header">
@@ -170,7 +176,9 @@ export default function Homeboard(props) {
           {user.role === "Patient" || user.role === "admin" ? (
             ""
           ) : (
-            <div className="stars">{generateStars(user.rating)}</div>
+            <div className="stars">
+              {generateStars(calculateAverageRating(user.reviews))}
+            </div>
           )}
         </div>
 
@@ -405,7 +413,8 @@ export default function Homeboard(props) {
                       <td>{appt.timeFrom}</td>
                       <td>{appt.timeTo}</td>
                       <td>
-                        {appt.status === "completed" ? (
+                        {appt.status === "completed" ||
+                        appt.status === "confirmed" ? (
                           <div>
                             <span
                               className="status completed"
@@ -417,7 +426,7 @@ export default function Homeboard(props) {
                               }}
                             >
                               <FontAwesomeIcon icon={faCheckCircle} />
-                              Completed
+                              {appt.status}
                             </span>
                           </div>
                         ) : appt.status === "canceled" ? (
@@ -454,6 +463,7 @@ export default function Homeboard(props) {
                       </td>
                       <td className="actions">
                         {appt.status !== "completed" &&
+                        appt.status !== "confirmed" &&
                         appt.status !== "canceled" ? (
                           <>
                             <Link
@@ -619,10 +629,11 @@ export default function Homeboard(props) {
                     <td>{appt.timeFrom}</td>
                     <td>{appt.timeTo}</td>
                     <td>
-                      {appt.status === "completed" ? (
+                      {appt.status === "completed" ||
+                      appt.status === "confirmed" ? (
                         <div>
                           <span
-                            className="status completed"
+                            className="status confirmed"
                             style={{
                               width: "78px",
                               background: "none",
@@ -631,7 +642,7 @@ export default function Homeboard(props) {
                             }}
                           >
                             <FontAwesomeIcon icon={faCheckCircle} />
-                            Completed
+                            {appt.status}
                           </span>
                         </div>
                       ) : appt.status === "canceled" ? (
@@ -668,9 +679,13 @@ export default function Homeboard(props) {
                     </td>
                     <td className="actions">
                       {appt.status !== "completed" &&
+                      appt.status !== "confirmed" &&
                       appt.status !== "canceled" ? (
                         <>
-                          <Link to={`/pages/Dashboard`} state={{ appointment: appt }}>
+                          <Link
+                            to={`/pages/Dashboard`}
+                            state={{ appointment: appt }}
+                          >
                             <button className="complet">Update</button>
                           </Link>
                         </>

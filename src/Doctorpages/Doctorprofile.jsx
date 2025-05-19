@@ -21,11 +21,11 @@ export default function DoctorProfile({ id }) {
   }, []);
 
   const handleAppointmentClick = (e) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (!token) {
       e.preventDefault();
-      navigate('/pages/Login', { 
-        state: { message: "Veuillez vous connecter pour prendre rendez-vous" } 
+      navigate("/pages/Login", {
+        state: { message: "Veuillez vous connecter pour prendre rendez-vous" },
       });
     }
   };
@@ -53,20 +53,30 @@ export default function DoctorProfile({ id }) {
       <div className="profile-container loading">Loading doctor profile...</div>
     );
   }
-
+  const calculateAverageRating = (reviews) => {
+    if (!reviews || reviews.length === 0) return 0;
+    const sum = reviews.reduce((total, review) => total + review.rating, 0);
+    return sum / reviews.length;
+  };
   return (
     <div className="profile-container">
       <div className="profile-header">
         <div className="profile-image-container">
           <img
-            src={doctor.image ? `http://localhost:8000/storage/${doctor.image}` : '/images/doctors/doctor3.jpeg'}
+            src={
+              doctor.image
+                ? `http://localhost:8000/storage/${doctor.image}`
+                : "/images/doctors/doctor3.jpeg"
+            }
             alt={`${doctor.fullName}`}
             className="profile-image"
           />
-          <div className="rating-badge">
-            {/* {doctor.rating.toFixed(1)} */}
-            <MdStar className="rating-icon" />
-          </div>
+          {doctor.reviews && doctor.reviews.length > 0 && (
+            <div className="rating-badge">
+              {calculateAverageRating(doctor.reviews).toFixed(1)}
+              <MdStar className="rating-icon" />
+            </div>
+          )}
         </div>
 
         <div className="profile-info">
@@ -75,13 +85,22 @@ export default function DoctorProfile({ id }) {
             {doctor.verified && <MdVerified className="verification-badge" />}
           </h1>
           <div className="rating-container">
-            {renderRatingStars(doctor.rating)}
-            {/* <span className="rating-text">{doctor.rating.toFixed(1)} (125 reviews)</span> */}
+            {doctor.reviews && doctor.reviews.length > 0 ? (
+              <>
+                {renderRatingStars(calculateAverageRating(doctor.reviews))}
+                <span className="rating-text">
+                  {calculateAverageRating(doctor.reviews).toFixed(1)} (
+                  {doctor.reviews.length} reviews)
+                </span>
+              </>
+            ) : (
+              <span className="rating-text">No reviews yet</span>
+            )}
           </div>
           <br />
           <Link
-            to={localStorage.getItem('token') ? `/pages/reservedoc` : '#'}
-            state={{ doctor : doctor}}
+            to={localStorage.getItem("token") ? `/pages/reservedoc` : "#"}
+            state={{ doctor: doctor }}
             className="appointment-button"
             onClick={handleAppointmentClick}
           >
@@ -102,7 +121,7 @@ export default function DoctorProfile({ id }) {
             className={`tab-button ${activeTab === "reviews" ? "active" : ""}`}
             onClick={() => setActiveTab("reviews")}
           >
-            {/* Reviews ({doctor.comments.length}) */}
+            Reviews ({doctor.reviews.length})
           </button>
           <button
             className={`tab-button ${activeTab === "location" ? "active" : ""}`}
@@ -156,21 +175,38 @@ export default function DoctorProfile({ id }) {
 
           {activeTab === "reviews" && (
             <div className="reviews-section">
-              {doctor.comments.length > 0 ? (
-                doctor.comments.map((review) => (
+              {doctor.reviews && doctor.reviews.length > 0 ? (
+                doctor.reviews.map((review) => (
                   <div key={review.id} className="review-card">
                     <div className="review-header">
-                      <span className="review-author">
-                        {review.patient || "Anonymous"}
-                      </span>
-                      <div className="review-rating">
-                        {renderRatingStars(review.rating || doctor.rating)}
+                      <div className="reviewer-info">
+                        <img
+                          src={
+                            review.visitor?.image
+                              ? `http://localhost:8000/storage/${review.visitor.image}`
+                              : "/images/default-user.png"
+                          }
+                          alt={review.visitor?.fullName || "Anonymous"}
+                          className="reviewer-avatar"
+                        />
+                        <span className="review-author">
+                          {review.visitor?.fullName || "Anonymous"}
+                        </span>
+                      </div>
+                      <div className="review-meta">
+                        <div className="review-rating">
+                          {renderRatingStars(review.rating)}
+                        </div>
+                        <span className="review-date">
+                          {new Date(review.date).toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          })}
+                        </span>
                       </div>
                     </div>
                     <p className="review-text">{review.text}</p>
-                    <span className="review-date">
-                      {review.date || "2 weeks ago"}
-                    </span>
                   </div>
                 ))
               ) : (

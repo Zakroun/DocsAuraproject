@@ -10,11 +10,18 @@ import {
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 export default function LaboratoryProfile({ id }) {
   const navigate = useNavigate();
   const laboratoriesList = useSelector((state) => state.Docsaura.laboratories);
   const laboratory = laboratoriesList?.find((lab) => lab.id === id);
   const [activeTab, setActiveTab] = useState("about");
+
+  const calculateAverageRating = (reviews) => {
+    if (!reviews || reviews.length === 0) return 0;
+    const sum = reviews.reduce((total, review) => total + review.rating, 0);
+    return sum / reviews.length;
+  };
 
   const handleBookTest = (e) => {
     if (!localStorage.getItem('token')) {
@@ -67,10 +74,12 @@ export default function LaboratoryProfile({ id }) {
             alt={`${laboratory.fullName}`}
             className="profile-image"
           />
-          <div className="rating-badge">
-            {/* {laboratory.rating.toFixed(1)} */}
-            <MdStar className="rating-icon" />
-          </div>
+          {laboratory.reviews && laboratory.reviews.length > 0 && (
+            <div className="rating-badge">
+              {calculateAverageRating(laboratory.reviews).toFixed(1)}
+              <MdStar className="rating-icon" />
+            </div>
+          )}
         </div>
 
         <div className="profile-info">
@@ -82,17 +91,21 @@ export default function LaboratoryProfile({ id }) {
           </h1>
 
           <div className="rating-container">
-            {renderRatingStars(laboratory.rating)}
-            <span className="rating-text">
-              {/* {laboratory.rating.toFixed(1)} */}
-               {/* ({laboratory.comments.length}{" "} */}
-              reviews
-            </span>
+            {laboratory.reviews && laboratory.reviews.length > 0 ? (
+              <>
+                {renderRatingStars(calculateAverageRating(laboratory.reviews))}
+                <span className="rating-text">
+                  {calculateAverageRating(laboratory.reviews).toFixed(1)} ({laboratory.reviews.length} reviews)
+                </span>
+              </>
+            ) : (
+              <span className="rating-text">No reviews yet</span>
+            )}
           </div>
-
+            <br />
           <Link
             to={localStorage.getItem('token') ? `/pages/reservelabo` : '#'}
-            state={{ laboratory:laboratory }}
+            state={{ laboratory: laboratory }}
             className="appointment-button"
             onClick={handleBookTest}
           >
@@ -113,13 +126,13 @@ export default function LaboratoryProfile({ id }) {
             className={`tab-button ${activeTab === "services" ? "active" : ""}`}
             onClick={() => setActiveTab("services")}
           >
-            {/* Services ({laboratory.services.length}) */}
+            Services {laboratory.services && `(${laboratory.services.length})`}
           </button>
           <button
             className={`tab-button ${activeTab === "reviews" ? "active" : ""}`}
             onClick={() => setActiveTab("reviews")}
           >
-            {/* Reviews ({laboratory.comments.length}) */}
+            Reviews {laboratory.reviews && `(${laboratory.reviews.length})`}
           </button>
           <button
             className={`tab-button ${activeTab === "location" ? "active" : ""}`}
@@ -137,7 +150,7 @@ export default function LaboratoryProfile({ id }) {
               <div className="contact-info">
                 <p className="contact-item">
                   <FaMapMarkerAlt className="iconprofile" />
-                  {laboratory.addressLoc}
+                  {laboratory.address}
                 </p>
                 <p className="contact-item">
                   <FaEnvelope className="iconprofile" />
@@ -150,12 +163,10 @@ export default function LaboratoryProfile({ id }) {
               </div>
               <div className="key-info">
                 <div className="info-card">
-                  
                   <h4><FaFlask className="iconprofile" />Specialized Tests</h4>
                   <p>200+ available tests</p>
                 </div>
                 <div className="info-card">
-                  
                   <h4><FaCalendarAlt className="iconprofile" />Opening Hours</h4>
                   <p>Mon-Sat: 7:00 AM - 8:00 PM</p>
                 </div>
@@ -167,7 +178,7 @@ export default function LaboratoryProfile({ id }) {
             <div className="services-section">
               <h3>Available Services</h3>
               <div className="services-grid">
-                {laboratory.services.map((service, index) => (
+                {laboratory.services && laboratory.services.map((service, index) => (
                   <div key={index} className="service-card">
                     <FaFlask className="iconprofile" />
                     <span>{service}</span>
@@ -179,28 +190,41 @@ export default function LaboratoryProfile({ id }) {
 
           {activeTab === "reviews" && (
             <div className="reviews-section">
-              {/* {laboratory.comments.length > 0 ? (
-                laboratory.comments.map((review) => (
+              {laboratory.reviews && laboratory.reviews.length > 0 ? (
+                laboratory.reviews.map((review) => (
                   <div key={review.id} className="review-card">
                     <div className="review-header">
-                      <span className="review-author">
-                        {review.patient || "Anonymous"}
-                      </span>
-                      <div className="review-rating">
-                        {renderRatingStars(review.rating || laboratory.rating)}
+                      <div className="reviewer-info">
+                        <img 
+                          src={review.visitor?.image ? `http://localhost:8000/storage/${review.visitor.image}` : '/images/default-user.png'} 
+                          alt={review.visitor?.fullName || 'Anonymous'}
+                          className="reviewer-avatar"
+                        />
+                        <span className="review-author">
+                          {review.visitor?.fullName || "Anonymous"}
+                        </span>
+                      </div>
+                      <div className="review-meta">
+                        <div className="review-rating">
+                          {renderRatingStars(review.rating)}
+                        </div>
+                        <span className="review-date">
+                          {new Date(review.date).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                          })}
+                        </span>
                       </div>
                     </div>
                     <p className="review-text">{review.text}</p>
-                    <span className="review-date">
-                      {review.date || "2 weeks ago"}
-                    </span>
                   </div>
                 ))
               ) : (
                 <p className="no-reviews">
                   No reviews yet. Be the first to review!
                 </p>
-              )} */}
+              )}
             </div>
           )}
 
@@ -209,7 +233,7 @@ export default function LaboratoryProfile({ id }) {
               <h3>Laboratory Location</h3>
               <p className="location-address">
                 <FaMapMarkerAlt className="iconprofile" />
-                {laboratory.addressLoc}
+                {laboratory.address}
               </p>
               <div className="map-container">
                 <iframe
