@@ -31,7 +31,7 @@ export default function Homeboard(props) {
   // Total appointments (just the length of the array)
   const totalappointemnt = appointemntsuser.length;
 
-  // Completed appointments (status === 'completed')
+  // confirmed appointments (status === 'completed')
   const completappointemnt = appointemntsuser.reduce(
     (count, appointment) =>
       appointment.status === "confirmed" ? count + 1 : count,
@@ -266,7 +266,7 @@ export default function Homeboard(props) {
                       }}
                     />
                   </div>
-                  <h3>Completed Appointments </h3>
+                  <h3>confirmed Appointments </h3>
                   <h3 style={{ color: "rgb(0, 113, 128)" }}>
                     {completappointemnt}
                   </h3>
@@ -546,7 +546,7 @@ export default function Homeboard(props) {
                     }}
                   />
                 </div>
-                <h3>Completed Appointments </h3>
+                <h3>Confirmed Appointments </h3>
                 <h3 style={{ color: "rgb(0, 113, 128)" }}>
                   {completappointemnt}
                 </h3>

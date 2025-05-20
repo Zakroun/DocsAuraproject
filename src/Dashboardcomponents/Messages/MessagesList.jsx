@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { IoClose } from "react-icons/io5";
-import { deletemessage } from "../../data/DocsauraSlice";
-import { useDispatch } from "react-redux";
 
-export default function Messages({ selectedConversation, idconv }) {
+export default function Messages({ selectedConversation, onDeleteMessage }) {
   const [showOptions, setShowOptions] = useState(null);
   const [showDetails, setShowDetails] = useState(null);
   const [sortedMessages, setSortedMessages] = useState([]);
-  const dispatch = useDispatch();
+  const messagesEndRef = useRef(null);
+  const messagesContainerRef = useRef(null);
 
-  // Fonction pour parser l'heure correctement
+  // Function to parse time correctly
   const parseTime = (timeString) => {
     if (!timeString) return 0;
   
@@ -33,92 +32,121 @@ export default function Messages({ selectedConversation, idconv }) {
   
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:00`;
   };
-  
 
   const truncateFileName = (fileName) => {
     const words = fileName.split(" ");
     return words.length > 3 ? words.slice(0, 3).join(" ") + "..." : fileName;
   };
 
-  // Mettre à jour sortedMessages quand selectedConversation.messages change
+  // Update sortedMessages when selectedConversation.messages changes
   useEffect(() => {
     if (selectedConversation?.messages) {
       const sorted = [...selectedConversation.messages]
-        .sort((a, b) => parseTime(a.time) - parseTime(b.time)) // <== ADD THIS
+        .sort((a, b) => parseTime(a.time) - parseTime(b.time));
       setSortedMessages(sorted);
     }
   }, [selectedConversation?.messages]);  
 
-  // Fonction pour supprimer un message
-  const handleDeleteMessage = (idmessage) => {
-    dispatch(deletemessage({ idconv, idmessage }));
+  // Scroll to bottom whenever messages change
+  useEffect(() => {
+    scrollToBottom();
+  }, [sortedMessages]);
 
-    // Mettre à jour localement sortedMessages après suppression
-    setSortedMessages((prevMessages) =>
-      prevMessages.filter((msg) => msg.idMessage !== idmessage)
+  const scrollToBottom = () => {
+    // Only scroll if we're not already at the bottom (within 100px)
+    const container = messagesContainerRef.current;
+    if (container) {
+      const isNearBottom = container.scrollHeight - container.scrollTop <= container.clientHeight + 100;
+      if (isNearBottom) {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
+
+  // Function to delete a message
+  const handleDeleteMessage = (idmessage) => {
+    onDeleteMessage(idmessage);
+    
+    setSortedMessages(prevMessages =>
+      prevMessages.filter(msg => msg.idMessage !== idmessage)
     );
   };
 
+  // Function to handle manual scroll to bottom
+  const handleScrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
-    <div className="messages2">
-      {sortedMessages.map((msg, index) => (
-        <div
-          key={index}
-          className={`message2 ${msg.sender === "You" ? "sent2" : "received2"}`}
-          onMouseEnter={() => setShowOptions(index)}
-          onMouseLeave={() => setShowOptions(null)}
-          onClick={() => setShowOptions(index)}
-        >
-          {/* Texte */}
-          {msg.type === "text" && <p>{msg.content}</p>}
+    <div className="messages-container" ref={messagesContainerRef}>
+      <div className="messages2">
+        {sortedMessages.map((msg, index) => (
+          <div
+            key={`${msg.idMessage}-${index}`}
+            className={`message2 ${msg.sender === "You" ? "sent2" : "received2"}`}
+            onMouseEnter={() => setShowOptions(index)}
+            onMouseLeave={() => setShowOptions(null)}
+            onClick={() => setShowOptions(index)}
+          >
+            {/* Text message */}
+            {msg.type === "text" && <p>{msg.content}</p>}
 
-          {/* Audio */}
-          {msg.type === "audio" && (
-            <audio className="audio" controls>
-              <source src={msg.content} type="audio/mp3" />
-              Your browser does not support the audio element.
-            </audio>
-          )}
+            {/* Audio message */}
+            {msg.type === "audio" && (
+              <audio className="audio" controls>
+                <source src={msg.content} type="audio/mp3" />
+                Your browser does not support the audio element.
+              </audio>
+            )}
 
-          {/* Fichier Document / PDF / Image */}
-          {msg.type === "document" && (
-            <div className="linkfile">
-              <a
-                href={msg.content}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="file-link"
-              >
-                📄 {truncateFileName(msg.fileName)}
-              </a>
-            </div>
-          )}
-
-          <span className="time">{msg.time}</span>
-
-          {/* Options du message */}
-          {showOptions === index && (
-            <div className="message-options">
-              <div className="options-menu">
-                <button onClick={() => handleDeleteMessage(msg.idMessage)}>
-                  Delete
-                </button>
-                <button onClick={() => setShowDetails(index)}>Details</button>
-
-                {showDetails === index && (
-                  <div className="message-details">
-                    <p>Date & Time: {msg.time}</p>
-                    <p>Status: {msg.read ? "Read" : "Unread"}</p>
-                    <button onClick={() => setShowDetails(null)}>
-                      <IoClose size={20} style={{ marginLeft: "10px" }} />
-                    </button>
-                  </div>
-                )}
+            {/* Document/File message */}
+            {msg.type === "document" && (
+              <div className="linkfile">
+                <a
+                  href={msg.content}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="file-link"
+                >
+                  📄 {truncateFileName(msg.fileName)}
+                </a>
               </div>
-            </div>
-          )}
-        </div>
-      ))}
+            )}
+
+            <span className="time">{msg.time}</span>
+
+            {/* Message options */}
+            {showOptions === index && (
+              <div className="message-options">
+                <div className="options-menu">
+                  <button onClick={() => handleDeleteMessage(msg.idMessage)}>
+                    Delete
+                  </button>
+                  <button onClick={() => setShowDetails(index)}>Details</button>
+
+                  {showDetails === index && (
+                    <div className="message-details">
+                      <p>Time: {msg.time}</p>
+                      <button onClick={() => setShowDetails(null)}>
+                        <IoClose size={20} style={{ marginLeft: "10px" }} />
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+        <div ref={messagesEndRef} />
+      </div>
+
+      {/* Scroll to bottom button (only shows when not at bottom) */}
+      <button 
+        className="scroll-to-bottom-btn" 
+        onClick={handleScrollToBottom}
+      >
+        ↓
+      </button>
     </div>
   );
 }

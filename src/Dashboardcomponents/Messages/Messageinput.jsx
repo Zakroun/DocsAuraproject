@@ -119,7 +119,7 @@ export default function MessageInput({ Conversationusers, onSendMessage, isSendi
 
         {audioBlob && (
           <button className="send-button" onClick={sendAudio} disabled={isSending}>
-            Send Audio
+            Send
           </button>
         )}
 
@@ -140,7 +140,7 @@ export default function MessageInput({ Conversationusers, onSendMessage, isSendi
 
         {file && (
           <button className="send-button" onClick={sendFile} disabled={isSending}>
-            Send File
+            Send
           </button>
         )}
       </div>
