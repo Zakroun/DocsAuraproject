@@ -3,8 +3,8 @@ import { FaBell, FaBellSlash, FaSave, FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 export default function SettingsBoard({ Use }) {
-  console.log('image',Use.image)
-  console.log(Use)
+  console.log("image", Use.image);
+  console.log(Use);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [retypePassword, setRetypePassword] = useState("");
@@ -16,79 +16,129 @@ export default function SettingsBoard({ Use }) {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showRetypePassword, setShowRetypePassword] = useState(false);
   const [activeTab, setActiveTab] = useState("General");
-  const [reminders, setReminders] = useState({ push: false, email: false, sms: false, doNotDisturb: false });
-  const [comments, setComments] = useState({ push: false, email: false, sms: false, doNotDisturb: false });
-  const [tags, setTags] = useState({ push: false, email: false, sms: false, doNotDisturb: false });
   const [showNotification, setShowNotification] = useState(false);
   const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [passwordStrength, setPasswordStrength] = useState({
     level: "",
     width: "0%",
-    color: "transparent"
+    color: "transparent",
   });
   const [shouldRefresh, setShouldRefresh] = useState(false);
   const [showFullImage, setShowFullImage] = useState(false);
+  
+  // Consultation type options
+  const consultationTypeOptions = [
+    "Online Conversation, voice or video call",
+    "Consultation at the patient's home",
+    "Consultation at the doctor's office",
+    "Emergency consultation",
+    "Follow-up consultation",
+    "Specialist consultation"
+  ];
+  
+  const [consultationTypes, setConsultationTypes] = useState(
+    Use.consultationTypes || [
+      {
+        type: "Online Conversation, voice or video call",
+        price: 250
+      },
+      {
+        type: "Consultation at the patient's home",
+        price: 300
+      },
+      {
+        type: "Consultation at the doctor's office",
+        price: 200
+      }
+    ]
+  );
+  const [workingHours, setWorkingHours] = useState(
+    Use.working_hours || {
+      from: "08:00",
+      to: "18:00"
+    }
+  );
+
+  const [preferences, setPreferences] = useState({
+    darkMode: false,
+    language: "English",
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    consultationReminder: false,
+    labResultsNotification: false,
+    appointmentConfirmation: true,
+    newServiceAlert: false,
+    ...(Use.role === "doctor" && {
+      prescriptionExpiryAlert: true,
+      patientFollowupReminder: false,
+      emergencyCaseNotification: true,
+    }),
+    ...(Use.role === "clinic" && {
+      doctorAvailabilityAlert: true,
+      roomBookingConfirmation: false,
+      patientArrivalNotification: true,
+    }),
+    ...(Use.role === "laboratory" && {
+      testResultsReadyAlert: true,
+      sampleCollectionReminder: false,
+      criticalResultNotification: true,
+    }),
+  });
 
   const translations = {
-    "English (US)": {
-      settingsTitle: "Settings Board",
-      personalInfo: "Personal Information",
-      name: "Name",
-      email: "Email",
-      phoneNo: "Phone",
-      security: "Security",
-      currentPassword: "Current Password",
-      newPassword: "New Password",
-      retypePassword: "Retype Password",
-      forgotPassword: "Forgot password?",
-      notificationSettings: "Notification Settings",
-      appointments: "Appointments",
-      prescriptions: "Prescriptions",
-      healthReminders: "Health Reminders",
-      cancel: "Cancel",
-      save: "Save",
-      successfullyUpdated: "Settings updated successfully!",
-      confirmCancel: "Are you sure you want to cancel? All changes will be lost.",
-      confirm: "Confirm",
-      general: "General",
-      notification: "Notification",
-      passwordStrength: "Password Strength",
-      weak: "Weak",
-      medium: "Medium",
-      strong: "Strong"
-    },
-    "Arabic": {
-      settingsTitle: "لوحة الإعدادات",
-      personalInfo: "المعلومات الشخصية",
-      name: "الاسم",
-      email: "البريد الإلكتروني",
-      phoneNo: "رقم الهاتف",
-      security: "الأمان",
-      currentPassword: "كلمة المرور الحالية",
-      newPassword: "كلمة المرور الجديدة",
-      retypePassword: "أعد إدخال كلمة المرور",
-      forgotPassword: "نسيت كلمة المرور؟",
-      notificationSettings: "إعدادات الإشعارات",
-      appointments: "المواعيد",
-      prescriptions: "الوصفات الطبية",
-      healthReminders: "تذكيرات الصحة",
-      cancel: "إلغاء",
-      save: "حفظ",
-      successfullyUpdated: "تم تحديث الإعدادات بنجاح!",
-      confirmCancel: "هل أنت متأكد أنك تريد الإلغاء؟ سيتم فقدان جميع التغييرات.",
-      confirm: "تأكيد",
-      general: "عام",
-      notification: "الإشعارات",
-      passwordStrength: "قوة كلمة المرور",
-      weak: "ضعيفة",
-      medium: "متوسطة",
-      strong: "قوية"
-    },
+    settingsTitle: "Settings Board",
+    personalInfo: "Personal Information",
+    name: "Name",
+    email: "Email",
+    phoneNo: "Phone",
+    security: "Security",
+    currentPassword: "Current Password",
+    newPassword: "New Password",
+    retypePassword: "Retype Password",
+    forgotPassword: "Forgot password?",
+    cancel: "Cancel",
+    save: "Save",
+    successfullyUpdated: "Settings updated successfully!",
+    confirmCancel: "Are you sure you want to cancel? All changes will be lost.",
+    confirm: "Confirm",
+    general: "General",
+    preferences: "Preferences",
+    passwordStrength: "Password Strength",
+    weak: "Weak",
+    medium: "Medium",
+    strong: "Strong",
+    services: "Services",
+    consultationTypes: "Consultation Types",
+    workingHours: "Working Hours",
+    description: "Description",
+    yearsOfExperience: "Years of Experience",
+    selectConsultationType: "Select Consultation Type",
+    addNewType: "Add New Type",
+    price: "Price",
+    remove: "Remove"
+  };
+
+  const handleConsultationTypeChange = (index, field, value) => {
+    const updatedTypes = [...consultationTypes];
+    updatedTypes[index][field] = value;
+    setConsultationTypes(updatedTypes);
+  };
+
+  const addConsultationType = () => {
+    setConsultationTypes([
+      ...consultationTypes,
+      { type: "", price: 0 }
+    ]);
+  };
+
+  const removeConsultationType = (index) => {
+    const updatedTypes = [...consultationTypes];
+    updatedTypes.splice(index, 1);
+    setConsultationTypes(updatedTypes);
   };
 
   const getTranslation = (key) => {
-    return translations["English (US)"][key] || key;
+    return translations[key] || key;
   };
 
   const evaluatePasswordStrength = (password) => {
@@ -96,47 +146,54 @@ export default function SettingsBoard({ Use }) {
       return {
         level: "",
         width: "0%",
-        color: "transparent"
+        color: "transparent",
       };
     }
-    
+
     const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
     const hasNumber = /\d/.test(password);
     const hasUpper = /[A-Z]/.test(password);
     const hasLower = /[a-z]/.test(password);
-    
+
     let strength = 0;
-    
+
     if (password.length > 0) strength += 1;
     if (password.length >= 6) strength += 1;
     if (password.length >= 10) strength += 1;
     if (hasSpecialChar) strength += 1;
     if (hasNumber) strength += 1;
     if (hasUpper && hasLower) strength += 1;
-    
+
     if (strength <= 2) {
       return {
         level: getTranslation("weak"),
         width: "33%",
-        color: "#ff4d4f"
+        color: "#ff4d4f",
       };
     } else if (strength <= 4) {
       return {
         level: getTranslation("medium"),
         width: "66%",
-        color: "#faad14"
+        color: "#faad14",
       };
     } else {
       return {
         level: getTranslation("strong"),
         width: "100%",
-        color: "#52c41a"
+        color: "#52c41a",
       };
     }
   };
 
   const handleSave = () => {
-    if (!name || !email || !phoneNo || !currentPassword || !newPassword || !retypePassword) {
+    if (
+      !name ||
+      !email ||
+      !phoneNo ||
+      !currentPassword ||
+      !newPassword ||
+      !retypePassword
+    ) {
       setErrorMessage("All fields must be filled");
       return;
     }
@@ -176,10 +233,25 @@ export default function SettingsBoard({ Use }) {
     setShowCurrentPassword(false);
     setShowNewPassword(false);
     setShowRetypePassword(false);
-    setReminders({ push: false, email: false, sms: false, doNotDisturb: false });
-    setComments({ push: false, email: false, sms: false, doNotDisturb: false });
-    setTags({ push: false, email: false, sms: false, doNotDisturb: false });
     setShowCancelConfirmation(false);
+    setConsultationTypes(Use.consultationTypes || [
+      {
+        type: "Online Conversation, voice or video call",
+        price: 250
+      },
+      {
+        type: "Consultation at the patient's home",
+        price: 300
+      },
+      {
+        type: "Consultation at the doctor's office",
+        price: 200
+      }
+    ]);
+    setWorkingHours(Use.working_hours || {
+      from: "08:00",
+      to: "18:00"
+    });
   };
 
   const handleCancelConfirmation = () => {
@@ -198,6 +270,191 @@ export default function SettingsBoard({ Use }) {
     setShowFullImage(!showFullImage);
   };
 
+  const handleWorkingHoursChange = (field, value) => {
+    setWorkingHours({
+      ...workingHours,
+      [field]: value
+    });
+  };
+
+
+  const renderRoleSpecificFields = () => {
+    switch (Use.role) {
+      case "doctor":
+        return (
+          <>
+            <div className="settings-item">
+              <label>{getTranslation("workingHours")}</label>
+              <div className="working-hours-container">
+                <div className="time-range-input">
+                  <label>From:</label>
+                  <input
+                    type="time"
+                    value={workingHours.from}
+                    onChange={(e) => handleWorkingHoursChange("from", e.target.value)}
+                  />
+                </div>
+                <div className="time-range-input">
+                  <label>To:</label>
+                  <input
+                    type="time"
+                    value={workingHours.to}
+                    onChange={(e) => handleWorkingHoursChange("to", e.target.value)}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="settings-item">
+              <label>{getTranslation("description")}</label>
+              <textarea
+                className="description_settings"
+                value={Use.description || ""}
+                rows="4"
+              />
+            </div>
+            <div className="settings-item">
+              <label>{getTranslation("yearsOfExperience")}</label>
+              <input
+                type="text"
+                value={Use.years_of_experience || ""}
+              />
+            </div>
+            <div className="settings-item">
+              <label>{getTranslation("consultationTypes")}</label>
+              <div className="consultation-types-container">
+                {consultationTypes.map((consultation, index) => (
+                  <div key={index} className="consultation-type-item">
+                    <select
+                      value={consultation.type}
+                      onChange={(e) => handleConsultationTypeChange(index, "type", e.target.value)}
+                    >
+                      <option value="">{getTranslation("selectConsultationType")}</option>
+                      {consultationTypeOptions.map((option, i) => (
+                        <option key={i} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
+                    <input
+                      type="number"
+                      placeholder={getTranslation("price")}
+                      value={consultation.price}
+                      onChange={(e) => handleConsultationTypeChange(index, "price", e.target.value)}
+                    />
+                    <button
+                      className="remove-consultation-type"
+                      onClick={() => removeConsultationType(index)}
+                    >
+                      {getTranslation("remove")}
+                    </button>
+                  </div>
+                ))}
+                <button
+                  className="add-consultation-type"
+                  onClick={addConsultationType}
+                >
+                  + {getTranslation("addNewType")}
+                </button>
+              </div>
+            </div>
+          </>
+        );
+      case "clinic":
+        return (
+          <>
+            <div className="settings-item">
+              <label>{getTranslation("workingHours")}</label>
+              <div className="working-hours-container">
+                <div className="time-range-input">
+                  <label>From:</label>
+                  <input
+                    type="time"
+                    value={workingHours.from}
+                    onChange={(e) => handleWorkingHoursChange("from", e.target.value)}
+                  />
+                </div>
+                <div className="time-range-input">
+                  <label>To:</label>
+                  <input
+                    type="time"
+                    value={workingHours.to}
+                    onChange={(e) => handleWorkingHoursChange("to", e.target.value)}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="settings-item">
+              <label>{getTranslation("description")}</label>
+              <textarea
+                className="description_settings"
+                value={Use.description || ""}
+                rows="4"
+              />
+            </div>
+            <div className="settings-item">
+              <label>{getTranslation("services")}</label>
+              <input
+                type="text"
+                value={Use.services ? Use.services.join(", ") : ""}
+              />
+            </div>
+            <div className="settings-item">
+              <label>{getTranslation("consultationTypes")}</label>
+              <input
+                type="text"
+                value={
+                  Use.consultationTypes ? Use.consultationTypes.join(", ") : ""
+                }
+              />
+            </div>
+          </>
+        );
+      case "laboratory":
+        return (
+          <>
+            <div className="settings-item">
+              <label>{getTranslation("workingHours")}</label>
+              <div className="working-hours-container">
+                <div className="time-range-input">
+                  <label>From:</label>
+                  <input
+                    type="time"
+                    value={workingHours.from}
+                    onChange={(e) => handleWorkingHoursChange("from", e.target.value)}
+                  />
+                </div>
+                <div className="time-range-input">
+                  <label>To:</label>
+                  <input
+                    type="time"
+                    value={workingHours.to}
+                    onChange={(e) => handleWorkingHoursChange("to", e.target.value)}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="settings-item">
+              <label>{getTranslation("description")}</label>
+              <textarea
+                className="description_settings"
+                value={Use.description || ""}
+                rows="4"
+              />
+            </div>
+            <div className="settings-item">
+              <label>{getTranslation("services")}</label>
+              <input
+                type="text"
+                value={Use.services ? Use.services.join(", ") : ""}
+              />
+            </div>
+          </>
+        );
+      default:
+        return null;
+    }
+  };
+
   const renderContent = () => {
     switch (activeTab) {
       case "General":
@@ -207,12 +464,23 @@ export default function SettingsBoard({ Use }) {
               <h1>{getTranslation("settingsTitle")}</h1>
               <br />
               <div className="profile-picture">
-                <img 
-                  src={Use.image ? `http://localhost:8000/storage/${Use.image}` : `/images/${Use.role === 'clinic'?'clinics/clinic2.jpeg':Use.role === 'laboratory'?'laboratory/labo2.jpeg':Use.role === 'doctor'?'doctors/doctor2.jpeg':'user.png'}`}
-                  //src={`/images${Use.role === 'doctor'?'/doctors/':Use.role === 'clinic'?'/clinics/':Use.role === 'laboratory'?'/laboratory/':''}/${profileImage}`} 
-                  alt="Profile" 
+                <img
+                  src={
+                    Use.image
+                      ? `${Use.image}`
+                      : `/images/${
+                          Use.role === "clinic"
+                            ? "clinics/clinic2.jpeg"
+                            : Use.role === "laboratory"
+                            ? "laboratory/labo2.jpeg"
+                            : Use.role === "doctor"
+                            ? "doctors/doctor2.jpeg"
+                            : "user.png"
+                        }`
+                  }
+                  alt="Profile"
                   onClick={toggleFullImage}
-                  style={{ cursor: 'pointer' }}
+                  style={{ cursor: "pointer" }}
                 />
                 <label className="edit-picture">
                   ✎
@@ -283,7 +551,9 @@ export default function SettingsBoard({ Use }) {
                     value={newPassword}
                     onChange={(e) => {
                       setNewPassword(e.target.value);
-                      setPasswordStrength(evaluatePasswordStrength(e.target.value));
+                      setPasswordStrength(
+                        evaluatePasswordStrength(e.target.value)
+                      );
                     }}
                   />
                   <span
@@ -302,19 +572,20 @@ export default function SettingsBoard({ Use }) {
                 {newPassword.length > 0 && (
                   <div className="password-strength-container">
                     <div className="password-strength-label">
-                      {getTranslation("passwordStrength")}: <span style={{ color: passwordStrength.color }}>
+                      {getTranslation("passwordStrength")}:{" "}
+                      <span style={{ color: passwordStrength.color }}>
                         {passwordStrength.level}
                       </span>
                     </div>
                     <div className="password-strength-bar">
-                      <div 
+                      <div
                         className="password-strength-progress"
                         style={{
                           width: passwordStrength.width,
                           backgroundColor: passwordStrength.color,
                           height: "4px",
                           borderRadius: "2px",
-                          transition: "all 0.3s ease"
+                          transition: "all 0.3s ease",
                         }}
                       ></div>
                     </div>
@@ -344,150 +615,22 @@ export default function SettingsBoard({ Use }) {
                 </div>
               </div>
               <Link to="/pages/forgetpass">
-                <button className="forgot-password">{getTranslation("forgotPassword")}</button>
+                <button className="forgot-password">
+                  {getTranslation("forgotPassword")}
+                </button>
               </Link>
             </div>
           </>
         );
-      case "Notification":
+      case "Preferences":
+        if (Use.role === "patient") {
+          return null;
+        }
+
         return (
-          <div className="settings-section notification">
-            <h2>{getTranslation("notificationSettings")}</h2>
-            <div className="notification-category">
-              <h3>{getTranslation("appointments")}</h3>
-              <div className="notification-options">
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={reminders.email}
-                    onChange={(e) =>
-                      setReminders({ ...reminders, email: e.target.checked })
-                    }
-                  />
-                  {getTranslation("email")}
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={reminders.sms}
-                    onChange={(e) =>
-                      setReminders({ ...reminders, sms: e.target.checked })
-                    }
-                  />
-                  {getTranslation("sms")}
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={reminders.push}
-                    onChange={(e) =>
-                      setReminders({ ...reminders, push: e.target.checked })
-                    }
-                  />
-                  <FaBell /> {getTranslation("push")}
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={reminders.doNotDisturb}
-                    onChange={(e) =>
-                      setReminders({ ...reminders, doNotDisturb: e.target.checked })
-                    }
-                  />
-                  <FaBellSlash /> {getTranslation("doNotDisturb")}
-                </label>
-              </div>
-            </div>
-            <div className="notification-category">
-              <h3>{getTranslation("prescriptions")}</h3>
-              <div className="notification-options">
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={comments.email}
-                    onChange={(e) =>
-                      setComments({ ...comments, email: e.target.checked })
-                    }
-                  />
-                  {getTranslation("email")}
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={comments.sms}
-                    onChange={(e) =>
-                      setComments({ ...comments, sms: e.target.checked })
-                    }
-                  />
-                  {getTranslation("sms")}
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={comments.push}
-                    onChange={(e) =>
-                      setComments({ ...comments, push: e.target.checked })
-                    }
-                  />
-                  <FaBell /> {getTranslation("push")}
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={comments.doNotDisturb}
-                    onChange={(e) =>
-                      setComments({ ...comments, doNotDisturb: e.target.checked })
-                    }
-                  />
-                  <FaBellSlash /> {getTranslation("doNotDisturb")}
-                </label>
-              </div>
-            </div>
-            <div className="notification-category">
-              <h3>{getTranslation("healthReminders")}</h3>
-              <div className="notification-options">
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={tags.email}
-                    onChange={(e) =>
-                      setTags({ ...tags, email: e.target.checked })
-                    }
-                  />
-                  {getTranslation("email")}
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={tags.sms}
-                    onChange={(e) =>
-                      setTags({ ...tags, sms: e.target.checked })
-                    }
-                  />
-                  {getTranslation("sms")}
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={tags.push}
-                    onChange={(e) =>
-                      setTags({ ...tags, push: e.target.checked })
-                    }
-                  />
-                  <FaBell /> {getTranslation("push")}
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={tags.doNotDisturb}
-                    onChange={(e) =>
-                      setTags({ ...tags, doNotDisturb: e.target.checked })
-                    }
-                  />
-                  <FaBellSlash /> {getTranslation("doNotDisturb")}
-                </label>
-              </div>
-            </div>
+          <div className="settings-section preferences">
+            <h1>Professional Preferences</h1>
+            {renderRoleSpecificFields()}
           </div>
         );
       default:
@@ -507,9 +650,7 @@ export default function SettingsBoard({ Use }) {
 
       {errorMessage && (
         <div className="custom-notification-top">
-          <div className="custom-notification error">
-            {errorMessage}
-          </div>
+          <div className="custom-notification error">{errorMessage}</div>
         </div>
       )}
 
@@ -521,7 +662,10 @@ export default function SettingsBoard({ Use }) {
               <button className="confirm-button" onClick={handleConfirmCancel}>
                 {getTranslation("confirm")}
               </button>
-              <button className="cancel-button" onClick={handleCancelConfirmation}>
+              <button
+                className="cancel-button"
+                onClick={handleCancelConfirmation}
+              >
                 {getTranslation("cancel")}
               </button>
             </div>
@@ -531,15 +675,27 @@ export default function SettingsBoard({ Use }) {
 
       {showFullImage && (
         <div className="full-image-modal" onClick={toggleFullImage}>
-          <div className="full-image-content" onClick={(e) => e.stopPropagation()}>
-            <img 
-              src={Use.image ? `http://localhost:8000/storage/${Use.image}` : `/images/${Use.role === 'clinic'?'clinics/clinic2.jpeg':Use.role === 'laboratory'?'laboratory/labo2.jpeg':Use.role === 'doctor'?'doctors/doctor2.jpeg':'user.png'}`}
-              alt="Profile Full Size" 
+          <div
+            className="full-image-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={
+                Use.image
+                  ? `${Use.image}`
+                  : `/images/${
+                      Use.role === "clinic"
+                        ? "clinics/clinic2.jpeg"
+                        : Use.role === "laboratory"
+                        ? "laboratory/labo2.jpeg"
+                        : Use.role === "doctor"
+                        ? "doctors/doctor2.jpeg"
+                        : "user.png"
+                    }`
+              }
+              alt="Profile Full Size"
             />
-            <button 
-              className="close-full-image" 
-              onClick={toggleFullImage}
-            >
+            <button className="close-full-image" onClick={toggleFullImage}>
               &times;
             </button>
           </div>
@@ -553,12 +709,14 @@ export default function SettingsBoard({ Use }) {
         >
           {getTranslation("general")}
         </button>
-        <button
-          className={activeTab === "Notification" ? "active" : ""}
-          onClick={() => setActiveTab("Notification")}
-        >
-          {getTranslation("notification")}
-        </button>
+        {Use.role !== "patient" && (
+          <button
+            className={activeTab === "Preferences" ? "active" : ""}
+            onClick={() => setActiveTab("Preferences")}
+          >
+            {getTranslation("preferences")}
+          </button>
+        )}
       </div>
 
       {renderContent()}

@@ -3102,12 +3102,10 @@ h1 {
 
 .cancel-button {
   background-color: #f44336;
-  color: white;
 }
 
 .cancel-button:hover {
   background-color: #e53935;
-  color: white;
 }
 .cancel_reason {
   padding: 7px 9px;
@@ -5033,6 +5031,36 @@ h1 {
   transition: border-color 0.3s ease;
 }
 
+.settings-item select {
+  width: calc(102% - 16px);
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+.remove-consultation-type{
+  background-color: #ff4757;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.add-consultation-type{
+  background-color: #007180;
+  border: none;
+  cursor: pointer;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
 .settings-item input:focus {
   border-color: #018786;
   outline: none;
@@ -8823,4 +8851,18 @@ pre {
   padding: 20px;
   text-align: center;
   color: #999;
+}
+
+.description_settings{
+  max-width: 100%;
+  min-width: 100%;
+  outline: none;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  min-height: 50px;
+  max-height: 70px;
+}
+.description_settings:focus {
+  border-color: #018786;
+  outline: none;
 }
