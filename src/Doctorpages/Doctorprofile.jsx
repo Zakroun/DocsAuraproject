@@ -154,12 +154,18 @@ export default function DoctorProfile({ id }) {
                 </p>
               </div>
               <p>
-                Dr. {doctor.fullName} is a board-certified {doctor.specialty}{" "}
-                with over 10 years of experience.{" "}
-                {doctor.fullName.split(" ")[0]} completed medical training at
-                Harvard Medical School and has been practicing in{" "}
-                {/* {doctor.address.split(",")[1]?.trim() || doctor.address} */}
-                since 2015.
+                {doctor.descriptio !== null ? (
+                  doctor.description
+                ) : (
+                  <>
+                    Dr. {doctor.fullName} is a board-certified{" "}
+                    {doctor.specialty} with over 10 years of experience.{" "}
+                    {doctor.fullName.split(" ")[0]} completed medical training
+                    at Harvard Medical School and has been practicing in{" "}
+                    {/* {doctor.address.split(",")[1]?.trim() || doctor.address} */}
+                    since 2015.
+                  </>
+                )}
               </p>
               <h4>Education</h4>
               <ul>

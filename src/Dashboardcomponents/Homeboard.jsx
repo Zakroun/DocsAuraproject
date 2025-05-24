@@ -18,6 +18,10 @@ import {
   Tooltip,
   ResponsiveContainer,
   CartesianGrid,
+  PieChart,
+  Pie,
+  Cell,
+  Legend,
 } from "recharts";
 import ControlPanel from "./Controlpanel";
 import { FaHospitalUser } from "react-icons/fa";
@@ -25,9 +29,35 @@ import { IoCallSharp } from "react-icons/io5";
 import { FaCalendarAlt } from "react-icons/fa";
 import { MdMarkEmailUnread } from "react-icons/md";
 import { useSelector } from "react-redux";
+
 export default function Homeboard(props) {
   const appointemntsuser = useSelector((s) => s.Docsaura.appointments);
+  const patientDatamonth = useMemo(() => {
+    const monthlyCounts = Array(12).fill(0); // Initialize array for 12 months
+    
+    appointemntsuser.forEach(appointment => {
+      if (appointment.date) {
+        const date = new Date(appointment.date);
+        const month = date.getMonth(); // 0-11
+        monthlyCounts[month]++;
+      }
+    });
 
+    return [
+      { month: 'Jan', patients: monthlyCounts[0] },
+      { month: 'Feb', patients: monthlyCounts[1] },
+      { month: 'Mar', patients: monthlyCounts[2] },
+      { month: 'Apr', patients: monthlyCounts[3] },
+      { month: 'May', patients: monthlyCounts[4] },
+      { month: 'Jun', patients: monthlyCounts[5] },
+      { month: 'Jul', patients: monthlyCounts[6] },
+      { month: 'Aug', patients: monthlyCounts[7] },
+      { month: 'Sep', patients: monthlyCounts[8] },
+      { month: 'Oct', patients: monthlyCounts[9] },
+      { month: 'Nov', patients: monthlyCounts[10] },
+      { month: 'Dec', patients: monthlyCounts[11] },
+    ];
+  }, [appointemntsuser]);
   // Total appointments (just the length of the array)
   const totalappointemnt = appointemntsuser.length;
 
@@ -51,39 +81,46 @@ export default function Homeboard(props) {
       appointment.status === "canceled" ? count + 1 : count,
     0
   );
-  //console.log(appointemntsuser)
+
+  // Prepare data for status distribution chart
+  const statusData = [
+    { name: "Confirmed", value: completappointemnt },
+    { name: "Pending", value: pendingappointemnt },
+    { name: "Canceled", value: canxeldappointemnt },
+  ];
+
+  const COLORS = ["#018786", "#FFBB28", "#FF8042"]; // Updated color for Confirmed
+
+  // Prepare data for monthly appointments chart
+  const getMonthlyAppointments = () => {
+    const monthlyData = Array(12).fill(0);
+    appointemntsuser.forEach((appointment) => {
+      const date = new Date(appointment.date);
+      const month = date.getMonth();
+      monthlyData[month]++;
+    });
+    
+    return monthlyData.map((count, index) => ({
+      month: new Date(0, index).toLocaleString('default', { month: 'short' }),
+      appointments: count,
+    }));
+  };
+
+  const monthlyAppointmentsData = getMonthlyAppointments();
+
   const d = props.Use;
-  //console.log('curent user ' , d)
   const [user, setUser] = useState(d);
-  //console.log(user)
-  //const role = d.role;
-  // useEffect(() => {
-  //   let data = [];
-
-  //   if (role === "doctor") {
-  //     data = doctors;
-  //   } else if (role === "clinic") {
-  //     data = clinics;
-  //   } else if (role === "laboratory") {
-  //     data = laboratories;
-  //   }
-
-  //   const foundUser = data.find((a) => a.id === user.id);
-  //   if (foundUser) {
-  //     setUser(foundUser);
-  //   }
-  // }, [doctors, clinics, laboratories, role, user.id]);
-
-  const patientDatamonth = d.patientDatamonth;
+  // const patientDatamonth = d.patientDatamonth;
   const [greeting, setGreeting] = useState("");
   const [selectedDay, setSelectedDay] = useState("All");
-  //console.log(appointemntsuser);
+  
   const [filteredAppointments, setFilteredAppointments] =
     useState(appointemntsuser);
-  //console.log("filteredAppointments", filteredAppointments);
+
   useEffect(() => {
     setFilteredAppointments(appointemntsuser);
   }, [appointemntsuser]);
+
   useEffect(() => {
     const currentHour = new Date().getHours();
     if (currentHour < 12) {
@@ -130,26 +167,21 @@ export default function Homeboard(props) {
       }
     });
   }
+
   const patientData = d.patientData;
   const appointments = filteredAppointments;
-  //console.log(appointments);
   const userDataYearly = useSelector((s) => s.Docsaura.userDataYearly);
   const [selectedYear, setSelectedYear] = useState("2025");
-  // if(user.verified){
-  //   console.log('hahahahha')
-  // }else{
-  //   console.log('hhhhhhhhh')
-  // }
-  // Extraire les années distinctes depuis les données
+
   const availableYears = useMemo(() => {
     const years = new Set(userDataYearly.map((d) => d.year));
     return Array.from(years).sort((a, b) => b - a);
   }, [userDataYearly]);
-  //console.log('username : ' , user.fullName)
-  // Filtrer les données selon l'année sélectionnée
+
   const filteredData = useMemo(() => {
     return userDataYearly.filter((d) => d.year.toString() === selectedYear);
   }, [userDataYearly, selectedYear]);
+
   function calculateAverageRating(reviews) {
     if (!reviews || reviews.length === 0) return 0;
     const total = reviews.reduce((acc, review) => acc + review.rating, 0);
@@ -258,16 +290,16 @@ export default function Homeboard(props) {
                   <div className="partweekly__header">
                     <MdMarkEmailUnread
                       size={30}
-                      color="rgb(0, 113, 128)"
+                      color="#018786"
                       style={{
-                        backgroundColor: "rgba(0, 113, 128, 0.39)",
+                        backgroundColor: "rgba(1, 135, 134, 0.2)",
                         padding: 7,
                         borderRadius: 10,
                       }}
                     />
                   </div>
-                  <h3>confirmed Appointments </h3>
-                  <h3 style={{ color: "rgb(0, 113, 128)" }}>
+                  <h3>Confirmed Appointments </h3>
+                  <h3 style={{ color: "#018786" }}>
                     {completappointemnt}
                   </h3>
                 </div>
@@ -290,6 +322,47 @@ export default function Homeboard(props) {
                 </div>
               </div>
             </div>
+            
+            {/* New Charts Section */}
+            <div className="charts-container" style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', marginBottom: '20px' }}>
+              <div className="chart-container" style={{ flex: 1, minWidth: '300px' }}>
+                <h2>Appointment Status Distribution</h2>
+                <ResponsiveContainer width="100%" height={300}>
+                  <PieChart>
+                    <Pie
+                      data={statusData}
+                      cx="50%"
+                      cy="50%"
+                      labelLine={false}
+                      outerRadius={80}
+                      fill="#8884d8"
+                      dataKey="value"
+                      label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                    >
+                      {statusData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                    <Legend />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+              
+              <div className="chart-container" style={{ flex: 1, minWidth: '300px' }}>
+                <h2>Monthly Appointments</h2>
+                <ResponsiveContainer width="100%" height={300}>
+                  <BarChart data={monthlyAppointmentsData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="month" />
+                    <YAxis />
+                    <Tooltip />
+                    <Bar dataKey="appointments" fill="#018786" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+            
             <div className="chart-container">
               <div className="weeklyheader">
                 <h2>Number of Patients Per Month</h2>
@@ -311,43 +384,11 @@ export default function Homeboard(props) {
                   <Line
                     type="monotone"
                     dataKey="patients"
-                    stroke="#008481"
+                    stroke="#018786"
                     strokeWidth={3}
                     dot={{ r: 5 }}
                   />
                 </LineChart>
-              </ResponsiveContainer>
-            </div>
-            <div className="chart-container">
-              <div className="weeklyheader">
-                <h2>Number of Patients Over the Week</h2>
-                <select name="weeklyselect" id="weeklyselect">
-                  <option value="last week">Last Week</option>
-                  <option value="this week">This Week</option>
-                  <option value="last month">Last Month</option>
-                  <option value="this month">This Month</option>
-                  <option value="last year">Last Year</option>
-                  <option value="this year">This Year</option>
-                </select>
-              </div>
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={patientData}>
-                  <XAxis dataKey="day" stroke="#555" />
-                  <YAxis />
-                  <Tooltip />
-                  <Bar
-                    dataKey="thisWeek"
-                    fill="#008481"
-                    barSize={40}
-                    name="This Week"
-                  />
-                  <Bar
-                    dataKey="lastWeek"
-                    fill="rgba(197, 197, 197, 0.75)"
-                    barSize={40}
-                    name="Last Week"
-                  />
-                </BarChart>
               </ResponsiveContainer>
             </div>
           </div>
@@ -355,21 +396,12 @@ export default function Homeboard(props) {
             <div className="appointments_header">
               <h2>Upcoming Appointments</h2>
               <div className="appointment-day-filter">
-                {/* <label htmlFor="day-select">Select Day:</label> */}
                 <select
                   id="weeklyselect"
                   value={selectedDay}
                   onChange={handleDayChange}
                 >
                   <option value="All">All</option>
-
-                  {/* {appointments
-                    .map((appt) => appt.date)
-                    .map((day, k) => (
-                      <option key={k} value={day}>
-                        {day}
-                      </option>
-                    ))} */}
                 </select>
               </div>
             </div>
@@ -401,7 +433,6 @@ export default function Homeboard(props) {
                     >
                       <td>
                         <img
-                          //src={`/images/${appt.image}`}
                           src={`/images/user.png`}
                           alt="profile"
                           className="profile-img"
@@ -421,7 +452,7 @@ export default function Homeboard(props) {
                               style={{
                                 width: "78px",
                                 background: "none",
-                                color: "rgb(26, 225, 26)",
+                                color: "#018786",
                                 fontSize: "15px",
                               }}
                             >
@@ -538,16 +569,16 @@ export default function Homeboard(props) {
                 <div className="partweekly__header">
                   <MdMarkEmailUnread
                     size={30}
-                    color="rgb(0, 113, 128)"
+                    color="#018786"
                     style={{
-                      backgroundColor: "rgba(0, 113, 128, 0.39)",
+                      backgroundColor: "rgba(1, 135, 134, 0.2)",
                       padding: 7,
                       borderRadius: 10,
                     }}
                   />
                 </div>
                 <h3>Confirmed Appointments </h3>
-                <h3 style={{ color: "rgb(0, 113, 128)" }}>
+                <h3 style={{ color: "#018786" }}>
                   {completappointemnt}
                 </h3>
               </div>
@@ -570,24 +601,57 @@ export default function Homeboard(props) {
               </div>
             </div>
           </div>
+          
+          {/* Charts for Patient View */}
+          <div className="charts-container" style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', marginBottom: '20px' }}>
+            <div className="chart-container" style={{ flex: 1, minWidth: '300px' }}>
+              <h2>Your Appointment Status</h2>
+              <ResponsiveContainer width="100%" height={300}>
+                <PieChart>
+                  <Pie
+                    data={statusData}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    outerRadius={80}
+                    fill="#8884d8"
+                    dataKey="value"
+                    label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                  >
+                    {statusData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+            
+            <div className="chart-container" style={{ flex: 1, minWidth: '300px' }}>
+              <h2>Your Monthly Appointments</h2>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={monthlyAppointmentsData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="month" />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="appointments" fill="#018786" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+          
           <div className="appointments-table">
             <div className="appointments_header">
               <h2>Upcoming Appointments</h2>
               <div className="appointment-day-filter">
-                {/* <label htmlFor="day-select">Select Day:</label> */}
                 <select
                   id="weeklyselect"
                   value={selectedDay}
                   onChange={handleDayChange}
                 >
                   <option value="All">All</option>
-                  {/* {appointments
-                    .map((appt) => appt.date)
-                    .map((day, k) => (
-                      <option key={k} value={day}>
-                        {day}
-                      </option>
-                    ))} */}
                 </select>
               </div>
             </div>
@@ -637,7 +701,7 @@ export default function Homeboard(props) {
                             style={{
                               width: "78px",
                               background: "none",
-                              color: "rgb(26, 225, 26)",
+                              color: "#018786",
                               fontSize: "15px",
                             }}
                           >
@@ -728,7 +792,7 @@ export default function Homeboard(props) {
                 <Line
                   type="monotone"
                   dataKey="users"
-                  stroke="#008481"
+                  stroke="#018786"
                   strokeWidth={3}
                   dot={{ r: 5 }}
                 />

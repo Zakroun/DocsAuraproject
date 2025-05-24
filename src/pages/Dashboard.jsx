@@ -52,7 +52,7 @@ export default function Dashboard() {
         ) : curboard === "appointmnt" ? (
           <Appointmntform appointment={appointment} Use={user} />
         ) : curboard === "settings" ? (
-          <SettingsBoard Use={user} />
+          <SettingsBoard user={user} />
         ) : curboard === "messages" ? (
           <Messages conversations={Listconversations} />
         ) : curboard === "Logout" ? (

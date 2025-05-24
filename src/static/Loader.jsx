@@ -4,7 +4,7 @@ const Loader = () => {
   return (
     <div className="loader">
     <img src="/Images/Asset 9.png" alt="img" id='laoderimage'/>
-      <div className="spinner">
+      <div className="parent-spinner">
         <span />
         <span />
         <span />

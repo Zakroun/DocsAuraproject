@@ -16,6 +16,36 @@ export default function LaboratoryProfile({ id }) {
   const laboratoriesList = useSelector((state) => state.Docsaura.laboratories);
   const laboratory = laboratoriesList?.find((lab) => lab.id === id);
   const [activeTab, setActiveTab] = useState("about");
+  const [validServices, setValidServices] = useState([]);
+
+  // Clean and validate services data
+  useEffect(() => {
+    if (laboratory?.services) {
+      let services = laboratory.services;
+      
+      // Handle case where services might be a string
+      if (typeof services === 'string') {
+        try {
+          services = JSON.parse(services);
+        } catch {
+          services = [services];
+        }
+      }
+      
+      // Ensure we have an array and filter out empty values
+      const cleanedServices = Array.isArray(services) 
+        ? services.filter(service => service && service.trim() !== '')
+        : [];
+      
+      setValidServices(cleanedServices);
+      // console.log('Services cleaned:', {
+      //   original: laboratory.services,
+      //   cleaned: cleanedServices
+      // });
+    } else {
+      setValidServices([]);
+    }
+  }, [laboratory]);
 
   const calculateAverageRating = (reviews) => {
     if (!reviews || reviews.length === 0) return 0;
@@ -65,6 +95,8 @@ export default function LaboratoryProfile({ id }) {
     );
   }
 
+  const averageRating = calculateAverageRating(laboratory.reviews);
+
   return (
     <div className="profile-container">
       <div className="profile-header">
@@ -74,9 +106,9 @@ export default function LaboratoryProfile({ id }) {
             alt={`${laboratory.fullName}`}
             className="profile-image"
           />
-          {laboratory.reviews && laboratory.reviews.length > 0 && (
+          {laboratory.reviews?.length > 0 && (
             <div className="rating-badge">
-              {calculateAverageRating(laboratory.reviews).toFixed(1)}
+              {averageRating.toFixed(1)}
               <MdStar className="rating-icon" />
             </div>
           )}
@@ -91,21 +123,21 @@ export default function LaboratoryProfile({ id }) {
           </h1>
 
           <div className="rating-container">
-            {laboratory.reviews && laboratory.reviews.length > 0 ? (
+            {laboratory.reviews?.length > 0 ? (
               <>
-                {renderRatingStars(calculateAverageRating(laboratory.reviews))}
+                {renderRatingStars(averageRating)}
                 <span className="rating-text">
-                  {calculateAverageRating(laboratory.reviews).toFixed(1)} ({laboratory.reviews.length} reviews)
+                  {averageRating.toFixed(1)} ({laboratory.reviews.length} reviews)
                 </span>
               </>
             ) : (
               <span className="rating-text">No reviews yet</span>
             )}
           </div>
-            <br />
+          <br />
           <Link
             to={localStorage.getItem('token') ? `/pages/reservelabo` : '#'}
-            state={{ laboratory: laboratory }}
+            state={{ laboratory }}
             className="appointment-button"
             onClick={handleBookTest}
           >
@@ -126,7 +158,7 @@ export default function LaboratoryProfile({ id }) {
             className={`tab-button ${activeTab === "services" ? "active" : ""}`}
             onClick={() => setActiveTab("services")}
           >
-            Services {laboratory.services && `(${laboratory.services.length})`}
+            Services {validServices.length > 0 && `(${validServices.length})`}
           </button>
           <button
             className={`tab-button ${activeTab === "reviews" ? "active" : ""}`}
@@ -146,7 +178,11 @@ export default function LaboratoryProfile({ id }) {
           {activeTab === "about" && (
             <div className="about-section">
               <h3>About {laboratory.fullName}</h3>
-              <p>{laboratory.description}</p>
+              {laboratory.description ? (
+                <p>{laboratory.description}</p>
+              ) : (
+                <p className="no-description">No description available.</p>
+              )}
               <div className="contact-info">
                 <p className="contact-item">
                   <FaMapMarkerAlt className="iconprofile" />
@@ -163,11 +199,11 @@ export default function LaboratoryProfile({ id }) {
               </div>
               <div className="key-info">
                 <div className="info-card">
-                  <h4><FaFlask className="iconprofile" />Specialized Tests</h4>
+                  <h4><FaFlask className="iconprofile" /> Specialized Tests</h4>
                   <p>200+ available tests</p>
                 </div>
                 <div className="info-card">
-                  <h4><FaCalendarAlt className="iconprofile" />Opening Hours</h4>
+                  <h4><FaCalendarAlt className="iconprofile" /> Opening Hours</h4>
                   <p>Mon-Sat: 7:00 AM - 8:00 PM</p>
                 </div>
               </div>
@@ -177,20 +213,29 @@ export default function LaboratoryProfile({ id }) {
           {activeTab === "services" && (
             <div className="services-section">
               <h3>Available Services</h3>
-              <div className="services-grid">
-                {laboratory.services && laboratory.services.map((service, index) => (
-                  <div key={index} className="service-card">
-                    <FaFlask className="iconprofile" />
-                    <span>{service}</span>
-                  </div>
-                ))}
-              </div>
+              {validServices.length > 0 ? (
+                <div className="services-grid">
+                  {validServices.map((service, index) => (
+                    <div key={index} className="service-card">
+                      <FaFlask className="iconprofile" />
+                      <span>{service}</span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p>No services available</p>
+              )}
+              {laboratory.services?.length !== validServices.length && (
+                <div className="data-warning">
+                  {/* Showing {validServices.length} valid services (original: {laboratory.services?.length}) */}
+                </div>
+              )}
             </div>
           )}
 
           {activeTab === "reviews" && (
             <div className="reviews-section">
-              {laboratory.reviews && laboratory.reviews.length > 0 ? (
+              {laboratory.reviews?.length > 0 ? (
                 laboratory.reviews.map((review) => (
                   <div key={review.id} className="review-card">
                     <div className="review-header">

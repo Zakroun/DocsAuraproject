@@ -1,23 +1,49 @@
-import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { Deletecomplaint } from "../data/DocsauraSlice";
+import axios from 'axios';
 
 export default function ComplaintsDashboard() {
-  const complaints = useSelector((state) => state.Docsaura.complaints);
+  const [complaints, setComplaints] = useState([]);
   const [filteredComplaints, setFilteredComplaints] = useState([]);
   const [selectedYear, setSelectedYear] = useState("All");
   const [viewedComplaint, setViewedComplaint] = useState(null);
   const [complaintToDelete, setComplaintToDelete] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const availableYears = [
-    "All",
-    ...new Set(
-      complaints.map((c) => new Date(c.date).getFullYear().toString())
-    ),
-  ].sort((a, b) => (a === "All" ? -1 : b === "All" ? 1 : b - a));
+  // Fetch complaints from API
+  const fetchComplaints = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios.get('http://localhost:8000/api/complaints');
+      setComplaints(response.data);
+      setError(null);
+    } catch (err) {
+      console.error('Error fetching complaints:', err);
+      setError('Failed to load complaints. Please try again later.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
+  // Delete complaint from API
+  const deleteComplaint = async (id) => {
+    try {
+      await axios.delete(`http://localhost:8000/api/complaints/${id}`);
+      // Refresh the complaints list after deletion
+      await fetchComplaints();
+    } catch (err) {
+      console.error('Error deleting complaint:', err);
+      setError('Failed to delete complaint. Please try again.');
+    }
+  };
+
+  // Initial data fetch
+  useEffect(() => {
+    fetchComplaints();
+  }, []);
+
+  // Filter complaints whenever complaints, selectedYear, or searchQuery changes
   useEffect(() => {
     let result = [...complaints];
     
@@ -41,9 +67,38 @@ export default function ComplaintsDashboard() {
   }, [complaints, selectedYear, searchQuery]);
 
   const handleDelete = (id) => {
-    dispatch(Deletecomplaint(id));
+    deleteComplaint(id);
     setComplaintToDelete(null);
   };
+
+  const availableYears = [
+    "All",
+    ...new Set(
+      complaints.map((c) => new Date(c.date).getFullYear().toString())
+    ),
+  ].sort((a, b) => (a === "All" ? -1 : b === "All" ? 1 : b - a));
+
+  if (isLoading) {
+    return (
+      <div className="complaint-dashboard">
+        <div className="loading-spinner">
+          {/* <div className="spinner"></div> */}
+          {/* <p>Loading complaints...</p> */}
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="complaint-dashboard">
+        <div className="error-message">
+          <p>{error}</p>
+          <button onClick={fetchComplaints}>Retry</button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="complaint-dashboard">

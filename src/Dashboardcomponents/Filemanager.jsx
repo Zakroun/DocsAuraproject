@@ -5,8 +5,6 @@ import {
   FaFileImage,
   FaFileVideo,
   FaFile,
-  FaPlus,
-  FaTasks,
   FaTrash,
   FaSearch,
   FaCloudUploadAlt,
@@ -19,164 +17,8 @@ import {
   FaPlay,
 } from "react-icons/fa";
 import { IoCheckmarkDoneCircleSharp } from "react-icons/io5";
-import ReactPlayer from "react-player"; // For video playback
-import { useDispatch, useSelector } from "react-redux";
-import { addFile, deleteFiles } from "../data/DocsauraSlice";
-
-// Sample medical images (placeholder URLs)
-const sampleMedicalImages = [
-  "https://example.com/xray.jpg",
-  "https://example.com/ultrasound.jpg",
-  "https://example.com/mri-scan.jpg",
-  "https://example.com/ct-scan.jpg",
-];
-
-// Sample medical videos (placeholder URLs)
-const sampleMedicalVideos = [
-  "https://example.com/ecg-recording.mp4",
-  "https://example.com/ultrasound-scan.mp4",
-  "https://example.com/endoscopy.mp4",
-  "https://example.com/echocardiogram.mp4",
-];
-
-// Function to generate realistic medical file content
-const generateMedicalContent = (fileType, fileName) => {
-  const doctors = [
-    "Dr. Smith",
-    "Dr. Johnson",
-    "Dr. Williams",
-    "Dr. Brown",
-    "Dr. Davis",
-  ];
-  const facilities = [
-    "City General Hospital",
-    "Metro Health Center",
-    "University Medical",
-    "Parkview Clinic",
-    "Sunrise Healthcare",
-  ];
-  const randomDoctor = doctors[Math.floor(Math.random() * doctors.length)];
-  const randomFacility =
-    facilities[Math.floor(Math.random() * facilities.length)];
-  const date = new Date().toLocaleDateString();
-
-  if (fileType === "pdf") {
-    const reportTypes = {
-      "Annual Checkup": `COMPREHENSIVE ANNUAL EXAMINATION REPORT\n\nPatient: [Patient Name]\nDate: ${date}\nFacility: ${randomFacility}\nAttending Physician: ${randomDoctor}\n\nFINDINGS:\n- Vital signs within normal limits\n- No abnormalities detected in physical examination\n- Blood pressure: 120/80 mmHg\n- Heart rate: 72 bpm\n- BMI: 24.5 (normal range)\n\nRECOMMENDATIONS:\n- Continue current healthy lifestyle\n- Follow up in one year\n- Routine blood work recommended`,
-      "Blood Test": `LABORATORY REPORT - BLOOD ANALYSIS\n\nPatient: [Patient Name]\nDate: ${date}\nFacility: ${randomFacility}\nOrdering Physician: ${randomDoctor}\n\nRESULTS:\n- WBC: 6.5 K/μL (Normal)\n- RBC: 4.7 M/μL (Normal)\n- Hemoglobin: 14.2 g/dL (Normal)\n- Platelets: 250 K/μL (Normal)\n- Glucose: 92 mg/dL (Normal)\n\nINTERPRETATION:\nAll values within normal reference ranges. No abnormalities detected.`,
-      "MRI Scan": `RADIOLOGY REPORT - MRI SCAN\n\nPatient: [Patient Name]\nDate: ${date}\nFacility: ${randomFacility}\nRadiologist: ${randomDoctor}\n\nIMPRESSION:\n- No evidence of acute intracranial abnormality\n- Normal brain parenchyma\n- No mass lesions or hemorrhage\n- Ventricular system normal in size and configuration\n\nRECOMMENDATION:\nNo follow-up needed unless clinically indicated.`,
-    };
-
-    const reportType = fileName.includes("Checkup")
-      ? "Annual Checkup"
-      : fileName.includes("Blood")
-      ? "Blood Test"
-      : fileName.includes("MRI")
-      ? "MRI Scan"
-      : "Medical Report";
-
-    return (
-      reportTypes[reportType] ||
-      `MEDICAL REPORT\n\nThis document contains important health information about your recent ${reportType.toLowerCase()}.\n\nDate: ${date}\nFacility: ${randomFacility}\nPhysician: ${randomDoctor}\n\nPlease consult with your healthcare provider for detailed interpretation.`
-    );
-  } else if (fileType === "docx") {
-    return `PRESCRIPTION\n\nPatient: [Patient Name]\nDate: ${date}\nPrescribing Physician: ${randomDoctor}\n\nMEDICATIONS:\n1. Ibuprofen 400mg - Take 1 tablet every 6 hours as needed for pain\n2. Amoxicillin 500mg - Take 1 capsule every 12 hours for 7 days\n3. Loratadine 10mg - Take 1 tablet daily for allergies\n\nREFILLS: 1\n\nPHARMACY INSTRUCTIONS:\nMay substitute with generic equivalent\n\n${randomDoctor}\nLicense #: ${Math.floor(
-      100000 + Math.random() * 900000
-    )}\n${randomFacility}`;
-  } else if (fileType === "img") {
-    const randomImage =
-      sampleMedicalImages[
-        Math.floor(Math.random() * sampleMedicalImages.length)
-      ];
-    return {
-      url: randomImage,
-      report: `MEDICAL IMAGE REPORT\n\n${fileName}\n\nDate: ${date}\nFacility: ${randomFacility}\nRadiologist: ${randomDoctor}\n\nFINDINGS:\n- No acute findings\n- Normal anatomical structures\n- No evidence of pathology\n\nIMPRESSION:\nUnremarkable study. No follow-up needed unless clinically indicated.`,
-    };
-  } else if (fileType === "video") {
-    const randomVideo =
-      sampleMedicalVideos[
-        Math.floor(Math.random() * sampleMedicalVideos.length)
-      ];
-    return {
-      url: randomVideo,
-      report: `MEDICAL VIDEO REPORT\n\n${fileName}\n\nDate: ${date}\nFacility: ${randomFacility}\nTechnician: ${randomDoctor}\n\nPROCEDURE NOTES:\nThe recording shows normal physiological activity. No arrhythmias detected. Waveforms appear within normal limits.\n\nDURATION: ${Math.floor(
-        1 + Math.random() * 5
-      )} minutes\n\nINTERPRETATION:\nNormal study.`,
-    };
-  }
-  return `This is a ${fileType} file containing medical information about your recent visit to ${randomFacility}.`;
-};
-
-// Generate sample medical files with realistic content
-const generateSampleFiles = () => {
-  const fileTypes = [
-    "pdf",
-    "pdf",
-    "pdf",
-    "docx",
-    "img",
-    "img",
-    "video",
-    "video",
-  ];
-  const categories = [
-    "medical",
-    "medical",
-    "lab",
-    "medical",
-    "medical",
-    "lab",
-    "medical",
-    "medical",
-  ];
-  const prefixes = [
-    "Annual Checkup",
-    "Blood Test",
-    "MRI Scan",
-    "Prescription",
-    "X-Ray",
-    "Ultrasound",
-    "ECG",
-    "Endoscopy",
-  ];
-
-  return Array.from({ length: 8 }, (_, i) => {
-    const type = fileTypes[i];
-    const prefix = prefixes[i];
-    const name = `${prefix} ${
-      type === "img"
-        ? prefix.includes("X-Ray")
-          ? "Image"
-          : "Scan"
-        : type === "video"
-        ? "Recording"
-        : "Report"
-    }.${type}`;
-    const content = generateMedicalContent(type, name);
-
-    return {
-      id: i + 1,
-      name,
-      type,
-      size:
-        type === "pdf"
-          ? `${(1.5 + Math.random() * 3).toFixed(1)} MB`
-          : type === "docx"
-          ? `${(0.2 + Math.random() * 0.5).toFixed(1)} MB`
-          : type === "img"
-          ? `${(2 + Math.random() * 4).toFixed(1)} MB`
-          : `${(5 + Math.random() * 10).toFixed(1)} MB`,
-      category: categories[i],
-      date: new Date(
-        Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000
-      ).toLocaleDateString(),
-      content: type === "img" || type === "video" ? content.report : content,
-      mediaUrl: type === "img" || type === "video" ? content.url : null,
-    };
-  });
-};
-
-const sampleMedicalFiles = generateSampleFiles();
+import ReactPlayer from "react-player";
+import axios from "axios";
 
 const fileIcons = {
   pdf: { icon: <FaFilePdf size={24} color="red" />, color: "#FF0000" },
@@ -195,18 +37,12 @@ const fileIcons = {
 };
 
 export default function FileManager() {
-  const dispatch = useDispatch();
-  const filesData = useSelector((s) => s.Docsaura.files) || sampleMedicalFiles;
-  const activityData = useSelector((s) => s.Docsaura.activity) || [
-    "Dr. Smith uploaded Medical Report",
-    "Lab updated Blood Test Results",
-    "You downloaded Prescription",
-    "You viewed X-Ray Scan",
-    "Dr. Johnson added Consultation Notes",
-  ];
+  // User state
+  const [userId, setUserId] = useState(null);
 
-  const [files, setFiles] = useState(filesData);
-  const [activity, setActivity] = useState(activityData);
+  // Component state
+  const [files, setFiles] = useState([]);
+  const [activities, setActivities] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewFile, setPreviewFile] = useState(null);
   const [selectedFilesToDelete, setSelectedFilesToDelete] = useState([]);
@@ -214,130 +50,334 @@ export default function FileManager() {
   const [newFile, setNewFile] = useState({
     name: "",
     type: "",
-    size: "",
     category: "medical",
+    file: null,
   });
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState("all");
   const [fileContent, setFileContent] = useState("");
   const [playingVideo, setPlayingVideo] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
+  // Initialize user
   useEffect(() => {
-    setFiles(filesData);
-    setActivity(activityData);
-  }, [filesData, activityData]);
+    const initializeUser = () => {
+      try {
+        const userData = localStorage.getItem("user");
+        if (userData) {
+          const user = JSON.parse(userData);
+          setUserId(user?.id || null);
+        }
+      } catch (e) {
+        console.error("Error parsing user data:", e);
+        setError("Failed to load user data");
+      }
+    };
+    initializeUser();
+  }, []);
 
+  // Fetch data when userId changes
+  useEffect(() => {
+    if (userId) {
+      fetchFiles();
+      fetchActivities();
+    }
+  }, [userId]);
+
+  // API functions
+  const fetchFiles = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await axios.get("http://localhost:8000/api/files", {
+        params: { user_id: userId },
+      });
+      setFiles(response.data || []);
+    } catch (error) {
+      console.error("Error fetching files:", error);
+      setError("Failed to load files");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchActivities = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/api/activities", {
+        params: { user_id: userId },
+      });
+      setActivities(response.data || []);
+    } catch (error) {
+      console.error("Error fetching activities:", error);
+      setError("Failed to load activities");
+    }
+  };
+
+  // File operations
+  // const handleFilePreview = async (file) => {
+  //   setSelectedFile(file);
+  //   setIsLoading(true);
+  //   setError(null);
+
+  //   try {
+  //     const response = await axios.get(
+  //       `http://localhost:8000/api/files/${file.id}/preview`,
+  //       {
+  //         params: { user_id: userId },
+  //       }
+  //     );
+
+  //     if (file.type === "pdf" || file.type === "docx") {
+  //       setPreviewFile({ type: file.type, content: response.data.content });
+  //       setFileContent(response.data.content || "No content available");
+  //     } else if (file.type === "img" || file.type === "video") {
+  //       setPreviewFile({
+  //         type: file.type,
+  //         url: response.data.url,
+  //         content: file.description || "Medical file content",
+  //       });
+  //       setFileContent(file.description || "Medical file content");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error previewing file:", error);
+  //     setError("Failed to preview file");
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
+  // const handleFileUpload = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     const fileType = file.name.split(".").pop();
+  //     setNewFile({
+  //       ...newFile,
+  //       file: file,
+  //       type: fileType,
+  //       name: file.name,
+  //     });
+  //   }
+  // };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!newFile.file || !userId) {
+      setError("Please select a file and make sure you are logged in");
+      return;
+    }
+
+    setIsLoading(true);
+    setError(null);
+
+    const formData = new FormData();
+    formData.append("file", newFile.file);
+    formData.append("name", newFile.name);
+    formData.append("type", newFile.type);
+    formData.append("category", newFile.category);
+    formData.append("user_id", userId);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/files",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (response.data?.file) {
+        setFiles((prev) => [response.data.file, ...prev]);
+      }
+      if (response.data?.activity) {
+        setActivities((prev) => [response.data.activity, ...prev]);
+      } else {
+        await fetchActivities();
+      }
+
+      setShowAddFile(false);
+      setNewFile({ name: "", type: "", category: "medical", file: null });
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      setError(error.response?.data?.message || "Failed to upload file");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const toggleFileSelection = (fileId) => {
+    setSelectedFilesToDelete((prev) =>
+      prev.includes(fileId)
+        ? prev.filter((id) => id !== fileId)
+        : [...prev, fileId]
+    );
+  };
+
+  const handleDeleteFiles = async () => {
+    if (selectedFilesToDelete.length === 0 || !userId) {
+      setError("No files selected or user not authenticated");
+      return;
+    }
+
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      console.log("Attempting to delete:", {
+        file_ids: selectedFilesToDelete,
+        user_id: userId,
+      });
+
+      const response = await axios.delete("http://localhost:8000/api/files", {
+        data: {
+          file_ids: selectedFilesToDelete,
+          user_id: userId,
+        },
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      console.log("Delete response:", response.data);
+
+      if (response.data.success_count > 0) {
+        setFiles((prev) =>
+          prev.filter((file) => !response.data.deleted_ids.includes(file.id))
+        );
+
+        // Show success message
+        alert(`${response.data.success_count} files deleted successfully`);
+      }
+
+      if (response.data.failed_count > 0) {
+        setError(`${response.data.failed_count} files failed to delete`);
+        console.error("Delete errors:", response.data.errors);
+      }
+
+      setSelectedFilesToDelete([]);
+      fetchActivities();
+    } catch (error) {
+      console.error("Delete error:", {
+        error: error.response?.data || error.message,
+        config: error.config,
+      });
+
+      let errorMessage = "Failed to delete files";
+      if (error.response) {
+        errorMessage += `: ${JSON.stringify(error.response.data)}`;
+      }
+
+      setError(errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleDownload = async (fileId) => {
+  setIsLoading(true);
+  setError(null);
+
+  try {
+    // 1. Get file info from backend
+    const response = await axios.get(`http://localhost:8000/api/files/${fileId}/info`);
+    
+    if (response.data.error) {
+      throw new Error(response.data.error);
+    }
+
+    const { name, type } = response.data;
+
+    // 2. Create dummy content based on file type
+    let content = '';
+    if (type === 'pdf') {
+      content = '%PDF-1.4\n...'; // Minimal PDF header
+    } else if (type === 'csv') {
+      content = 'data,example\n1,sample\n2,content';
+    } // Add other file types as needed
+
+    // 3. Create download URL
+    const blob = new Blob([content], { type: `application/${type}` });
+    const url = URL.createObjectURL(blob);
+
+    // 4. Trigger download
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = name;
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+
+    // 5. Clean up
+    setTimeout(() => {
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }, 100);
+
+  } catch (error) {
+    console.error('Download failed:', error);
+    setError(`Cannot download file: ${error.message}`);
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+  // Filter files based on search and active tab
   const filteredFiles = files.filter((file) => {
     const matchesSearch = file.name
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
     if (activeTab === "all") return matchesSearch;
-    if (activeTab === "medical")
-      return matchesSearch && file.category === "medical";
-    if (activeTab === "lab") return matchesSearch && file.category === "lab";
-    if (activeTab === "personal")
-      return matchesSearch && file.category === "personal";
-    return matchesSearch;
+    return matchesSearch && file.category === activeTab;
   });
 
-  const handleFilePreview = (file) => {
-    setSelectedFile(file);
-    setFileContent(
-      file.content || generateMedicalContent(file.type, file.name)
-    );
-    setPlayingVideo(false);
+  // Render helpers
+  const renderFileIcon = (file) => {
+    const fileType = file.type in fileIcons ? file.type : "default";
+    return fileIcons[fileType].icon;
+  };
 
-    if (file.type === "pdf") {
-      setPreviewFile({ type: "pdf", content: file.content });
-    } else if (file.type === "img") {
-      setPreviewFile({
-        type: "img",
-        url: file.mediaUrl || sampleMedicalImages[0],
-        content: file.content,
-      });
-    } else if (file.type === "video") {
-      setPreviewFile({
-        type: "video",
-        url: file.mediaUrl || sampleMedicalVideos[0],
-        content: file.content,
-      });
-    } else {
-      setPreviewFile({ type: "text", content: file.content });
+  const renderActivities = () => {
+    if (isLoading && activities.length === 0) {
+      return <li className="activity-item">Loading activities...</li>;
     }
 
-    setActivity([`You viewed ${file.name}`, ...activity.slice(0, 9)]);
-  };
-
-  const handleFileUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const fileType = file.name.split(".").pop();
-      const content = generateMedicalContent(fileType, file.name);
-
-      setNewFile({
-        name: file.name,
-        type: fileType,
-        size: `${(file.size / 1024 / 1024).toFixed(2)} MB`,
-        category: "medical",
-        content:
-          fileType === "img" || fileType === "video" ? content.report : content,
-        mediaUrl:
-          fileType === "img" || fileType === "video"
-            ? URL.createObjectURL(file)
-            : null,
-      });
+    if (!activities || activities.length === 0) {
+      return <li className="activity-item">No activities found</li>;
     }
-  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (newFile.name && newFile.type && newFile.size) {
-      const newFileWithId = {
-        ...newFile,
-        id: Math.max(...files.map((f) => f.id)) + 1,
-        date: new Date().toLocaleDateString(),
-      };
-
-      dispatch(addFile(newFileWithId));
-      setFiles([newFileWithId, ...files]);
-      setActivity([`You uploaded "${newFile.name}"`, ...activity.slice(0, 9)]);
-      setShowAddFile(false);
-      setNewFile({ name: "", type: "", size: "", category: "medical" });
-    }
-  };
-
-  const toggleFileSelection = (fileId) => {
-    setSelectedFilesToDelete((prevSelected) =>
-      prevSelected.includes(fileId)
-        ? prevSelected.filter((id) => id !== fileId)
-        : [...prevSelected, fileId]
-    );
-  };
-
-  const handleDeleteFiles = () => {
-    dispatch(deleteFiles(selectedFilesToDelete));
-    setFiles(files.filter((file) => !selectedFilesToDelete.includes(file.id)));
-    setActivity([
-      `You deleted ${selectedFilesToDelete.length} files`,
-      ...activity.slice(0, 9),
-    ]);
-    setSelectedFilesToDelete([]);
-  };
-
-  const handleDownload = (file) => {
-    const element = document.createElement("a");
-    const textFile = new Blob([file.content], { type: "text/plain" });
-    element.href = URL.createObjectURL(textFile);
-    element.download = file.name;
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
-
-    setActivity([`You downloaded ${file.name}`, ...activity.slice(0, 9)]);
+    return activities.slice(0, 10).map((activity) => (
+      <li key={activity.id} className="activity-item">
+        <IoCheckmarkDoneCircleSharp className="activity-icon" />
+        <span className="activity-text">
+          {activity?.description || "Activity logged"}
+        </span>
+        <span className="activity-time">
+          {activity?.created_at
+            ? new Date(activity.created_at).toLocaleString()
+            : "Recently"}
+        </span>
+      </li>
+    ));
   };
 
   return (
     <div className="file-manager-container">
+      {/* Loading and error indicators */}
+      {isLoading && (
+        <div className="loading-overlay">
+          <div className="loading-spinner"></div>
+        </div>
+      )}
+
+      {error && (
+        <div className="error-message">
+          {error}
+          <button onClick={() => setError(null)}>×</button>
+        </div>
+      )}
+
       {/* Main content */}
       <div className="file-manager-content">
         {/* Sidebar */}
@@ -376,20 +416,18 @@ export default function FileManager() {
             <h3>My Files</h3>
             <div className="my-files-stats">
               <div className="file-stat">
-                <FaFileMedical /> <span>Medical Reports</span>{" "}
+                <FaFileMedical /> <span>Medical</span>
                 <span>
-                  {files.filter((f) => f.category === "medical").length} files
+                  {files.filter((f) => f.category === "medical").length}
                 </span>
               </div>
               <div className="file-stat">
-                <FaFlask /> <span>Lab Results</span>{" "}
-                <span>
-                  {files.filter((f) => f.category === "lab").length} files
-                </span>
+                <FaFlask /> <span>Lab</span>
+                <span>{files.filter((f) => f.category === "lab").length}</span>
               </div>
               <div className="file-stat">
-                <FaFileAlt /> <span>Total Files</span>{" "}
-                <span>{files.length} files</span>
+                <FaFileAlt /> <span>Total</span>
+                <span>{files.length}</span>
               </div>
             </div>
           </div>
@@ -406,17 +444,23 @@ export default function FileManager() {
                 placeholder="Search files..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                disabled={isLoading}
               />
             </div>
             <div className="action-buttons">
               <button
                 className="upload-btn"
                 onClick={() => setShowAddFile(true)}
+                disabled={isLoading}
               >
                 <FaCloudUploadAlt /> Upload
               </button>
               {selectedFilesToDelete.length > 0 && (
-                <button className="delete-btn" onClick={handleDeleteFiles}>
+                <button
+                  className="delete-btn"
+                  onClick={handleDeleteFiles}
+                  disabled={isLoading}
+                >
                   <FaTrash /> Delete ({selectedFilesToDelete.length})
                 </button>
               )}
@@ -426,49 +470,53 @@ export default function FileManager() {
           {/* File grid */}
           <div className="file-grid">
             {filteredFiles.length > 0 ? (
-              filteredFiles.map((file) => {
-                const fileType = file.type in fileIcons ? file.type : "default";
-                return (
+              filteredFiles.map((file) => (
+                <div
+                  key={file.id}
+                  className={`file-card ${
+                    selectedFilesToDelete.includes(file.id) ? "selected" : ""
+                  }`}
+                  style={{
+                    borderLeft: `4px solid ${
+                      fileIcons[file.type in fileIcons ? file.type : "default"]
+                        .color
+                    }`,
+                  }}
+                >
+                  <input
+                    type="checkbox"
+                    checked={selectedFilesToDelete.includes(file.id)}
+                    onChange={() => toggleFileSelection(file.id)}
+                    className="file-checkbox"
+                    disabled={isLoading}
+                  />
                   <div
-                    key={file.id}
-                    className={`file-card ${
-                      selectedFilesToDelete.includes(file.id) ? "selected" : ""
-                    }`}
-                    style={{
-                      borderLeft: `4px solid ${fileIcons[fileType].color}`,
-                    }}
+                    className="file-content"
+                    // onClick={() => !isLoading && handleFilePreview(file)}
                   >
-                    <input
-                      type="checkbox"
-                      checked={selectedFilesToDelete.includes(file.id)}
-                      onChange={() => toggleFileSelection(file.id)}
-                      className="file-checkbox"
-                    />
-                    <div
-                      className="file-content"
-                      onClick={() => handleFilePreview(file)}
-                    >
-                      <div className="file-icon">
-                        {fileIcons[fileType].icon}
-                      </div>
-                      <div className="file-info">
-                        <h4 className="file-name">{file.name}</h4>
-                        <p className="file-size">{file.size}</p>
-                        <p className="file-date">Uploaded: {file.date}</p>
-                      </div>
+                    <div className="file-icon">{renderFileIcon(file)}</div>
+                    <div className="file-info">
+                      <h4 className="file-name">{file.name}</h4>
+                      <p className="file-size">
+                        {Math.round(file.size / 1024)} KB
+                      </p>
+                      <p className="file-date">
+                        {new Date(file.created_at).toLocaleDateString()}
+                      </p>
                     </div>
-                    <button
-                      className="download-file-btn"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDownload(file);
-                      }}
-                    >
-                      <FaDownload size={14} />
-                    </button>
                   </div>
-                );
-              })
+                  <button
+                    className="download-file-btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDownload(file.id);
+                    }}
+                    disabled={isLoading}
+                  >
+                    <FaDownload size={14} />
+                  </button>
+                </div>
+              ))
             ) : (
               <div className="no-files">
                 <FaFile size={48} color="#ccc" />
@@ -476,6 +524,7 @@ export default function FileManager() {
                 <button
                   className="upload-btn"
                   onClick={() => setShowAddFile(true)}
+                  disabled={isLoading}
                 >
                   <FaCloudUploadAlt /> Upload your first file
                 </button>
@@ -487,15 +536,7 @@ export default function FileManager() {
         {/* Activity panel */}
         <div className="activity-panel">
           <h3>Recent Activity</h3>
-          <ul className="activity-list">
-            {activity.map((act, index) => (
-              <li key={index} className="activity-item">
-                <IoCheckmarkDoneCircleSharp className="activity-icon" />
-                <span className="activity-text">{act}</span>
-                <span className="activity-time">Just now</span>
-              </li>
-            ))}
-          </ul>
+          <ul className="activity-list">{renderActivities()}</ul>
         </div>
       </div>
 
@@ -505,7 +546,10 @@ export default function FileManager() {
           <div className="modal-content">
             <div className="modal-header">
               <h3>Upload New File</h3>
-              <button onClick={() => setShowAddFile(false)}>
+              <button
+                onClick={() => setShowAddFile(false)}
+                disabled={isLoading}
+              >
                 <FaTimes />
               </button>
             </div>
@@ -519,6 +563,7 @@ export default function FileManager() {
                     setNewFile({ ...newFile, name: e.target.value })
                   }
                   required
+                  disabled={isLoading}
                 />
               </div>
               <div className="form-group">
@@ -529,6 +574,7 @@ export default function FileManager() {
                     setNewFile({ ...newFile, type: e.target.value })
                   }
                   required
+                  disabled={isLoading}
                 >
                   <option value="">Select Type</option>
                   <option value="pdf">PDF</option>
@@ -544,6 +590,7 @@ export default function FileManager() {
                   onChange={(e) =>
                     setNewFile({ ...newFile, category: e.target.value })
                   }
+                  disabled={isLoading}
                 >
                   <option value="medical">Medical Report</option>
                   <option value="lab">Lab Results</option>
@@ -555,9 +602,10 @@ export default function FileManager() {
                   <FaCloudUploadAlt /> Choose File
                   <input
                     type="file"
-                    onChange={handleFileUpload}
+                    //onChange={handleFileUpload}
                     required
                     hidden
+                    disabled={isLoading}
                   />
                 </label>
                 {newFile.name && (
@@ -565,23 +613,29 @@ export default function FileManager() {
                 )}
               </div>
               <div className="form-actions">
-                <button type="button" onClick={() => setShowAddFile(false)}>
+                <button
+                  type="button"
+                  onClick={() => setShowAddFile(false)}
+                  disabled={isLoading}
+                >
                   Cancel
                 </button>
-                <button type="submit">Upload</button>
+                <button type="submit" disabled={isLoading}>
+                  {isLoading ? "Uploading..." : "Upload"}
+                </button>
               </div>
             </form>
           </div>
         </div>
       )}
 
-      {/* File preview modal */}
+      {/* File preview modal
       {previewFile && (
         <div className="file-preview-modal">
           <div className="preview-content">
             <div className="preview-header">
               <h3>{selectedFile?.name}</h3>
-              <button onClick={() => setPreviewFile(null)}>
+              <button onClick={() => setPreviewFile(null)} disabled={isLoading}>
                 <FaTimes />
               </button>
             </div>
@@ -649,19 +703,21 @@ export default function FileManager() {
               <button
                 className="download-btn"
                 onClick={() => handleDownload(selectedFile)}
+                disabled={isLoading}
               >
                 <FaDownload /> Download
               </button>
               <button
                 className="close-btn"
                 onClick={() => setPreviewFile(null)}
+                disabled={isLoading}
               >
                 Close
               </button>
             </div>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 }

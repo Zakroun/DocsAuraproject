@@ -1,154 +1,187 @@
 import React, { useState, useEffect } from "react";
-import { FaBell, FaBellSlash, FaSave, FaTimes } from "react-icons/fa";
+import { FaSave, FaTimes, FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
-export default function SettingsBoard({ Use }) {
-  console.log("image", Use.image);
-  console.log(Use);
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [retypePassword, setRetypePassword] = useState("");
-  const [email, setEmail] = useState(Use.email);
-  const [phoneNo, setPhoneNo] = useState(Use.phone);
-  const [name, setName] = useState(Use.fullName);
-  const [profileImage, setProfileImage] = useState(Use.image);
-  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
-  const [showNewPassword, setShowNewPassword] = useState(false);
+export default function SettingsBoard({ user }) {
+  const [formData, setFormData] = useState(initializeFormData(user));
+  const [imageFile, setImageFile] = useState(null);
+  const [previewImage, setPreviewImage] = useState(user.image);
+  const [showPassword, setShowPassword] = useState(false);
   const [showRetypePassword, setShowRetypePassword] = useState(false);
   const [activeTab, setActiveTab] = useState("General");
-  const [showNotification, setShowNotification] = useState(false);
-  const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
   const [passwordStrength, setPasswordStrength] = useState({
     level: "",
     width: "0%",
     color: "transparent",
   });
-  const [shouldRefresh, setShouldRefresh] = useState(false);
-  const [showFullImage, setShowFullImage] = useState(false);
-  
-  // Consultation type options
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasChanges, setHasChanges] = useState(false);
+  const [notification, setNotification] = useState({ message: "", type: "" });
+  const [showImagePreview, setShowImagePreview] = useState(false);
+
+  // All available consultation types
   const consultationTypeOptions = [
-    "Online Conversation, voice or video call",
-    "Consultation at the patient's home",
-    "Consultation at the doctor's office",
-    "Emergency consultation",
-    "Follow-up consultation",
-    "Specialist consultation"
+    "Online Consultation (voice/video call)",
+    "In-person Consultation (patient's home)",
+    "In-person Consultation (clinic/office)",
+    "Emergency Consultation",
+    "Follow-up Consultation",
+    "Specialist Consultation",
   ];
-  
-  const [consultationTypes, setConsultationTypes] = useState(
-    Use.consultationTypes || [
-      {
-        type: "Online Conversation, voice or video call",
-        price: 250
-      },
-      {
-        type: "Consultation at the patient's home",
-        price: 300
-      },
-      {
-        type: "Consultation at the doctor's office",
-        price: 200
+
+  // Show notification
+  const showNotification = (message, type) => {
+    setNotification({ message, type });
+    setTimeout(() => setNotification({ message: "", type: "" }), 5000);
+  };
+
+  // Initialize form data
+  function initializeFormData(user) {
+    return {
+      name: user.fullName || "",
+      email: user.email || "",
+      phone: user.phone || "",
+      password: "",
+      retypePassword: "",
+      city: user.city || "",
+      gender: user.gender || "",
+      birth_date: user.birth_date || "",
+      blood_type: user.blood_type || "",
+      description: user.description || "",
+      working_hours: user.working_hours || { from: "08:00", to: "18:00" },
+      consultationTypes: user.consultationTypes || [
+        { type: "Online Consultation (voice/video call)", price: 250 },
+        { type: "In-person Consultation (patient's home)", price: 300 },
+        { type: "In-person Consultation (clinic/office)", price: 200 },
+      ],
+      years_of_experience: user.years_of_experience || "",
+      services: user.services || [],
+      emergency_contact: user.emergency_contact || "",
+    };
+  }
+  const cleanServices = (services) => {
+    if (!services) return [];
+
+    // Handle case where services might be a string or other type
+    if (typeof services === "string") {
+      try {
+        // Try to parse if it's a JSON string
+        const parsed = JSON.parse(services);
+        return Array.isArray(parsed) ? parsed : [services];
+      } catch {
+        return [services];
       }
-    ]
-  );
-  const [workingHours, setWorkingHours] = useState(
-    Use.working_hours || {
-      from: "08:00",
-      to: "18:00"
     }
-  );
 
-  const [preferences, setPreferences] = useState({
-    darkMode: false,
-    language: "English",
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    consultationReminder: false,
-    labResultsNotification: false,
-    appointmentConfirmation: true,
-    newServiceAlert: false,
-    ...(Use.role === "doctor" && {
-      prescriptionExpiryAlert: true,
-      patientFollowupReminder: false,
-      emergencyCaseNotification: true,
-    }),
-    ...(Use.role === "clinic" && {
-      doctorAvailabilityAlert: true,
-      roomBookingConfirmation: false,
-      patientArrivalNotification: true,
-    }),
-    ...(Use.role === "laboratory" && {
-      testResultsReadyAlert: true,
-      sampleCollectionReminder: false,
-      criticalResultNotification: true,
-    }),
-  });
-
-  const translations = {
-    settingsTitle: "Settings Board",
-    personalInfo: "Personal Information",
-    name: "Name",
-    email: "Email",
-    phoneNo: "Phone",
-    security: "Security",
-    currentPassword: "Current Password",
-    newPassword: "New Password",
-    retypePassword: "Retype Password",
-    forgotPassword: "Forgot password?",
-    cancel: "Cancel",
-    save: "Save",
-    successfullyUpdated: "Settings updated successfully!",
-    confirmCancel: "Are you sure you want to cancel? All changes will be lost.",
-    confirm: "Confirm",
-    general: "General",
-    preferences: "Preferences",
-    passwordStrength: "Password Strength",
-    weak: "Weak",
-    medium: "Medium",
-    strong: "Strong",
-    services: "Services",
-    consultationTypes: "Consultation Types",
-    workingHours: "Working Hours",
-    description: "Description",
-    yearsOfExperience: "Years of Experience",
-    selectConsultationType: "Select Consultation Type",
-    addNewType: "Add New Type",
-    price: "Price",
-    remove: "Remove"
+    // Ensure we have a proper array
+    return Array.isArray(services)
+      ? services.filter((service) => service && service.trim() !== "")
+      : [];
   };
 
+  const [validServices, setValidServices] = useState(
+    cleanServices(user.services || [])
+  );
+  useEffect(() => {
+    const cleaned = cleanServices(formData.services);
+    setValidServices(cleaned);
+    console.log("Cleaned services:", cleaned, "Original:", formData.services);
+  }, [formData.services]);
+  // Check for changes
+  useEffect(() => {
+    const initialData = initializeFormData(user);
+    const currentData = {
+      ...formData,
+      password: "",
+      retypePassword: "",
+    };
+
+    const changesDetected =
+      Object.keys(currentData).some((key) => {
+        if (key === "working_hours") {
+          return (
+            JSON.stringify(currentData[key]) !==
+            JSON.stringify(initialData[key])
+          );
+        }
+        if (key === "consultationTypes" || key === "services") {
+          return (
+            JSON.stringify(currentData[key]) !==
+            JSON.stringify(initialData[key])
+          );
+        }
+        return currentData[key] !== initialData[key];
+      }) || imageFile !== null;
+
+    setHasChanges(changesDetected);
+  }, [formData, imageFile, user]);
+
+  // Handle form changes
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleNestedChange = (parent, field, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      [parent]: {
+        ...prev[parent],
+        [field]: value,
+      },
+    }));
+  };
+
+  // Handle consultation type changes
   const handleConsultationTypeChange = (index, field, value) => {
-    const updatedTypes = [...consultationTypes];
-    updatedTypes[index][field] = value;
-    setConsultationTypes(updatedTypes);
+    const updatedTypes = [...formData.consultationTypes];
+    updatedTypes[index][field] =
+      field === "price" ? parseFloat(value) || 0 : value;
+    setFormData((prev) => ({ ...prev, consultationTypes: updatedTypes }));
   };
 
+  // Add new consultation type
   const addConsultationType = () => {
-    setConsultationTypes([
-      ...consultationTypes,
-      { type: "", price: 0 }
-    ]);
+    setFormData((prev) => ({
+      ...prev,
+      consultationTypes: [...prev.consultationTypes, { type: "", price: 0 }],
+    }));
   };
 
+  // Remove consultation type
   const removeConsultationType = (index) => {
-    const updatedTypes = [...consultationTypes];
-    updatedTypes.splice(index, 1);
-    setConsultationTypes(updatedTypes);
+    const updatedTypes = formData.consultationTypes.filter(
+      (_, i) => i !== index
+    );
+    setFormData((prev) => ({ ...prev, consultationTypes: updatedTypes }));
   };
 
-  const getTranslation = (key) => {
-    return translations[key] || key;
-  };
-
-  const evaluatePasswordStrength = (password) => {
-    if (password.length === 0) {
-      return {
-        level: "",
-        width: "0%",
-        color: "transparent",
-      };
+  // Handle image change
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (!file.type.match("image.*")) {
+        showNotification("Please select a valid image file", "error");
+        return;
+      }
+      if (file.size > 2 * 1024 * 1024) {
+        showNotification("Image size should be less than 2MB", "error");
+        return;
+      }
+      setImageFile(file);
+      setPreviewImage(URL.createObjectURL(file));
     }
+  };
+
+  // Toggle image preview modal
+  const toggleImagePreview = () => {
+    setShowImagePreview(!showImagePreview);
+  };
+
+  // Password strength evaluation
+  const evaluatePasswordStrength = (password) => {
+    if (!password) return { level: "", width: "0%", color: "transparent" };
 
     const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
     const hasNumber = /\d/.test(password);
@@ -156,7 +189,6 @@ export default function SettingsBoard({ Use }) {
     const hasLower = /[a-z]/.test(password);
 
     let strength = 0;
-
     if (password.length > 0) strength += 1;
     if (password.length >= 6) strength += 1;
     if (password.length >= 10) strength += 1;
@@ -164,322 +196,436 @@ export default function SettingsBoard({ Use }) {
     if (hasNumber) strength += 1;
     if (hasUpper && hasLower) strength += 1;
 
-    if (strength <= 2) {
-      return {
-        level: getTranslation("weak"),
-        width: "33%",
-        color: "#ff4d4f",
-      };
-    } else if (strength <= 4) {
-      return {
-        level: getTranslation("medium"),
-        width: "66%",
-        color: "#faad14",
-      };
-    } else {
-      return {
-        level: getTranslation("strong"),
-        width: "100%",
-        color: "#52c41a",
-      };
-    }
+    if (strength <= 2) return { level: "Weak", width: "33%", color: "#ff4d4f" };
+    if (strength <= 4)
+      return { level: "Medium", width: "66%", color: "#faad14" };
+    return { level: "Strong", width: "100%", color: "#52c41a" };
   };
 
-  const handleSave = () => {
-    if (
-      !name ||
-      !email ||
-      !phoneNo ||
-      !currentPassword ||
-      !newPassword ||
-      !retypePassword
-    ) {
-      setErrorMessage("All fields must be filled");
+  // Save settings
+  const handleSave = async () => {
+    if (formData.password && formData.password !== formData.retypePassword) {
+      showNotification("Passwords do not match", "error");
       return;
     }
 
-    if (newPassword !== retypePassword) {
-      setErrorMessage("Passwords do not match");
-      return;
-    }
+    setIsLoading(true);
 
-    setErrorMessage("");
-    setShowNotification(true);
+    try {
+      const data = new FormData();
 
-    setTimeout(() => {
-      setShowNotification(false);
-      setShouldRefresh(true);
-    }, 3000);
-  };
+      // Add all form data
+      data.append("name", formData.name);
+      data.append("email", formData.email);
+      data.append("phone", formData.phone);
 
-  useEffect(() => {
-    if (shouldRefresh) {
-      window.location.reload();
-    }
-  }, [shouldRefresh]);
-
-  const handleCancel = () => {
-    setShowCancelConfirmation(true);
-  };
-
-  const handleConfirmCancel = () => {
-    setCurrentPassword("");
-    setNewPassword("");
-    setRetypePassword("");
-    setEmail("");
-    setPhoneNo("");
-    setName("");
-    setProfileImage(Use.image);
-    setShowCurrentPassword(false);
-    setShowNewPassword(false);
-    setShowRetypePassword(false);
-    setShowCancelConfirmation(false);
-    setConsultationTypes(Use.consultationTypes || [
-      {
-        type: "Online Conversation, voice or video call",
-        price: 250
-      },
-      {
-        type: "Consultation at the patient's home",
-        price: 300
-      },
-      {
-        type: "Consultation at the doctor's office",
-        price: 200
+      if (formData.password) {
+        data.append("password", formData.password);
+        data.append("password_confirmation", formData.retypePassword);
       }
-    ]);
-    setWorkingHours(Use.working_hours || {
-      from: "08:00",
-      to: "18:00"
-    });
-  };
 
-  const handleCancelConfirmation = () => {
-    setShowCancelConfirmation(false);
-  };
+      data.append("city", formData.city);
+      data.append("gender", formData.gender);
+      data.append("birth_date", formData.birth_date);
+      data.append("blood_type", formData.blood_type);
 
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setProfileImage(imageUrl);
+      if (imageFile) data.append("image", imageFile);
+
+      // Role-specific fields
+      if (user.role !== "patient") {
+        data.append("description", formData.description);
+        data.append("working_hours[from]", formData.working_hours.from);
+        data.append("working_hours[to]", formData.working_hours.to);
+
+        if (user.role === "doctor") {
+          data.append("years_of_experience", formData.years_of_experience);
+          formData.consultationTypes.forEach((type, index) => {
+            data.append(`consultationTypes[${index}][type]`, type.type);
+            data.append(`consultationTypes[${index}][price]`, type.price);
+          });
+        }
+
+        if (user.role === "clinic" || user.role === "laboratory") {
+          validServices.forEach((service) => {
+            data.append("services[]", service);
+          });
+        }
+      } else {
+        data.append("emergency_contact", formData.emergency_contact);
+      }
+
+      const baseurl = `http://localhost:8000/api/`;
+      const response = await axios.post(
+        `${baseurl}settings/${user.id}/update`,
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      showNotification("Settings updated successfully", "success");
+      setTimeout(() => window.location.reload(), 1000);
+    } catch (error) {
+      console.error("Error updating settings:", error);
+      const errorMessage =
+        error.response?.data?.message ||
+        error.response?.data?.errors?.join("\n") ||
+        "Failed to update settings";
+      showNotification(errorMessage, "error");
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const toggleFullImage = () => {
-    setShowFullImage(!showFullImage);
+  // Reset form
+  const resetForm = () => {
+    if (
+      hasChanges &&
+      !window.confirm("Are you sure you want to discard all changes?")
+    ) {
+      return;
+    }
+    setFormData(initializeFormData(user));
+    setImageFile(null);
+    setPreviewImage(user.image);
   };
-
-  const handleWorkingHoursChange = (field, value) => {
-    setWorkingHours({
-      ...workingHours,
-      [field]: value
-    });
-  };
-
-
+  console.log(user.description);
+  // Render role-specific fields
   const renderRoleSpecificFields = () => {
-    switch (Use.role) {
+    switch (user.role) {
       case "doctor":
         return (
           <>
             <div className="settings-item">
-              <label>{getTranslation("workingHours")}</label>
+              <label>Working Hours</label>
               <div className="working-hours-container">
                 <div className="time-range-input">
                   <label>From:</label>
                   <input
                     type="time"
-                    value={workingHours.from}
-                    onChange={(e) => handleWorkingHoursChange("from", e.target.value)}
+                    value={formData.working_hours.from}
+                    onChange={(e) =>
+                      handleNestedChange(
+                        "working_hours",
+                        "from",
+                        e.target.value
+                      )
+                    }
                   />
                 </div>
                 <div className="time-range-input">
                   <label>To:</label>
                   <input
                     type="time"
-                    value={workingHours.to}
-                    onChange={(e) => handleWorkingHoursChange("to", e.target.value)}
+                    value={formData.working_hours.to}
+                    onChange={(e) =>
+                      handleNestedChange("working_hours", "to", e.target.value)
+                    }
                   />
                 </div>
               </div>
             </div>
             <div className="settings-item">
-              <label>{getTranslation("description")}</label>
+              <label>Description</label>
               <textarea
                 className="description_settings"
-                value={Use.description || ""}
+                value={formData.description}
                 rows="4"
+                onChange={(e) =>
+                  handleChange({
+                    target: { name: "description", value: e.target.value },
+                  })
+                }
+                placeholder="Tell patients about your expertise and approach..."
               />
             </div>
             <div className="settings-item">
-              <label>{getTranslation("yearsOfExperience")}</label>
+              <label>Years of Experience</label>
               <input
-                type="text"
-                value={Use.years_of_experience || ""}
+                type="number"
+                min="0"
+                value={formData.years_of_experience}
+                onChange={(e) =>
+                  handleChange({
+                    target: {
+                      name: "years_of_experience",
+                      value: e.target.value,
+                    },
+                  })
+                }
               />
             </div>
             <div className="settings-item">
-              <label>{getTranslation("consultationTypes")}</label>
+              <label>Consultation Types</label>
               <div className="consultation-types-container">
-                {consultationTypes.map((consultation, index) => (
-                  <div key={index} className="consultation-type-item">
-                    <select
-                      value={consultation.type}
-                      onChange={(e) => handleConsultationTypeChange(index, "type", e.target.value)}
+                {/* Always show exactly 3 selects from user.consultationTypes */}
+                {[0, 1, 2].map((index) => {
+                  const consultation = user?.consultationTypes?.[index] || {
+                    type: "",
+                    price: "",
+                  };
+                  return (
+                    <div
+                      key={`default-${index}`}
+                      className="consultation-type-item"
                     >
-                      <option value="">{getTranslation("selectConsultationType")}</option>
-                      {consultationTypeOptions.map((option, i) => (
-                        <option key={i} value={option}>
-                          {option}
-                        </option>
-                      ))}
-                    </select>
-                    <input
-                      type="number"
-                      placeholder={getTranslation("price")}
-                      value={consultation.price}
-                      onChange={(e) => handleConsultationTypeChange(index, "price", e.target.value)}
-                    />
-                    <button
-                      className="remove-consultation-type"
-                      onClick={() => removeConsultationType(index)}
+                      <select
+                        value={consultation.type}
+                        onChange={(e) =>
+                          handleConsultationTypeChange(
+                            index,
+                            "type",
+                            e.target.value
+                          )
+                        }
+                        required
+                      >
+                        <option value="">Select Consultation Type</option>
+                        {consultationTypeOptions.map((option, i) => (
+                          <option key={i} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+                      <input
+                        type="number"
+                        min="0"
+                        step="50"
+                        placeholder="Price"
+                        value={consultation.price}
+                        onChange={(e) =>
+                          handleConsultationTypeChange(
+                            index,
+                            "price",
+                            e.target.value
+                          )
+                        }
+                        required
+                      />
+                      {/* Only show remove button for empty/default types */}
+                      {!user?.consultationTypes?.[index] && (
+                        <button
+                          type="button"
+                          className="remove-consultation-type"
+                          onClick={() => removeConsultationType(index)}
+                        >
+                          Remove
+                        </button>
+                      )}
+                    </div>
+                  );
+                })}
+
+                {/* Show additional types beyond the first 3 */}
+                {formData.consultationTypes
+                  .slice(3)
+                  .map((consultation, index) => (
+                    <div
+                      key={`extra-${index + 3}`}
+                      className="consultation-type-item"
                     >
-                      {getTranslation("remove")}
-                    </button>
-                  </div>
-                ))}
-                <button
-                  className="add-consultation-type"
-                  onClick={addConsultationType}
-                >
-                  + {getTranslation("addNewType")}
-                </button>
+                      <select
+                        value={consultation.type}
+                        onChange={(e) =>
+                          handleConsultationTypeChange(
+                            index + 3,
+                            "type",
+                            e.target.value
+                          )
+                        }
+                        required
+                      >
+                        <option value="">Select Consultation Type</option>
+                        {consultationTypeOptions.map((option, i) => (
+                          <option key={i} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+                      <input
+                        type="number"
+                        min="0"
+                        step="50"
+                        placeholder="Price"
+                        value={consultation.price}
+                        onChange={(e) =>
+                          handleConsultationTypeChange(
+                            index + 3,
+                            "price",
+                            e.target.value
+                          )
+                        }
+                        required
+                      />
+                      <button
+                        type="button"
+                        className="remove-consultation-type"
+                        onClick={() => removeConsultationType(index + 3)}
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ))}
+
+                {/* Only show add button if there are options left */}
+                {formData.consultationTypes.length <
+                  consultationTypeOptions.length && (
+                  <button
+                    type="button"
+                    className="add-consultation-type"
+                    onClick={addConsultationType}
+                  >
+                    + Add New Type
+                  </button>
+                )}
               </div>
             </div>
           </>
         );
       case "clinic":
-        return (
-          <>
-            <div className="settings-item">
-              <label>{getTranslation("workingHours")}</label>
-              <div className="working-hours-container">
-                <div className="time-range-input">
-                  <label>From:</label>
-                  <input
-                    type="time"
-                    value={workingHours.from}
-                    onChange={(e) => handleWorkingHoursChange("from", e.target.value)}
-                  />
-                </div>
-                <div className="time-range-input">
-                  <label>To:</label>
-                  <input
-                    type="time"
-                    value={workingHours.to}
-                    onChange={(e) => handleWorkingHoursChange("to", e.target.value)}
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="settings-item">
-              <label>{getTranslation("description")}</label>
-              <textarea
-                className="description_settings"
-                value={Use.description || ""}
-                rows="4"
-              />
-            </div>
-            <div className="settings-item">
-              <label>{getTranslation("services")}</label>
-              <input
-                type="text"
-                value={Use.services ? Use.services.join(", ") : ""}
-              />
-            </div>
-            <div className="settings-item">
-              <label>{getTranslation("consultationTypes")}</label>
-              <input
-                type="text"
-                value={
-                  Use.consultationTypes ? Use.consultationTypes.join(", ") : ""
-                }
-              />
-            </div>
-          </>
-        );
       case "laboratory":
         return (
           <>
             <div className="settings-item">
-              <label>{getTranslation("workingHours")}</label>
+              <label>Working Hours</label>
               <div className="working-hours-container">
                 <div className="time-range-input">
                   <label>From:</label>
                   <input
                     type="time"
-                    value={workingHours.from}
-                    onChange={(e) => handleWorkingHoursChange("from", e.target.value)}
+                    value={formData.working_hours.from}
+                    onChange={(e) =>
+                      handleNestedChange(
+                        "working_hours",
+                        "from",
+                        e.target.value
+                      )
+                    }
                   />
                 </div>
                 <div className="time-range-input">
                   <label>To:</label>
                   <input
                     type="time"
-                    value={workingHours.to}
-                    onChange={(e) => handleWorkingHoursChange("to", e.target.value)}
+                    value={formData.working_hours.to}
+                    onChange={(e) =>
+                      handleNestedChange("working_hours", "to", e.target.value)
+                    }
                   />
                 </div>
               </div>
             </div>
             <div className="settings-item">
-              <label>{getTranslation("description")}</label>
+              <label>Description</label>
               <textarea
                 className="description_settings"
-                value={Use.description || ""}
+                value={formData.description}
                 rows="4"
+                onChange={(e) =>
+                  handleChange({
+                    target: { name: "description", value: e.target.value },
+                  })
+                }
+                placeholder={`Tell patients about your ${
+                  user.role === "clinic" ? "clinic" : "laboratory"
+                }...`}
               />
             </div>
             <div className="settings-item">
-              <label>{getTranslation("services")}</label>
-              <input
-                type="text"
-                value={Use.services ? Use.services.join(", ") : ""}
-              />
+              <label>Services</label>
+              <div className="services-container">
+                {validServices.map((service, index) => (
+                  <div key={index} className="service-item">
+                    <input
+                      type="text"
+                      value={service}
+                      onChange={(e) => {
+                        const newServices = [...validServices];
+                        newServices[index] = e.target.value;
+                        setFormData((prev) => ({
+                          ...prev,
+                          services: newServices,
+                        }));
+                      }}
+                      placeholder="Service name"
+                    />
+                    <button
+                      type="button"
+                      className="remove-service"
+                      onClick={() => {
+                        const newServices = validServices.filter(
+                          (_, i) => i !== index
+                        );
+                        setFormData((prev) => ({
+                          ...prev,
+                          services: newServices,
+                        }));
+                      }}
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  className="add-service"
+                  onClick={() => {
+                    setFormData((prev) => ({
+                      ...prev,
+                      services: [...validServices, ""],
+                    }));
+                  }}
+                >
+                  + Add Service
+                </button>
+              </div>
             </div>
           </>
+        );
+      case "patient":
+        return (
+          <div className="settings-item">
+            <label>Emergency Contact</label>
+            <input
+              type="tel"
+              name="emergency_contact"
+              value={formData.emergency_contact}
+              onChange={handleChange}
+              placeholder="+1234567890"
+            />
+          </div>
         );
       default:
         return null;
     }
   };
 
+  // Render content based on active tab
   const renderContent = () => {
     switch (activeTab) {
       case "General":
         return (
           <>
             <div className="settings-section personal-info">
-              <h1>{getTranslation("settingsTitle")}</h1>
-              <br />
+              <h1>Personal Information</h1>
               <div className="profile-picture">
                 <img
                   src={
-                    Use.image
-                      ? `${Use.image}`
-                      : `/images/${
-                          Use.role === "clinic"
-                            ? "clinics/clinic2.jpeg"
-                            : Use.role === "laboratory"
-                            ? "laboratory/labo2.jpeg"
-                            : Use.role === "doctor"
-                            ? "doctors/doctor2.jpeg"
-                            : "user.png"
-                        }`
+                    previewImage ||
+                    `/images/${
+                      user.role === "clinic"
+                        ? "clinics/clinic2.jpeg"
+                        : user.role === "laboratory"
+                        ? "laboratory/labo2.jpeg"
+                        : user.role === "doctor"
+                        ? "doctors/doctor2.jpeg"
+                        : "user.png"
+                    }`
                   }
                   alt="Profile"
-                  onClick={toggleFullImage}
+                  onClick={toggleImagePreview}
                   style={{ cursor: "pointer" }}
                 />
                 <label className="edit-picture">
@@ -493,86 +639,118 @@ export default function SettingsBoard({ Use }) {
                 </label>
               </div>
               <div className="settings-item">
-                <h2>{getTranslation("personalInfo")}</h2>
-                <label>{getTranslation("name")}</label>
+                <label>Full Name</label>
                 <input
                   type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  readOnly
                 />
               </div>
               <div className="settings-item">
-                <label>{getTranslation("email")}</label>
+                <label>Email</label>
                 <input
                   type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  readOnly
                 />
               </div>
               <div className="settings-item">
-                <label>{getTranslation("phoneNo")}</label>
+                <label>Phone Number</label>
                 <input
                   type="tel"
-                  value={phoneNo}
-                  onChange={(e) => setPhoneNo(e.target.value)}
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
                 />
+              </div>
+              <div className="settings-item">
+                <label>City</label>
+                <input
+                  type="text"
+                  name="city"
+                  value={formData.city}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="settings-item">
+                <label>Gender</label>
+                <select
+                  name="gender"
+                  value={formData.gender}
+                  onChange={handleChange}
+                >
+                  <option value="">Select Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Prefer not to say">Prefer not to say</option>
+                </select>
+              </div>
+              <div className="settings-item">
+                <label>Date of Birth</label>
+                <input
+                  type="date"
+                  name="birth_date"
+                  value={formData.birth_date}
+                  onChange={handleChange}
+                  max={new Date().toISOString().split("T")[0]}
+                />
+              </div>
+              <div className="settings-item">
+                <label>Blood Type</label>
+                <select
+                  name="blood_type"
+                  value={formData.blood_type}
+                  onChange={handleChange}
+                >
+                  <option value="">Select Blood Type</option>
+                  <option value="A+">A+</option>
+                  <option value="A-">A-</option>
+                  <option value="B+">B+</option>
+                  <option value="B-">B-</option>
+                  <option value="AB+">AB+</option>
+                  <option value="AB-">AB-</option>
+                  <option value="O+">O+</option>
+                  <option value="O-">O-</option>
+                </select>
               </div>
             </div>
 
             <div className="settings-section security">
-              <h2>{getTranslation("security")}</h2>
+              <h2>Security</h2>
               <div className="settings-item">
-                <label>{getTranslation("currentPassword")}</label>
-                <div style={{ position: "relative" }}>
+                <label>New Password</label>
+                <div className="password-input-container">
                   <input
-                    type={showCurrentPassword ? "text" : "password"}
-                    value={currentPassword}
-                    onChange={(e) => setCurrentPassword(e.target.value)}
-                  />
-                  <span
-                    style={{
-                      position: "absolute",
-                      right: "10px",
-                      top: "50%",
-                      transform: "translateY(-50%)",
-                      cursor: "pointer",
-                    }}
-                    onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                  >
-                    {showCurrentPassword ? "👁️" : "👁️‍🗨️"}
-                  </span>
-                </div>
-              </div>
-              <div className="settings-item">
-                <label>{getTranslation("newPassword")}</label>
-                <div style={{ position: "relative" }}>
-                  <input
-                    type={showNewPassword ? "text" : "password"}
-                    value={newPassword}
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    value={formData.password}
+                    autoComplete="new-password"
                     onChange={(e) => {
-                      setNewPassword(e.target.value);
+                      handleChange(e);
                       setPasswordStrength(
                         evaluatePasswordStrength(e.target.value)
                       );
                     }}
+                    placeholder="Leave blank to keep current password"
                   />
-                  <span
-                    style={{
-                      position: "absolute",
-                      right: "10px",
-                      top: "50%",
-                      transform: "translateY(-50%)",
-                      cursor: "pointer",
-                    }}
-                    onClick={() => setShowNewPassword(!showNewPassword)}
+                  {/* <button
+                    type="button"
+                    className="toggle-password-visibility"
+                    onClick={() => setShowPassword(!showPassword)}
                   >
-                    {showNewPassword ? "👁️" : "👁️‍🗨️"}
-                  </span>
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  </button> */}
                 </div>
-                {newPassword.length > 0 && (
+                {formData.password && (
                   <div className="password-strength-container">
                     <div className="password-strength-label">
-                      {getTranslation("passwordStrength")}:{" "}
+                      Password Strength:{" "}
                       <span style={{ color: passwordStrength.color }}>
                         {passwordStrength.level}
                       </span>
@@ -583,53 +761,97 @@ export default function SettingsBoard({ Use }) {
                         style={{
                           width: passwordStrength.width,
                           backgroundColor: passwordStrength.color,
-                          height: "4px",
-                          borderRadius: "2px",
-                          transition: "all 0.3s ease",
                         }}
                       ></div>
+                    </div>
+                    <div className="password-hints">
+                      {formData.password.length < 8 && (
+                        <span>At least 8 characters</span>
+                      )}
+                      {!/[A-Z]/.test(formData.password) && (
+                        <span>At least one uppercase letter</span>
+                      )}
+                      {!/[0-9]/.test(formData.password) && (
+                        <span>At least one number</span>
+                      )}
+                      {!/[!@#$%^&*(),.?":{}|<>]/.test(formData.password) && (
+                        <span>At least one special character</span>
+                      )}
                     </div>
                   </div>
                 )}
               </div>
               <div className="settings-item">
-                <label>{getTranslation("retypePassword")}</label>
-                <div style={{ position: "relative" }}>
+                <label>Confirm Password</label>
+                <div className="password-input-container">
                   <input
                     type={showRetypePassword ? "text" : "password"}
-                    value={retypePassword}
-                    onChange={(e) => setRetypePassword(e.target.value)}
-                  />
-                  <span
-                    style={{
-                      position: "absolute",
-                      right: "10px",
-                      top: "50%",
-                      transform: "translateY(-50%)",
-                      cursor: "pointer",
+                    name="retypePassword"
+                    value={formData.retypePassword}
+                    onChange={(e) => {
+                      handleChange(e);
+                      setPasswordStrength(
+                        evaluatePasswordStrength(e.target.value)
+                      );
                     }}
+                    placeholder="Retype your new password"
+                  />
+                  {/* <button
+                    type="button"
+                    className="toggle-password-visibility"
                     onClick={() => setShowRetypePassword(!showRetypePassword)}
                   >
-                    {showRetypePassword ? "👁️" : "👁️‍🗨️"}
-                  </span>
+                    {showRetypePassword ? <FaEyeSlash /> : <FaEye />}
+                  </button> */}
                 </div>
+                {formData.retypePassword && (
+                  <div className="password-strength-container">
+                    <div className="password-strength-label">
+                      Password Strength:{" "}
+                      <span style={{ color: passwordStrength.color }}>
+                        {passwordStrength.level}
+                      </span>
+                    </div>
+                    <div className="password-strength-bar">
+                      <div
+                        className="password-strength-progress"
+                        style={{
+                          width: passwordStrength.width,
+                          backgroundColor: passwordStrength.color,
+                        }}
+                      ></div>
+                    </div>
+                    <div className="password-hints">
+                      {formData.password.length < 8 && (
+                        <span>At least 8 characters</span>
+                      )}
+                      {!/[A-Z]/.test(formData.password) && (
+                        <span>At least one uppercase letter</span>
+                      )}
+                      {!/[0-9]/.test(formData.password) && (
+                        <span>At least one number</span>
+                      )}
+                      {!/[!@#$%^&*(),.?":{}|<>]/.test(formData.password) && (
+                        <span>At least one special character</span>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
-              <Link to="/pages/forgetpass">
-                <button className="forgot-password">
-                  {getTranslation("forgotPassword")}
-                </button>
+              <Link to="/forgot-password" className="forgot-password">
+                Forgot password?
               </Link>
             </div>
           </>
         );
       case "Preferences":
-        if (Use.role === "patient") {
-          return null;
-        }
-
         return (
           <div className="settings-section preferences">
-            <h1>Professional Preferences</h1>
+            <h1>
+              {user.role === "patient"
+                ? "Personal Preferences"
+                : "Professional Preferences"}
+            </h1>
             {renderRoleSpecificFields()}
           </div>
         );
@@ -640,64 +862,45 @@ export default function SettingsBoard({ Use }) {
 
   return (
     <div className="settings-board">
-      {showNotification && (
+      {/* Notification display */}
+      {notification.message && (
         <div className="custom-notification-top">
           <div className="custom-notification success">
-            {getTranslation("successfullyUpdated")}
+            {notification.message}
           </div>
         </div>
       )}
-
-      {errorMessage && (
-        <div className="custom-notification-top">
-          <div className="custom-notification error">{errorMessage}</div>
+      {/* {notification.message && (
+        <div className={`notification ${notification.type}`}>
+          {notification.message}
         </div>
-      )}
+      )} */}
 
-      {showCancelConfirmation && (
-        <div className="confirmation-modal">
-          <div className="confirmation-content">
-            <p>{getTranslation("confirmCancel")}</p>
-            <div className="confirmation-buttons">
-              <button className="confirm-button" onClick={handleConfirmCancel}>
-                {getTranslation("confirm")}
-              </button>
-              <button
-                className="cancel-button"
-                onClick={handleCancelConfirmation}
-              >
-                {getTranslation("cancel")}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {showFullImage && (
-        <div className="full-image-modal" onClick={toggleFullImage}>
+      {/* Image Preview Modal */}
+      {showImagePreview && (
+        <div className="image-preview-modal" onClick={toggleImagePreview}>
           <div
-            className="full-image-content"
+            className="image-preview-content"
             onClick={(e) => e.stopPropagation()}
           >
-            <img
-              src={
-                Use.image
-                  ? `${Use.image}`
-                  : `/images/${
-                      Use.role === "clinic"
-                        ? "clinics/clinic2.jpeg"
-                        : Use.role === "laboratory"
-                        ? "laboratory/labo2.jpeg"
-                        : Use.role === "doctor"
-                        ? "doctors/doctor2.jpeg"
-                        : "user.png"
-                    }`
-              }
-              alt="Profile Full Size"
-            />
-            <button className="close-full-image" onClick={toggleFullImage}>
+            <button className="close-preview" onClick={toggleImagePreview}>
               &times;
             </button>
+            <img
+              src={
+                previewImage ||
+                `/images/${
+                  user.role === "clinic"
+                    ? "clinics/clinic2.jpeg"
+                    : user.role === "laboratory"
+                    ? "laboratory/labo2.jpeg"
+                    : user.role === "doctor"
+                    ? "doctors/doctor2.jpeg"
+                    : "user.png"
+                }`
+              }
+              alt="Profile Preview"
+            />
           </div>
         </div>
       )}
@@ -707,28 +910,49 @@ export default function SettingsBoard({ Use }) {
           className={activeTab === "General" ? "active" : ""}
           onClick={() => setActiveTab("General")}
         >
-          {getTranslation("general")}
+          General
         </button>
-        {Use.role !== "patient" && (
+        <button
+          className={activeTab === "Preferences" ? "active" : ""}
+          onClick={() => setActiveTab("Preferences")}
+        >
+          {user.role === "patient" ? "Preferences" : "Professional"}
+        </button>
+      </div>
+
+      <form
+        className="settings-form"
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSave();
+        }}
+      >
+        {renderContent()}
+
+        <div className="settings-actions">
           <button
-            className={activeTab === "Preferences" ? "active" : ""}
-            onClick={() => setActiveTab("Preferences")}
+            type="button"
+            className="cancel-button"
+            onClick={resetForm}
+            disabled={!hasChanges || isLoading}
           >
-            {getTranslation("preferences")}
+            <FaTimes /> Cancel
           </button>
-        )}
-      </div>
-
-      {renderContent()}
-
-      <div className="settings-actions">
-        <button className="cancel-button" onClick={handleCancel}>
-          <FaTimes /> {getTranslation("cancel")}
-        </button>
-        <button className="save-button" onClick={handleSave}>
-          <FaSave /> {getTranslation("save")}
-        </button>
-      </div>
+          <button
+            type="submit"
+            className="save-button"
+            disabled={!hasChanges || isLoading}
+          >
+            {isLoading ? (
+              "Saving..."
+            ) : (
+              <>
+                <FaSave /> Save Changes
+              </>
+            )}
+          </button>
+        </div>
+      </form>
     </div>
   );
 }

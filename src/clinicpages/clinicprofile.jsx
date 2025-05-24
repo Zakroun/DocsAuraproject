@@ -16,6 +16,36 @@ export default function ClinicProfile({ id }) {
   const clinicsList = useSelector((state) => state.Docsaura.clinics);
   const clinic = clinicsList?.find((clinic) => clinic.id === id);
   const [activeTab, setActiveTab] = useState("about");
+  const [validServices, setValidServices] = useState([]);
+
+  // Clean and validate services data
+  useEffect(() => {
+    if (clinic?.services) {
+      let services = clinic.services;
+      
+      // Handle case where services might be a string
+      if (typeof services === 'string') {
+        try {
+          services = JSON.parse(services);
+        } catch {
+          services = [services];
+        }
+      }
+      
+      // Ensure we have an array and filter out empty values
+      const cleanedServices = Array.isArray(services) 
+        ? services.filter(service => service && service.trim() !== '')
+        : [];
+      
+      setValidServices(cleanedServices);
+      // console.log('Services cleaned:', {
+      //   original: clinic.services,
+      //   cleaned: cleanedServices
+      // });
+    } else {
+      setValidServices([]);
+    }
+  }, [clinic]);
 
   const calculateAverageRating = (reviews) => {
     if (!reviews || reviews.length === 0) return 0;
@@ -130,7 +160,7 @@ export default function ClinicProfile({ id }) {
             className={`tab-button ${activeTab === "services" ? "active" : ""}`}
             onClick={() => setActiveTab("services")}
           >
-            Services {clinic.services && `(${clinic.services.length})`}
+            Services {validServices.length > 0 && `(${validServices.length})`}
           </button>
           <button
             className={`tab-button ${activeTab === "doctors" ? "active" : ""}`}
@@ -156,7 +186,11 @@ export default function ClinicProfile({ id }) {
           {activeTab === "about" && (
             <div className="about-section">
               <h3>About {clinic.fullName}</h3>
-              <p>{clinic.description}</p>
+              {clinic.description ? (
+                <p>{clinic.description}</p>
+              ) : (
+                <p className="no-description">No description available.</p>
+              )}
               <div className="contact-info">
                 <p className="contact-item">
                   <FaMapMarkerAlt className="iconprofile" />
@@ -197,14 +231,23 @@ export default function ClinicProfile({ id }) {
           {activeTab === "services" && (
             <div className="services-section">
               <h3>Our Services</h3>
-              <div className="services-grid">
-                {clinic.services?.map((service, index) => (
-                  <div key={index} className="service-card">
-                    <FaHospital className="iconprofile" />
-                    <span>{service}</span>
-                  </div>
-                ))}
-              </div>
+              {validServices.length > 0 ? (
+                <div className="services-grid">
+                  {validServices.map((service, index) => (
+                    <div key={index} className="service-card">
+                      <FaHospital className="iconprofile" />
+                      <span>{service}</span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p>No services available</p>
+              )}
+              {clinic.services?.length !== validServices.length && (
+                <div className="data-warning">
+                  {/* Showing {validServices.length} valid services (original: {clinic.services?.length}) */}
+                </div>
+              )}
             </div>
           )}
 
@@ -233,7 +276,7 @@ export default function ClinicProfile({ id }) {
 
           {activeTab === "reviews" && (
             <div className="reviews-section">
-              {clinic.reviews && clinic.reviews.length > 0 ? (
+              {clinic.reviews?.length > 0 ? (
                 clinic.reviews.map((review) => (
                   <div key={review.id} className="review-card">
                     <div className="review-header">
