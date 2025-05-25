@@ -161,7 +161,7 @@ export default function Appointmentform({
   };
   const handleFileUpload = async () => {
     if (!selectedFile) {
-      setErrorMessage("Please select a file first");
+      //setErrorMessage("Please select a file first");
       setTimeout(() => setErrorMessage(""), 3000);
       return;
     }

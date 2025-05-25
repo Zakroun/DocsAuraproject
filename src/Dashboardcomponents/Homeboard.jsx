@@ -34,8 +34,8 @@ export default function Homeboard(props) {
   const appointemntsuser = useSelector((s) => s.Docsaura.appointments);
   const patientDatamonth = useMemo(() => {
     const monthlyCounts = Array(12).fill(0); // Initialize array for 12 months
-    
-    appointemntsuser.forEach(appointment => {
+
+    appointemntsuser.forEach((appointment) => {
       if (appointment.date) {
         const date = new Date(appointment.date);
         const month = date.getMonth(); // 0-11
@@ -44,18 +44,18 @@ export default function Homeboard(props) {
     });
 
     return [
-      { month: 'Jan', patients: monthlyCounts[0] },
-      { month: 'Feb', patients: monthlyCounts[1] },
-      { month: 'Mar', patients: monthlyCounts[2] },
-      { month: 'Apr', patients: monthlyCounts[3] },
-      { month: 'May', patients: monthlyCounts[4] },
-      { month: 'Jun', patients: monthlyCounts[5] },
-      { month: 'Jul', patients: monthlyCounts[6] },
-      { month: 'Aug', patients: monthlyCounts[7] },
-      { month: 'Sep', patients: monthlyCounts[8] },
-      { month: 'Oct', patients: monthlyCounts[9] },
-      { month: 'Nov', patients: monthlyCounts[10] },
-      { month: 'Dec', patients: monthlyCounts[11] },
+      { month: "Jan", patients: monthlyCounts[0] },
+      { month: "Feb", patients: monthlyCounts[1] },
+      { month: "Mar", patients: monthlyCounts[2] },
+      { month: "Apr", patients: monthlyCounts[3] },
+      { month: "May", patients: monthlyCounts[4] },
+      { month: "Jun", patients: monthlyCounts[5] },
+      { month: "Jul", patients: monthlyCounts[6] },
+      { month: "Aug", patients: monthlyCounts[7] },
+      { month: "Sep", patients: monthlyCounts[8] },
+      { month: "Oct", patients: monthlyCounts[9] },
+      { month: "Nov", patients: monthlyCounts[10] },
+      { month: "Dec", patients: monthlyCounts[11] },
     ];
   }, [appointemntsuser]);
   // Total appointments (just the length of the array)
@@ -99,9 +99,9 @@ export default function Homeboard(props) {
       const month = date.getMonth();
       monthlyData[month]++;
     });
-    
+
     return monthlyData.map((count, index) => ({
-      month: new Date(0, index).toLocaleString('default', { month: 'short' }),
+      month: new Date(0, index).toLocaleString("default", { month: "short" }),
       appointments: count,
     }));
   };
@@ -113,7 +113,7 @@ export default function Homeboard(props) {
   // const patientDatamonth = d.patientDatamonth;
   const [greeting, setGreeting] = useState("");
   const [selectedDay, setSelectedDay] = useState("All");
-  
+
   const [filteredAppointments, setFilteredAppointments] =
     useState(appointemntsuser);
 
@@ -187,7 +187,10 @@ export default function Homeboard(props) {
     const total = reviews.reduce((acc, review) => acc + review.rating, 0);
     return total / reviews.length;
   }
-
+  const pendingAppointments = appointments.filter(
+    (appointment) => appointment.status === "pending"
+  );
+  console.log("Pending Appointments:", pendingAppointments);
   return (
     <div className="homeboard">
       <div className="homeboard__header">
@@ -299,9 +302,7 @@ export default function Homeboard(props) {
                     />
                   </div>
                   <h3>Confirmed Appointments </h3>
-                  <h3 style={{ color: "#018786" }}>
-                    {completappointemnt}
-                  </h3>
+                  <h3 style={{ color: "#018786" }}>{completappointemnt}</h3>
                 </div>
                 <div className="partweekly">
                   <div className="partweekly__header">
@@ -322,10 +323,21 @@ export default function Homeboard(props) {
                 </div>
               </div>
             </div>
-            
+
             {/* New Charts Section */}
-            <div className="charts-container" style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', marginBottom: '20px' }}>
-              <div className="chart-container" style={{ flex: 1, minWidth: '300px' }}>
+            <div
+              className="charts-container"
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: "20px",
+                marginBottom: "20px",
+              }}
+            >
+              <div
+                className="chart-container"
+                style={{ flex: 1, minWidth: "300px" }}
+              >
                 <h2>Appointment Status Distribution</h2>
                 <ResponsiveContainer width="100%" height={300}>
                   <PieChart>
@@ -337,10 +349,15 @@ export default function Homeboard(props) {
                       outerRadius={80}
                       fill="#8884d8"
                       dataKey="value"
-                      label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                      label={({ name, percent }) =>
+                        `${name}: ${(percent * 100).toFixed(0)}%`
+                      }
                     >
                       {statusData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={COLORS[index % COLORS.length]}
+                        />
                       ))}
                     </Pie>
                     <Tooltip />
@@ -348,8 +365,11 @@ export default function Homeboard(props) {
                   </PieChart>
                 </ResponsiveContainer>
               </div>
-              
-              <div className="chart-container" style={{ flex: 1, minWidth: '300px' }}>
+
+              <div
+                className="chart-container"
+                style={{ flex: 1, minWidth: "300px" }}
+              >
                 <h2>Monthly Appointments</h2>
                 <ResponsiveContainer width="100%" height={300}>
                   <BarChart data={monthlyAppointmentsData}>
@@ -362,7 +382,7 @@ export default function Homeboard(props) {
                 </ResponsiveContainer>
               </div>
             </div>
-            
+
             <div className="chart-container">
               <div className="weeklyheader">
                 <h2>Number of Patients Per Month</h2>
@@ -415,7 +435,7 @@ export default function Homeboard(props) {
                   <th>Time From</th>
                   <th>Time To</th>
                   <th>Status</th>
-                  <th>Actions</th>
+                  {pendingAppointments.length > 0 ? <th>Actions</th> : null}
                 </tr>
               </thead>
               {appointments.length > 0 ? (
@@ -492,22 +512,24 @@ export default function Homeboard(props) {
                           </div>
                         )}
                       </td>
-                      <td className="actions">
-                        {appt.status !== "completed" &&
-                        appt.status !== "confirmed" &&
-                        appt.status !== "canceled" ? (
-                          <>
-                            <Link
-                              to={`/pages/Dashboard`}
-                              state={{ appointment: appt }}
-                            >
-                              <button className="complet">Update</button>
-                            </Link>
-                          </>
-                        ) : (
-                          ""
-                        )}
-                      </td>
+                      {pendingAppointments.length > 0 ? (
+                        <td className="actions">
+                          {appt.status !== "completed" &&
+                          appt.status !== "confirmed" &&
+                          appt.status !== "canceled" ? (
+                            <>
+                              <Link
+                                to={`/pages/Dashboard`}
+                                state={{ appointment: appt }}
+                              >
+                                <button className="complet">Update</button>
+                              </Link>
+                            </>
+                          ) : (
+                            ""
+                          )}
+                        </td>
+                      ) : null}
                     </tr>
                   ))}
                 </tbody>
@@ -578,9 +600,7 @@ export default function Homeboard(props) {
                   />
                 </div>
                 <h3>Confirmed Appointments </h3>
-                <h3 style={{ color: "#018786" }}>
-                  {completappointemnt}
-                </h3>
+                <h3 style={{ color: "#018786" }}>{completappointemnt}</h3>
               </div>
               <div className="partweekly">
                 <div className="partweekly__header">
@@ -601,10 +621,21 @@ export default function Homeboard(props) {
               </div>
             </div>
           </div>
-          
+
           {/* Charts for Patient View */}
-          <div className="charts-container" style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', marginBottom: '20px' }}>
-            <div className="chart-container" style={{ flex: 1, minWidth: '300px' }}>
+          <div
+            className="charts-container"
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "20px",
+              marginBottom: "20px",
+            }}
+          >
+            <div
+              className="chart-container"
+              style={{ flex: 1, minWidth: "300px" }}
+            >
               <h2>Your Appointment Status</h2>
               <ResponsiveContainer width="100%" height={300}>
                 <PieChart>
@@ -616,10 +647,15 @@ export default function Homeboard(props) {
                     outerRadius={80}
                     fill="#8884d8"
                     dataKey="value"
-                    label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                    label={({ name, percent }) =>
+                      `${name}: ${(percent * 100).toFixed(0)}%`
+                    }
                   >
                     {statusData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={COLORS[index % COLORS.length]}
+                      />
                     ))}
                   </Pie>
                   <Tooltip />
@@ -627,8 +663,11 @@ export default function Homeboard(props) {
                 </PieChart>
               </ResponsiveContainer>
             </div>
-            
-            <div className="chart-container" style={{ flex: 1, minWidth: '300px' }}>
+
+            <div
+              className="chart-container"
+              style={{ flex: 1, minWidth: "300px" }}
+            >
               <h2>Your Monthly Appointments</h2>
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={monthlyAppointmentsData}>
@@ -641,7 +680,7 @@ export default function Homeboard(props) {
               </ResponsiveContainer>
             </div>
           </div>
-          
+
           <div className="appointments-table">
             <div className="appointments_header">
               <h2>Upcoming Appointments</h2>
@@ -665,7 +704,7 @@ export default function Homeboard(props) {
                   <th>Time From</th>
                   <th>Time To</th>
                   <th>Status</th>
-                  <th>Actions</th>
+                  {pendingAppointments.length > 0 ? <th>Actions</th> : null}
                 </tr>
               </thead>
               <tbody>
@@ -741,22 +780,24 @@ export default function Homeboard(props) {
                         </div>
                       )}
                     </td>
-                    <td className="actions">
-                      {appt.status !== "completed" &&
-                      appt.status !== "confirmed" &&
-                      appt.status !== "canceled" ? (
-                        <>
-                          <Link
-                            to={`/pages/Dashboard`}
-                            state={{ appointment: appt }}
-                          >
-                            <button className="complet">Update</button>
-                          </Link>
-                        </>
-                      ) : (
-                        ""
-                      )}
-                    </td>
+                    {pendingAppointments.length > 0 ? (
+                      <td className="actions">
+                        {appt.status !== "completed" &&
+                        appt.status !== "confirmed" &&
+                        appt.status !== "canceled" ? (
+                          <>
+                            <Link
+                              to={`/pages/Dashboard`}
+                              state={{ appointment: appt }}
+                            >
+                              <button className="complet">Update</button>
+                            </Link>
+                          </>
+                        ) : (
+                          ""
+                        )}
+                      </td>
+                    ) : null}
                   </tr>
                 ))}
               </tbody>

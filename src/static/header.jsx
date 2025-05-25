@@ -10,24 +10,24 @@ export default function Header() {
   const currentpage = useSelector((s) => s.Docsaura.currentpage);
   const [pagestate, setpage] = useState(currentpage);
   const menuRef = useRef(null);
-  
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     // Check for token in localStorage when component mounts
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     setHasToken(!!token);
-    
+
     // Set up listener for storage changes
     const handleStorageChange = () => {
-      const updatedToken = localStorage.getItem('token');
+      const updatedToken = localStorage.getItem("token");
       setHasToken(!!updatedToken);
     };
 
-    window.addEventListener('storage', handleStorageChange);
-    
+    window.addEventListener("storage", handleStorageChange);
+
     return () => {
-      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener("storage", handleStorageChange);
     };
   }, []);
 
@@ -67,7 +67,12 @@ export default function Header() {
           </a>
         </div>
         <div className="socailmedia">
-          <a href="/" className="social-icon" id="Facebook" aria-label="Facebook">
+          <a
+            href="/"
+            className="social-icon"
+            id="Facebook"
+            aria-label="Facebook"
+          >
             <FaFacebook />
           </a>
           <a href="/" className="social-icon" aria-label="Instagram">
@@ -93,7 +98,9 @@ export default function Header() {
           </button>
         </div>
         <div className="menu" id="menu" ref={menuRef}>
-          <img src="\Images\Asset 10.png" alt="logo" className="logo-menu"/>
+          <Link to={"/"}>
+            <img src="\Images\Asset 10.png" alt="logo" className="logo-menu" />
+          </Link>
           <div className="linksmenu">
             <Link to="/" className="linksm">
               HOME

@@ -19,8 +19,21 @@ export default function SettingsBoard({ user }) {
   const [hasChanges, setHasChanges] = useState(false);
   const [notification, setNotification] = useState({ message: "", type: "" });
   const [showImagePreview, setShowImagePreview] = useState(false);
+  const [newService, setNewService] = useState("");
 
-  // All available consultation types
+  const addNewService = () => {
+    if (newService.trim() === "") {
+      showNotification("Please enter a service name", "error");
+      return;
+    }
+
+    setFormData((prev) => ({
+      ...prev,
+      services: [...prev.services, newService.trim()],
+    }));
+    setNewService("");
+  };
+
   const consultationTypeOptions = [
     "Online Consultation (voice/video call)",
     "In-person Consultation (patient's home)",
@@ -30,13 +43,11 @@ export default function SettingsBoard({ user }) {
     "Specialist Consultation",
   ];
 
-  // Show notification
   const showNotification = (message, type) => {
     setNotification({ message, type });
     setTimeout(() => setNotification({ message: "", type: "" }), 5000);
   };
 
-  // Initialize form data
   function initializeFormData(user) {
     return {
       name: user.fullName || "",
@@ -60,21 +71,17 @@ export default function SettingsBoard({ user }) {
       emergency_contact: user.emergency_contact || "",
     };
   }
+
   const cleanServices = (services) => {
     if (!services) return [];
-
-    // Handle case where services might be a string or other type
     if (typeof services === "string") {
       try {
-        // Try to parse if it's a JSON string
         const parsed = JSON.parse(services);
         return Array.isArray(parsed) ? parsed : [services];
       } catch {
         return [services];
       }
     }
-
-    // Ensure we have a proper array
     return Array.isArray(services)
       ? services.filter((service) => service && service.trim() !== "")
       : [];
@@ -83,12 +90,12 @@ export default function SettingsBoard({ user }) {
   const [validServices, setValidServices] = useState(
     cleanServices(user.services || [])
   );
+
   useEffect(() => {
     const cleaned = cleanServices(formData.services);
     setValidServices(cleaned);
-    console.log("Cleaned services:", cleaned, "Original:", formData.services);
   }, [formData.services]);
-  // Check for changes
+
   useEffect(() => {
     const initialData = initializeFormData(user);
     const currentData = {
@@ -117,7 +124,6 @@ export default function SettingsBoard({ user }) {
     setHasChanges(changesDetected);
   }, [formData, imageFile, user]);
 
-  // Handle form changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -133,7 +139,6 @@ export default function SettingsBoard({ user }) {
     }));
   };
 
-  // Handle consultation type changes
   const handleConsultationTypeChange = (index, field, value) => {
     const updatedTypes = [...formData.consultationTypes];
     updatedTypes[index][field] =
@@ -141,7 +146,6 @@ export default function SettingsBoard({ user }) {
     setFormData((prev) => ({ ...prev, consultationTypes: updatedTypes }));
   };
 
-  // Add new consultation type
   const addConsultationType = () => {
     setFormData((prev) => ({
       ...prev,
@@ -149,7 +153,6 @@ export default function SettingsBoard({ user }) {
     }));
   };
 
-  // Remove consultation type
   const removeConsultationType = (index) => {
     const updatedTypes = formData.consultationTypes.filter(
       (_, i) => i !== index
@@ -157,7 +160,6 @@ export default function SettingsBoard({ user }) {
     setFormData((prev) => ({ ...prev, consultationTypes: updatedTypes }));
   };
 
-  // Handle image change
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -174,12 +176,10 @@ export default function SettingsBoard({ user }) {
     }
   };
 
-  // Toggle image preview modal
   const toggleImagePreview = () => {
     setShowImagePreview(!showImagePreview);
   };
 
-  // Password strength evaluation
   const evaluatePasswordStrength = (password) => {
     if (!password) return { level: "", width: "0%", color: "transparent" };
 
@@ -202,7 +202,14 @@ export default function SettingsBoard({ user }) {
     return { level: "Strong", width: "100%", color: "#52c41a" };
   };
 
-  // Save settings
+  const updateLocalStorageUser = (updatedFields) => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (storedUser) {
+      const updatedUser = { ...storedUser, ...updatedFields };
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+    }
+  };
+
   const handleSave = async () => {
     if (formData.password && formData.password !== formData.retypePassword) {
       showNotification("Passwords do not match", "error");
@@ -213,8 +220,6 @@ export default function SettingsBoard({ user }) {
 
     try {
       const data = new FormData();
-
-      // Add all form data
       data.append("name", formData.name);
       data.append("email", formData.email);
       data.append("phone", formData.phone);
@@ -231,7 +236,6 @@ export default function SettingsBoard({ user }) {
 
       if (imageFile) data.append("image", imageFile);
 
-      // Role-specific fields
       if (user.role !== "patient") {
         data.append("description", formData.description);
         data.append("working_hours[from]", formData.working_hours.from);
@@ -265,6 +269,31 @@ export default function SettingsBoard({ user }) {
         }
       );
 
+      // Prepare updated user data for localStorage
+      const updatedUserData = {
+        fullName: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        city: formData.city,
+        gender: formData.gender,
+        birth_date: formData.birth_date,
+        blood_type: formData.blood_type,
+        description: formData.description,
+        working_hours: formData.working_hours,
+        years_of_experience: formData.years_of_experience,
+        consultationTypes: formData.consultationTypes,
+        services: validServices,
+        emergency_contact: formData.emergency_contact,
+      };
+
+      // Update image if changed
+      if (imageFile) {
+        updatedUserData.image = previewImage;
+      }
+
+      // Update localStorage
+      updateLocalStorageUser(updatedUserData);
+
       showNotification("Settings updated successfully", "success");
       setTimeout(() => window.location.reload(), 1000);
     } catch (error) {
@@ -279,7 +308,6 @@ export default function SettingsBoard({ user }) {
     }
   };
 
-  // Reset form
   const resetForm = () => {
     if (
       hasChanges &&
@@ -291,8 +319,7 @@ export default function SettingsBoard({ user }) {
     setImageFile(null);
     setPreviewImage(user.image);
   };
-  console.log(user.description);
-  // Render role-specific fields
+
   const renderRoleSpecificFields = () => {
     switch (user.role) {
       case "doctor":
@@ -360,7 +387,6 @@ export default function SettingsBoard({ user }) {
             <div className="settings-item">
               <label>Consultation Types</label>
               <div className="consultation-types-container">
-                {/* Always show exactly 3 selects from user.consultationTypes */}
                 {[0, 1, 2].map((index) => {
                   const consultation = user?.consultationTypes?.[index] || {
                     type: "",
@@ -404,7 +430,6 @@ export default function SettingsBoard({ user }) {
                         }
                         required
                       />
-                      {/* Only show remove button for empty/default types */}
                       {!user?.consultationTypes?.[index] && (
                         <button
                           type="button"
@@ -418,7 +443,6 @@ export default function SettingsBoard({ user }) {
                   );
                 })}
 
-                {/* Show additional types beyond the first 3 */}
                 {formData.consultationTypes
                   .slice(3)
                   .map((consultation, index) => (
@@ -469,7 +493,6 @@ export default function SettingsBoard({ user }) {
                     </div>
                   ))}
 
-                {/* Only show add button if there are options left */}
                 {formData.consultationTypes.length <
                   consultationTypeOptions.length && (
                   <button
@@ -568,18 +591,23 @@ export default function SettingsBoard({ user }) {
                     </button>
                   </div>
                 ))}
-                <button
-                  type="button"
-                  className="add-service"
-                  onClick={() => {
-                    setFormData((prev) => ({
-                      ...prev,
-                      services: [...validServices, ""],
-                    }));
-                  }}
-                >
-                  + Add Service
-                </button>
+                <div className="add-service-container">
+                  <input
+                    type="text"
+                    value={newService}
+                    onChange={(e) => setNewService(e.target.value)}
+                    placeholder="Enter new service name"
+                    className="new-service-input"
+                  /> 
+                  <br />
+                  <button
+                    type="button"
+                    className="add-service"
+                    onClick={addNewService}
+                  >
+                    + Add Service
+                  </button>
+                </div>
               </div>
             </div>
           </>
@@ -602,7 +630,6 @@ export default function SettingsBoard({ user }) {
     }
   };
 
-  // Render content based on active tab
   const renderContent = () => {
     switch (activeTab) {
       case "General":
@@ -739,13 +766,6 @@ export default function SettingsBoard({ user }) {
                     }}
                     placeholder="Leave blank to keep current password"
                   />
-                  {/* <button
-                    type="button"
-                    className="toggle-password-visibility"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? <FaEyeSlash /> : <FaEye />}
-                  </button> */}
                 </div>
                 {formData.password && (
                   <div className="password-strength-container">
@@ -796,13 +816,6 @@ export default function SettingsBoard({ user }) {
                     }}
                     placeholder="Retype your new password"
                   />
-                  {/* <button
-                    type="button"
-                    className="toggle-password-visibility"
-                    onClick={() => setShowRetypePassword(!showRetypePassword)}
-                  >
-                    {showRetypePassword ? <FaEyeSlash /> : <FaEye />}
-                  </button> */}
                 </div>
                 {formData.retypePassword && (
                   <div className="password-strength-container">
@@ -862,7 +875,6 @@ export default function SettingsBoard({ user }) {
 
   return (
     <div className="settings-board">
-      {/* Notification display */}
       {notification.message && (
         <div className="custom-notification-top">
           <div className="custom-notification success">
@@ -870,13 +882,7 @@ export default function SettingsBoard({ user }) {
           </div>
         </div>
       )}
-      {/* {notification.message && (
-        <div className={`notification ${notification.type}`}>
-          {notification.message}
-        </div>
-      )} */}
 
-      {/* Image Preview Modal */}
       {showImagePreview && (
         <div className="image-preview-modal" onClick={toggleImagePreview}>
           <div
@@ -912,12 +918,16 @@ export default function SettingsBoard({ user }) {
         >
           General
         </button>
-        <button
-          className={activeTab === "Preferences" ? "active" : ""}
-          onClick={() => setActiveTab("Preferences")}
-        >
-          {user.role === "patient" ? "Preferences" : "Professional"}
-        </button>
+        {user.role !== "Patient" ? (
+          <button
+            className={activeTab === "Preferences" ? "active" : ""}
+            onClick={() => setActiveTab("Preferences")}
+          >
+            {user.role !== "Patient" ? "Preferences" : "Professional"}
+          </button>
+        ) : (
+          ""
+        )}
       </div>
 
       <form

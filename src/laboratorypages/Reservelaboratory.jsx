@@ -1,20 +1,49 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { PiVideoConferenceFill } from "react-icons/pi";
 import { MdOutlinePayment } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
-import { changecurrentpage } from "../data/DocsauraSlice";
-import { addAppointment } from "../data/DocsauraSlice";
-import { useLocation } from "react-router-dom";
-export default function LaboratoryReserve(props) {
+import { useNavigate, useLocation } from "react-router-dom";
+import { changecurrentpage, addAppointment } from "../data/DocsauraSlice";
+
+export default function LaboratoryReserve() {
   const [errorMessage, seterrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const dispatch = useDispatch();
-  const Loc = useLocation();
-  const laboratory = Loc.state?.laboratory;
-  //console.log(laboratory)
+  const location = useLocation();
+  const laboratory = location.state?.laboratory;
   const [content1, setcontent1] = useState("block");
   const [content2, setcontent2] = useState("none");
+  const navigate = useNavigate();
+
+  // Get working hours from laboratory object with fallback
+  const workingHours = laboratory?.working_hours || { from: "08:00", to: "18:00" };
+
+  // Generate 15-minute time slots within working hours
+  const generateTimeSlots = () => {
+    const slots = [];
+    const [startHour, startMinute] = workingHours.from.split(':').map(Number);
+    const [endHour, endMinute] = workingHours.to.split(':').map(Number);
+
+    let currentHour = startHour;
+    let currentMinute = startMinute;
+
+    while (currentHour < endHour || (currentHour === endHour && currentMinute <= endMinute)) {
+      const time = `${String(currentHour).padStart(2, '0')}:${String(currentMinute).padStart(2, '0')}`;
+      slots.push(time);
+      
+      // Increment by 15 minutes
+      currentMinute += 15;
+      if (currentMinute >= 60) {
+        currentMinute = 0;
+        currentHour += 1;
+      }
+    }
+
+    return slots;
+  };
+
+  const timeSlots = generateTimeSlots();
+
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -30,42 +59,46 @@ export default function LaboratoryReserve(props) {
     cvv: "",
     imageP: null,
     imagePreview: null,
+    location: ""
   });
-  const navigate = useNavigate();
+
+  const handleTimeChange = (time) => {
+    const [hours, minutes] = time.split(':').map(Number);
+    const date = new Date();
+    date.setHours(hours);
+    date.setMinutes(minutes + 15);
+    const newHours = String(date.getHours()).padStart(2, "0");
+    const newMinutes = String(date.getMinutes()).padStart(2, "0");
+    const endTime = `${newHours}:${newMinutes}`;
+    
+    setFormData(prev => ({
+      ...prev,
+      timeFrom: time,
+      timeTo: endTime
+    }));
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    let updatedForm = { ...formData, [name]: value };
-
-    if (name === "timeFrom") {
-      const [hours, minutes] = value.split(":").map(Number);
-      const date = new Date();
-      date.setHours(hours);
-      date.setMinutes(minutes + 15);
-      const newHours = String(date.getHours()).padStart(2, "0");
-      const newMinutes = String(date.getMinutes()).padStart(2, "0");
-      updatedForm.timeTo = `${newHours}:${newMinutes}`;
-    }
-
-    setFormData(updatedForm);
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleFileChange = (e) => {
-  const file = e.target.files[0];
-  if (file) {
-    // Create a URL for the file
-    const imageUrl = URL.createObjectURL(file);
-    setFormData({
-      ...formData,
-      imageP: imageUrl, // Store just the URL
-    });
-  }
-};
+    const file = e.target.files[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setFormData(prev => ({
+        ...prev,
+        imageP: file,
+        imagePreview: imageUrl
+      }));
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (content2 === "block") {
-      // Get authenticated user from localStorage
       const user = JSON.parse(localStorage.getItem("user"));
       if (!user?.id) {
         seterrorMessage("Please login to book an appointment");
@@ -73,14 +106,12 @@ export default function LaboratoryReserve(props) {
         return;
       }
 
-      // Validate required fields for laboratory
       if (!formData.imageP) {
         seterrorMessage("Please upload your medical document");
         setTimeout(() => seterrorMessage(""), 10000);
         return;
       }
 
-      // Validate credit card details if payment method is credit-card
       if (formData.paymentMethod === "credit-card") {
         if (!formData.cardNumber || !formData.expiryDate || !formData.cvv) {
           seterrorMessage("Please fill in all credit card details");
@@ -90,40 +121,31 @@ export default function LaboratoryReserve(props) {
       }
 
       try {
-        const appointment = {
-          // Personal information
-          fullName: formData.fullName,
-          email: formData.email,
-          phone: formData.phone,
-          cin: formData.cin,
-          location: formData.location,
+        const formDataToSend = new FormData();
+        formDataToSend.append('fullName', formData.fullName);
+        formDataToSend.append('email', formData.email);
+        formDataToSend.append('phone', formData.phone);
+        formDataToSend.append('cin', formData.cin);
+        formDataToSend.append('location', formData.location);
+        formDataToSend.append('date', formData.date);
+        formDataToSend.append('timeFrom', formData.timeFrom);
+        formDataToSend.append('timeTo', formData.timeTo);
+        formDataToSend.append('status', 'pending');
+        formDataToSend.append('paymentMethod', formData.paymentMethod);
+        formDataToSend.append('imageP', formData.imageP);
+        formDataToSend.append('id_visiteur', user.id);
+        formDataToSend.append('id_labo', laboratory.id);
+        formDataToSend.append('laboAppointment', true);
+        formDataToSend.append('doctorAppointment', false);
+        formDataToSend.append('clinicAppointment', false);
 
-          // Appointment details
-          date: formData.date,
-          timeFrom: formData.timeFrom,
-          timeTo: formData.timeTo,
-          status: "pending",
+        if (formData.paymentMethod === "credit-card") {
+          formDataToSend.append('cardNumber', formData.cardNumber);
+          formDataToSend.append('expiryDate', formData.expiryDate);
+          formDataToSend.append('cvv', formData.cvv);
+        }
 
-          // Payment information
-          paymentMethod: formData.paymentMethod,
-          ...(formData.paymentMethod === "credit-card" && {
-            cardNumber: formData.cardNumber,
-            expiryDate: formData.expiryDate,
-            cvv: formData.cvv,
-          }),
-
-          // Laboratory-specific fields
-          imageP: formData.imageP, // File object will be handled by axios
-          id_visiteur: user.id,
-          id_labo: laboratory.id, // From location state
-          laboAppointment: true,
-          doctorAppointment: false,
-          clinicAppointment: false,
-          id_doctor: null,
-          id_clinic: null,
-        };
-
-        const result = await dispatch(addAppointment(appointment));
+        const result = await dispatch(addAppointment(formDataToSend));
 
         if (result.error) {
           throw new Error(result.error.message);
@@ -131,15 +153,12 @@ export default function LaboratoryReserve(props) {
 
         setSuccessMessage("Laboratory appointment booked successfully!");
         setTimeout(() => {
-          setSuccessMessage("");
           navigate("/");
           dispatch(changecurrentpage("home"));
         }, 3000);
       } catch (error) {
         console.error("Appointment error:", error);
-        seterrorMessage(
-          error.message || "Failed to book laboratory appointment"
-        );
+        seterrorMessage(error.message || "Failed to book laboratory appointment");
         setTimeout(() => seterrorMessage(""), 5000);
       }
     }
@@ -169,27 +188,26 @@ export default function LaboratoryReserve(props) {
 
   return (
     <div className="divreserve">
-      {successMessage && (
-        <div className="custom-notification-top">
-          <div className="custom-notification success">{successMessage}</div>
-        </div>
-      )}
+      <div className="custom">
+        {successMessage && (
+          <div className="custom-notification-top">
+            <div className="custom-notification success">{successMessage}</div>
+          </div>
+        )}
 
-      {errorMessage && (
-        <div className="custom-notification-top">
-          <div className="custom-notification error">{errorMessage}</div>
-        </div>
-      )}
-      <h1>Book a consultation with , {laboratory.fullName}</h1>
+        {errorMessage && (
+          <div className="custom-notification-top">
+            <div className="custom-notification error">{errorMessage}</div>
+          </div>
+        )}
+      </div>
+      <h1>Book a consultation with {laboratory?.fullName}</h1>
       <div className="part1serve">
         <div className="spancontent">
           <span className="spanserve">1 | Personal Information</span>
           <PiVideoConferenceFill size={35} className="iconspan" />
         </div>
-        <div
-          className="content1"
-          style={{ display: content1, marginTop: "20px", marginLeft: "20px" }}
-        >
+        <div className="content1" style={{ display: content1 }}>
           <form onSubmit={handleSubmit} className="booking-form">
             <div className="divinputs">
               <div className="inputdiv">
@@ -249,13 +267,20 @@ export default function LaboratoryReserve(props) {
                 />
               </div>
               <div className="inputdiv">
-                <input
-                  type="time"
-                  id="time"
+                <select
+                id="timeFrom"
                   name="timeFrom"
                   value={formData.timeFrom}
-                  onChange={handleChange}
-                />
+                  onChange={(e) => handleTimeChange(e.target.value)}
+                  required
+                >
+                  <option value="">Select a time</option>
+                  {timeSlots.map((time, index) => (
+                    <option key={index} value={time}>
+                      {time}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
             <div className="inputdiv">
@@ -310,10 +335,7 @@ export default function LaboratoryReserve(props) {
                 <option value="smara">Smara</option>
               </select>
             </div>
-            <div
-              className="image-upload-container"
-              style={{ marginTop: "20px" }}
-            >
+            <div className="image-upload-container">
               <input
                 type="file"
                 id="image"
@@ -327,7 +349,7 @@ export default function LaboratoryReserve(props) {
                 onClick={() => document.getElementById("image").click()}
                 className="upload-btn"
               >
-                Choose Image
+                Choose Medical Document
               </button>
               {formData.imagePreview && (
                 <div className="image-preview">
@@ -346,10 +368,7 @@ export default function LaboratoryReserve(props) {
           <span className="spanserve">2 | Payment Information </span>
           <MdOutlinePayment size={35} className="iconspan" />
         </div>
-        <div
-          className="content2"
-          style={{ display: content2, marginTop: "20px" }}
-        >
+        <div className="content2" style={{ display: content2 }}>
           <form onSubmit={handleSubmit} className="booking-form">
             <div className="inputdiv">
               <select
@@ -362,7 +381,7 @@ export default function LaboratoryReserve(props) {
                 <option value="credit-card">Credit Card</option>
                 <option value="cash">Cash on Arrival</option>
               </select>
-            </div>{" "}
+            </div>
             <br />
             {formData.paymentMethod === "credit-card" && (
               <>
@@ -390,7 +409,6 @@ export default function LaboratoryReserve(props) {
                     />
                   </div>
                 </div>
-                <br />
                 <div className="inputdiv">
                   <input
                     style={{ marginRight: "10px" }}
