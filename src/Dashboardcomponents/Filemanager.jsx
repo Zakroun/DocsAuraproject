@@ -114,7 +114,6 @@ export default function FileManager() {
     }
   };
 
-  // File operations
   // const handleFilePreview = async (file) => {
   //   setSelectedFile(file);
   //   setIsLoading(true);
@@ -147,18 +146,25 @@ export default function FileManager() {
   //   }
   // };
 
-  // const handleFileUpload = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     const fileType = file.name.split(".").pop();
-  //     setNewFile({
-  //       ...newFile,
-  //       file: file,
-  //       type: fileType,
-  //       name: file.name,
-  //     });
-  //   }
-  // };
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const fileType = file.name.split(".").pop().toLowerCase();
+      const validTypes = ["pdf", "docx", "jpg", "jpeg", "png", "gif", "mp4", "mov"];
+      
+      if (!validTypes.includes(fileType)) {
+        setError("Invalid file type. Please upload a PDF, DOCX, image, or video file.");
+        return;
+      }
+
+      setNewFile({
+        ...newFile,
+        file: file,
+        type: fileType,
+        name: file.name,
+      });
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -276,52 +282,52 @@ export default function FileManager() {
   };
 
   const handleDownload = async (fileId) => {
-  setIsLoading(true);
-  setError(null);
+    setIsLoading(true);
+    setError(null);
 
-  try {
-    // 1. Get file info from backend
-    const response = await axios.get(`http://localhost:8000/api/files/${fileId}/info`);
-    
-    if (response.data.error) {
-      throw new Error(response.data.error);
+    try {
+      // 1. Get file info from backend
+      const response = await axios.get(`http://localhost:8000/api/files/${fileId}/info`);
+      
+      if (response.data.error) {
+        throw new Error(response.data.error);
+      }
+
+      const { name, type } = response.data;
+
+      // 2. Create dummy content based on file type
+      let content = '';
+      if (type === 'pdf') {
+        content = '%PDF-1.4\n...'; // Minimal PDF header
+      } else if (type === 'csv') {
+        content = 'data,example\n1,sample\n2,content';
+      } // Add other file types as needed
+
+      // 3. Create download URL
+      const blob = new Blob([content], { type: `application/${type}` });
+      const url = URL.createObjectURL(blob);
+
+      // 4. Trigger download
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = name;
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+
+      // 5. Clean up
+      setTimeout(() => {
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+      }, 100);
+
+    } catch (error) {
+      console.error('Download failed:', error);
+      setError(`Cannot download file: ${error.message}`);
+    } finally {
+      setIsLoading(false);
     }
-
-    const { name, type } = response.data;
-
-    // 2. Create dummy content based on file type
-    let content = '';
-    if (type === 'pdf') {
-      content = '%PDF-1.4\n...'; // Minimal PDF header
-    } else if (type === 'csv') {
-      content = 'data,example\n1,sample\n2,content';
-    } // Add other file types as needed
-
-    // 3. Create download URL
-    const blob = new Blob([content], { type: `application/${type}` });
-    const url = URL.createObjectURL(blob);
-
-    // 4. Trigger download
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = name;
-    link.style.display = 'none';
-    document.body.appendChild(link);
-    link.click();
-
-    // 5. Clean up
-    setTimeout(() => {
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-    }, 100);
-
-  } catch (error) {
-    console.error('Download failed:', error);
-    setError(`Cannot download file: ${error.message}`);
-  } finally {
-    setIsLoading(false);
-  }
-};
+  };
 
   // Filter files based on search and active tab
   const filteredFiles = files.filter((file) => {
@@ -492,7 +498,7 @@ export default function FileManager() {
                   />
                   <div
                     className="file-content"
-                    // onClick={() => !isLoading && handleFilePreview(file)}
+                    //onClick={() => !isLoading && handleFilePreview(file)}
                   >
                     <div className="file-icon">{renderFileIcon(file)}</div>
                     <div className="file-info">
@@ -602,14 +608,14 @@ export default function FileManager() {
                   <FaCloudUploadAlt /> Choose File
                   <input
                     type="file"
-                    //onChange={handleFileUpload}
+                    onChange={handleFileUpload}
                     required
                     hidden
                     disabled={isLoading}
                   />
                 </label>
-                {newFile.name && (
-                  <span className="file-name">{newFile.name}</span>
+                {newFile.file && (
+                  <span className="file-name">{newFile.file.name}</span>
                 )}
               </div>
               <div className="form-actions">
@@ -629,8 +635,8 @@ export default function FileManager() {
         </div>
       )}
 
-      {/* File preview modal
-      {previewFile && (
+      {/* File preview modal */}
+      {/* {previewFile && (
         <div className="file-preview-modal">
           <div className="preview-content">
             <div className="preview-header">
@@ -702,7 +708,7 @@ export default function FileManager() {
             <div className="preview-footer">
               <button
                 className="download-btn"
-                onClick={() => handleDownload(selectedFile)}
+                onClick={() => handleDownload(selectedFile.id)}
                 disabled={isLoading}
               >
                 <FaDownload /> Download

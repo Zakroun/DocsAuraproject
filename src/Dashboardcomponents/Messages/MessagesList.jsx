@@ -2,35 +2,44 @@ import React, { useState, useEffect, useRef } from "react";
 import { IoClose } from "react-icons/io5";
 
 export default function Messages({ selectedConversation, onDeleteMessage }) {
+  console.log(selectedConversation)
   const [showOptions, setShowOptions] = useState(null);
   const [showDetails, setShowDetails] = useState(null);
-  const [sortedMessages, setSortedMessages] = useState([]);
+  const [groupedMessages, setGroupedMessages] = useState({});
+  const [dateKeys, setDateKeys] = useState([]);
   const messagesEndRef = useRef(null);
   const messagesContainerRef = useRef(null);
 
-  // Function to parse time correctly
-  const parseTime = (timeString) => {
-    if (!timeString) return 0;
-  
-    const date = new Date(`1970-01-01T${convertTo24HourFormat(timeString)}`);
-    return date.getTime();
+  // Function to format datetime to 24-hour format
+  const formatTime = (datetime) => {
+    if (!datetime) return '';
+    
+    const date = new Date(datetime);
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    
+    return `${hours}:${minutes}`;
   };
-  
-  const convertTo24HourFormat = (time) => {
-    let [hoursMinutes, modifier] = time.split(/(am|pm)/i);
-    let [hours, minutes] = hoursMinutes.trim().split(':');
-  
-    hours = parseInt(hours, 10);
-    minutes = parseInt(minutes, 10);
-  
-    if (modifier.toLowerCase() === 'pm' && hours !== 12) {
-      hours += 12;
-    }
-    if (modifier.toLowerCase() === 'am' && hours === 12) {
-      hours = 0;
-    }
-  
-    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:00`;
+
+  // Function to format date as "YYYY-MM-DD"
+  const formatDateKey = (datetime) => {
+    const date = new Date(datetime);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    
+    return `${year}-${month}-${day}`;
+  };
+
+  // Function to format date for display (e.g., "May 20, 2025")
+  const formatDateDisplay = (dateKey) => {
+    const [year, month, day] = dateKey.split('-');
+    const date = new Date(year, month - 1, day);
+    return date.toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    });
   };
 
   const truncateFileName = (fileName) => {
@@ -38,19 +47,30 @@ export default function Messages({ selectedConversation, onDeleteMessage }) {
     return words.length > 3 ? words.slice(0, 3).join(" ") + "..." : fileName;
   };
 
-  // Update sortedMessages when selectedConversation.messages changes
+  // Group messages by date when selectedConversation.messages changes
   useEffect(() => {
     if (selectedConversation?.messages) {
-      const sorted = [...selectedConversation.messages]
-        .sort((a, b) => parseTime(a.time) - parseTime(b.time));
-      setSortedMessages(sorted);
+      const grouped = {};
+      const sortedMessages = [...selectedConversation.messages]
+        .sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+      
+      sortedMessages.forEach(msg => {
+        const dateKey = formatDateKey(msg.created_at);
+        if (!grouped[dateKey]) {
+          grouped[dateKey] = [];
+        }
+        grouped[dateKey].push(msg);
+      });
+      
+      setGroupedMessages(grouped);
+      setDateKeys(Object.keys(grouped).sort());
     }
   }, [selectedConversation?.messages]);  
 
   // Scroll to bottom whenever messages change
   useEffect(() => {
     scrollToBottom();
-  }, [sortedMessages]);
+  }, [groupedMessages]);
 
   const scrollToBottom = () => {
     // Only scroll if we're not already at the bottom (within 100px)
@@ -67,9 +87,16 @@ export default function Messages({ selectedConversation, onDeleteMessage }) {
   const handleDeleteMessage = (idmessage) => {
     onDeleteMessage(idmessage);
     
-    setSortedMessages(prevMessages =>
-      prevMessages.filter(msg => msg.idMessage !== idmessage)
-    );
+    setGroupedMessages(prevGroups => {
+      const newGroups = { ...prevGroups };
+      for (const dateKey in newGroups) {
+        newGroups[dateKey] = newGroups[dateKey].filter(msg => msg.idMessage !== idmessage);
+        if (newGroups[dateKey].length === 0) {
+          delete newGroups[dateKey];
+        }
+      }
+      return newGroups;
+    });
   };
 
   // Function to handle manual scroll to bottom
@@ -80,62 +107,76 @@ export default function Messages({ selectedConversation, onDeleteMessage }) {
   return (
     <div className="messages-container" ref={messagesContainerRef}>
       <div className="messages2">
-        {sortedMessages.map((msg, index) => (
-          <div
-            key={`${msg.idMessage}-${index}`}
-            className={`message2 ${msg.sender === "You" ? "sent2" : "received2"}`}
-            onMouseEnter={() => setShowOptions(index)}
-            onMouseLeave={() => setShowOptions(null)}
-            onClick={() => setShowOptions(index)}
-          >
-            {/* Text message */}
-            {msg.type === "text" && <p>{msg.content}</p>}
-
-            {/* Audio message */}
-            {msg.type === "audio" && (
-              <audio className="audio" controls>
-                <source src={msg.content} type="audio/mp3" />
-                Your browser does not support the audio element.
-              </audio>
-            )}
-
-            {/* Document/File message */}
-            {msg.type === "document" && (
-              <div className="linkfile">
-                <a
-                  href={msg.content}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="file-link"
+        {dateKeys.map(dateKey => (
+          <React.Fragment key={dateKey}>
+            <div className="date-separator">
+              <span>{formatDateDisplay(dateKey)}</span>
+            </div>
+            {groupedMessages[dateKey].map((msg, index) => {
+              const time = formatTime(msg.created_at);
+              return (
+                <div
+                  key={`${msg.idMessage}-${index}`}
+                  className={`message2 ${msg.sender === "You" ? "sent2" : "received2"}`}
+                  onMouseEnter={() => setShowOptions(`${dateKey}-${index}`)}
+                  onMouseLeave={() => setShowOptions(null)}
+                  onClick={() => setShowOptions(`${dateKey}-${index}`)}
                 >
-                  📄 {truncateFileName(msg.fileName)}
-                </a>
-              </div>
-            )}
+                  {/* Text message */}
+                  {msg.type === "text" && <p>{msg.content}</p>}
 
-            <span className="time">{msg.time}</span>
+                  {/* Audio message */}
+                  {msg.type === "audio" && (
+                    <audio className="audio" controls>
+                      <source src={msg.content} type="audio/mp3" />
+                      Your browser does not support the audio element.
+                    </audio>
+                  )}
 
-            {/* Message options */}
-            {showOptions === index && (
-              <div className="message-options">
-                <div className="options-menu">
-                  <button onClick={() => handleDeleteMessage(msg.idMessage)}>
-                    Delete
-                  </button>
-                  <button onClick={() => setShowDetails(index)}>Details</button>
+                  {/* Document/File message */}
+                  {msg.type === "document" && (
+                    <div className="linkfile">
+                      <a
+                        href={msg.content}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="file-link"
+                      >
+                        📄 {truncateFileName(msg.fileName)}
+                      </a>
+                    </div>
+                  )}
 
-                  {showDetails === index && (
-                    <div className="message-details">
-                      <p>Time: {msg.time}</p>
-                      <button onClick={() => setShowDetails(null)}>
-                        <IoClose size={20} style={{ marginLeft: "10px" }} />
-                      </button>
+                  <div className="time-container">
+                    <span className="time">{time}</span>
+                  </div>
+
+                  {/* Message options */}
+                  {showOptions === `${dateKey}-${index}` && (
+                    <div className="message-options">
+                      <div className="options-menu">
+                        <button onClick={() => handleDeleteMessage(msg.idMessage)}>
+                          Delete
+                        </button>
+                        <button onClick={() => setShowDetails(`${dateKey}-${index}`)}>
+                          Details
+                        </button>
+
+                        {showDetails === `${dateKey}-${index}` && (
+                          <div className="message-details">
+                            <p>Sent: {new Date(msg.created_at).toLocaleString()}</p>
+                            <button onClick={() => setShowDetails(null)}>
+                              <IoClose size={20} style={{ marginLeft: "10px" }} />
+                            </button>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   )}
                 </div>
-              </div>
-            )}
-          </div>
+              );
+            })}
+          </React.Fragment>
         ))}
         <div ref={messagesEndRef} />
       </div>

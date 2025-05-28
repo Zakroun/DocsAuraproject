@@ -6,7 +6,7 @@ import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { changecurrentpage, changeprofile } from "../data/DocsauraSlice";
 import { loginUser } from "../data/authslice";
-
+import { changeboard } from "../data/DocsauraSlice";
 export default function Login() {
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
@@ -33,6 +33,7 @@ export default function Login() {
       localStorage.setItem('token', result.token);
       localStorage.setItem('user', JSON.stringify(result.user));
       dispatch(changeprofile(true));
+      dispatch(changeboard("home"));
       navigate("/");
     } catch (err) {
       seterror("Login failed");

@@ -16,12 +16,11 @@ export default function Logout() {
     // Clear authentication data from localStorage
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    
     // Update Redux state
     dispatch(changeprofile(false));
-    
     // Redirect to login page
     navigate("/pages/Login");
+
   };
 
   const handleCancelLogout = () => {

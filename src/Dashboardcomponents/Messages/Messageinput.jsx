@@ -1,6 +1,7 @@
 import { FiSend, FiMic } from "react-icons/fi";
 import { RiStickyNoteAddFill } from "react-icons/ri";
 import { useState, useRef } from "react";
+import { IoMdSend } from "react-icons/io";
 
 export default function MessageInput({ Conversationusers, onSendMessage, isSending }) {
   const [message, setMessage] = useState("");
@@ -92,7 +93,7 @@ export default function MessageInput({ Conversationusers, onSendMessage, isSendi
         onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
       />
       <div className="icons">
-        <FiSend
+        <IoMdSend
           className="icon_input send-icon"
           size={30}
           onClick={handleSendMessage}

@@ -2636,7 +2636,7 @@ h1 {
 .chat-app {
   height: 87%;
   display: flex;
-  width: 101.5%;
+  width: 100%;
 }
 .conversation-list {
   overflow-y: scroll;
@@ -2721,7 +2721,7 @@ h1 {
 }
 .coversation {
   background-image: url("/public/Images/cover.png");
-  width: 80%;
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -9251,3 +9251,75 @@ pre {
   border-radius: 4px;
   cursor: pointer;
 }
+.stats-overview{
+  display: flex;
+  flex-wrap: wrap;
+  /* gap: 20px; */
+  margin-bottom: 30px;
+}
+.stat-card{
+  flex: 1;
+  min-width: 90px;
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-right: 20px;
+}
+.stat-card:last-child {
+  margin-right: 0;
+}
+.stat-card h3 {
+  margin: 0;
+  color: #007070;
+  color: #333;
+}
+.stat-card:hover{
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+.container-chart-both{
+  display: flex;
+  justify-content: space-around;
+}
+.admin-chart,.recent-users{
+  width: 100%;
+  margin-left: 10px;
+  padding: 10px;
+  margin-top: 20px;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+.second{
+  width: 97%;
+}
+.second th{
+  color: black;
+}
+
+.date-separator {
+  display: flex;
+  justify-content: center;
+  margin: 15px 0;
+  position: relative;
+}
+
+.date-separator span {
+  background-color: #f0f0f0;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 1em;
+  color: black;
+  z-index: 1;
+}
+
+/* .date-separator::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: #ddd;
+  z-index: 0;
+} */

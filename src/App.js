@@ -12,6 +12,28 @@ function App() {
   const [displayPages, setDisplayPages] = useState(false);
   const user = JSON.parse(localStorage.getItem("user"));
 
+  // Function to clear user data after 24 hours
+  const setTokenExpiration = () => {
+    if (user) {
+      const expirationTime = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+      const currentTime = new Date().getTime();
+      
+      // Check if expiration time is already set
+      const expiration = localStorage.getItem("tokenExpiration");
+      
+      if (!expiration) {
+        // Set expiration time if not already set
+        localStorage.setItem("tokenExpiration", currentTime + expirationTime);
+      } else if (currentTime > parseInt(expiration)) {
+        // Clear all user related data if expired
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+        localStorage.removeItem("tokenExpiration");
+        window.location.reload(); // Refresh the page to update the state
+      }
+    }
+  };
+
   useEffect(() => {
     const time = setTimeout(() => {
       setDisplayLoader(false);
@@ -21,6 +43,11 @@ function App() {
   }, []);
 
   useEffect(() => {
+    setTokenExpiration(); // Check token expiration on initial load
+    
+    // Set up interval to check token expiration every hour
+    const expirationCheckInterval = setInterval(setTokenExpiration, 60 * 60 * 1000);
+    
     dispatch(fetchAllUsers());
     
     if (user) {
@@ -46,6 +73,10 @@ function App() {
       
       dispatch(fetchUserAppointments({ id, role }));
     }
+    
+    return () => {
+      clearInterval(expirationCheckInterval); // Clean up interval on unmount
+    };
   }, [dispatch, user]);
 
   return (
