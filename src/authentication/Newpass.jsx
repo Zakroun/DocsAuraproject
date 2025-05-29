@@ -4,7 +4,7 @@ import { updatePassword } from "../data/authslice";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { RiCloseLargeLine } from "react-icons/ri";
 import { useNavigate, useLocation } from "react-router-dom";
-
+import { useSelector } from "react-redux";
 export default function NewPass() {
   const [newPass, setNewPass] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
@@ -13,7 +13,7 @@ export default function NewPass() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  
+  const { loading } = useSelector((state) => state.auth);
   const { email, code } = location.state || {};
 
   const submit = (e) => {
@@ -81,7 +81,9 @@ export default function NewPass() {
             required
           />
         </div>
-        <button id="btn" type="submit">Confirm</button>
+        <button id="btn" type="submit" disabled={loading} aria-busy={loading}>
+          {loading ? "Updating..." : "Update Password"}
+        </button>
       </form>
     </div>
   );

@@ -68,7 +68,6 @@ export default function Routage() {
     "Login", 
     "register", 
     "forgetpass", 
-    "codeconfirm", 
     "codeconfirmforget", 
     "newpass"
   ];
@@ -81,7 +80,7 @@ export default function Routage() {
 
     // Redirect unauthenticated users from protected pages
     if (!isAuthenticated && protectedPages.includes(d)) {
-      navigate('/pages/login', { state: { from: location.pathname } });
+      navigate('/pages/Login', { state: { from: location.pathname } });
     }
 
     // Redirect verified users away from activation

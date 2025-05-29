@@ -12,6 +12,7 @@ import { GiConfirmed } from "react-icons/gi";
 import { changeprofile } from "../data/DocsauraSlice";
 
 export default function CodeConfirm() {
+  //console.log("hi CodeConfirm")
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const [countdown, setCountdown] = useState(60);

@@ -4,7 +4,6 @@ import axios from "../data/axios";
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
   async (userData, { rejectWithValue }) => {
-    console.log(userData);
     try {
       const response = await axios.post("/auth/register", {
         fullName: userData.fullName,
@@ -26,13 +25,13 @@ export const registerUser = createAsyncThunk(
 export const verifyRegistrationCode = createAsyncThunk(
   "auth/verifyRegistrationCode",
   async ({ email, code }, { rejectWithValue }) => {
-    console.log("[DEBUG] Starting verification with:", { email, code });
+    //console.log("[DEBUG] Starting verification with:", { email, code });
     try {
       const response = await axios.post("/auth/verify-registration", {
         email,
         code,
       });
-      console.log("[DEBUG] Verification response:", response.data);
+      //console.log("[DEBUG] Verification response:", response.data);
       if (!response.data?.success) {
         console.error("[DEBUG] Verification failed:", response.data);
         throw new Error(response.data?.message || "Verification failed");
@@ -114,7 +113,7 @@ export const sendConfirmationCode = createAsyncThunk(
 export const confirmCodepass = createAsyncThunk(
   "auth/confirmCodepass",
   async ({ email, code }, { rejectWithValue }) => {
-    console.log("this the email : ", email, "code : ", code);
+    //console.log("this the email : ", email, "code : ", code);
     try {
       const response = await axios.post("/auth/confirm-code", {
         email,

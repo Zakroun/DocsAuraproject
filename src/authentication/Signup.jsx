@@ -2,16 +2,13 @@ import { useState } from "react";
 import { RiCloseLargeLine } from "react-icons/ri";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import {
-  RiUser3Fill,
-  RiLockPasswordFill
-} from "react-icons/ri";
+import { RiUser3Fill, RiLockPasswordFill } from "react-icons/ri";
 import { MdEmail, MdOutlineLocationCity } from "react-icons/md";
 import { FaUserPlus } from "react-icons/fa6";
 import { PiGenderIntersexFill } from "react-icons/pi";
 import { BsCalendarDateFill } from "react-icons/bs";
 import { registerUser } from "../data/authslice";
-
+import { useSelector } from "react-redux";
 export default function Register() {
   const [formData, setFormData] = useState({
     fullName: "",
@@ -23,7 +20,7 @@ export default function Register() {
     password: "",
     confirmpassword: "",
   });
-
+  const { loading } = useSelector((state) => state.auth);
   const [valid, setValid] = useState(false);
   const [error, setError] = useState("");
   const dispatch = useDispatch();
@@ -71,13 +68,15 @@ export default function Register() {
     dispatch(registerUser(formData))
       .unwrap()
       .then(() => {
+        //console.log("Registration successful, navigating to code confirmation");
         navigate("/pages/codeconfirm", {
           state: { email: formData.email },
         });
       })
       .catch((err) => {
+        console.error("Registration error:", err);
         setValid(true);
-        setError("Registration failed");
+        setError(err.message || "Registration failed");
       });
   };
 
@@ -244,7 +243,7 @@ export default function Register() {
           <RiLockPasswordFill size={25} className="icondivinput" />
           <input
             type="password"
-            id="confirmpassword"
+            id="confirmPassword"
             name="confirmpassword"
             placeholder="Confirm Password"
             value={formData.confirmpassword}
@@ -253,8 +252,13 @@ export default function Register() {
           />
         </div>
 
-        <button id="btnRegister" type="submit">
-          Register
+        <button
+          id="btnRegister"
+          type="submit"
+          disabled={loading}
+          aria-busy={loading}
+        >
+          {loading ? "Registering..." : "Register"}
         </button>
 
         <div className="login-redirect">

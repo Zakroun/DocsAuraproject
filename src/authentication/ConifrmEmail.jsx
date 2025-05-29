@@ -4,14 +4,14 @@ import { sendConfirmationCode } from "../data/authslice";
 import { RiCloseLargeLine } from "react-icons/ri";
 import { MdEmail } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-
+import { useSelector } from "react-redux";
 export default function ConfirmEmail() {
   const [email, setEmail] = useState("");
   const [valid, setValid] = useState(false);
   const [error, setError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const { loading } = useSelector((state) => state.auth);
   const submit = (e) => {
     e.preventDefault();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -60,7 +60,9 @@ export default function ConfirmEmail() {
             required
           />
         </div>
-        <button id="btn" type="submit">Send</button>
+        <button id="btn" type="submit" disabled={loading} aria-busy={loading}>
+          {loading ? "Sending..." : "Send"}
+        </button>
       </form>
     </div>
   );
