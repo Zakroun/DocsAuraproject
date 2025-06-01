@@ -21,7 +21,7 @@ export default function Calendar() {
   //const appointments = props.appointments || [];
   const [Listeappointments, setappointments] = useState(appointemntsuser || []);
   const [selectedYear, setSelectedYear] = useState("2025");
-  const [selectedMonth, setSelectedMonth] = useState("05");
+  const [selectedMonth, setSelectedMonth] = useState("06");
   const [selectedStatus, setSelectedStatus] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [formAdd, setFormAdd] = useState(true);

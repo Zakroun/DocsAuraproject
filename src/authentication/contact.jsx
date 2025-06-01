@@ -9,7 +9,8 @@ import { changecurrentpage } from "../data/DocsauraSlice";
 export default function ContactForm() {
   const [formData, setFormData] = useState({ email: "", message: "" });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -20,19 +21,22 @@ export default function ContactForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError(null);
+    setErrorMessage(null);
+    setSuccessMessage(null);
 
     try {
       const response = await axios.post("/contact", formData);
       
       if (response.data.success) {
-        // Immediately navigate to home after successful submission
-        navigate('/');
-        dispatch(changecurrentpage("home"));
+        setSuccessMessage("Message sent successfully! Redirecting...");
+        setTimeout(() => {
+          navigate('/');
+          dispatch(changecurrentpage("home"));
+        }, 2000);
       }
     } catch (err) {
       console.error('Submission error:', err.response);
-      setError(
+      setErrorMessage(
         err.response?.data?.message || 
         "Failed to submit your message. Please try again later."
       );
@@ -48,11 +52,23 @@ export default function ContactForm() {
 
   return (
     <div className="ContactForm">
+      <div className="custom">
+        {successMessage && (
+          <div className="custom-notification-top">
+            <div className="custom-notification success">{successMessage}</div>
+          </div>
+        )}
+
+        {errorMessage && (
+          <div className="custom-notification-top">
+            <div className="custom-notification error">{errorMessage}</div>
+          </div>
+        )}
+      </div>
+
       <button onClick={moveToHome} className="X_button">
         <RiCloseLargeLine size={25} />
       </button>
-      
-      {error && <div className="error-message">{error}</div>}
       
       <form onSubmit={handleSubmit}>
         <h2 id="h2email">Contact us</h2>

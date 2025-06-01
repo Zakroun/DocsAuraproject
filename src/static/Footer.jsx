@@ -1,7 +1,56 @@
 import { Link } from "react-router-dom";
 import { FaFacebook, FaInstagram, FaTiktok, FaTwitter } from "react-icons/fa";
+import { useState } from "react";
+import axios from "axios";
 
 export default function Footer() {
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState({ text: "", type: "" });
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!email) {
+      setMessage({ text: "Please enter your email", type: "error" });
+      return;
+    }
+
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      setMessage({ text: "Please enter a valid email", type: "error" });
+      return;
+    }
+
+    setIsLoading(true);
+    setMessage({ text: "", type: "" });
+
+    try {
+      const response = await axios.post("http://localhost:8000/api/newsletter", {
+        email: email
+      });
+
+      if (response.data.success) {
+        setMessage({ 
+          text: "Please check your email to confirm subscription!", 
+          type: "success" 
+        });
+        setEmail("");
+      } else {
+        setMessage({ 
+          //text: response.data.message || "Subscription failed", 
+          type: "error" 
+        });
+      }
+    } catch (error) {
+      setMessage({ 
+        //text: error.response?.data?.message || "An error occurred", 
+        type: "error" 
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <footer className="footer">
       <div className="divfooter">
@@ -70,13 +119,29 @@ export default function Footer() {
           <span id="spanfooter">News Letter</span>
           <br />
           <br />
-          <input
-            type="email"
-            name="email"
-            id="Emailfootre"
-            placeholder="Email"
-          />
-          <button id="btnconfirm">Confirm</button>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="email"
+              name="email"
+              id="Emailfootre"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              disabled={isLoading}
+            />
+            <button 
+              id="btnconfirm" 
+              type="submit"
+              disabled={isLoading}
+            >
+              {isLoading ? "Processing..." : "Confirm"}
+            </button>
+          </form>
+          {message.text && (
+            <div className={`message ${message.type}`}>
+              {message.text}
+            </div>
+          )}
         </div>
       </div>
       <hr />

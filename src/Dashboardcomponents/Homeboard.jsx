@@ -1008,8 +1008,8 @@ export default function Homeboard(props) {
             <table>
               <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>Name</th>
+                  {/* <th>ID</th> */}
+                  <th>FullName</th>
                   <th>Email</th>
                   <th>Role</th>
                   <th>Verified</th>
@@ -1019,7 +1019,7 @@ export default function Homeboard(props) {
               <tbody>
                 {getRecentUsers().map((user) => (
                   <tr key={user.id}>
-                    <td>{user.id}</td>
+                    {/* <td>{user.id}</td> */}
                     <td>{user.fullName}</td>
                     <td>{user.email}</td>
                     <td>{user.role}</td>
