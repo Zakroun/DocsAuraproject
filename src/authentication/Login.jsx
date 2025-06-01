@@ -1,21 +1,22 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { RiCloseLargeLine } from "react-icons/ri";
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { changecurrentpage, changeprofile } from "../data/DocsauraSlice";
 import { loginUser } from "../data/authslice";
 import { changeboard } from "../data/DocsauraSlice";
+
 export default function Login() {
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
   const [error, seterror] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false); // New state for checkbox
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  //const { loading } = useSelector((state) => state.auth);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,14 +30,26 @@ export default function Login() {
     setIsLoading(true);
 
     try {
-      const result = await dispatch(loginUser({ email, password })).unwrap();
+      // Calculate expiration time (30 days if rememberMe is true, otherwise 1 day)
+      const expiresIn = rememberMe ? 30 * 24 * 60 * 60 : 24 * 60 * 60; // in seconds
+      
+      const result = await dispatch(
+        loginUser({ email, password, expiresIn }) // Pass expiresIn to the backend
+      ).unwrap();
+      
+      // Store token and user data
       localStorage.setItem('token', result.token);
       localStorage.setItem('user', JSON.stringify(result.user));
+      
+      // If you want to store the expiration time in localStorage as well
+      const expirationTime = new Date().getTime() + expiresIn * 1000;
+      localStorage.setItem('tokenExpiration', expirationTime.toString());
+      
       dispatch(changeprofile(true));
       dispatch(changeboard("home"));
       navigate("/");
     } catch (err) {
-      seterror("Login failed");
+      seterror(err.message || "Login failed");
     } finally {
       setIsLoading(false);
     }
@@ -96,7 +109,11 @@ export default function Login() {
         </div>
         <br />
         <label className="cl-checkbox">
-          <input type="checkbox" />
+          <input 
+            type="checkbox" 
+            checked={rememberMe}
+            onChange={(e) => setRememberMe(e.target.checked)}
+          />
           <span className="spanme">Remember me for 30 days</span>
         </label>
         <Link to="/pages/forgetpass" id="link">

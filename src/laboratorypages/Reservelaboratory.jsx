@@ -121,31 +121,31 @@ export default function LaboratoryReserve() {
       }
 
       try {
-        const formDataToSend = new FormData();
-        formDataToSend.append('fullName', formData.fullName);
-        formDataToSend.append('email', formData.email);
-        formDataToSend.append('phone', formData.phone);
-        formDataToSend.append('cin', formData.cin);
-        formDataToSend.append('location', formData.location);
-        formDataToSend.append('date', formData.date);
-        formDataToSend.append('timeFrom', formData.timeFrom);
-        formDataToSend.append('timeTo', formData.timeTo);
-        formDataToSend.append('status', 'pending');
-        formDataToSend.append('paymentMethod', formData.paymentMethod);
-        formDataToSend.append('imageP', formData.imageP);
-        formDataToSend.append('id_visiteur', user.id);
-        formDataToSend.append('id_labo', laboratory.id);
-        formDataToSend.append('laboAppointment', true);
-        formDataToSend.append('doctorAppointment', false);
-        formDataToSend.append('clinicAppointment', false);
+        const appointmentData = {
+          fullName: formData.fullName,
+          email: formData.email,
+          phone: formData.phone,
+          cin: formData.cin,
+          location: formData.location,
+          date: formData.date,
+          timeFrom: formData.timeFrom,
+          timeTo: formData.timeTo,
+          status: 'pending',
+          paymentMethod: formData.paymentMethod,
+          imageP: formData.imageP.name,
+          id_visiteur: user.id,
+          id_labo: laboratory.id,
+          laboAppointment: true,
+          doctorAppointment: false,
+          clinicAppointment: false,
+          ...(formData.paymentMethod === "credit-card" && {
+            cardNumber: formData.cardNumber,
+            expiryDate: formData.expiryDate,
+            cvv: formData.cvv
+          })
+        };
 
-        if (formData.paymentMethod === "credit-card") {
-          formDataToSend.append('cardNumber', formData.cardNumber);
-          formDataToSend.append('expiryDate', formData.expiryDate);
-          formDataToSend.append('cvv', formData.cvv);
-        }
-
-        const result = await dispatch(addAppointment(formDataToSend));
+        const result = await dispatch(addAppointment(appointmentData));
 
         if (result.error) {
           throw new Error(result.error.message);
@@ -268,7 +268,7 @@ export default function LaboratoryReserve() {
               </div>
               <div className="inputdiv">
                 <select
-                id="timeFrom"
+                  id="timeFrom"
                   name="timeFrom"
                   value={formData.timeFrom}
                   onChange={(e) => handleTimeChange(e.target.value)}

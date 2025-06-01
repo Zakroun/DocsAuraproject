@@ -97,6 +97,9 @@ export default function Messages({ selectedConversation, onDeleteMessage }) {
       }
       return newGroups;
     });
+    
+    setDateKeys(prevKeys => prevKeys.filter(key => groupedMessages[key]?.length > 0));
+    
   };
 
   // Function to handle manual scroll to bottom
