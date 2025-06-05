@@ -13,7 +13,7 @@ import { MdOutlinePayment } from "react-icons/md";
 import { useSelector } from "react-redux";
 export default function Calendar() {
   const appointemntsuser = useSelector(s=>s.Docsaura.appointments) 
-  console.log(appointemntsuser)
+  // console.log(appointemntsuser)
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [errorMessage, seterrorMessage] = useState("");

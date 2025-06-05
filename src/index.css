@@ -5419,7 +5419,7 @@ body.dark-mode {
 
 .dark-mode .custom-notification {
   background-color: #333;
-  color: #fff;
+  /* color: #fff; */
 }
 
 .dark-mode .confirmation-modal {
@@ -9345,7 +9345,7 @@ pre {
   background-color: #fee2e2;
 }
 .success {
-  color: #166534;
+  color: white;
   background-color: #dcfce7;
 }
 #btnconfirm:disabled {
